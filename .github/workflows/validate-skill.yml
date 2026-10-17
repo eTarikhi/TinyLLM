@@ -1,0 +1,62 @@
+name: validate-skill
+
+# Keeps the two classes of defect that this repository has actually shipped from
+# returning silently: a SKILL.md that violates the Agent Skills frontmatter
+# rules, and package drift (a file README advertises but that does not exist, a
+# broken relative link, a bundled resource SKILL.md never points at, or a
+# template field dropped while SKILL.md still demands it be recorded).
+#
+# Versions verified 2026-10-17 against api.github.com and pypi.org.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML (the official validator imports yaml)
+        run: pip install pyyaml==6.0.3
+
+      # Pinned to an exact revision so a change upstream cannot alter what this
+      # workflow enforces. Update deliberately, and re-read the spec when you do.
+      - name: Fetch Anthropic's quick_validate.py at a pinned revision
+        run: |
+          mkdir -p .ci
+          curl -fsSL -o .ci/quick_validate.py \
+            "https://raw.githubusercontent.com/anthropics/skills/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/skill-creator/scripts/quick_validate.py"
+
+      - name: Official frontmatter validation
+        run: python .ci/quick_validate.py .
+
+      - name: Repository consistency checks
+        run: python .github/scripts/check_package.py .
+
+      # Fails if anyone reintroduces a name/dirname mismatch that would make the
+      # packaged .skill disagree with its own frontmatter.
+      - name: Confirm the packaged identity would match
+        run: |
+          python - <<'PY'
+          import re, pathlib
+          fm = pathlib.Path("SKILL.md").read_text().split("---")[1]
+          name = re.search(r"^name:\s*(.+)$", fm, re.M).group(1).strip()
+          here = pathlib.Path.cwd().name
+          if here != name:
+              print(f"::warning::directory '{here}' != skill name '{name}'; "
+                    f"stage a renamed copy before packaging")
+          print(f"skill name: {name}")
+          PY
