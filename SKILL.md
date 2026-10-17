@@ -1,6 +1,6 @@
 ---
 name: llm-from-scratch
-description: Research, plan, implement, train, evaluate, and document a language model from random initialization, from an educational tiny GPT to a larger reproducible pretraining project. Use when creating a custom LLM, training a tokenizer, building a Transformer language model, planning pretraining data or compute, or debugging training.
+description: Research, plan, implement, train, evaluate, and document a language model from random initialization, from an educational tiny GPT to a larger reproducible pretraining project. Use when creating a custom LLM, training a tokenizer, building a Transformer language model, planning pretraining data or compute, or debugging training. Also use it when the user asks whether to pretrain or fine-tune an existing checkpoint, how much GPU time or money a training run will cost, how to turn a base model into an instruction-following chat model, or how to evaluate, document, and safely release a model they trained, even if they never say "from scratch".
 ---
 
 # Build Your Own LLM From Scratch
@@ -79,7 +79,7 @@ Keep the first architecture conventional. Do not add mixture-of-experts, specula
 
 Once Track 1 works, either extend the code or study a maintained end-to-end training harness. As checked on 2026-10-17:
 
-- **nanochat** is a practical reference for a compact but more complete LLM pipeline: tokenizer, pretraining, fine-tuning, evaluation, and inference, designed around a single GPU node. Read its current README and license before using it; advertised hardware/cost examples are project-specific and are not a quote or guarantee.
+- **nanochat** is a practical reference for a compact but more complete LLM pipeline: tokenizer, pretraining, fine-tuning, evaluation, and inference. Its headline path targets a single GPU node, but it also ships `runs/runcpu.sh`, an officially maintained CPU/Apple-Silicon (MPS) path for exercising the code paths end to end — so it is still the right reference to read when the user has no CUDA GPU, with the caveat the script itself states: a CPU run is an educational demo, not a route to a capable model. Read its current README and license before using it; advertised hardware/cost examples are project-specific and are not a quote or guarantee. Note that it pins an exact framework version (`torch==2.9.1`) rather than tracking the newest release, which is the pinning discipline this skill asks for — do not assume such a harness works unmodified on a newer framework.
 - **nanoGPT** is useful historical educational code, but its repository now describes it as deprecated and points to nanochat. Do not present nanoGPT as the default current project.
 - **llm.c** is useful for understanding low-level C/CUDA training and GPT-2 reproduction. It is more relevant once the user wants to study systems performance than for the simplest first implementation.
 - **PyTorch** is the baseline implementation framework. Use official docs for mixed precision, attention primitives, distributed training, and checkpoint semantics rather than copying old blog snippets.
@@ -112,6 +112,8 @@ Do not require the user to adopt a framework. Explain trade-offs and keep model/
 
 Treat these as baseline choices, not mandatory recipes. Always tune via short experiments on the target hardware.
 
+When someone asks what number to actually type, do not invent one. [`references/training-defaults.md`](references/training-defaults.md) collects concrete values read from the source of two maintained harnesses (nanoGPT for single-LR AdamW, nanochat for a hybrid Muon+AdamW setup), at ~10.8M, ~124M, and modern scale, together with which patterns transfer across optimizers and which do not.
+
 ### Architecture
 
 For an educational GPT, start with a causal decoder-only Transformer. The original Transformer paper explains attention; modern language models vary in normalization, position encoding, MLP activation, attention design, and parameter sharing. Use one coherent design and document it. A reasonable later-stage modern baseline can use RMSNorm, rotary position embeddings, a gated MLP such as SwiGLU, and efficient scaled-dot-product attention where the runtime supports it. Validate compatibility before mixing architectural components from different implementations.
@@ -128,9 +130,11 @@ Record at least:
 ### Objective and optimization
 
 - Standard causal pretraining objective: cross-entropy for predicting the next token, shifted by one position and masked so future tokens cannot leak into context.
-- AdamW is a sound baseline. Use a short warm-up followed by a schedule appropriate to the training horizon; log the effective learning rate.
+- AdamW is a sound baseline for an implementation you write yourself. Use a short warm-up followed by a schedule appropriate to the training horizon; log the effective learning rate.
+- Be aware that maintained harnesses increasingly do not use a single global AdamW learning rate. nanochat splits parameters into four groups — matrix parameters on Muon, embeddings, unembeddings and scalars on AdamW — with learning rates spanning `0.008` to `0.5`. Muon orthogonalizes its update, so its natural learning rate is orders of magnitude away from AdamW's. Never carry a learning rate from one optimizer to another, and when reading a harness's config, check which parameter group each value belongs to before treating any of them as "the learning rate". Upstream guidance is that Muon should not be applied to embeddings, the final output layer, or 0-/1-dimensional parameters.
 - Clip gradients if needed and log gradient norm, loss, tokens/second, GPU memory, and validation loss.
-- Use mixed precision only after a stable FP32 or known-good baseline; choose BF16/FP16 based on hardware and current framework support. Follow the official PyTorch AMP docs. Use gradient scaling when the selected precision and hardware require it.
+- Use mixed precision only after a stable FP32 or known-good baseline; choose BF16/FP16 based on hardware and current framework support. Follow the official PyTorch AMP docs. Use gradient scaling when the selected precision and hardware require it — BF16 generally does not, FP16 does. A useful published pattern is to select BF16 when the accelerator reports support for it and fall back to FP16 otherwise, rather than hardcoding either.
+- FP8 training is now available on newer accelerators and is used by current harnesses, including a choice of scaling recipe. Treat it as a later optimization for a measured, stable BF16 baseline — not a starting point for a first model, and not something to enable while still debugging convergence.
 - Use gradient accumulation to fit a larger effective batch in limited VRAM; compute and document the effective tokens per optimizer update.
 - Save checkpoint state atomically. A useful checkpoint includes model weights, optimizer state, scheduler, scaler if applicable, update count, RNG states, configuration, and data/sampler position.
 - Checkpoint often enough that losing a run is acceptable. Test resume behavior before a long run.
@@ -145,7 +149,9 @@ Record at least:
 4. For a dense Transformer, `~6 × parameter_count × training_tokens` is a widely used rough FLOP estimate for training; it is not a billing formula and can vary materially with architecture, activation checkpointing, sequence length, attention kernels, and hardware utilization. Validate estimates with a pilot.
 5. Price actual cloud GPU types from the provider’s current published rates at planning time. Include storage, network egress, CPU/data processing, taxes, idle time, spot interruption risk, and evaluation.
 6. Train a sequence of increasingly larger pilots. Do not jump from a toy model directly to a billion-parameter run without a measured throughput and memory budget.
-7. Chinchilla’s compute-optimal study is a useful historical scaling-law reference, but do not turn its results into a universal fixed model-size-to-token-count ratio. Use current research, budget, domain, and pilot results to choose a training horizon.
+7. Chinchilla’s compute-optimal study is a useful historical scaling-law reference, but do not turn its results into a universal fixed model-size-to-token-count ratio. Use current research, budget, domain, and pilot results to choose a training horizon. This is not a hypothetical caution: nanochat exposes the ratio as a flag and defaults it to **12** tokens per parameter, while its own help text notes that Chinchilla's figure is **20**. A maintained harness deliberately choosing a different ratio than the famous paper is the clearest evidence that the ratio is a decision to justify, not a constant to apply — inference cost, not just training loss, drives the choice.
+
+A fully worked version of these steps, with the arithmetic checked and reproducible, is in [`references/compute-budget-example.md`](references/compute-budget-example.md). Read it before quoting any duration or cost to a user; it also shows why a small model's measured utilization sits far below published large-model figures, and why that is expected rather than a bug.
 
 If a budget is tight, recommend a smaller model trained cleanly with transparent evaluation instead of suggesting a large model can be built cheaply without qualification.
 
@@ -155,12 +161,13 @@ If a budget is tight, recommend a smaller model trained cleanly with transparent
 
 - **Training health:** training loss, validation loss, gradient norms, learning rate, token throughput, memory, and skipped/failed steps.
 - **Held-out language modeling:** cross-entropy/per-token negative log-likelihood and perplexity where meaningful. Use exactly the same tokenization and evaluation protocol when comparing runs.
+- **Bits per byte (BPB) when comparing across tokenizers.** Per-token loss and perplexity are *not* comparable between different vocabularies: a larger tokenizer covers the same text in fewer tokens, so a worse model can post a better per-token loss. BPB removes the artifact by normalizing on bytes instead of tokens — sum the loss in nats, sum the bytes of the target tokens, and divide by `ln(2) × total_bytes`. Mask special tokens and any ignored targets out of both sums, or they distort the metric. This is what nanochat evaluates on, for exactly this reason. BPB is the right choice whenever the tokenizer is itself one of the variables under test, which is common early in a project; keep per-token loss for comparing runs that share a tokenizer.
 - **Domain tasks:** create held-out questions or examples that reflect the use case. Keep answer keys and test documents out of training.
 - **Generation:** fixed prompts and sampling settings for qualitative review; save outputs and record model/checkpoint/config hashes.
 - **Baselines:** include a trivial baseline, a previous checkpoint or smaller run, and—when useful and permitted—a relevant external baseline.
 - **Regression testing:** rerun a stable suite after model, tokenizer, data, or inference changes.
 
-Use EleutherAI's `lm-evaluation-harness` where its supported task definitions fit the model and license. Verify the current command syntax and task settings; do not compare scores produced with different prompts, few-shot counts, context lengths, or normalization and call them equivalent.
+Use EleutherAI's evaluation harness where its supported task definitions fit the model and license. Note the name split, which trips up installs: the **repository** is `EleutherAI/lm-evaluation-harness`, but the **PyPI distribution is `lm-eval`** (`pip install lm-eval`). `pip install lm-evaluation-harness` fails with a 404. Verify the current command syntax and task settings; do not compare scores produced with different prompts, few-shot counts, context lengths, or normalization and call them equivalent.
 
 Do not rely on one benchmark. Report sample size, uncertainty/variance where feasible, known limitations, and any contamination checks. Be precise whether a score is measured, estimated, or anecdotal.
 
@@ -219,10 +226,13 @@ my-llm/
     generate.py
     evaluate.py
   tests/
-    test_shapes.py
-    test_causal_mask.py
-    test_overfit.py
-    test_checkpoint.py
+    test_shapes.py            # logits [batch, seq, vocab], finite scalar loss
+    test_causal_mask.py       # future tokens cannot change earlier logits
+    test_overfit.py           # drives loss down on one tiny batch
+    test_optim.py             # a step changes params, no non-finite values
+    test_generation.py        # valid IDs only, stops at limit or EOS
+    test_checkpoint.py        # save/load reproduces logits
+    test_resume.py            # restores model, optim, sched, step, RNG, data position
   data/                       # normally ignored by version control
     README.md                 # provenance; do not commit restricted raw data
   artifacts/
@@ -238,6 +248,8 @@ Keep secrets out of source control. Add `.gitignore` for corpora, checkpoints, c
 ## Expected artifacts when this skill is invoked
 
 Produce artifacts proportionate to the user's request; do not stop at advice when implementation is requested.
+
+Artifacts 6 and 8 have a fill-in structure in [`templates/experiment-plan.md`](templates/experiment-plan.md). Copy it into the user's project once per run (for example `experiments/<run-id>/plan.md`) and fill it in, rather than editing the template in place.
 
 1. **Project brief:** goal, assumptions, hardware, data, constraints, and success metrics.
 2. **Architecture note:** diagram or text flow, tensor shapes, parameter count, and why the selected architecture fits the goal.
@@ -269,6 +281,8 @@ If a gate fails, diagnose and fix the cause before moving forward. Preserve fail
 
 Consult current versions as of the work date; treat papers as foundational evidence and live documentation/repositories as current implementation guides.
 
+Annotated notes for each source below, grouped by purpose, are in [`references/reading-list.md`](references/reading-list.md); read it before recommending a repository, dataset, or benchmark to the user.
+
 - Vaswani et al., *Attention Is All You Need* (Transformer): https://arxiv.org/abs/1706.03762
 - Hugging Face course, *Training a causal language model from scratch*: https://huggingface.co/docs/course/chapter7/6
 - Hugging Face Tokenizers quick tour, including tokenizer training: https://huggingface.co/docs/tokenizers/python/latest/quicktour.html
@@ -281,7 +295,7 @@ Consult current versions as of the work date; treat papers as foundational evide
 - PyTorch distributed documentation: https://docs.pytorch.org/docs/stable/distributed.html
 - Hoffmann et al., *Training Compute-Optimal Large Language Models* (Chinchilla): https://arxiv.org/abs/2203.15556
 - Dao, *FlashAttention-2*: https://arxiv.org/abs/2307.08691
-- EleutherAI, Language Model Evaluation Harness: https://github.com/EleutherAI/lm-evaluation-harness
+- EleutherAI, Language Model Evaluation Harness — repository `lm-evaluation-harness`, PyPI distribution `lm-eval`: https://github.com/EleutherAI/lm-evaluation-harness
 - EleutherAI, Pythia: public models, checkpoints, data and training artifacts for study: https://github.com/EleutherAI/pythia
 - Ai2 OLMo 2, open training data/code/checkpoint/evaluation resources: https://allenai.org/olmo2
 
