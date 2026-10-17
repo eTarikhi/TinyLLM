@@ -4,7 +4,13 @@ Reviewed 2026-10-17. This is a curated starting list for the `llm-from-scratch` 
 
 ## Verification log
 
-Not every link below was re-checked on the review date, and the difference matters when a recommendation is repeated to a user. Status as of 2026-10-17:
+Not every link below was re-checked on the review date, and the difference matters when a recommendation is repeated to a user. Status as of 2026-10-17, when **all 15 links were re-checked**, three of them turning out to need a correction:
+
+| Link | Finding | Action |
+| --- | --- | --- |
+| Hugging Face Tokenizers quicktour | The `/docs/tokenizers/python/latest/quicktour.html` page serves a banner reading "You are viewing legacy docs" and points at a current page | URL updated to `/docs/tokenizers/quicktour` |
+| "PyTorch AMP documentation" | `/docs/stable/accelerator/amp.html` exists, but it is the guide for *accelerator backend authors* — registering autocast kernels under `AutocastPrivateUse1` — not the AMP usage docs a training project needs | Replaced with `torch.amp` and the AMP examples note |
+| nanoGPT repository | Linked as `github.com/karpathy/nanogpt`; GitHub resolves it case-insensitively, but the repository is `karpathy/nanoGPT` | Case corrected |
 
 **Re-checked live (5 of 15 links)** against `api.github.com` — existence, archive flag, license, and last push:
 
@@ -16,7 +22,14 @@ Not every link below was re-checked on the review date, and the difference matte
 | `EleutherAI/lm-evaluation-harness` | yes | MIT | 2026-09-14 |
 | `EleutherAI/pythia` | yes | Apache-2.0 | 2025-11-15 |
 
-**Not re-checked (10 of 15 links):** `arxiv.org` (3), `huggingface.co` (4), `docs.pytorch.org` (2), `allenai.org` (1). These were outside the network allowlist of the environment where this log was written, so their titles, URLs, and claimed content are unverified. Re-check them before citing them as current, and treat any statement about FineWeb's license or the Hugging Face course API in particular as needing confirmation at the source.
+**Re-checked by fetching the page (10 of 15 links)** — `arxiv.org` (3), `huggingface.co` (4), `docs.pytorch.org` (2), `allenai.org` (1). These were outside the network allowlist of the environment where this log was first written; they have since been fetched and compared against what this file claims about them:
+
+- arXiv `1706.03762`, `2203.15556`, `2307.08691` — titles and authors match (*Attention Is All You Need*; Hoffmann et al., *Training Compute-Optimal Large Language Models*; Dao, *FlashAttention-2*).
+- Hugging Face course `chapter7/6` — live, titled "Training a causal language model from scratch", and it still makes the point this file cites it for: pretraining from scratch costs materially more compute than fine-tuning.
+- **FineWeb license confirmed at the source:** Open Data Commons Attribution License (ODC-By) v1.0, and the dataset card states that use is *also* subject to CommonCrawl's Terms of Use. Two licences, not one — attribute under ODC-By and read the CommonCrawl terms before redistribution.
+- Hugging Face Datasets streaming and PyTorch distributed pages — live, unchanged in substance.
+- Ai2 OLMo 2 — live; the open-data/open-code/intermediate-checkpoints claim this file makes is still accurate, and the technical report is arXiv `2501.00656`.
+- The two corrections above (tokenizers quicktour, AMP docs) came out of this pass.
 
 **Package versions** re-checked against the PyPI JSON API on 2026-10-17:
 
@@ -51,17 +64,17 @@ curl -s -o /dev/null -w '%{http_code}\n' https://pypi.org/pypi/lm-evaluation-har
 
 - **Hugging Face: Training a causal language model from scratch** — hands-on tokenizer, data, and pretraining workflow; notes that scratch pretraining needs materially more compute than fine-tuning. [https://huggingface.co/docs/course/chapter7/6](https://huggingface.co/docs/course/chapter7/6)
 
-- **Hugging Face Tokenizers quick tour** — training a BPE tokenizer and tokenizer pipeline concepts. [https://huggingface.co/docs/tokenizers/python/latest/quicktour.html](https://huggingface.co/docs/tokenizers/python/latest/quicktour.html)
+- **Hugging Face Tokenizers quick tour** — training a BPE tokenizer and tokenizer pipeline concepts. The `/docs/tokenizers/python/latest/` path still resolves but serves a "legacy docs" banner; this is the current page. [https://huggingface.co/docs/tokenizers/quicktour](https://huggingface.co/docs/tokenizers/quicktour)
 
 ## Code to inspect
 
 - **nanochat** — end-to-end, minimal/hackable harness covering tokenization, pretraining, fine-tuning, evaluation and inference. Its main path targets one GPU node, but `runs/runcpu.sh` is a maintained CPU / Apple-Silicon (MPS) path worth reading when no CUDA GPU is available. It pins `torch==2.9.1` exactly. Treat its cost examples as specific to its setup, not a general quote. [https://github.com/karpathy/nanochat](https://github.com/karpathy/nanochat)
 
-- **nanoGPT** — useful historical small GPT implementation; its README now says it is deprecated and points to nanochat. [https://github.com/karpathy/nanogpt](https://github.com/karpathy/nanogpt)
+- **nanoGPT** — useful historical small GPT implementation; its README now says it is deprecated and points to nanochat. [https://github.com/karpathy/nanoGPT](https://github.com/karpathy/nanoGPT)
 
 - **llm.c** — low-level C/CUDA training and GPT-2 reproduction work; useful after understanding the PyTorch baseline. [https://github.com/karpathy/llm.c](https://github.com/karpathy/llm.c)
 
-- **PyTorch AMP docs** — current mixed precision concepts and APIs. [https://docs.pytorch.org/docs/stable/accelerator/amp.html](https://docs.pytorch.org/docs/stable/accelerator/amp.html)
+- **PyTorch AMP docs** — `torch.amp` API: autocast, `GradScaler`, and which dtypes need scaling. [https://docs.pytorch.org/docs/stable/amp.html](https://docs.pytorch.org/docs/stable/amp.html) — worked patterns, including gradient accumulation and clipping under AMP, are in the examples note: [https://docs.pytorch.org/docs/stable/notes/amp_examples.html](https://docs.pytorch.org/docs/stable/notes/amp_examples.html). Do not cite `/docs/stable/accelerator/amp.html` for this: that page documents how to register autocast kernels for a *new accelerator backend*.
 
 - **PyTorch distributed docs** — scale to multi-GPU only after a single-device run is correct. [https://docs.pytorch.org/docs/stable/distributed.html](https://docs.pytorch.org/docs/stable/distributed.html)
 

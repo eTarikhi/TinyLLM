@@ -9,7 +9,18 @@ Treat these as evidence of what a tuned run looks like. Re-tune on the target ha
 
 ## Anchor A — tiny educational GPT (~10.8M parameters)
 
-This is the direct analogue of the 5–20M starting model `SKILL.md` recommends. nanoGPT's character-level Shakespeare config: `n_layer=6`, `n_head=6`, `n_embd=384`, `block_size=256`, `batch_size=64`, `gradient_accumulation_steps=1`, vocab 65. That is **10,765,056 parameters** with untied embeddings — inside the recommended range.
+This is the direct analogue of the 5–20M starting model `SKILL.md` recommends. nanoGPT's character-level Shakespeare config: `n_layer=6`, `n_head=6`, `n_embd=384`, `block_size=256`, `batch_size=64`, `gradient_accumulation_steps=1`, vocab 65, and `bias=False` from `train.py`'s defaults, which the config does not override.
+
+That is **10,745,088 parameters in total, with the input and output embeddings tied** — `model.py` does `self.transformer.wte.weight = self.lm_head.weight`, so the 24,960-parameter embedding matrix is one tensor serving two roles. nanoGPT itself prints `10.65M`, because `get_num_params()` reports the *non-embedding* count and subtracts the 98,304-parameter position embedding. Both figures are inside the recommended range; quote either, but say which one, and do not describe this model as untied. (An earlier version of this file claimed 10,765,056 untied parameters: the right structure, the wrong tying assumption, and silently missing the LayerNorm weights.)
+
+| Component | Count |
+| --- | --- |
+| Token embedding `65 × 384` (tied with the output head) | 24,960 |
+| Position embedding `256 × 384` | 98,304 |
+| 6 blocks × (`3d²` + `d²` + `4d²` + `4d²` + two LayerNorm weights) | 10,621,440 |
+| Final LayerNorm | 384 |
+| **Total** | **10,745,088** |
+| Non-embedding, as nanoGPT prints it | 10,646,784 |
 
 | Setting | Value | Upstream rationale (verbatim comment) |
 | --- | --- | --- |

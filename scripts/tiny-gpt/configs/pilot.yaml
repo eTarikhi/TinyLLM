@@ -1,0 +1,30 @@
+# Pilot: one variable per run, short enough to compare several in an hour on a
+# 2-core CPU. Overridden on the command line per pilot (see experiments/).
+run_id: pilot
+data_dir: data/prepared-char
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.1
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 1
+learning_rate: 1.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99          # training-defaults.md: raise beta2 when tokens/update is small
+grad_clip: 1.0
+warmup_steps: 100
+max_steps: 400
+
+eval_every: 100
+eval_tokens: 131072
+log_every: 50
+sample_every: 0
+threads: 2

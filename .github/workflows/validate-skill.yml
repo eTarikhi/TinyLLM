@@ -1,10 +1,15 @@
 name: validate-skill
 
-# Keeps the two classes of defect that this repository has actually shipped from
-# returning silently: a SKILL.md that violates the Agent Skills frontmatter
-# rules, and package drift (a file README advertises but that does not exist, a
-# broken relative link, a bundled resource SKILL.md never points at, or a
-# template field dropped while SKILL.md still demands it be recorded).
+# Keeps the classes of defect that this repository has actually shipped from
+# returning silently:
+#   1. a SKILL.md that violates the Agent Skills frontmatter rules;
+#   2. package drift (a file README advertises but that does not exist, a broken
+#      relative link, a bundled resource SKILL.md never points at, or a template
+#      field dropped while SKILL.md still demands it be recorded);
+#   3. arithmetic drift in references/ -- the attention FLOP term was wrong by a
+#      factor of d_model for two months and no checker could see it;
+#   4. a broken reference implementation in scripts/tiny-gpt, which is the code
+#      the skill tells an agent to copy.
 #
 # Versions verified 2026-10-17 against api.github.com and pypi.org.
 
@@ -46,17 +51,62 @@ jobs:
       - name: Repository consistency checks
         run: python .github/scripts/check_package.py .
 
-      # Fails if anyone reintroduces a name/dirname mismatch that would make the
-      # packaged .skill disagree with its own frontmatter.
-      - name: Confirm the packaged identity would match
+      - name: Recompute every documented number
+        run: python .github/scripts/check_docs_math.py .
+
+      # The packaged .skill takes its name and its internal folder from the
+      # *directory*, not the frontmatter, and the official validator never
+      # compares the two. A checkout is always named after the repository, so
+      # testing the checkout directory would warn forever and prove nothing.
+      # Instead, run the rename-then-package procedure the README documents and
+      # fail if the result would disagree with its own frontmatter.
+      - name: Packaged identity matches the frontmatter name
         run: |
           python - <<'PY'
-          import re, pathlib
-          fm = pathlib.Path("SKILL.md").read_text().split("---")[1]
-          name = re.search(r"^name:\s*(.+)$", fm, re.M).group(1).strip()
-          here = pathlib.Path.cwd().name
-          if here != name:
-              print(f"::warning::directory '{here}' != skill name '{name}'; "
-                    f"stage a renamed copy before packaging")
-          print(f"skill name: {name}")
+          import pathlib, re, shutil, sys, tempfile
+          name = re.search(r"^name:\s*(.+)$", pathlib.Path("SKILL.md").read_text().split("---")[1], re.M).group(1).strip()
+          stage = pathlib.Path(tempfile.mkdtemp()) / name
+          shutil.copytree(".", stage, ignore=shutil.ignore_patterns(".git", ".github", ".ci", "experiments", "data", "artifacts", "__pycache__", ".venv"))
+          if stage.name != name:
+              sys.exit(f"staged directory {stage.name!r} != skill name {name!r}")
+          missing = [p for p in ("SKILL.md", "README.md", "LICENSE", "references", "templates", "scripts") if not (stage / p).exists()]
+          if missing:
+              sys.exit(f"staged copy is missing {missing}")
+          leaked = [str(p.relative_to(stage)) for p in stage.rglob("*") if p.is_file() and p.relative_to(stage).parts[0] in {".git", ".github", "experiments"}]
+          if leaked:
+              sys.exit(f"staged copy leaked files that must not ship: {leaked[:5]}")
+          print(f"staged {stage} would package as {name}.skill, contents match the frontmatter")
           PY
+
+  reference-implementation:
+    # The skill ships runnable code in scripts/tiny-gpt and tells an agent to
+    # copy it. Untested code in a skill is worse than no code: it looks
+    # authoritative. This job runs the Gate 1 and Gate 2 correctness tests
+    # (shapes, causal masking, overfit, optimizer, generation, checkpoint,
+    # resume, tokenizer) on CPU. It does not pretrain.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # The CPU wheel index: the default PyPI torch wheel for Linux pulls in
+      # several GB of CUDA runtime packages that a CPU runner cannot use.
+      - name: Install CPU-only PyTorch and friends
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1
+          pip install numpy PyYAML==6.0.3
+
+      - name: Unit tests (gates 1 and 2)
+        working-directory: scripts/tiny-gpt
+        run: python -m unittest discover -s tests -t tests -v
+
+      - name: Smoke test the data pipeline and 20 training steps
+        working-directory: scripts/tiny-gpt
+        run: |
+          python src/data.py --tokenizer char --out-dir data/prepared-char
+          python src/train.py --config configs/tiny.yaml --run-id ci-smoke --max-steps 20 --eval-every 20 --log-every 10

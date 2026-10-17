@@ -65,6 +65,8 @@ Build the core model in plain, readable PyTorch. Use a small, permissively usabl
 
 Keep the first architecture conventional. Do not add mixture-of-experts, speculative decoding, reinforcement learning, or complex parallelism before the basic model passes its tests. Explain the architecture’s tensor shapes and where gradients flow.
 
+**A worked implementation of this track ships with the skill.** [`scripts/tiny-gpt/`](scripts/tiny-gpt/README.md) is a tested PyTorch project covering every item above: a character tokenizer and a byte-level BPE tokenizer written without a tokenizer library, a data pipeline that checksums and audits the corpus before use, the model, a training loop whose resume is exact, evaluation in bits per byte against uniform/unigram/bigram/untrained baselines, and the correctness tests listed below. Read it, copy it into the user's project, and adapt it to their corpus and hardware; do not paste it in unread, and do not repeat its measured throughput or loss as a prediction for different hardware. Its README and [`experiments/`](experiments/README.md) record a real CPU-only run, including what the resulting model cannot do.
+
 **Minimum correctness tests:**
 
 - A batch of token IDs produces logits of shape `[batch, sequence, vocabulary]` and a finite scalar loss.
@@ -243,6 +245,8 @@ my-llm/
   model-card.md
 ```
 
+[`scripts/tiny-gpt/`](scripts/tiny-gpt/README.md) is this layout, filled in and runnable; the test filenames above are the ones it ships.
+
 Keep secrets out of source control. Add `.gitignore` for corpora, checkpoints, caches, environment files, logs, and API keys. The README should show exact environment setup, small smoke-test commands, training and evaluation commands, hardware assumptions, and a reproducibility recipe.
 
 ## Expected artifacts when this skill is invoked
@@ -254,7 +258,7 @@ Artifacts 6 and 8 have a fill-in structure in [`templates/experiment-plan.md`](t
 1. **Project brief:** goal, assumptions, hardware, data, constraints, and success metrics.
 2. **Architecture note:** diagram or text flow, tensor shapes, parameter count, and why the selected architecture fits the goal.
 3. **Data plan:** source/license manifest, cleaning and deduplication approach, split policy, tokenizer design, and storage estimate.
-4. **Runnable starter implementation:** pinned dependencies, training, sampling, validation, and checkpoint resume.
+4. **Runnable starter implementation:** pinned dependencies, training, sampling, validation, and checkpoint resume. Start from [`scripts/tiny-gpt/`](scripts/tiny-gpt/README.md) rather than from a blank file, then cut what the project does not need.
 5. **Tests:** model shapes, causal masking, finite loss, tiny-batch overfit, generation, and checkpoint round-trip.
 6. **Experiment plan:** pilot matrix changing one or a few variables at a time; tokens budget; stop/go gates; compute estimate and uncertainty.
 7. **Evaluation report:** held-out loss, domain tests, baselines, sample generations, limitations, and precise interpretation.
@@ -285,13 +289,13 @@ Annotated notes for each source below, grouped by purpose, are in [`references/r
 
 - Vaswani et al., *Attention Is All You Need* (Transformer): https://arxiv.org/abs/1706.03762
 - Hugging Face course, *Training a causal language model from scratch*: https://huggingface.co/docs/course/chapter7/6
-- Hugging Face Tokenizers quick tour, including tokenizer training: https://huggingface.co/docs/tokenizers/python/latest/quicktour.html
+- Hugging Face Tokenizers quick tour, including tokenizer training: https://huggingface.co/docs/tokenizers/quicktour
 - Hugging Face Datasets streaming documentation: https://huggingface.co/docs/datasets/main/stream
 - FineWeb dataset card and license/data notes: https://huggingface.co/datasets/HuggingFaceFW/fineweb
 - Karpathy, nanochat (current end-to-end small-model harness): https://github.com/karpathy/nanochat
-- Karpathy, nanoGPT (legacy/deprecated reference): https://github.com/karpathy/nanogpt
+- Karpathy, nanoGPT (legacy/deprecated reference): https://github.com/karpathy/nanoGPT
 - Karpathy, llm.c (C/CUDA reference): https://github.com/karpathy/llm.c
-- PyTorch AMP documentation: https://docs.pytorch.org/docs/stable/accelerator/amp.html
+- PyTorch AMP documentation (`torch.amp`, plus the examples note): https://docs.pytorch.org/docs/stable/amp.html and https://docs.pytorch.org/docs/stable/notes/amp_examples.html
 - PyTorch distributed documentation: https://docs.pytorch.org/docs/stable/distributed.html
 - Hoffmann et al., *Training Compute-Optimal Large Language Models* (Chinchilla): https://arxiv.org/abs/2203.15556
 - Dao, *FlashAttention-2*: https://arxiv.org/abs/2307.08691

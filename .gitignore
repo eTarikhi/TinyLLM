@@ -1,0 +1,16 @@
+# Virtualenvs and caches
+.venv/
+__pycache__/
+*.pyc
+.ci/
+
+# Training artifacts: corpora, token files, checkpoints. Regenerate with
+#   python src/data.py ... && python src/train.py ...
+scripts/tiny-gpt/data/
+scripts/tiny-gpt/artifacts/
+*.pt
+*.bin
+
+# Packaging output
+dist/
+*.skill
