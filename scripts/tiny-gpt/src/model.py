@@ -249,7 +249,12 @@ class GPT(nn.Module):
                     next_id = logits.argmax(dim=-1, keepdim=True)
                 else:
                     logits = logits / temperature
-                    if top_k is not None:
+                    # top_k <= 0 means "no truncation", the convention every
+                    # sampling CLI uses. Passing it through to torch.topk asks
+                    # for zero values and raises IndexError, which is how this
+                    # was found: `--top-k 0` crashed instead of sampling from
+                    # the full distribution.
+                    if top_k is not None and top_k > 0:
                         k = min(top_k, logits.size(-1))
                         kth = torch.topk(logits, k, dim=-1).values[:, [-1]]
                         logits = logits.masked_fill(logits < kth, float("-inf"))

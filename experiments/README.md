@@ -13,7 +13,12 @@ This directory is **not** part of the packaged skill. Strip it when staging a
 
 | Date | Directory | What it answers | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-17 | [`2026-10-17-tiny-shakespeare/`](2026-10-17-tiny-shakespeare/plan.md) | Does the bundled implementation pass every gate, and what does a ~30-minute CPU pretraining run actually produce? | See [the evaluation report](2026-10-17-tiny-shakespeare/eval-report.md) and [model card](2026-10-17-tiny-shakespeare/model-card.md) |
+| 2026-10-17/18 | [`2026-10-17-tiny-shakespeare/`](2026-10-17-tiny-shakespeare/plan.md) | Does the bundled implementation pass every gate, and what does a ~26-minute CPU pretraining run actually produce? | All gates passed. 3.3M-parameter GPT, **2.3284 bits/byte** on held-out text vs 2.8233 for a bigram counter and 2.5583 for `xz -9` primed with the training split. Validation turned at 11.9 epochs, so the selected checkpoint is step 750 of 1500 — see the [evaluation report](2026-10-17-tiny-shakespeare/eval-report.md) and [model card](2026-10-17-tiny-shakespeare/model-card.md) |
+
+Seven pilots preceded that run ([`pilots.md`](2026-10-17-tiny-shakespeare/pilots.md)):
+the tokenizer choice was worth 19% in bits per byte, the learning rate 11%,
+and turning dropout off bought 40% throughput on CPU — and cost a validation
+minimum twelve epochs in.
 
 ## How to read a run directory
 

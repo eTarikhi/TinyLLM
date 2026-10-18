@@ -107,6 +107,35 @@ position.
 - The memorization probe uses a public-domain corpus, so it calibrates
   behaviour rather than demonstrating privacy safety.
 
-See [`../../experiments/`](../../experiments/) for the filled-in experiment
-plan, the pilot matrix, the evaluation report and the model card from the run
-recorded below.
+## The run this code actually performed
+
+Everything below was measured on 2026-10-18 on two Xeon cores, not estimated.
+The full evidence trail — plan, pilot matrix, metrics, samples, evaluation
+report and model card — is in
+[`../../experiments/2026-10-17-tiny-shakespeare/`](../../experiments/2026-10-17-tiny-shakespeare/plan.md).
+
+| | |
+| --- | --- |
+| Corpus | tiny-shakespeare, 1,115,394 bytes, public domain, contiguous 90/5/5 split |
+| Tokenizer | byte-level BPE-512 trained on the train split, 1.889 bytes/token |
+| Model | 3,344,640 parameters: 4 layers, `d_model` 256, 4 heads, context 256, tied embeddings |
+| Pilots | 7 runs, one variable each, 1,638,400 tokens apiece, ~35 min total |
+| Main run | 1,500 steps × 8,192 tokens = 12,288,000 tokens in **25.6 min** at **8,003 tok/s**, peak RSS 1,269 MB, 0 non-finite steps |
+| Selected checkpoint | step 750 (6,144,000 tokens), chosen by validation loss, not by being last |
+| Held-out result | **2.3284 bits/byte** on the test split, against 2.8233 for a bigram counter, 4.8619 for the same model untrained, and 2.5583 for `xz -9` primed with the training text |
+
+Three results worth carrying away, because they are the kind that do not
+appear in a tutorial:
+
+1. **The tokenizer beat every hyperparameter.** Byte-level BPE-512 against a
+   67-symbol character vocabulary was worth 19% in bits per byte at an equal
+   token budget — more than the learning rate (11%) and far more than tying or
+   dropout. On per-token loss it looks 53% *worse*, which is why the metric was
+   fixed as bits per byte before any run started.
+2. **Dropout costs 40% of throughput on CPU** (5,080 → 7,129 tok/s with
+   `dropout=0.0`), a trade that does not exist on a GPU where the matmuls
+   dominate. Taking it was correct for the pilots and wrong by step 900 of the
+   main run.
+3. **Validation turned at 11.9 epochs while training loss kept falling.** The
+   final weights score 14.6% worse on held-out text than the selected ones.
+   Keeping `best.pt` is not a detail; it is half the value of the run.

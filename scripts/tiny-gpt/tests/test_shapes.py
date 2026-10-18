@@ -58,6 +58,35 @@ class TestShapes(unittest.TestCase):
         breakdown = model.param_breakdown()
         self.assertEqual(breakdown["total"], model.num_params())
 
+    def test_flops_per_token_matches_the_documented_formula(self):
+        """`6N + 12·L·T·d`, derived here independently of model.py.
+
+        Per layer and per sequence of T tokens, attention does two matmuls that
+        no parameter count sees: `q @ k^T` and `attn @ v`, each `2·T²·d`
+        multiply-accumulate FLOPs forward. Backward costs about twice forward,
+        so `3 × 2 × (2·T²·d) = 12·T²·d` per layer per sequence, which is
+        `12·T·d` per layer per *token*.
+
+        references/compute-budget-example.md once dropped the `d` factor, which
+        understated the term by three orders of magnitude at realistic widths.
+        This test fails if either the code or that derivation drifts.
+        """
+        cfg = tiny_config()
+        model = tiny_model()
+        attention = 12.0 * cfg.n_layer * cfg.block_size * cfg.n_embd
+        self.assertAlmostEqual(
+            model.flops_per_token(), 6.0 * model.num_params() + attention, places=3
+        )
+        self.assertAlmostEqual(
+            model.flops_per_token(include_attention=False), 6.0 * model.num_params(), places=3
+        )
+        # The term is linear in width: a model twice as wide pays twice as much
+        # per token for attention, which is exactly what dropping `d` hid.
+        wide = tiny_model(n_embd=cfg.n_embd * 2, n_head=cfg.n_head)
+        self.assertAlmostEqual(
+            wide.flops_per_token() - 6.0 * wide.num_params(), 2.0 * attention, places=3
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

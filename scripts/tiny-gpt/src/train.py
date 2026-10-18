@@ -345,7 +345,10 @@ def train(cfg: TrainConfig, resume_from: str | None = None) -> dict:
             x, y = train_batcher.batch(step * cfg.grad_accum + micro)
             _, loss = model(x, y)
             (loss / cfg.grad_accum).backward()
-            loss_sum += float(loss)
+            # detach before converting: float() on a graph-attached tensor is
+            # numerically fine but PyTorch warns, and warnings in a reference
+            # implementation train people to ignore warnings.
+            loss_sum += float(loss.detach())
         grad_norm = float(torch.nn.utils.clip_grad_norm_(model.parameters(), cfg.grad_clip))
         if not math.isfinite(grad_norm):
             nonfinite_steps += 1

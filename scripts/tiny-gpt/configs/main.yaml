@@ -1,6 +1,22 @@
-# Main run, sized from the pilot measurements (see experiments/ for the plan).
+# Main run. Every value below is a pilot result, not a guess; the evidence is
+# in experiments/2026-10-17-tiny-shakespeare/pilots.md.
+#
+#   tokenizer  byte-level BPE-512 beat the 67-symbol char vocabulary by 19% in
+#              bits per byte at an identical 1.64M-token budget (2.725 vs 3.365),
+#              because each token carries 1.89 bytes, so the same token budget
+#              covers 1.89x more text.
+#   lr         3e-3 beat 1e-3 by 11% bpb on char (2.988 vs 3.365) and 4.2e-3 by
+#              0.8% on BPE (2.698 vs 2.720). 3e-3 it is.
+#   dropout    0.0 beat 0.1 at this budget *and* ran 40% faster on CPU
+#              (7,129 vs 5,080 tok/s) -- dropout masks cost real time when the
+#              matmuls are small. Accepted risk: ~24 epochs over a 1 MB corpus
+#              with no dropout can overfit, so validation runs every 150 steps
+#              and best.pt keeps the best checkpoint, not the last one.
+#   tying      untied gained 0.6% bpb and cost 4.5% throughput: not worth it.
+#   steps      1500 x 8,192 tokens = 12.3M tokens, about 30 minutes at the
+#              measured 6,992 tok/s.
 run_id: main
-data_dir: data/prepared-char
+data_dir: data/prepared-bpe512
 out_dir: artifacts/runs
 seed: 1337
 
@@ -8,24 +24,25 @@ block_size: 256
 n_layer: 4
 n_head: 4
 n_embd: 256
-dropout: 0.15
+dropout: 0.0
 tie_embeddings: true
 
 batch_size: 16
 grad_accum: 2        # 8,192 tokens per optimizer update
-learning_rate: 1.0e-3
+learning_rate: 3.0e-3
 min_lr_frac: 0.1
 weight_decay: 0.1
 beta1: 0.9
-beta2: 0.99
+beta2: 0.99          # training-defaults.md: raise beta2 when tokens/update is small
 grad_clip: 1.0
-warmup_steps: 100
-max_steps: 1200
+warmup_steps: 150    # 10% of the run, in the 25%-of-400 range the pilots used
+max_steps: 1500      # the cosine horizon equals the run length, as both anchors do
 
-eval_every: 100
-eval_tokens: 131072
+eval_every: 150
+eval_tokens: 32768   # the val split is 29,554 tokens, so this covers all of it
 log_every: 50
-sample_every: 400
-sample_tokens: 200
-save_every: 300
+sample_every: 500
+sample_tokens: 240
+save_every: 250
+max_seconds: 2700    # guard: stop cleanly at 45 min rather than run away
 threads: 2

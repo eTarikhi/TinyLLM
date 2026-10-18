@@ -1,0 +1,120 @@
+Samples from artifacts/runs/main/best.pt (step 750, 6,144,000 tokens, val bpb 2.1066).
+Model: 3,344,640-parameter GPT, byte-level BPE-512, trained on tiny-shakespeare.
+Generated 2026-10-18 with scripts/tiny-gpt/src/generate.py; every setting is printed with its sample.
+
+--- sample 1 (seed 1, T=0.8, top_k=40, checkpoint step 750) ---
+
+PETER:
+Here's antest you to the crown?
+
+LADY CAPULET:
+Well, madam: and I will ended.
+
+LADY CAPULET:
+No, my lord.
+
+CAPULET:
+Here's Christen watchs!
+
+CAPULET:
+What's thy name?
+
+Nurse:
+Madam, nurse, night fear garlish with you!
+
+CAPULET:
+
+Now must be die to be her.
+
+LADY CAPULET:
+
+LADY CAPULET:
+When, if thou wilt be not what thou did not?
+
+Nurse:
+My lord, to do; I would spare me accuse her:
+To make her nurse, ere I may power,
+I' the advouchess and due o'erbear;
+For employ'd by her tears. O, doubt is he not mad,
+And hup to take a
+
+--- sample 2 (seed 2, T=0.8, top_k=40, checkpoint step 750) ---
+
+
+FLORIA goodly gifts that years so intended
+Against his best
+Is fools a casker tale,
+Which every presence, I know it
+For whate'er these jewelsoeful poor,
+Or else your sword,--serves,
+Are carpedom, they are best terror.
+
+CLAUDIO:
+I'll warrant you to the pleasure me; alboved
+True what you have to do some pity of yours
+As I descends should not be great
+Than crueless along.
+
+ISABELLA:
+I'll tell you.
+
+ISABELLA:
+My brother, good father;
+If say, I cannot bring say;
+Or, if thou fast reconcia! Stands he,
+As doth of all her and father.
+
+ISABELLA:
+Yes,
+--- sample 1 (seed 2, T=0.8, top_k=40, checkpoint step 750) ---
+KING RICHARD III:
+Go with me, good night; I have heard the made;
+Must I be giving them to yours:
+Look'd for their fathers,
+Wherefore, in the night, I musicious precious citizen;
+For softed me to the Tame he pass'd with place,
+His noble sense, and to be above out:
+Nay, those whom I dance to subjects,
+And all the end that came to the crown.
+But I shall be bring him to prosperful dace.
+What now, good nor day with the crown, God,
+Or, as I cannot tell the braving field!
+Dit to the serve give us it to deep either:
+As I am a little sends,
+From the throne to the face of that presengerous steeeds,
+Those virges in afford hasty too sun;
+Upon the
+--- sample 1 (seed 3, T=0.4, top_k=40, checkpoint step 750) ---
+To be, or not to be,
+Which is then, if they, in peace of our terrors
+Which never sun, they have made me words,
+And I am a properous lawful:
+If, I must be, some pass'd, and breaking,
+Commend me, I know not:
+There is no poor worthy friends, or too much.
+
+DUKE OF AUMERLE:
+If thou hast loved thee.
+
+DUKE OF AUMERLE:
+Whereford here comes the queen and thy brother.
+
+DUKE OF YORK:
+App
+--- sample 1 (seed 4, T=1.2, top_k=0, checkpoint step 750) ---
+
+See: know yet none of the guard, and hope of a war:
+Cousin's brother feastion, we'll every scoptth.
+Gentle naving moltoar of my dear,
+For I were but one native: what if anon demand?
+
+GVER
+JULIET:
+For one such a hurse? or no with thy harch no more;
+And, if not think, forbear this humour-hinpiveing hast first absence.
+
+LADY CAPULET:
+I shall not stind me.
+
+CAPULET:
+They thy master in these testriit

@@ -2,6 +2,11 @@
 
 Usage:
     python src/plot_metrics.py artifacts/runs/*/metrics.jsonl --out curve.svg --metric val_bpb
+
+``--metric`` accepts a comma-separated list, which draws one line per file and
+metric. Plotting ``val_loss,train_eval_loss`` for a single run is how the
+train/validation gap becomes visible, and that gap is the overfitting signal
+SKILL.md's troubleshooting table asks for.
 """
 
 from __future__ import annotations
@@ -13,7 +18,7 @@ from pathlib import Path
 COLORS = ["#2563eb", "#dc2626", "#059669", "#d97706", "#7c3aed", "#0891b2"]
 
 
-def read_series(path: Path, metric: str) -> tuple[str, list[tuple[float, float]]]:
+def read_series(path: Path, metric: str, label_metric: bool = False) -> tuple[str, list[tuple[float, float]]]:
     label = path.parent.name
     points: list[tuple[float, float]] = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -24,7 +29,7 @@ def read_series(path: Path, metric: str) -> tuple[str, list[tuple[float, float]]
             label = rec.get("run_id", label)
         if metric in rec and "tokens" in rec:
             points.append((float(rec["tokens"]), float(rec[metric])))
-    return label, points
+    return (f"{label} {metric}" if label_metric else label), points
 
 
 def render(series: list[tuple[str, list[tuple[float, float]]]], metric: str, width: int = 760, height: int = 420) -> str:
@@ -80,11 +85,16 @@ def render(series: list[tuple[str, list[tuple[float, float]]]], metric: str, wid
 def main() -> None:
     ap = argparse.ArgumentParser(description="Plot metrics.jsonl files as an SVG.")
     ap.add_argument("metrics", nargs="+")
-    ap.add_argument("--metric", default="val_loss")
+    ap.add_argument("--metric", default="val_loss", help="one metric, or several separated by commas")
     ap.add_argument("--out", default="curve.svg")
     args = ap.parse_args()
-    series = [read_series(Path(p), args.metric) for p in args.metrics]
-    svg = render(series, args.metric)
+    metrics = [m.strip() for m in args.metric.split(",") if m.strip()]
+    series = [
+        read_series(Path(p), metric, label_metric=len(metrics) > 1)
+        for p in args.metrics
+        for metric in metrics
+    ]
+    svg = render(series, " / ".join(metrics))
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(svg, encoding="utf-8")
     print(f"wrote {args.out} ({sum(len(p) for _, p in series)} points from {len(series)} run(s))")

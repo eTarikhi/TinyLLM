@@ -70,7 +70,7 @@ The dtype line is upstream code doing exactly what `SKILL.md` advises: prefer BF
 | Warmdown fraction | `0.65` | 65% of the run is spent decaying |
 | Final LR fraction | `0.05` | vs nanoGPT's `0.1` |
 | Reference batch | `2^19 = 524,288` tokens | "optimal batch size at d12, measured empirically" |
-| Batch scaling | `B ∝ D^0.383` | optimal batch grows sublinearly with the token horizon |
+| Batch scaling | `B ∝ D^0.383` | optimal batch grows sublinearly with the token horizon; the exponent is cited in `scripts/base_train.py` to *Power Lines: Scaling Laws for Weight Decay and Batch Size in LLM Pre-training*, [arXiv:2505.13738](https://arxiv.org/abs/2505.13738) |
 | LR vs batch | `η ∝ sqrt(B/B_ref)` | Adam-style square-root scaling, not SGD's linear |
 | Param:token ratio | `12` | upstream help text notes "Chinchilla=20" |
 | Width rule | `d_model = depth × 64` | `--aspect-ratio 64` |

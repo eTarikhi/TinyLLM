@@ -1,0 +1,72 @@
+{
+  "run_id": "main",
+  "checkpoint": "artifacts/runs/main/last.pt",
+  "step": 1500,
+  "tokens_trained": 12288000,
+  "data_dir": "data/prepared-bpe512",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 512
+  },
+  "model_config": {
+    "vocab_size": 512,
+    "block_size": 256,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 256,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 3344640,
+  "model": {
+    "loss": 3.447523462361303,
+    "perplexity": 31.422476921578873,
+    "bpb": 2.668516823685178,
+    "tokens": 29696,
+    "bytes": 55349
+  },
+  "untrained": {
+    "loss": 6.281203500155745,
+    "perplexity": 534.431465293857,
+    "bpb": 4.861895037452602,
+    "tokens": 29696,
+    "bytes": 55349
+  },
+  "uniform": {
+    "loss": 6.238324625039508,
+    "perplexity": 511.99999999999994,
+    "bpb": 4.829800218987273,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "unigram": {
+    "loss": 5.1752714005724645,
+    "perplexity": 176.8446034906123,
+    "bpb": 4.006769196247969,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "bigram": {
+    "loss": 3.6466156772995775,
+    "perplexity": 38.34467545246671,
+    "bpb": 2.823262054380888,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      23,
+      24,
+      19,
+      24
+    ],
+    "max_longest_verbatim_match_chars": 24,
+    "mean_longest_verbatim_match_chars": 22.5,
+    "example_sample": "\n\nMENENIUS:\nI have been some patient.\n\nVOLUMNIA:\nMy muse, sir, I would speak it but a-bed;\nFor I had rather be again a medlar.\n\nMENENIUS:\nEither you'll be sworn his worship, or go by,\nSit down our free pity this morning.\n\nVOLUMNIA:\nMy very well acquainted point boy.\n\nVIRGILIA:\nI will be s the common much before the Volsces,\nAnd strike from the game of hearts, or commits\nWith die with Titus Lartius are expected:\nBut false,\nI"
+  }
+}

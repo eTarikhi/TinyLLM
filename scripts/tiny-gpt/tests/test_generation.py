@@ -70,6 +70,21 @@ class TestGeneration(unittest.TestCase):
         model.generate(torch.zeros((1, 1), dtype=torch.long), 3, temperature=0.0)
         self.assertTrue(model.training)
 
+    def test_top_k_edge_values_do_not_crash(self):
+        """`top_k=0` means no truncation, and `top_k` above the vocabulary is a no-op.
+
+        Regression test: `--top-k 0` used to reach `torch.topk(logits, 0)` and
+        raise `IndexError: index is out of bounds for dimension with size 0`,
+        found while sampling at high temperature from a trained checkpoint.
+        """
+        model = tiny_model()
+        start = torch.zeros((2, 1), dtype=torch.long)
+        for k in (0, -1, None, 1, 10 ** 6):
+            out = model.generate(start, 5, temperature=1.2, top_k=k)
+            self.assertEqual(out.shape, (2, 6))
+            self.assertTrue(int(out.max()) < model.cfg.vocab_size)
+            self.assertTrue(int(out.min()) >= 0)
+
 
 if __name__ == "__main__":
     unittest.main()

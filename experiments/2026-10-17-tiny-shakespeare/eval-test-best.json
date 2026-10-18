@@ -1,0 +1,72 @@
+{
+  "run_id": "main",
+  "checkpoint": "artifacts/runs/main/best.pt",
+  "step": 750,
+  "tokens_trained": 6144000,
+  "data_dir": "data/prepared-bpe512",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 512
+  },
+  "model_config": {
+    "vocab_size": 512,
+    "block_size": 256,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 256,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 3344640,
+  "model": {
+    "loss": 3.00817817655103,
+    "perplexity": 20.25047351125529,
+    "bpb": 2.3284465386265585,
+    "tokens": 29696,
+    "bytes": 55349
+  },
+  "untrained": {
+    "loss": 6.281203500155745,
+    "perplexity": 534.431465293857,
+    "bpb": 4.861895037452602,
+    "tokens": 29696,
+    "bytes": 55349
+  },
+  "uniform": {
+    "loss": 6.238324625039508,
+    "perplexity": 511.99999999999994,
+    "bpb": 4.829800218987273,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "unigram": {
+    "loss": 5.1752714005724645,
+    "perplexity": 176.8446034906123,
+    "bpb": 4.006769196247969,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "bigram": {
+    "loss": 3.6466156772995775,
+    "perplexity": 38.34467545246671,
+    "bpb": 2.823262054380888,
+    "tokens": 29897,
+    "bytes": 55711
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      18,
+      23,
+      27,
+      17
+    ],
+    "max_longest_verbatim_match_chars": 27,
+    "mean_longest_verbatim_match_chars": 21.25,
+    "example_sample": "\n\nESCALUS:\nI am a going to seal'd: I will appare\nwhy Isabella, bid him in my brother;\nIf it be too raged to the cause town.\n\nANGELO:\nHarve we the safety marry;\nne' the world grant of my banishment\nAy, they have been terrorous brother\nHis sensed of a rascal presence in a peace.\nWith what?\n\nISABELLA:\nAs must be to do a no water, but they needing.\n\nISABELLA:\nUnluade ill with such swift prophets and born sinve\nTo some send the truth, let that we"
+  }
+}
