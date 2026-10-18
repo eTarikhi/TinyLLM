@@ -48,7 +48,7 @@ Produce artifacts proportionate to the user's request; do not stop at advice whe
 2. **Architecture note:** diagram or text flow, tensor shapes, parameter count, and why the selected architecture fits the goal.
 3. **Data plan:** source/license manifest, cleaning and deduplication approach, split policy, tokenizer design, and storage estimate.
 4. **Runnable starter implementation:** pinned dependencies, training, sampling, validation, and checkpoint resume. Start from [`../scripts/tiny-gpt/`](../scripts/tiny-gpt/README.md) rather than from a blank file, then cut what the project does not need.
-5. **Tests:** model shapes, causal masking, finite loss, tiny-batch overfit, generation, and checkpoint round-trip — the files listed in the layout above.
+5. **Tests:** model shapes, causal masking, finite loss, tiny-batch overfit, generation, and checkpoint round-trip — the files listed in the layout above. Test the *evaluation* code too, not only the model: a metric or probe that silently measures nothing still prints a number, and a zero reads like a pass. Assert that a check which could not run says so instead of reporting a value.
 6. **Experiment plan:** pilot matrix changing one or a few variables at a time; token budget; stop/go gates; compute estimate and uncertainty.
 7. **Evaluation report:** held-out loss, domain tests, baselines, sample generations, limitations, and precise interpretation.
 8. **Reproducibility record:** code revision, configs, dependencies, data/tokenizer versions, seed, checkpoint ID, metrics, and environment details.
@@ -58,4 +58,6 @@ When asked for code, implement the smallest complete end-to-end version that mee
 
 ## A worked instance
 
-[`../experiments/`](../experiments/README.md) holds a filled-in example of artifacts 1, 3, 6, 7, 8 and 9 from a real CPU-only run of `scripts/tiny-gpt`: the plan with its success criteria and how each resolved, the pilot matrix, the evaluation report with baselines, the model card, and the roadmap that the next iteration picked up.
+[`../experiments/`](../experiments/README.md) holds filled-in examples of artifacts 1, 3, 6, 7, 8 and 9 from two real CPU-only runs of `scripts/tiny-gpt`: the plan with its success criteria and how each resolved, the pilot matrix, the evaluation report with baselines, the model card, and the roadmap that the next iteration picked up.
+
+The two runs together show the loop working, which one run cannot. The first was data-limited — it overfit a 1.1 MB corpus at 11.9 epochs and its best checkpoint came at the halfway mark. Its roadmap said *get more data*. The second used a 17× larger corpus, ran 3.41 epochs, never turned up, and ended still improving: now compute-limited, and its own roadmap says *more steps before anything else*. Bits per byte went 2.3284 → 1.7201, and the margin over the best classical compressor went 1.06× → 1.42×. Neither number is interesting alone; the diagnosis that changed between them is the point.

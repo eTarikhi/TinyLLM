@@ -153,9 +153,78 @@ def check_training_defaults(root: str) -> None:
           "Muon/AdamW LR ratio", tol=20, doc="training-defaults")
 
 
+def check_experiment_reports(root: str) -> None:
+    """Tie the committed write-ups back to the raw run artifacts.
+
+    A report is a transcription of JSON a human did by hand, which is exactly
+    where a digit gets dropped. Every headline number in the iteration-2
+    evaluation report and model card is recomputed here from
+    `eval-test-best.json`, `compressor-baselines.json` and the run summary, so
+    the prose cannot drift away from the measurements it describes.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    if not os.path.isdir(exp):
+        return
+    ev = json.load(open(os.path.join(exp, "eval-test-best.json"), encoding="utf-8"))
+    comp = json.load(open(os.path.join(exp, "compressor-baselines.json"), encoding="utf-8"))
+    summ = json.load(open(os.path.join(exp, "metrics", "main-gutenberg-summary.json"), encoding="utf-8"))
+    report = open(os.path.join(exp, "eval-report.md"), encoding="utf-8").read()
+    card = open(os.path.join(exp, "model-card.md"), encoding="utf-8").read()
+
+    print("experiments/2026-10-18-gutenberg-mixed — report vs. raw artifacts")
+
+    # Held-out table: every row comes from the evaluation JSON.
+    for key, label in (("model", r"\*\*Trained model\*\* \| \*\*3\.4378\*\* \| \*\*31\.12\*\* \| \*\*([\d.]+)\*\*"),
+                       ("bigram", r"Bigram counts, add-0\.1 \(train split\) \| 4\.3877 \| 80\.46 \| ([\d.]+)"),
+                       ("unigram", r"Unigram counts \(train split\) \| 6\.2828 \| 535\.27 \| ([\d.]+)"),
+                       ("uniform", r"Uniform over vocabulary \| 7\.6246 \| 2048\.00 \| ([\d.]+)"),
+                       ("untrained", r"random init \| 7\.6486 \| 2097\.66 \| ([\d.]+)")):
+        claim(report, label, round(ev[key]["bpb"], 4), f"test bpb, {key}", tol=5e-5,
+              doc="eval-report.md")
+
+    # Ratios the prose draws from that table.
+    claim(report, r"\*\*([\d.]+)×\*\* better than the bigram baseline",
+          round(ev["bigram"]["bpb"] / ev["model"]["bpb"], 2), "model vs bigram ratio",
+          tol=5e-3, doc="eval-report.md")
+    claim(report, r"\*\*([\d.]+)×\*\*\s*\n?better than uniform",
+          round(ev["uniform"]["bpb"] / ev["model"]["bpb"], 2), "model vs uniform ratio",
+          tol=5e-3, doc="eval-report.md")
+
+    # Compressor table and the margin claimed over the best of them.
+    by_codec = {c["codec"]: c for c in comp["codecs"]}
+    for codec, pattern in (("gzip -9", r"gzip -9 \| ([\d.]+) \| [\d.]+"),
+                           ("xz -9", r"xz -9 \| ([\d.]+) \| [\d.]+"),
+                           ("bzip2 -9", r"bzip2 -9 \| ([\d.]+) \| ")):
+        claim(report, pattern, round(by_codec[codec]["bpb_standalone"], 4),
+              f"{codec} standalone bpb", tol=5e-5, doc="eval-report.md")
+    best_primed = min(c["bpb_primed"] for c in comp["codecs"])
+    claim(report, r"best classical compressor by \*\*([\d.]+)×\*\*",
+          round(best_primed / ev["model"]["bpb"], 2), "model vs best primed compressor",
+          tol=5e-3, doc="eval-report.md")
+
+    # Run facts: these appear in both documents and must agree with the summary.
+    epochs = summ["tokens"] / 5_771_560  # train split tokens, from the data manifest
+    for doc_name, doc in (("eval-report.md", report), ("model-card.md", card)):
+        claim(doc, r"([\d,]+)(?: tokens)? \(3\.41 epochs\)",
+              summ["tokens"], "tokens trained", doc=doc_name)
+        claim(doc, r"\(([\d.]+) epochs\)", round(epochs, 2), "epochs", tol=5e-3, doc=doc_name)
+    claim(card, r"\*\*([\d,]+)\*\* total", summ["params_total"], "parameter count", doc="model-card.md")
+    claim(report, r"([\d,]+) tokens/s sustained", round(summ["mean_tokens_per_s"]),
+          "mean throughput", tol=1, doc="eval-report.md")
+    claim(report, r"\*\*(\d+) of 2,400 steps", summ["clipped_steps"], "clipped steps", doc="eval-report.md")
+    claim(report, r"of 2,400 steps \((\d\.\d)%\)\*\*",
+          round(100 * summ["clipped_steps"] / summ["steps"], 1), "clipped share", tol=5e-2,
+          doc="eval-report.md")
+    claim(report, r"val bpb \| .*\*\*([\d.]+)\*\* \|", round(summ["final_val_bpb"], 4),
+          "final val bpb", tol=5e-5, doc="eval-report.md")
+
+
 def main(root: str = ".") -> int:
     check_compute_budget(root)
     check_training_defaults(root)
+    check_experiment_reports(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")
