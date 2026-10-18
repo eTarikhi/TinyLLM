@@ -1,0 +1,72 @@
+{
+  "run_id": "main-gutenberg-4800",
+  "checkpoint": "artifacts/runs/main-gutenberg-4800/best.pt",
+  "step": 4800,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.3115868113113147,
+    "perplexity": 27.42861499447153,
+    "bpb": 1.656943035140445,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.648575795416907,
+    "perplexity": 2097.6559697646126,
+    "bpb": 3.8269431287961635,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      22,
+      24,
+      22,
+      21
+    ],
+    "max_longest_verbatim_match_chars": 24,
+    "mean_longest_verbatim_match_chars": 22.25,
+    "example_sample": "\nheard this grove of the woods that bound\nthat is found in its lonely flies of the water; for if the basins of\nthe base of wood and ahead, it gasping, and movement, with its fruit or\ndinner of leaving the post, without ringinging; and the sound of the\nsunshine was crying on one side, and for Sancho came to the candle and\nsaid to be a-going to the sand, and a kingdom and all he wanted.\n\nIn a wicked wound, he was billed with a grey wind, and all three\nsummer of starved damned through the floor and bags and busts of water,\nand as they gathered up in his hand, he said, \u2018Who is the king?\u2019 \u2018That\u2019s\nsword,\u2019 said he; \u2018but I don\u2019"
+  }
+}

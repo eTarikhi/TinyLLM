@@ -122,8 +122,22 @@ direction worth knowing about: **log-linear fits to a short window flatter the
 future**, because the early steep part of the curve leaks into the fit no
 matter how carefully the tail is selected.
 
-Two things make this agreement weaker than it looks, and both should temper
-any reuse of the method:
+**Scored again at 4,800 steps.** The run was later doubled in horizon, giving
+a second, longer check of the same fitted line:
+
+| Checked at | Projected | Actual | Error |
+| --- | ---: | ---: | ---: |
+| 1,702 s (2,400 steps) | 1.6620 | 1.6815 | +1.2% |
+| 2,926 s (4,800 steps) | 1.5430 | 1.6158 | +4.5% |
+
+The error nearly quadruples as the extrapolation stretches. The true slope
+between the two annealed endpoints is −0.1213 per ln(t) against this fit's
+−0.2195, so the eight-minute window **overstated long-horizon gains by 1.8×**.
+Good enough to rank configurations and to size the next run within a factor of
+two; not good enough to promise an absolute loss several doublings out.
+
+Two things make the first agreement weaker than it looks, and both should
+temper any reuse of the method:
 
 - The main run was not g3-small continued. It shared the architecture but had
   its own cosine schedule stretched over 2,400 steps, so its learning rate was

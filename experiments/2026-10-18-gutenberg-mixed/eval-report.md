@@ -1,5 +1,11 @@
 # Evaluation report — `main-gutenberg`
 
+> **Superseded as the released model.** This run was extended to 4,800 steps;
+> see [`eval-report-4800.md`](eval-report-4800.md) for the current model
+> (test 1.6569 bpb) and the head-to-head. This report stays as written — it is
+> the record of the 2,400-step run and the baseline the extension is measured
+> against.
+
 Iteration 2 of the Track 1 walkthrough. A 1.77 M-parameter decoder-only GPT
 trained from random init on 27 public-domain books, on two CPU cores.
 

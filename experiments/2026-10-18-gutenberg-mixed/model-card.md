@@ -1,8 +1,12 @@
-# Model card — `tiny-gpt / main-gutenberg`
+# Model card — `tiny-gpt / main-gutenberg-4800`
 
 A teaching artifact: the smallest honest end-to-end language model this
 repository's Track 1 produces. Trained from random initialization on two CPU
-cores in 28 minutes.
+cores in 49 minutes.
+
+This card describes the 4,800-step model, which is the released one. Its
+2,400-step predecessor `main-gutenberg` is still committed and documented in
+[`eval-report.md`](eval-report.md); the two differ only in horizon.
 
 ## Model details
 
@@ -15,7 +19,7 @@ cores in 28 minutes.
 | Vocabulary | 2,048, byte-level BPE (trained on a 4 M-character sample of the training split) |
 | Dropout | 0.0 |
 | Precision | fp32 |
-| Checkpoint | `scripts/tiny-gpt/artifacts/runs/main-gutenberg/best.pt` (81 MB with optimizer state; weights identical to `last.pt`) |
+| Checkpoint | `scripts/tiny-gpt/artifacts/runs/main-gutenberg-4800/best.pt` (81 MB with optimizer state; weights identical to `last.pt`) |
 | Date | 2026-10-18 |
 | License | MIT, same as this repository |
 
@@ -52,40 +56,46 @@ character counts and boilerplate removal stats — is in `data-manifest.json`.
 
 | | |
 | --- | --- |
-| Steps / tokens | 2,400 / 19,660,800 (3.41 epochs) |
+| Steps / tokens | 4,800 / 39,321,600 (6.81 epochs) |
 | Batch | 16 sequences × 256 tokens × 2 accumulation = 8,192 tokens/step |
 | Optimizer | AdamW, β = (0.9, 0.99), weight decay 0.1 (decoupled; no decay on norms/biases) |
-| LR schedule | 3e-3 peak, 240-step linear warmup, cosine to 3e-4 |
-| Gradient clipping | 1.0 (engaged on 70 steps, 2.9%) |
+| LR schedule | 3e-3 peak, 240-step linear warmup, cosine to 3e-4 over the full 4,800 steps |
+| Gradient clipping | 1.0 (engaged on 63 steps, 1.3%) |
 | Seed | 1337 |
 | Hardware | 2 vCPU Intel Xeon, 3 GB RAM, no GPU |
-| Wall clock | 1,702 s (28.4 min) at 11,552 tokens/s, 143.2 GFLOP/s, peak RSS 1,147 MB |
+| Wall clock | 2,926 s (48.8 min) at 13,437 tokens/s, 166.5 GFLOP/s, peak RSS 1,166 MB |
 
 Architecture and vocabulary were chosen by a four-configuration pilot matrix at
-8 minutes each, documented with its arithmetic in `pilots.md`.
+8 minutes each, documented with its arithmetic in `pilots.md`. The horizon was
+doubled from 2,400 steps afterwards, because that run ended compute-limited —
+see [`eval-report-4800.md`](eval-report-4800.md).
 
 ## Evaluation
 
-Held-out test split, 323,046 tokens / 931,467 bytes. Full detail in `eval-report.md`.
+Held-out test split, 323,046 tokens / 931,467 bytes. Full detail in
+[`eval-report-4800.md`](eval-report-4800.md).
 
 | | Bits per byte |
 | --- | ---: |
-| **This model** | **1.7201** |
+| **This model** | **1.6569** |
 | bzip2 -9 (primed) | 2.4497 |
 | Bigram counts | 2.1953 |
 | Unigram counts | 3.1435 |
 | Uniform | 3.8149 |
 
-Perplexity 31.12 (comparable only against the same 2,048-token vocabulary).
-Validation bits per byte 1.6815, still falling when the step budget ended.
+Perplexity 27.43 (comparable only against the same 2,048-token vocabulary).
+Validation bits per byte 1.6158, still falling when the step budget ended.
+The 2,400-step predecessor scored 1.7201 test bits per byte, so doubling the
+compute bought 3.7%.
 
-Memorization probe: longest verbatim match against the training text **26
-characters** over 4 × 240-token samples.
+Memorization probe: longest verbatim match against the training text **24
+characters** over 4 × 240-token samples — slightly *shorter* than the
+2,400-step model's 26, despite twice the epochs.
 
 ## Limitations
 
 - **Semantically incoherent beyond a clause.** It produces well-formed English sentences that do not mean anything and do not stay consistent across paragraphs. This is a property of the scale, not a bug to be fixed by sampling settings.
-- **Undertrained.** Validation loss was still improving at the final step. The published numbers are a floor on what this architecture reaches, not its converged performance.
+- **Undertrained.** Validation loss was still improving at the final step, though the last four evaluations bought only 0.0098 bpb against the previous run's 0.0302. The published numbers are a floor, not a converged result — but the next doubling of steps would buy little. The open lever is model size, not steps.
 - **Narrow domain.** 19th-century literary English. Expect sharp degradation on modern prose, code, dialogue, or any other language.
 - **256-token context.** It cannot attend beyond roughly a page.
 - **Will reproduce its training data's biases.** The corpus is 19th-century fiction, with that era's attitudes on race, gender and class present in the text. Nothing in this pipeline detects or mitigates them.
@@ -98,12 +108,15 @@ characters** over 4 × 240-token samples.
 cd scripts/tiny-gpt
 python src/data.py --corpus gutenberg-mixed-27 --tokenizer byte_bpe --vocab-size 2048 \
   --out-dir data/prepared-gb-bpe2048
-python src/train.py --config configs/main-gutenberg.yaml
-python src/evaluate.py --checkpoint artifacts/runs/main-gutenberg/best.pt --split test
+python src/train.py --config configs/main-gutenberg-4800.yaml
+python src/evaluate.py --checkpoint artifacts/runs/main-gutenberg-4800/best.pt --split test
 ```
 
-Re-running the data step after training reproduced `train.bin` byte-identically,
-so `data-manifest.json` describes exactly the bytes behind these weights.
+The data step has now been run twice on different machine states, once after
+the corpus cache had been wiped entirely: it re-downloaded all 27 books and
+reproduced the corpus SHA-256 and every split size exactly, and an earlier
+re-run reproduced `train.bin` byte-identically. `data-manifest.json` describes
+exactly the bytes behind these weights.
 Everything needed to check this card — config, manifest, raw metrics for all
 five runs, evaluation JSON, compressor baselines, samples — is committed
 alongside it.

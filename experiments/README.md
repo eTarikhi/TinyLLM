@@ -15,7 +15,8 @@ This directory is **not** part of the packaged skill. Strip it when staging a
 | --- | --- | --- | --- |
 | 2026-10-17/18 | [`2026-10-17-tiny-shakespeare/`](2026-10-17-tiny-shakespeare/plan.md) | Does the bundled implementation pass every gate, and what does a ~26-minute CPU pretraining run actually produce? | All gates passed. 3.3M-parameter GPT, **2.3284 bits/byte** on held-out text vs 2.8233 for a bigram counter and 2.5583 for `xz -9` primed with the training split. Validation turned at 11.9 epochs, so the selected checkpoint is step 750 of 1500 — see the [evaluation report](2026-10-17-tiny-shakespeare/eval-report.md) and [model card](2026-10-17-tiny-shakespeare/model-card.md) |
 
-| 2026-10-18 | [`2026-10-18-gutenberg-mixed/`](2026-10-18-gutenberg-mixed/plan.md) | Iteration 1 ran out of data, not compute. What changes when the corpus grows 17× and the model is sized by measurement rather than by the scaling rule? | 1.77M-parameter GPT on 27 Project Gutenberg books, **1.7201 bits/byte** on held-out text vs 2.1953 for a bigram counter and 2.4497 for primed `bzip2 -9` — a 1.42× margin over the best classical compressor, up from 1.06× in iteration 1. Validation was still falling at the step limit: compute-limited, not data-limited. See the [evaluation report](2026-10-18-gutenberg-mixed/eval-report.md) and [model card](2026-10-18-gutenberg-mixed/model-card.md) |
+| 2026-10-18 | [`2026-10-18-gutenberg-mixed/`](2026-10-18-gutenberg-mixed/plan.md) | Iteration 1 ran out of data, not compute. What changes when the corpus grows 17× and the model is sized by measurement rather than by the scaling rule? | 1.77M-parameter GPT on 27 Project Gutenberg books, **1.7201 bits/byte** on held-out text vs 2.1953 for a bigram counter and 2.4497 for primed `bzip2 -9`. Validation was still falling at the step limit: compute-limited, not data-limited. See the [evaluation report](2026-10-18-gutenberg-mixed/eval-report.md) |
+| 2026-10-18 | [`2026-10-18-gutenberg-mixed/`](2026-10-18-gutenberg-mixed/eval-report-4800.md) | The previous run ended compute-limited, so its roadmap's first item was more steps. What does doubling the horizon actually buy? | Same model, same data, same seed, `max_steps` 2400 → 4800. **1.6569 bits/byte**, a 1.48× margin over the best classical compressor. Doubling compute bought **3.7%**, and the last four evaluations bought a third of what the shorter run's did — still compute-limited, but deep into diminishing returns. No overfitting at 6.81 epochs: the train/val gap *narrowed* by two thirds. See the [evaluation report](2026-10-18-gutenberg-mixed/eval-report-4800.md) and [model card](2026-10-18-gutenberg-mixed/model-card.md) |
 
 Seven pilots preceded the first run ([`pilots.md`](2026-10-17-tiny-shakespeare/pilots.md)):
 the tokenizer choice was worth 19% in bits per byte, the learning rate 11%,
@@ -25,8 +26,9 @@ minimum twelve epochs in.
 Four preceded the second ([`pilots.md`](2026-10-18-gutenberg-mixed/pilots.md)).
 They chose a model **half the size** the 6ND budget rule recommends — measured
 curves beat the rule by 11.7% — and they carry a recorded prediction that the
-main run then scored: the log-linear extrapolation to 3.5× the pilot's
-wall-clock came in **1.2% optimistic**.
+later runs then scored twice: the log-linear extrapolation came in **1.2%
+optimistic** at 3.5× the pilot's wall-clock and **4.5% optimistic** at 6×.
+Short-window fits flatter the future, and the error grows with distance.
 
 ## How to read a run directory
 

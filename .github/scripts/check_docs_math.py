@@ -158,67 +158,121 @@ def check_experiment_reports(root: str) -> None:
 
     A report is a transcription of JSON a human did by hand, which is exactly
     where a digit gets dropped. Every headline number in the iteration-2
-    evaluation report and model card is recomputed here from
-    `eval-test-best.json`, `compressor-baselines.json` and the run summary, so
-    the prose cannot drift away from the measurements it describes.
+    reports and model card is recomputed here from the committed evaluation
+    JSON, compressor baselines and run summaries, so the prose cannot drift
+    away from the measurements it describes.
+
+    Two runs are covered: `main-gutenberg` (2,400 steps) and the doubled
+    horizon `main-gutenberg-4800`, which is the released model and therefore
+    the one the model card must agree with.
     """
     import json
 
     exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
     if not os.path.isdir(exp):
         return
-    ev = json.load(open(os.path.join(exp, "eval-test-best.json"), encoding="utf-8"))
-    comp = json.load(open(os.path.join(exp, "compressor-baselines.json"), encoding="utf-8"))
-    summ = json.load(open(os.path.join(exp, "metrics", "main-gutenberg-summary.json"), encoding="utf-8"))
-    report = open(os.path.join(exp, "eval-report.md"), encoding="utf-8").read()
-    card = open(os.path.join(exp, "model-card.md"), encoding="utf-8").read()
 
-    print("experiments/2026-10-18-gutenberg-mixed — report vs. raw artifacts")
+    def load(name):
+        return json.load(open(os.path.join(exp, name), encoding="utf-8"))
 
-    # Held-out table: every row comes from the evaluation JSON.
-    for key, label in (("model", r"\*\*Trained model\*\* \| \*\*3\.4378\*\* \| \*\*31\.12\*\* \| \*\*([\d.]+)\*\*"),
-                       ("bigram", r"Bigram counts, add-0\.1 \(train split\) \| 4\.3877 \| 80\.46 \| ([\d.]+)"),
-                       ("unigram", r"Unigram counts \(train split\) \| 6\.2828 \| 535\.27 \| ([\d.]+)"),
-                       ("uniform", r"Uniform over vocabulary \| 7\.6246 \| 2048\.00 \| ([\d.]+)"),
-                       ("untrained", r"random init \| 7\.6486 \| 2097\.66 \| ([\d.]+)")):
-        claim(report, label, round(ev[key]["bpb"], 4), f"test bpb, {key}", tol=5e-5,
-              doc="eval-report.md")
+    def text(name):
+        return open(os.path.join(exp, name), encoding="utf-8").read()
 
-    # Ratios the prose draws from that table.
-    claim(report, r"\*\*([\d.]+)×\*\* better than the bigram baseline",
-          round(ev["bigram"]["bpb"] / ev["model"]["bpb"], 2), "model vs bigram ratio",
-          tol=5e-3, doc="eval-report.md")
-    claim(report, r"\*\*([\d.]+)×\*\*\s*\n?better than uniform",
-          round(ev["uniform"]["bpb"] / ev["model"]["bpb"], 2), "model vs uniform ratio",
-          tol=5e-3, doc="eval-report.md")
+    TRAIN_TOKENS = 5_771_560  # train split, from data-manifest.json
 
-    # Compressor table and the margin claimed over the best of them.
-    by_codec = {c["codec"]: c for c in comp["codecs"]}
-    for codec, pattern in (("gzip -9", r"gzip -9 \| ([\d.]+) \| [\d.]+"),
-                           ("xz -9", r"xz -9 \| ([\d.]+) \| [\d.]+"),
-                           ("bzip2 -9", r"bzip2 -9 \| ([\d.]+) \| ")):
-        claim(report, pattern, round(by_codec[codec]["bpb_standalone"], 4),
-              f"{codec} standalone bpb", tol=5e-5, doc="eval-report.md")
-    best_primed = min(c["bpb_primed"] for c in comp["codecs"])
-    claim(report, r"best classical compressor by \*\*([\d.]+)×\*\*",
-          round(best_primed / ev["model"]["bpb"], 2), "model vs best primed compressor",
-          tol=5e-3, doc="eval-report.md")
+    runs = [
+        {
+            "label": "main-gutenberg",
+            "doc": "eval-report.md",
+            "eval": load("eval-test-best.json"),
+            "comp": load("compressor-baselines.json"),
+            "summ": load(os.path.join("metrics", "main-gutenberg-summary.json")),
+            "bpb_row": r"\*\*Trained model\*\* \| \*\*3\.4378\*\* \| \*\*31\.12\*\* \| \*\*([\d.]+)\*\*",
+            "steps": 2400,
+        },
+        {
+            "label": "main-gutenberg-4800",
+            "doc": "eval-report-4800.md",
+            "eval": load("eval-test-4800.json"),
+            "comp": load("compressor-baselines-4800.json"),
+            "summ": load(os.path.join("metrics", "main-gutenberg-4800-summary.json")),
+            "bpb_row": r"\*\*Trained model\*\* \| \*\*3\.3116\*\* \| \*\*27\.43\*\* \| \*\*([\d.]+)\*\*",
+            "steps": 4800,
+        },
+    ]
 
-    # Run facts: these appear in both documents and must agree with the summary.
-    epochs = summ["tokens"] / 5_771_560  # train split tokens, from the data manifest
-    for doc_name, doc in (("eval-report.md", report), ("model-card.md", card)):
-        claim(doc, r"([\d,]+)(?: tokens)? \(3\.41 epochs\)",
-              summ["tokens"], "tokens trained", doc=doc_name)
-        claim(doc, r"\(([\d.]+) epochs\)", round(epochs, 2), "epochs", tol=5e-3, doc=doc_name)
-    claim(card, r"\*\*([\d,]+)\*\* total", summ["params_total"], "parameter count", doc="model-card.md")
-    claim(report, r"([\d,]+) tokens/s sustained", round(summ["mean_tokens_per_s"]),
-          "mean throughput", tol=1, doc="eval-report.md")
-    claim(report, r"\*\*(\d+) of 2,400 steps", summ["clipped_steps"], "clipped steps", doc="eval-report.md")
-    claim(report, r"of 2,400 steps \((\d\.\d)%\)\*\*",
-          round(100 * summ["clipped_steps"] / summ["steps"], 1), "clipped share", tol=5e-2,
-          doc="eval-report.md")
-    claim(report, r"val bpb \| .*\*\*([\d.]+)\*\* \|", round(summ["final_val_bpb"], 4),
-          "final val bpb", tol=5e-5, doc="eval-report.md")
+    for run in runs:
+        print(f"experiments/2026-10-18-gutenberg-mixed/{run['doc']} — report vs. raw artifacts")
+        doc, ev, comp, summ = text(run["doc"]), run["eval"], run["comp"], run["summ"]
+
+        # Held-out table: every row comes from the evaluation JSON.
+        claim(doc, run["bpb_row"], round(ev["model"]["bpb"], 4), "test bpb, model",
+              tol=5e-5, doc=run["doc"])
+        for key, pattern in (
+            ("bigram", r"Bigram counts, add-0\.1 \(train split\) \| 4\.3877 \| 80\.46 \| ([\d.]+)"),
+            ("unigram", r"Unigram counts \(train split\) \| 6\.2828 \| 535\.27 \| ([\d.]+)"),
+            ("uniform", r"Uniform over vocabulary \| 7\.6246 \| 2048\.00 \| ([\d.]+)"),
+            ("untrained", r"random init \| 7\.6486 \| 2097\.66 \| ([\d.]+)"),
+        ):
+            claim(doc, pattern, round(ev[key]["bpb"], 4), f"test bpb, {key}",
+                  tol=5e-5, doc=run["doc"])
+
+        # Ratios the prose draws from that table.
+        claim(doc, r"vs\. bigram counts \| 1\.28× \| ([\d.]+)×" if run["steps"] == 4800
+              else r"\*\*([\d.]+)×\*\* better than the bigram baseline",
+              round(ev["bigram"]["bpb"] / ev["model"]["bpb"], 2), "model vs bigram ratio",
+              tol=5e-3, doc=run["doc"])
+
+        # Compressor baselines. Both runs are scored on the same bytes, so the
+        # two files must agree -- that is the check that they really are
+        # comparable, not an assumption.
+        by_codec = {c["codec"]: c for c in comp["codecs"]}
+        base_comp = {c["codec"]: c for c in runs[0]["comp"]["codecs"]}
+        for codec in ("gzip -9", "xz -9", "bzip2 -9"):
+            global checked
+            checked += 1
+            if abs(by_codec[codec]["bpb_standalone"] - base_comp[codec]["bpb_standalone"]) > 5e-9:
+                failures.append(f"{run['doc']}: {codec} baseline differs between runs "
+                                f"({by_codec[codec]['bpb_standalone']} vs "
+                                f"{base_comp[codec]['bpb_standalone']}) -- the two models were "
+                                "not scored on the same bytes")
+        best_primed = min(c["bpb_primed"] for c in comp["codecs"])
+        claim(doc, r"vs\. best primed compressor \| 1\.42× \| \*\*([\d.]+)×\*\*" if run["steps"] == 4800
+              else r"best classical compressor by \*\*([\d.]+)×\*\*",
+              round(best_primed / ev["model"]["bpb"], 2), "model vs best primed compressor",
+              tol=5e-3, doc=run["doc"])
+
+        # Run facts.
+        epochs = round(summ["tokens"] / TRAIN_TOKENS, 2)
+        claim(doc, rf"([\d,]+) tokens \({epochs} epochs\)", summ["tokens"],
+              "tokens trained", doc=run["doc"])
+        claim(doc, r"\(([\d.]+) epochs\)", epochs, "epochs", tol=5e-3, doc=run["doc"])
+
+    # The model card describes the released model: the 4,800-step run.
+    print("experiments/2026-10-18-gutenberg-mixed/model-card.md — card vs. raw artifacts")
+    card = text("model-card.md")
+    ev4, summ4 = runs[1]["eval"], runs[1]["summ"]
+    ev24 = runs[0]["eval"]
+    epochs4 = round(summ4["tokens"] / TRAIN_TOKENS, 2)
+    claim(card, rf"([\d,]+) \({epochs4} epochs\)", summ4["tokens"], "tokens trained", doc="model-card.md")
+    claim(card, r"\(([\d.]+) epochs\)", epochs4, "epochs", tol=5e-3, doc="model-card.md")
+    claim(card, r"\*\*([\d,]+)\*\* total", summ4["params_total"], "parameter count", doc="model-card.md")
+    claim(card, r"at ([\d,]+) tokens/s", round(summ4["mean_tokens_per_s"]), "mean throughput",
+          tol=1, doc="model-card.md")
+    claim(card, r"engaged on (\d+) steps", summ4["clipped_steps"], "clipped steps", doc="model-card.md")
+    claim(card, r"engaged on \d+ steps, (\d\.\d)%",
+          round(100 * summ4["clipped_steps"] / summ4["steps"], 1), "clipped share",
+          tol=5e-2, doc="model-card.md")
+    claim(card, r"\*\*This model\*\* \| \*\*([\d.]+)\*\*", round(ev4["model"]["bpb"], 4),
+          "released model test bpb", tol=5e-5, doc="model-card.md")
+    claim(card, r"Validation bits per byte ([\d.]+)", round(summ4["final_val_bpb"], 4),
+          "final val bpb", tol=5e-5, doc="model-card.md")
+    claim(card, r"predecessor scored ([\d.]+) test bits per byte", round(ev24["model"]["bpb"], 4),
+          "predecessor test bpb", tol=5e-5, doc="model-card.md")
+    claim(card, r"bought ([\d.]+)%", round(100 * (1 - ev4["model"]["bpb"] / ev24["model"]["bpb"]), 1),
+          "improvement from doubling compute", tol=5e-2, doc="model-card.md")
+    claim(card, r"match against the training text \*\*(\d+)\s*\n?characters\*\*",
+          ev4["memorization"]["max_longest_verbatim_match_chars"], "probe chars", doc="model-card.md")
 
 
 def main(root: str = ".") -> int:

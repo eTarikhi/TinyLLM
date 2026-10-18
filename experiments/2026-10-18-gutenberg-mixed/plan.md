@@ -185,13 +185,18 @@ metrics, data manifest, compressor baselines.
 
 Ordered by what the evidence says is limiting, not by what is interesting:
 
-1. **More steps on this exact configuration.** Validation was still falling at
-   the step limit and the run is compute-limited. This is the only change with
-   a guaranteed return, and it costs nothing but time.
-2. **Re-run the size sweep at the longer budget.** The pilots picked 1.77 M
-   over the ~3.3 M the 6ND rule suggests, measured at 8 minutes. The main run
-   never tested whether that verdict survives at 30 minutes — and since the
-   chosen model never converged, it may not.
+1. ~~**More steps on this exact configuration.**~~ **Done** — see
+   [`eval-report-4800.md`](eval-report-4800.md). Doubling to 4,800 steps
+   bought 3.7% on test bits per byte (1.7201 → 1.6569) with no overfitting at
+   6.81 epochs; the train/val gap narrowed by two thirds. The prediction held,
+   but the final four evaluations bought 0.0098 bpb against the shorter run's
+   0.0302, so a third doubling is no longer the best use of the next hour.
+2. **Re-run the size sweep at the longer budget — now the top item.** The
+   pilots picked 1.77 M over the ~3.3 M the 6ND rule suggests, measured at 8
+   minutes, and that model has since been given 6× that budget. A model deep
+   into diminishing returns whose generalization gap keeps *shrinking* is the
+   signature of one that is too small for its compute, so this is where the
+   next improvement most likely is.
 3. **Context length.** Fixed at 256 for every run so far, never varied. Prose
    plausibly rewards more; attention cost grows quadratically, so measure
    rather than assume.
