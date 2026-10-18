@@ -69,11 +69,13 @@ That last line lists the archive contents — check it before distributing. A co
 
 ```bash
 pip install skills-ref==0.1.1
-skills-ref validate .                      # -> Directory name 'TinyLLM' must match skill name 'llm-from-scratch'
-skills-ref validate /tmp/llm-from-scratch  # -> Valid skill
+python -m skills_ref.cli validate .                      # -> Directory name 'TinyLLM' must match skill name 'llm-from-scratch'
+python -m skills_ref.cli validate /tmp/llm-from-scratch  # -> Valid skill
 ```
 
 That is the rename from the section above, enforced rather than advised. CI runs this validator against the staged copy.
+
+**Invoke it as a module, not as `skills-ref`.** The project's own `pyproject.toml` declares `[project.scripts] skills-ref = "skills_ref.cli:main"`, and the specification page tells you to run `skills-ref validate ./my-skill` — but the published wheel's `entry_points.txt` registers the command as **`agentskills`**, so `pip install skills-ref==0.1.1` leaves no `skills-ref` on `PATH` at all. Checked against the 0.1.1 wheel on PyPI, 2026-10-18. `python -m skills_ref.cli` is correct under either name, which is what CI uses — a scripted `skills-ref validate` fails with `FileNotFoundError` and nothing in the error text points at the renamed entry point.
 
 Unlike the packager, the validator has no package-relative imports, so it can be invoked directly by path from anywhere. It does need PyYAML:
 

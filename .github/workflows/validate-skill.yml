@@ -82,7 +82,11 @@ jobs:
           leaked = [str(p.relative_to(stage)) for p in stage.rglob("*") if p.is_file() and p.relative_to(stage).parts[0] in {".git", ".github", "experiments"}]
           if leaked:
               sys.exit(f"staged copy leaked files that must not ship: {leaked[:5]}")
-          subprocess.run(["skills-ref", "validate", str(stage)], check=True)
+          # Invoke the module, not the console script: the published wheel
+          # installs the entry point as `agentskills`, while the project's own
+          # pyproject.toml and the specification page both say `skills-ref`.
+          # `python -m` is correct either way.
+          subprocess.run([sys.executable, "-m", "skills_ref.cli", "validate", str(stage)], check=True)
           print(f"staged {stage} would package as {name}.skill, contents match the frontmatter")
           PY
 
