@@ -1,0 +1,109 @@
+# Model card — `tiny-gpt / main-gutenberg`
+
+A teaching artifact: the smallest honest end-to-end language model this
+repository's Track 1 produces. Trained from random initialization on two CPU
+cores in 28 minutes.
+
+## Model details
+
+| | |
+| --- | --- |
+| Architecture | Decoder-only transformer (pre-norm, learned positional embeddings, tied input/output embeddings) |
+| Layers / width / heads | 3 / 192 / 3 |
+| Context length | 256 tokens |
+| Parameters | **1,770,816** total; 1,721,664 non-embedding |
+| Vocabulary | 2,048, byte-level BPE (trained on a 4 M-character sample of the training split) |
+| Dropout | 0.0 |
+| Precision | fp32 |
+| Checkpoint | `scripts/tiny-gpt/artifacts/runs/main-gutenberg/best.pt` (81 MB with optimizer state; weights identical to `last.pt`) |
+| Date | 2026-10-18 |
+| License | MIT, same as this repository |
+
+## Intended use
+
+Teaching and reference. It exists to make the Track 1 walkthrough falsifiable:
+every number in `eval-report.md` can be reproduced from the pinned config and
+manifest on commodity hardware without a GPU.
+
+**Out of scope:** any production use, any use where output accuracy matters,
+and any task-based claim. It has no instruction tuning, no alignment, no
+safety filtering of any kind. It is a next-token predictor over 19th-century
+novels.
+
+## Training data
+
+`gutenberg-mixed-27`: 27 public-domain books from Project Gutenberg via the
+GITenberg mirrors, 18,777,471 characters.
+
+- Corpus SHA-256 `1960eb6375c67d9e0f0b4fb96f0ab0724def0d74c547b3baba83faff851dd236`
+- Gutenberg license headers and footers stripped: 524,204 characters removed across 27 files
+- Split **within each document**, contiguous 90/5/5, snapped to blank lines, documents joined with an EOS token
+- Tokens: train 5,771,560 / val 317,418 / test 323,284
+- Audit: zero matches for email, phone, IPv4, URL, AWS-key and private-key patterns; duplicate 512-character blocks 1,372 / 57,115 (2.40%)
+
+Splitting per document rather than globally is deliberate: a global split would
+have put whole books on one side of the boundary and measured
+*book-to-book* transfer, not language modelling.
+
+Full provenance — per-document IDs, titles, authors, years, source repositories,
+character counts and boilerplate removal stats — is in `data-manifest.json`.
+
+## Training procedure
+
+| | |
+| --- | --- |
+| Steps / tokens | 2,400 / 19,660,800 (3.41 epochs) |
+| Batch | 16 sequences × 256 tokens × 2 accumulation = 8,192 tokens/step |
+| Optimizer | AdamW, β = (0.9, 0.99), weight decay 0.1 (decoupled; no decay on norms/biases) |
+| LR schedule | 3e-3 peak, 240-step linear warmup, cosine to 3e-4 |
+| Gradient clipping | 1.0 (engaged on 70 steps, 2.9%) |
+| Seed | 1337 |
+| Hardware | 2 vCPU Intel Xeon, 3 GB RAM, no GPU |
+| Wall clock | 1,702 s (28.4 min) at 11,552 tokens/s, 143.2 GFLOP/s, peak RSS 1,147 MB |
+
+Architecture and vocabulary were chosen by a four-configuration pilot matrix at
+8 minutes each, documented with its arithmetic in `pilots.md`.
+
+## Evaluation
+
+Held-out test split, 323,046 tokens / 931,467 bytes. Full detail in `eval-report.md`.
+
+| | Bits per byte |
+| --- | ---: |
+| **This model** | **1.7201** |
+| bzip2 -9 (primed) | 2.4497 |
+| Bigram counts | 2.1953 |
+| Unigram counts | 3.1435 |
+| Uniform | 3.8149 |
+
+Perplexity 31.12 (comparable only against the same 2,048-token vocabulary).
+Validation bits per byte 1.6815, still falling when the step budget ended.
+
+Memorization probe: longest verbatim match against the training text **26
+characters** over 4 × 240-token samples.
+
+## Limitations
+
+- **Semantically incoherent beyond a clause.** It produces well-formed English sentences that do not mean anything and do not stay consistent across paragraphs. This is a property of the scale, not a bug to be fixed by sampling settings.
+- **Undertrained.** Validation loss was still improving at the final step. The published numbers are a floor on what this architecture reaches, not its converged performance.
+- **Narrow domain.** 19th-century literary English. Expect sharp degradation on modern prose, code, dialogue, or any other language.
+- **256-token context.** It cannot attend beyond roughly a page.
+- **Will reproduce its training data's biases.** The corpus is 19th-century fiction, with that era's attitudes on race, gender and class present in the text. Nothing in this pipeline detects or mitigates them.
+- **No safety behaviour whatsoever.** No tuning, no filtering, no refusals.
+- **Single seed.** No variance estimate on any reported number.
+
+## Reproducing
+
+```bash
+cd scripts/tiny-gpt
+python src/data.py --corpus gutenberg-mixed-27 --tokenizer byte_bpe --vocab-size 2048 \
+  --out-dir data/prepared-gb-bpe2048
+python src/train.py --config configs/main-gutenberg.yaml
+python src/evaluate.py --checkpoint artifacts/runs/main-gutenberg/best.pt --split test
+```
+
+Re-running the data step after training reproduced `train.bin` byte-identically,
+so `data-manifest.json` describes exactly the bytes behind these weights.
+Everything needed to check this card — config, manifest, raw metrics for all
+five runs, evaluation JSON, compressor baselines, samples — is committed
+alongside it.

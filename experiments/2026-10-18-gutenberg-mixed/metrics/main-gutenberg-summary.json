@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "main-gutenberg",
+  "stop_reason": "max_steps",
+  "steps": 2400,
+  "tokens": 19660800,
+  "elapsed_s": 1701.993821144104,
+  "mean_tokens_per_s": 11551.628305432821,
+  "final_val_loss": 3.519983472839329,
+  "final_val_bpb": 1.6814926217521386,
+  "best_val_loss": 3.519983472839329,
+  "clipped_steps": 70,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1147.23828125,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 143175132216.7508,
+  "checkpoints": {
+    "last": "artifacts/runs/main-gutenberg/last.pt",
+    "best": "artifacts/runs/main-gutenberg/best.pt"
+  }
+}

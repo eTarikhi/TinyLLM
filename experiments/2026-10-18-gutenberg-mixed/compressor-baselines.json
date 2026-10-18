@@ -1,0 +1,22 @@
+{
+  "scored_tokens": 323046,
+  "scored_bytes": 931467,
+  "prime_bytes": 1160264,
+  "codecs": [
+    {
+      "codec": "gzip -9",
+      "bpb_standalone": 3.1187017184086065,
+      "bpb_primed": 3.109940572373401
+    },
+    {
+      "codec": "bzip2 -9",
+      "bpb_standalone": 2.460275825786329,
+      "bpb_primed": 2.449719503749792
+    },
+    {
+      "codec": "xz -9",
+      "bpb_standalone": 2.6598839362884306,
+      "bpb_primed": 2.5138304782662377
+    }
+  ]
+}

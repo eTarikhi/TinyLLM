@@ -1,0 +1,86 @@
+# Samples — main-gutenberg (best.pt, step 2400)
+
+Generated with src/generate.py. Prompt is a single newline unless stated.
+
+## temperature 0.6, top-k 40, seed 7
+
+```text
+
+
+“Almost astonished, Mr. Cruncher,” said the curate, “and you
+will have done no religious defects, and it will be the greatest
+in it.”
+
+“Aye, to get on,” said Mrs. Jaggers, turning over the huntsman
+heartily.
+
+“Then, it is not of course,” said he, “I want not to be good-natured, and
+I do not know what it is!”
+
+“Is it,” said Mr. Jaggers, “I can't see it,” said Mr. Jaggers.
+“But I didn't care for it. I want to be a good deal of the other
+little place. I should be with it. I've got it to be sure of it as a
+tongue. You're a little more than I had a lot of mind. All right, I've
+know
+
+```
+
+## temperature 0.8, top-k 40, seed 7
+
+```text
+
+
+“Almost ain't got any thing!”
+
+“Yes,” said the captain, when the captain in the king. “Then you
+will take to the tychen you. I was in the middle of you, and we get along
+your head. And here’s the way, what is going to go and go home now,
+and if we'll have it ain't no time. That’s a gun, Tom? But we see. Let me
+sometimes I’ve got a narrow-step, and I wouldn’t have a good
+dog.”
+
+“Tell me, no, it’s a dirty and a wicket, but a rouble of
+fashion! I want you so, Marilla. But we’ve got no better.”
+
+“Well, that’s a good thing. You must kill me, as I want to get them out of
+rouble and
+
+```
+
+## temperature 1.0, top-k 40, seed 7
+
+```text
+
+
+“Almost ain't got such a cabin,” he began in the
+famih.
+
+“Here's a big dey; he wants to be a-grove,” says my brother. “If we get, Black,
+drink. Well, what is going on? Bewhelming?”
+
+Then the dim man was gone by the paler, and not ain't ever since.
+He showed another man of what was about!” and filled.
+
+This was his hand. He then was, and that he made the other hand, and,
+begged no doubts of him. “They came back to look at it. The other
+pointed, like a frencer, where he did not. But we would then get no
+painting up again, because his first and the door we would be asleep and got
+felt in such a sort of tracked
+
+```
+
+## prompted: "It was a bright cold day"
+
+```text
+It was a bright cold day, in a great ball, all day and laid in the
+fire-pan, and that I could see it. About a very little and said,
+"By my bonnet, too, but I want a little while. But I am
+not going to get fool about you to eat your son," said the old figures
+to the boy, and went to the corner, and said soberly, "What does the
+home? I'll go to the town, and go on, till it has been in our lord the
+little night. And as the horses are at the time your eyes are very
+servant; but when a few people have to do, it would be your breath to be
+in the most unfold on the floor, and your kingdomestian I see if
+my father would be
+
+```

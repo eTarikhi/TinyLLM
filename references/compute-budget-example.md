@@ -1,5 +1,19 @@
 # Worked example: from config to a defensible compute budget
 
+## The procedure this example follows
+
+1. Run a short pilot on the actual hardware, with the intended sequence length, batch, precision, and attention implementation.
+2. Measure steady-state tokens/second after warm-up and compilation. Exclude startup and data-download time, but include evaluation/checkpoint overhead in the planning estimate.
+3. Estimate wall-clock training time from intended training tokens divided by sustained aggregate tokens/second. Add a contingency for interruptions, failed jobs, and evaluation.
+4. For a dense Transformer, `~6 × parameter_count × training_tokens` is a widely used rough FLOP estimate for training; it is not a billing formula and can vary materially with architecture, activation checkpointing, sequence length, attention kernels, and hardware utilization. Validate estimates with a pilot.
+5. Price actual cloud GPU types from the provider's current published rates at planning time. Include storage, network egress, CPU/data processing, taxes, idle time, spot interruption risk, and evaluation.
+6. Train a sequence of increasingly larger pilots. Do not jump from a toy model directly to a billion-parameter run without a measured throughput and memory budget.
+7. Chinchilla's compute-optimal study is a useful historical scaling-law reference, but do not turn its results into a universal fixed model-size-to-token-count ratio. Use current research, budget, domain, and pilot results to choose a training horizon. This is not a hypothetical caution: nanochat exposes the ratio as a flag and defaults it to **12** tokens per parameter, while its own help text notes that Chinchilla's figure is **20**. A maintained harness deliberately choosing a different ratio than the famous paper is the clearest evidence that the ratio is a decision to justify, not a constant to apply — inference cost, not just training loss, drives the choice.
+
+If a budget is tight, recommend a smaller model trained cleanly with transparent evaluation instead of suggesting a large model can be built cheaply without qualification.
+
+The rest of this file walks one configuration through steps 1-7 with arithmetic that `.github/scripts/check_docs_math.py` recomputes on every commit.
+
 All arithmetic below was computed and checked on 2026-10-17; reproduce it with the snippets shown. The purpose is not these specific numbers but the order of operations: **exact parameter count → token budget → `6ND` as a sanity check on total work → a measured pilot as the only trustworthy source of wall-clock time.**
 
 ## Step 1 — Count parameters exactly, and record whether embeddings are tied

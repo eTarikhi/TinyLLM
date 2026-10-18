@@ -120,21 +120,59 @@ def evaluate_model(model: GPT, batcher: TokenBatcher, byte_lens: torch.Tensor, m
 def longest_common_substring_length(sample: str, corpus: str, max_len: int = 400) -> int:
     """Longest substring of ``sample`` that appears verbatim in ``corpus``.
 
-    Binary search on length with a hash set of corpus n-grams. This is a
-    memorization probe, not a privacy guarantee: a tiny model trained for
-    several epochs on one book *will* reproduce short phrases, and the point is
-    to measure how long they get.
+    Greedy extension with ``str.find``: walk the sample, and from each position
+    only try to beat the current record. The obvious implementation -- a set of
+    every corpus n-gram, binary-searched on length -- costs O(len(corpus)) live
+    strings per probe step, which is ~1.7 GB on a 17 MB corpus and dies on a
+    small box. This version allocates nothing beyond the slices it tests and
+    leans on CPython's C substring search.
+
+    This is a memorization probe, not a privacy guarantee: a tiny model trained
+    for several epochs on one corpus *will* reproduce short phrases, and the
+    point is to measure how long they get.
     """
-    lo, hi, best = 1, min(len(sample), max_len), 0
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        grams = {corpus[i : i + mid] for i in range(0, len(corpus) - mid + 1)}
-        if any(sample[i : i + mid] in grams for i in range(0, len(sample) - mid + 1)):
-            best = mid
-            lo = mid + 1
-        else:
-            hi = mid - 1
+    best = 0
+    limit = min(len(sample), max_len)
+    for i in range(len(sample)):
+        if i + best >= len(sample):
+            break  # no room left to beat the record
+        length = best + 1
+        while i + length <= len(sample) and length <= limit:
+            if corpus.find(sample[i : i + length]) == -1:
+                break
+            best = length
+            length += 1
     return best
+
+
+def load_train_text(data_dir: Path, manifest: dict) -> str:
+    """Reconstruct exactly the text the model trained on, for the probe.
+
+    Handles both corpus layouts. The single-document cache is one file; a
+    multi-document corpus caches one file per document, and the probe has to
+    apply the same per-document split prepare() applied -- otherwise it would
+    compare generations against held-out text the model never saw, and report
+    a reassuring zero.
+    """
+    raw = data_dir.parent / "raw"
+    name = manifest["corpus"]["name"]
+    bounds = manifest["split_policy"]["boundaries_chars"]
+    records = manifest["corpus"].get("document_records") or []
+
+    single = raw / f"{name}.txt"
+    if single.exists():
+        cut = bounds[0] if isinstance(bounds[0], int) else bounds[0][0]
+        return single.read_text(encoding="utf-8")[:cut]
+
+    pieces = []
+    for i, rec in enumerate(records):
+        path = raw / name / f"{rec['doc_id']}.txt"
+        if not path.exists():
+            return ""
+        doc = path.read_text(encoding="utf-8")
+        cut = bounds[i][0] if i < len(bounds) and isinstance(bounds[i], list) else int(len(doc) * 0.9)
+        pieces.append(doc[:cut])
+    return "\n\n".join(pieces)
 
 
 def memorization_probe(model: GPT, tokenizer, corpus_text: str, n_samples: int = 4, tokens: int = 240, seed: int = 0) -> dict:
@@ -191,19 +229,30 @@ def build_report(results: dict) -> str:
         "",
         "## Memorization probe",
         "",
-        f"- Samples: {results['memorization']['samples']} × {results['memorization']['tokens_per_sample']} tokens, temperature 0.8, top-k 40",
-        f"- Longest verbatim match against the training split: **{results['memorization']['max_longest_verbatim_match_chars']} characters** "
-        f"(mean {results['memorization']['mean_longest_verbatim_match_chars']:.1f})",
-        "",
-        "A short verbatim match is expected for a small model trained for multiple epochs on one corpus; this corpus is public-domain text,",
-        "so the probe is a calibration of memorization behaviour rather than a privacy finding.",
-        "",
-        "## Sample",
-        "",
-        "```text",
-        results["memorization"]["example_sample"][:800].rstrip(),
-        "```",
     ]
+    mem = results["memorization"]
+    if not mem.get("samples"):
+        # A probe that silently measured nothing must not print "0 characters",
+        # which reads like a clean result instead of a missing measurement.
+        lines += [
+            "**Not measured.** " + mem.get("reason", "no training text was available")
+            + " — this is a missing measurement, not a clean result.",
+        ]
+    else:
+        lines += [
+            f"- Samples: {mem['samples']} × {mem['tokens_per_sample']} tokens, temperature 0.8, top-k 40",
+            f"- Longest verbatim match against the training split: **{mem['max_longest_verbatim_match_chars']} characters** "
+            f"(mean {mem['mean_longest_verbatim_match_chars']:.1f})",
+            "",
+            "A short verbatim match is expected for a small model trained for multiple epochs on one corpus; this corpus is public-domain text,",
+            "so the probe is a calibration of memorization behaviour rather than a privacy finding.",
+            "",
+            "## Sample",
+            "",
+            "```text",
+            mem["example_sample"][:800].rstrip(),
+            "```",
+        ]
     return "\n".join(lines) + "\n"
 
 
@@ -246,12 +295,12 @@ def main() -> None:
     log_unigram, log_bigram = count_baselines(train_ids, model_cfg.vocab_size)
     baselines = score_ngram_baselines(eval_ids, log_unigram, log_bigram, byte_lens_np, model_cfg.vocab_size)
 
-    corpus_text = (Path(data_dir).parent / "raw" / f"{manifest['corpus']['name']}.txt")
-    train_text = corpus_text.read_text(encoding="utf-8")[: manifest["split_policy"]["boundaries_chars"][0]] if corpus_text.exists() else ""
+    train_text = load_train_text(Path(data_dir), manifest)
     probe = memorization_probe(model, tokenizer, train_text) if train_text else {
         "samples": 0, "tokens_per_sample": 0, "longest_verbatim_match_chars": [],
-        "max_longest_verbatim_match_chars": 0, "mean_longest_verbatim_match_chars": 0.0,
-        "example_sample": "",
+        "max_longest_verbatim_match_chars": None, "mean_longest_verbatim_match_chars": None,
+        "example_sample": "", "measured": False,
+        "reason": "the training text could not be reconstructed from data/raw",
     }
 
     results = {

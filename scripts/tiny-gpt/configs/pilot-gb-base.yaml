@@ -1,0 +1,30 @@
+# Iteration-2 pilot base. Settings carried over unchanged from the round-1
+# pilot matrix (experiments/2026-10-17-tiny-shakespeare/pilots.md), which
+# measured them on the same CPU: byte-level BPE, lr 3e-3, dropout 0.0,
+# tied embeddings, beta2 0.99, best-checkpoint selection.
+#
+# What this round tests instead is what round 1 could not: vocabulary size
+# and model capacity on a corpus 17x larger. Pilots are matched on
+# WALL-CLOCK, not tokens -- at a fixed 8-minute budget a bigger model buys
+# capacity by giving up tokens, and that trade is the whole question.
+out_dir: artifacts/runs
+seed: 1337
+block_size: 256
+n_head: 4
+dropout: 0.0
+tie_embeddings: true
+batch_size: 16
+grad_accum: 2          # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+eval_every: 50
+eval_tokens: 65536     # ~0.19 MB of val text per evaluation; same slice every time
+log_every: 25
+sample_every: 0
+save_every: 0
+max_seconds: 900       # safety stop; the step count is the real budget
+threads: 2

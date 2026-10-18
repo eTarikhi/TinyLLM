@@ -7,6 +7,29 @@
 
 Treat these as evidence of what a tuned run looks like. Re-tune on the target hardware; do not paste them into a different architecture or optimizer and assume they transfer.
 
+## The objective, and the knobs around it
+
+- Standard causal pretraining objective: cross-entropy for predicting the next token, shifted by one position and masked so future tokens cannot leak into context.
+- AdamW is a sound baseline for an implementation you write yourself. Use a short warm-up followed by a schedule appropriate to the training horizon; log the effective learning rate.
+- Maintained harnesses increasingly do not use a single global AdamW learning rate. nanochat splits parameters into four groups — matrix parameters on Muon, embeddings, unembeddings and scalars on AdamW — with learning rates spanning `0.008` to `0.5`. Muon orthogonalizes its update, so its natural learning rate is orders of magnitude away from AdamW's. Never carry a learning rate from one optimizer to another, and when reading a harness's config, check which parameter group each value belongs to before treating any of them as "the learning rate". Upstream guidance is that Muon should not be applied to embeddings, the final output layer, or 0-/1-dimensional parameters.
+- Clip gradients if needed and log gradient norm, loss, tokens/second, GPU memory, and validation loss.
+- Use mixed precision only after a stable FP32 or known-good baseline; choose BF16/FP16 based on hardware and current framework support. Follow the official PyTorch AMP docs. Use gradient scaling when the selected precision and hardware require it — BF16 generally does not, FP16 does. A useful published pattern is to select BF16 when the accelerator reports support for it and fall back to FP16 otherwise, rather than hardcoding either.
+- FP8 training is now available on newer accelerators and is used by current harnesses, including a choice of scaling recipe. Treat it as a later optimization for a measured, stable BF16 baseline — not a starting point for a first model, and not something to enable while still debugging convergence.
+- Use gradient accumulation to fit a larger effective batch in limited VRAM; compute and document the effective tokens per optimizer update.
+- Save checkpoint state atomically. A useful checkpoint includes model weights, optimizer state, scheduler, scaler if applicable, update count, RNG states, configuration, and data/sampler position.
+- Checkpoint often enough that losing a run is acceptable. Test resume behavior before a long run.
+- Compare validation loss at a fixed token budget, not just at a fixed number of steps if batch sizes differ.
+
+## Failure patterns and the first things to check
+
+- **Loss does not decline:** inspect input/target shift, masking, token IDs, learning rate, optimizer updates, and whether data batches have signal.
+- **Model repeats tokens or text:** inspect data quality and duplicates, training horizon, sampling temperature/top-p, EOS handling, and tokenizer decoding.
+- **Train loss falls but validation loss worsens:** investigate overfitting, data duplication, split leakage, dataset mismatch, and training duration.
+- **Loss spikes or NaNs:** inspect learning rate, gradient norm, precision, bad batches, initialization, and recent code changes; resume from a known-good checkpoint after diagnosis.
+- **Model produces incoherent language:** check tokenization and detokenization, vocabulary size, number of useful training tokens, and whether the run is simply too short or too small.
+
+Watch for rising or spiking loss, NaNs/Infs, dead gradients, train/validation divergence, and throughput regressions. Stop and diagnose rather than spending more compute on a broken run.
+
 ## Anchor A — tiny educational GPT (~10.8M parameters)
 
 This is the direct analogue of the 5–20M starting model `SKILL.md` recommends. nanoGPT's character-level Shakespeare config: `n_layer=6`, `n_head=6`, `n_embd=384`, `block_size=256`, `batch_size=64`, `gradient_accumulation_steps=1`, vocab 65, and `bias=False` from `train.py`'s defaults, which the config does not override.

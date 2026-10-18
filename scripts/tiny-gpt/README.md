@@ -17,7 +17,7 @@ and do not quote its numbers as predictions for different hardware or data.
 ```text
 scripts/tiny-gpt/
   requirements.txt            pinned, with the CPU-only install note
-  configs/                    tiny.yaml (smoke), pilot.yaml, main.yaml
+  configs/                    tiny.yaml (smoke), pilot*.yaml, main*.yaml
   src/
     tokenizer.py              CharTokenizer + ByteBPETokenizer (no tokenizer library)
     data.py                   fetch + checksum + audit + split + encode + batch
@@ -26,7 +26,8 @@ scripts/tiny-gpt/
     evaluate.py               held-out loss/PPL/BPB, baselines, memorization probe
     generate.py               sampling with recorded settings
     plot_metrics.py           metrics.jsonl -> SVG, no plotting dependency
-  tests/                      the seven gates SKILL.md names, plus tokenizer tests
+  tests/                      the seven gates SKILL.md names, plus tokenizer and
+                              multi-document corpus tests
 ```
 
 ## Install
@@ -47,15 +48,23 @@ Run them in this order. Each one is a decision point, not a step to skip.
 # Gate 1 + 2 — correctness and a learning proof (~2 s on 2 CPU cores)
 python -m unittest discover -s tests -t tests -v
 
-# Gate 0 — fetch, verify, audit, split, tokenize. Writes data/prepared-char/manifest.json
+# Gate 0 — fetch, verify, audit, split, tokenize. Writes <out-dir>/manifest.json
+#   tiny-shakespeare    one 1.1 MB file, the fastest way to prove the pipeline works
+#   gutenberg-mixed-27  27 public-domain books, 18.8 MB, per-document provenance
 python src/data.py --tokenizer char     --out-dir data/prepared-char
 python src/data.py --tokenizer byte_bpe --vocab-size 512 --out-dir data/prepared-bpe512
+python src/data.py --corpus gutenberg-mixed-27 --tokenizer byte_bpe --vocab-size 2048 \
+    --out-dir data/prepared-gb-bpe2048 --tokenizer-sample-chars 4000000
 
 # Gate 3 — pilots: one variable per run, identical budget
-bash run_pilots.sh
+bash run_pilots.sh                                      # iteration 1, tiny-shakespeare
+for p in g1-vocab1024 g2-vocab2048 g3-small g4-wide; do # iteration 2, 27 books
+  python -u src/train.py --config configs/pilot-$p.yaml
+done
 
 # Gate 4 — the main run
-python -u src/train.py --config configs/main.yaml --run-id main
+python -u src/train.py --config configs/main.yaml            # iteration 1
+python -u src/train.py --config configs/main-gutenberg.yaml  # iteration 2
 
 # Evaluate against baselines on the held-out test split, and sample
 python src/evaluate.py --checkpoint artifacts/runs/main/best.pt --split test
@@ -79,7 +88,9 @@ position.
 | Optimizer | AdamW, decay on matrices only | one global LR; `beta2=0.99` because tokens/update is small |
 | Schedule | linear warmup, cosine to `0.1 × peak`, horizon = run length | both nanoGPT anchors in `references/training-defaults.md` do this |
 | Clipping | 1.0, pre-clip norm logged | so it is visible when clipping is actually binding |
-| Data split | contiguous 90/5/5, boundaries on blank lines | a shuffled split of one continuous text leaks overlapping windows |
+| Data split | contiguous 90/5/5, boundaries on blank lines, applied *per document* | a shuffled split leaks overlapping windows; holding out whole documents would make validation a different set of authors, measuring domain transfer instead of language modelling |
+| Document joins | the tokenizer's EOS id between documents | concatenating unrelated books teaches transitions that do not exist; EOS contributes no bytes, so bits-per-byte is unaffected |
+| Boilerplate | Project Gutenberg header/footer stripped, statistics cached beside each document | the boilerplate is the one part of the file that is not public domain, and it is identical across books, so leaving it in teaches the model to emit licence text |
 | Tokenizer training | train split only | validation text must not shape the vocabulary |
 | Batching | `batch(step)` is a pure function of `(seed, step)` | makes resume exact and the data position auditable |
 | Metric | bits per byte, next to per-token loss | per-token loss is not comparable across vocabularies |
@@ -98,8 +109,8 @@ position.
 
 ## Known limitations
 
-- One small public-domain corpus of early modern English. The model is a
-  demonstration of the pipeline, not a useful language model.
+- Public-domain literary English only, and at most 18.8 MB of it. The models
+  are demonstrations of the pipeline, not useful language models.
 - CPU-only measurements. Throughput, memory and wall clock do not transfer to a
   GPU, and the MFU figure is not comparable to published large-model numbers.
 - No instruction tuning, no chat template, no safety tuning. This is a base

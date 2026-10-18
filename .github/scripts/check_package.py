@@ -22,9 +22,22 @@ import os
 import re
 import sys
 
-# Line budgets from the Agent Skills progressive-disclosure guidance:
-# SKILL.md body under 500 lines; bundled files over 300 lines need a TOC.
+# Budgets from the Agent Skills progressive-disclosure guidance
+# (https://agentskills.io/specification#progressive-disclosure, read 2026-10-18):
+# the SKILL.md body should stay under 500 lines *and* under ~5,000 tokens, and
+# bundled files over 300 lines need a table of contents.
+#
+# The token ceiling is the one that actually bites, and it was being ignored
+# here: at 305 lines this body was well inside the line limit while carrying
+# roughly 7,800 tokens, over the budget by half again.
+#
+# Nothing in this repository can tokenize the way a client will, so the budget
+# is enforced against the conservative of two estimators -- characters/4, which
+# is the usual rule of thumb for English prose and slightly pessimistic for
+# Markdown full of short lines and backticks. Being pessimistic is the point: a
+# body that passes this check passes under any reasonable tokenizer.
 BODY_LIMIT = 500
+BODY_TOKEN_BUDGET = 5000
 REFERENCE_LIMIT = 300
 
 # Fields the template must keep. Each was missing at some point while SKILL.md
@@ -102,15 +115,22 @@ def main(root):
     name = name_match.group(1).strip()
     check(name == "llm-from-scratch", f"frontmatter name is 'llm-from-scratch' (got {name!r})")
 
-    # The packager derives the .skill filename and internal folder from the
-    # directory name, not the frontmatter, and the validator does not compare
-    # them. Surface the mismatch rather than letting it ship.
+    # The specification is explicit that `name` "must match the parent directory
+    # name", and the reference library enforces it: skills-ref (PyPI `skills-ref`,
+    # Apache-2.0, published by the spec's author) fails validation with
+    # "Directory name 'X' must match skill name 'Y'". Anthropic's quick_validate.py
+    # does *not* check this, which is why the mismatch used to ship unnoticed.
+    #
+    # A git checkout is always named after the repository, so this stays a warning
+    # here and a hard failure in CI, which validates a staged copy renamed to the
+    # frontmatter name -- the form a user actually installs.
     dirname = os.path.basename(root)
     if dirname != name:
         warn(
-            f"directory is '{dirname}' but the skill name is '{name}'. "
-            f"Packaging here produces {dirname}.skill wrapping a folder that "
-            f"declares name: {name}. Stage a copy renamed to '{name}' first."
+            f"directory is '{dirname}' but the skill name is '{name}'. The Agent "
+            f"Skills spec requires them to match, and `skills-ref validate` fails "
+            f"on this. Packaging here produces {dirname}.skill wrapping a folder "
+            f"that declares name: {name}. Stage a copy renamed to '{name}' first."
         )
 
     # --- 2. bundled resources ------------------------------------------------
@@ -156,6 +176,14 @@ def main(root):
     body = skill_md.split("---\n", 2)[2]
     n_body = body.count("\n")
     check(n_body < BODY_LIMIT, f"SKILL.md body is {n_body} lines (limit {BODY_LIMIT})")
+    tokens_chars = len(body) / 4
+    tokens_words = len(body.split()) * 1.33
+    check(
+        tokens_chars < BODY_TOKEN_BUDGET,
+        f"SKILL.md body is ~{tokens_chars:,.0f} tokens by chars/4 and "
+        f"~{tokens_words:,.0f} by words*1.33 (budget {BODY_TOKEN_BUDGET:,}); "
+        f"move detail into references/ rather than trimming meaning out of it",
+    )
     for path in bundled:
         text = read(path)
         n = text.count("\n")
@@ -178,9 +206,14 @@ def main(root):
         check(IMPL_DIR in skill_md, f"SKILL.md points to {IMPL_DIR}")
         for rel in IMPL_REQUIRED:
             check(os.path.isfile(os.path.join(IMPL_DIR, rel)), f"{IMPL_DIR}/{rel} exists")
-        # Every test file named in SKILL.md's project layout must exist here,
-        # or the layout is advice the shipped code does not follow.
-        for test_name in sorted(set(re.findall(r"(test_[a-z_]+\.py)", skill_md))):
+        # Every test file named in the skill's project layout must exist here, or
+        # the layout is advice the shipped code does not follow. The layout lives
+        # in references/project-scaffold.md, so scan the bundled resources too --
+        # scanning SKILL.md alone silently checked nothing once the tree moved.
+        layout_text = skill_md + "".join(read(b) for b in bundled)
+        named_tests = sorted(set(re.findall(r"(test_[a-z_]+\.py)", layout_text)))
+        check(len(named_tests) >= 7, f"the project layout names {len(named_tests)} test files")
+        for test_name in named_tests:
             check(
                 os.path.isfile(os.path.join(IMPL_DIR, "tests", test_name)),
                 f"{IMPL_DIR}/tests/{test_name} exists (named in SKILL.md)",

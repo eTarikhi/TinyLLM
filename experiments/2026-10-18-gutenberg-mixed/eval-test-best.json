@@ -1,0 +1,72 @@
+{
+  "run_id": "main-gutenberg",
+  "checkpoint": "artifacts/runs/main-gutenberg/best.pt",
+  "step": 2400,
+  "tokens_trained": 19660800,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.437787697272602,
+    "perplexity": 31.118039438350575,
+    "bpb": 1.7200872892206533,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.648575795416907,
+    "perplexity": 2097.6559697646126,
+    "bpb": 3.8269431287961635,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      23,
+      26,
+      23,
+      23
+    ],
+    "max_longest_verbatim_match_chars": 26,
+    "mean_longest_verbatim_match_chars": 23.75,
+    "example_sample": "\nheard we do him, and I don't know that, and there's a good deal of. \u00a0S'\n\n\u201cNo! \u00a0I've just the jaws of you and ain't no trouble ain't done money,\ntake me in order that hive them. Why, that's the rudding; and, I says\nto-moke.\u201d\n\n\u201cWhy, then, come to the rich top of my de bottoms, en be a-growd, and ain't\ntroubles and hundreds. \u00a0I warn't no wood if I'll do _g's beaten fingers\nwhen you're on. \u00a0Why, I'pose I ain't tip and come here, and there warn't\ntake me out in the statty, I'll beats. \u00a0And bat-house was there. \u00a0He w'll\nhave to be done, but hey"
+  }
+}

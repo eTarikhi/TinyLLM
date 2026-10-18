@@ -1,0 +1,54 @@
+# Main run, iteration 2. Every value is a measurement or a carried-over
+# measurement, not a guess; the evidence is in
+# experiments/2026-10-18-gutenberg-mixed/pilots.md.
+#
+#   corpus     gutenberg-mixed-27: 27 public-domain books, 18,777,471 chars,
+#              5,771,560 training tokens. Iteration 1 trained on 517,246 and
+#              its validation loss turned at 11.9 epochs; this budget is 3.4
+#              epochs, so the run is compute-limited rather than data-limited.
+#   vocab      2048 beat 1024 by 2.6% bpb at a matched wall-clock budget
+#              (2.1970 -> 2.1398 at 480s) despite costing 13% throughput: each
+#              token carries 2.946 bytes instead of 2.546, and bits-per-byte
+#              rewards covering more text per step.
+#   size       3L/192d (1,770,816 params) beat 4L/256d by 11.7% and 6L/384d by
+#              24.9% bpb at a matched 480s budget. 6ND with Chinchilla's 20
+#              tokens/parameter predicts ~1.5M parameters for this compute, so
+#              iteration 1's 3.3M model was oversized for its budget -- the
+#              pilots tested that in both directions and the budget argument
+#              won. A log-linear fit of each pilot's tail projects the ordering
+#              to hold at this run's 1800s budget (1.65 vs 1.86 vs 2.37).
+#   lr         3e-3, dropout 0.0, tied embeddings, beta2 0.99: carried over
+#              from the iteration-1 matrix, measured on this same hardware.
+#   steps      2400 x 8,192 = 19.66M tokens, ~29 min at the measured 11,173
+#              tok/s. The cosine horizon equals the run length.
+run_id: main-gutenberg
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # 10% of the run
+max_steps: 2400
+
+eval_every: 120      # 20 evaluations across the run
+eval_tokens: 98304   # a fixed 31% slice of the 317,418-token val split
+log_every: 50
+sample_every: 800
+sample_tokens: 240
+save_every: 400
+max_seconds: 2700    # guard: stop cleanly at 45 min rather than run away
+threads: 2

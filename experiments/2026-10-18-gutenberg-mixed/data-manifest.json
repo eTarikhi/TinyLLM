@@ -1,0 +1,703 @@
+{
+  "created_utc": "2026-10-18T04:29:31Z",
+  "code_revision": "85843cd78da810598ff4a9dcab157687647f795a",
+  "corpus": {
+    "name": "gutenberg-mixed-27",
+    "description": "27 public-domain books from Project Gutenberg, mirrored by GITenberg as one git repository per title. Project Gutenberg's header, footer and licence boilerplate are stripped before use; what remains is the body text of each work.",
+    "source_urls": [
+      "https://codeload.github.com/GITenberg/Moby-Dick--Or-The-Whale_2701/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Pride-and-Prejudice_1342/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Emma_158/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Sense-and-Sensibility_161/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Frankenstein_84/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Dracula_345/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Jane-Eyre_1260/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Wuthering-Heights_768/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Great-Expectations_1400/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Tale-of-Two-Cities_98/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Alice-s-Adventures-in-Wonderland_11/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Adventures-of-Huckleberry-Finn_76/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Adventures-of-Tom-Sawyer_74/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Treasure-Island_120/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Picture-of-Dorian-Gray_174/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Time-Machine_35/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-War-of-the-Worlds_36/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Adventures-of-Sherlock-Holmes_1661/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Heart-of-Darkness_219/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Little-Women_514/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Anne-of-Green-Gables_45/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Grimms-Fairy-Tales_2591/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Leaves-of-Grass_1322/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Crime-and-Punishment_2554/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Don-Quixote_996/tar.gz/refs/heads/master"
+    ],
+    "member": null,
+    "access_date": "2026-10-18",
+    "sha256": "1960eb6375c67d9e0f0b4fb96f0ab0724def0d74c547b3baba83faff851dd236",
+    "text_license": "Public domain in the United States: every title was published before 1929 and its author died more than 70 years ago, so no copyright subsists in the text itself.",
+    "file_license": "The Project Gutenberg files carry PG's own licence, which governs the PG header, footer and trademark rather than the work. That boilerplate is stripped here and never trained on, which is the condition PG states for using the text as an ordinary public-domain work. GITenberg's repository metadata is CC0/MIT.",
+    "restrictions": "Literary English of 1605-1915, mostly British and American, two works in translation. It is not contemporary text, it is not balanced across dialects or demographics, and several works contain racial slurs, antisemitism and other period prejudice that a model trained on them will reproduce.",
+    "chars": 18777471,
+    "bytes": 18920005,
+    "documents": 27,
+    "document_records": [
+      {
+        "doc_id": "pg2701",
+        "title": "Moby Dick",
+        "author": "Herman Melville",
+        "year": "1851",
+        "source_url": "https://codeload.github.com/GITenberg/Moby-Dick--Or-The-Whale_2701/tar.gz/refs/heads/master",
+        "member": "Moby-Dick--Or-The-Whale_2701-master/2701-0.txt",
+        "chars": 1218995,
+        "bytes": 1234559,
+        "sha256": "00dd0634b1a5b710b540a4672877dba51caa0bde7d46fc3a692673638e9e04cb",
+        "boilerplate": {
+          "original_chars": 1238244,
+          "body_chars": 1218995,
+          "removed_chars": 19249,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1342",
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "year": "1813",
+        "source_url": "https://codeload.github.com/GITenberg/Pride-and-Prejudice_1342/tar.gz/refs/heads/master",
+        "member": "Pride-and-Prejudice_1342-master/1342-0.txt",
+        "chars": 684781,
+        "bytes": 691843,
+        "sha256": "d02c06ecdee0120842aa1274288a07fe68d5316d1e8285853eaf4fc65a0b39a0",
+        "boilerplate": {
+          "original_chars": 704190,
+          "body_chars": 684781,
+          "removed_chars": 19409,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg158",
+        "title": "Emma",
+        "author": "Jane Austen",
+        "year": "1815",
+        "source_url": "https://codeload.github.com/GITenberg/Emma_158/tar.gz/refs/heads/master",
+        "member": "Emma_158-master/158-0.txt",
+        "chars": 883051,
+        "bytes": 891429,
+        "sha256": "b1f407ebf45d923e2c2532a1000ce2ee7b4eb5008b63fa9898522b16c70c9c00",
+        "boilerplate": {
+          "original_chars": 902388,
+          "body_chars": 883051,
+          "removed_chars": 19337,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg161",
+        "title": "Sense and Sensibility",
+        "author": "Jane Austen",
+        "year": "1811",
+        "source_url": "https://codeload.github.com/GITenberg/Sense-and-Sensibility_161/tar.gz/refs/heads/master",
+        "member": "Sense-and-Sensibility_161-master/161-0.txt",
+        "chars": 673795,
+        "bytes": 673795,
+        "sha256": "31131fdec8e4292dd9794691ea98ff1c0b1c0147b63579a7e530203ca669160f",
+        "boilerplate": {
+          "original_chars": 693116,
+          "body_chars": 673795,
+          "removed_chars": 19321,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg84",
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "year": "1818",
+        "source_url": "https://codeload.github.com/GITenberg/Frankenstein_84/tar.gz/refs/heads/master",
+        "member": "Frankenstein_84-master/84-0.txt",
+        "chars": 421074,
+        "bytes": 423273,
+        "sha256": "45d51448cdd07b2d2e859dedc19e63be95263a174790bf3e4cbe825152c53942",
+        "boilerplate": {
+          "original_chars": 440748,
+          "body_chars": 421074,
+          "removed_chars": 19674,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg345",
+        "title": "Dracula",
+        "author": "Bram Stoker",
+        "year": "1897",
+        "source_url": "https://codeload.github.com/GITenberg/Dracula_345/tar.gz/refs/heads/master",
+        "member": "Dracula_345-master/345-0.txt",
+        "chars": 847585,
+        "bytes": 847585,
+        "sha256": "0fb917140292597cc0b038d44539f9697ee33103c67dd3a471738245e7366510",
+        "boilerplate": {
+          "original_chars": 867184,
+          "body_chars": 847585,
+          "removed_chars": 19599,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1260",
+        "title": "Jane Eyre",
+        "author": "Charlotte Bronte",
+        "year": "1847",
+        "source_url": "https://codeload.github.com/GITenberg/Jane-Eyre_1260/tar.gz/refs/heads/master",
+        "member": "Jane-Eyre_1260-master/1260-0.txt",
+        "chars": 1029898,
+        "bytes": 1029898,
+        "sha256": "27ede6c44cb4cc667a09ff824ae2b4b836d6cd4bd3b4d98cd8031611272993d2",
+        "boilerplate": {
+          "original_chars": 1049267,
+          "body_chars": 1029898,
+          "removed_chars": 19369,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg768",
+        "title": "Wuthering Heights",
+        "author": "Emily Bronte",
+        "year": "1847",
+        "source_url": "https://codeload.github.com/GITenberg/Wuthering-Heights_768/tar.gz/refs/heads/master",
+        "member": "Wuthering-Heights_768-master/768-0.txt",
+        "chars": 649779,
+        "bytes": 649779,
+        "sha256": "3f56cc89f896981c0df9528efe5f2b10659b14c68b5a19e7887908e82eff7e99",
+        "boilerplate": {
+          "original_chars": 669150,
+          "body_chars": 649779,
+          "removed_chars": 19371,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1400",
+        "title": "Great Expectations",
+        "author": "Charles Dickens",
+        "year": "1861",
+        "source_url": "https://codeload.github.com/GITenberg/Great-Expectations_1400/tar.gz/refs/heads/master",
+        "member": "Great-Expectations_1400-master/1400-0.txt",
+        "chars": 994027,
+        "bytes": 1009733,
+        "sha256": "f3a5b94d61f8adbbc2d2195e10e8a5498a12c3b6b17ade9fda7eed30f5b3154c",
+        "boilerplate": {
+          "original_chars": 1013445,
+          "body_chars": 994027,
+          "removed_chars": 19418,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg98",
+        "title": "A Tale of Two Cities",
+        "author": "Charles Dickens",
+        "year": "1859",
+        "source_url": "https://codeload.github.com/GITenberg/A-Tale-of-Two-Cities_98/tar.gz/refs/heads/master",
+        "member": "A-Tale-of-Two-Cities_98-master/98-0.txt",
+        "chars": 757248,
+        "bytes": 768568,
+        "sha256": "5faf3c53a19a8d78a8a30e2740d2b03c2e7306adf86cdf434509e0381badea32",
+        "boilerplate": {
+          "original_chars": 776697,
+          "body_chars": 757248,
+          "removed_chars": 19449,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg11",
+        "title": "Alice's Adventures in Wonderland",
+        "author": "Lewis Carroll",
+        "year": "1865",
+        "source_url": "https://codeload.github.com/GITenberg/Alice-s-Adventures-in-Wonderland_11/tar.gz/refs/heads/master",
+        "member": "Alice-s-Adventures-in-Wonderland_11-master/11-0.txt",
+        "chars": 144519,
+        "bytes": 150491,
+        "sha256": "ca2e25b8e461d834c0dadf32c2a45275f13ab4d5acf4bb1a92ba28f735528b88",
+        "boilerplate": {
+          "original_chars": 163817,
+          "body_chars": 144519,
+          "removed_chars": 19298,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg76",
+        "title": "Adventures of Huckleberry Finn",
+        "author": "Mark Twain",
+        "year": "1884",
+        "source_url": "https://codeload.github.com/GITenberg/Adventures-of-Huckleberry-Finn_76/tar.gz/refs/heads/master",
+        "member": "Adventures-of-Huckleberry-Finn_76-master/76-0.txt",
+        "chars": 574648,
+        "bytes": 584637,
+        "sha256": "9d4325cd64b37a17e1c2cef7a2f551febc11b36f10d61d84f391d3cd4e0d197a",
+        "boilerplate": {
+          "original_chars": 593960,
+          "body_chars": 574648,
+          "removed_chars": 19312,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg74",
+        "title": "The Adventures of Tom Sawyer",
+        "author": "Mark Twain",
+        "year": "1876",
+        "source_url": "https://codeload.github.com/GITenberg/The-Adventures-of-Tom-Sawyer_74/tar.gz/refs/heads/master",
+        "member": "The-Adventures-of-Tom-Sawyer_74-master/74-0.txt",
+        "chars": 393444,
+        "bytes": 399576,
+        "sha256": "e5a318e36aab301da3d7ecc3b8ac82a83e143862e15a8789710650a11820bd36",
+        "boilerplate": {
+          "original_chars": 412717,
+          "body_chars": 393444,
+          "removed_chars": 19273,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg120",
+        "title": "Treasure Island",
+        "author": "Robert Louis Stevenson",
+        "year": "1883",
+        "source_url": "https://codeload.github.com/GITenberg/Treasure-Island_120/tar.gz/refs/heads/master",
+        "member": "Treasure-Island_120-master/120-0.txt",
+        "chars": 364380,
+        "bytes": 369324,
+        "sha256": "bc7f3f2031c526dfb56ccf876f6df469c87e2ba40a40450899cce6f83e22b567",
+        "boilerplate": {
+          "original_chars": 383719,
+          "body_chars": 364380,
+          "removed_chars": 19339,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg174",
+        "title": "The Picture of Dorian Gray",
+        "author": "Oscar Wilde",
+        "year": "1890",
+        "source_url": "https://codeload.github.com/GITenberg/The-Picture-of-Dorian-Gray_174/tar.gz/refs/heads/master",
+        "member": "The-Picture-of-Dorian-Gray_174-master/174-0.txt",
+        "chars": 433770,
+        "bytes": 433770,
+        "sha256": "663c022eea4a7d7ac233acb4d48bdbae7602b61ac4bb4c76e9fdb987ba3e5e0d",
+        "boilerplate": {
+          "original_chars": 453198,
+          "body_chars": 433770,
+          "removed_chars": 19428,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg35",
+        "title": "The Time Machine",
+        "author": "H. G. Wells",
+        "year": "1895",
+        "source_url": "https://codeload.github.com/GITenberg/The-Time-Machine_35/tar.gz/refs/heads/master",
+        "member": "The-Time-Machine_35-master/35-0.txt",
+        "chars": 179682,
+        "bytes": 181456,
+        "sha256": "ddc5b7195fb6cd86759bd8b8bc645f9cfdb552254d186a8cebe68da6e7c629ff",
+        "boilerplate": {
+          "original_chars": 199135,
+          "body_chars": 179682,
+          "removed_chars": 19453,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg36",
+        "title": "The War of the Worlds",
+        "author": "H. G. Wells",
+        "year": "1898",
+        "source_url": "https://codeload.github.com/GITenberg/The-War-of-the-Worlds_36/tar.gz/refs/heads/master",
+        "member": "The-War-of-the-Worlds_36-master/36-0.txt",
+        "chars": 337343,
+        "bytes": 340425,
+        "sha256": "b3392949b56cdfdd67a320492e707a26a9f8deca8c075f5f1ff8ecb752ddf273",
+        "boilerplate": {
+          "original_chars": 357013,
+          "body_chars": 337343,
+          "removed_chars": 19670,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1661",
+        "title": "The Adventures of Sherlock Holmes",
+        "author": "Arthur Conan Doyle",
+        "year": "1892",
+        "source_url": "https://codeload.github.com/GITenberg/The-Adventures-of-Sherlock-Holmes_1661/tar.gz/refs/heads/master",
+        "member": "The-Adventures-of-Sherlock-Holmes_1661-master/1661-0.txt",
+        "chars": 562331,
+        "bytes": 562331,
+        "sha256": "369b44ac9865a7dd3c06eb27212002653a7ae92422aaeb5f8b15fe9f429fbf8e",
+        "boilerplate": {
+          "original_chars": 581888,
+          "body_chars": 562331,
+          "removed_chars": 19557,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg219",
+        "title": "Heart of Darkness",
+        "author": "Joseph Conrad",
+        "year": "1899",
+        "source_url": "https://codeload.github.com/GITenberg/Heart-of-Darkness_219/tar.gz/refs/heads/master",
+        "member": "Heart-of-Darkness_219-master/219-0.txt",
+        "chars": 210444,
+        "bytes": 210900,
+        "sha256": "7175436c7de60753c755cb30a4858747c6ac93014b340b6d96f2093efafa2c2a",
+        "boilerplate": {
+          "original_chars": 229831,
+          "body_chars": 210444,
+          "removed_chars": 19387,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg514",
+        "title": "Little Women",
+        "author": "Louisa May Alcott",
+        "year": "1868",
+        "source_url": "https://codeload.github.com/GITenberg/Little-Women_514/tar.gz/refs/heads/master",
+        "member": "Little-Women_514-master/514-0.txt",
+        "chars": 1013070,
+        "bytes": 1013070,
+        "sha256": "265a009c91bcb80a85eb581e191413e6cb5f4f58d0a5288dc596d2a11cffb5d4",
+        "boilerplate": {
+          "original_chars": 1032411,
+          "body_chars": 1013070,
+          "removed_chars": 19341,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg45",
+        "title": "Anne of Green Gables",
+        "author": "L. M. Montgomery",
+        "year": "1908",
+        "source_url": "https://codeload.github.com/GITenberg/Anne-of-Green-Gables_45/tar.gz/refs/heads/master",
+        "member": "Anne-of-Green-Gables_45-master/45-0.txt",
+        "chars": 560961,
+        "bytes": 575923,
+        "sha256": "4cf85c41b3e4c870f5f127cda7920888bb415c10ae409a4724a9b2de4cdac9bd",
+        "boilerplate": {
+          "original_chars": 580635,
+          "body_chars": 560961,
+          "removed_chars": 19674,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg23",
+        "title": "Narrative of the Life of Frederick Douglass",
+        "author": "Frederick Douglass",
+        "year": "1845",
+        "source_url": "https://codeload.github.com/GITenberg/Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23/tar.gz/refs/heads/master",
+        "member": "Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23-master/23-0.txt",
+        "chars": 224818,
+        "bytes": 224818,
+        "sha256": "02d6833970bf6c03f6c82a6a65c378408e060578fffe18310ddd97f73b930918",
+        "boilerplate": {
+          "original_chars": 244293,
+          "body_chars": 224818,
+          "removed_chars": 19475,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg2591",
+        "title": "Grimms' Fairy Tales",
+        "author": "Jacob and Wilhelm Grimm",
+        "year": "1812",
+        "source_url": "https://codeload.github.com/GITenberg/Grimms-Fairy-Tales_2591/tar.gz/refs/heads/master",
+        "member": "Grimms-Fairy-Tales_2591-master/2591-0.txt",
+        "chars": 520813,
+        "bytes": 531099,
+        "sha256": "b8f050dd4474df191aa20580223110d58f7eceebd6557bc2b2f4934cf1d22648",
+        "boilerplate": {
+          "original_chars": 540241,
+          "body_chars": 520813,
+          "removed_chars": 19428,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1322",
+        "title": "Leaves of Grass",
+        "author": "Walt Whitman",
+        "year": "1855",
+        "source_url": "https://codeload.github.com/GITenberg/Leaves-of-Grass_1322/tar.gz/refs/heads/master",
+        "member": "Leaves-of-Grass_1322-master/1322-0.txt",
+        "chars": 738055,
+        "bytes": 738055,
+        "sha256": "b21232a27d05c499c304d37c1b9ae70620c75a49e96b45d4ca9fbf846b710fe3",
+        "boilerplate": {
+          "original_chars": 757390,
+          "body_chars": 738055,
+          "removed_chars": 19335,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg1228",
+        "title": "On the Origin of Species",
+        "author": "Charles Darwin",
+        "year": "1859",
+        "source_url": "https://codeload.github.com/GITenberg/On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228/tar.gz/refs/heads/master",
+        "member": "On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228-master/1228-0.txt",
+        "chars": 935255,
+        "bytes": 935255,
+        "sha256": "b423f686da0422c6b4232996fbd94fabcbfeb4e7465ea5ffe11c6529ab64d46b",
+        "boilerplate": {
+          "original_chars": 954594,
+          "body_chars": 935255,
+          "removed_chars": 19339,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg2554",
+        "title": "Crime and Punishment",
+        "author": "Fyodor Dostoyevsky (tr. Garnett)",
+        "year": "1866",
+        "source_url": "https://codeload.github.com/GITenberg/Crime-and-Punishment_2554/tar.gz/refs/heads/master",
+        "member": "Crime-and-Punishment_2554-master/2554-0.txt",
+        "chars": 1135164,
+        "bytes": 1159872,
+        "sha256": "bda22594fb921fdd0bab0104032bc5760b5477dee346d34a8965f32e485826af",
+        "boilerplate": {
+          "original_chars": 1154508,
+          "body_chars": 1135164,
+          "removed_chars": 19344,
+          "from_cache": true
+        }
+      },
+      {
+        "doc_id": "pg996",
+        "title": "Don Quixote",
+        "author": "Miguel de Cervantes (tr. Ormsby)",
+        "year": "1605",
+        "source_url": "https://codeload.github.com/GITenberg/Don-Quixote_996/tar.gz/refs/heads/master",
+        "member": "Don-Quixote_996-master/996-0.txt",
+        "chars": 2288489,
+        "bytes": 2288489,
+        "sha256": "12c97247f4ad7c6ef27148cba8f0eb03437c774c823d7a2de8a7845995d56dc3",
+        "boilerplate": {
+          "original_chars": 2307844,
+          "body_chars": 2288489,
+          "removed_chars": 19355,
+          "from_cache": true
+        }
+      }
+    ]
+  },
+  "split_policy": {
+    "method": "per document, contiguous, boundaries snapped to a blank line",
+    "fractions": [
+      0.9,
+      0.05,
+      0.05
+    ],
+    "rationale": "A shuffled split leaks overlapping context windows across the boundary. Splitting each document contiguously and in the same proportions avoids that leak and also keeps every author present in every split, so validation measures language modelling rather than domain transfer.",
+    "boundaries_chars": [
+      [
+        1097540,
+        1158809
+      ],
+      [
+        616387,
+        650929
+      ],
+      [
+        807086,
+        839549
+      ],
+      [
+        606505,
+        640794
+      ],
+      [
+        379064,
+        400250
+      ],
+      [
+        763545,
+        806539
+      ],
+      [
+        927559,
+        978886
+      ],
+      [
+        585046,
+        617362
+      ],
+      [
+        894990,
+        944487
+      ],
+      [
+        681568,
+        719425
+      ],
+      [
+        130212,
+        137301
+      ],
+      [
+        517199,
+        545980
+      ],
+      [
+        354444,
+        373821
+      ],
+      [
+        328295,
+        346495
+      ],
+      [
+        390646,
+        412204
+      ],
+      [
+        162468,
+        170702
+      ],
+      [
+        303890,
+        321709
+      ],
+      [
+        506257,
+        535421
+      ],
+      [
+        192208,
+        200696
+      ],
+      [
+        911782,
+        962735
+      ],
+      [
+        505606,
+        532919
+      ],
+      [
+        203117,
+        213587
+      ],
+      [
+        469180,
+        496206
+      ],
+      [
+        664370,
+        701520
+      ],
+      [
+        842656,
+        889834
+      ],
+      [
+        1022269,
+        1079273
+      ],
+      [
+        2060689,
+        2174813
+      ]
+    ]
+  },
+  "splits": {
+    "train": {
+      "chars": 16924578,
+      "bytes": 17052870,
+      "tokens": 5771560,
+      "documents": 27,
+      "eos_separators": 26,
+      "tokens_per_char": 0.3410164791110301,
+      "sha256_text": "54796c8daef87e41e70fef4aed5c40df9d6b14b5d2cdac7b4d6af9e64ee38587",
+      "sha256_tokens": "f4f2c943655a5bd7e121169d05292bd9dcf64a36e582a4f03695354b5a096daf",
+      "file": "train.bin",
+      "dtype": "uint16"
+    },
+    "val": {
+      "chars": 927668,
+      "bytes": 934984,
+      "tokens": 317418,
+      "documents": 27,
+      "eos_separators": 26,
+      "tokens_per_char": 0.3421676720550887,
+      "sha256_text": "0c1591851769b008adcf19bf416832f2445ed5445b1d0865b8c07d1d3309c8d9",
+      "sha256_tokens": "392d3a6a1b6dffcfe90a9703999fe50da5975ae0414e7770bd529f23552118a6",
+      "file": "val.bin",
+      "dtype": "uint16"
+    },
+    "test": {
+      "chars": 925173,
+      "bytes": 932099,
+      "tokens": 323284,
+      "documents": 27,
+      "eos_separators": 26,
+      "tokens_per_char": 0.3494308632007203,
+      "sha256_text": "66e29fbce43148018ad6ca3b46bd6214a24449fb1a377398d6c1c7944ae011c2",
+      "sha256_tokens": "7dc71847c380f7cf963757a89ca4b7a982feccf4c2f1a46cffdf994f390fdc17",
+      "file": "test.bin",
+      "dtype": "uint16"
+    }
+  },
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048,
+    "trained_on": "train split only",
+    "requested_vocab_size": 2048,
+    "bos_id": 2046,
+    "eos_id": 2047,
+    "sha256": "6c223a63a523a7a04b7d02edc087954b467eb304885e2d748176e93e66fe8413",
+    "trained_on_chars": 4000000,
+    "train_split_chars": 16924578,
+    "measurement_on_val": {
+      "kind": "byte_bpe",
+      "vocab_size": 2048,
+      "chars": 927668,
+      "bytes": 934984,
+      "tokens": 317415,
+      "tokens_per_char": 0.3421644381395068,
+      "tokens_per_byte": 0.3394870928272569,
+      "bytes_per_token": 2.9456200872674576
+    }
+  },
+  "audit": {
+    "sensitive_patterns_full_corpus": {
+      "email": 0,
+      "phone_like": 0,
+      "ipv4": 0,
+      "url": 0,
+      "aws_key_like": 0,
+      "private_key_header": 0
+    },
+    "duplicates_full_corpus": {
+      "blocks": 57115,
+      "unique_blocks": 55743,
+      "duplicate_blocks": 1372,
+      "duplicate_block_fraction": 0.024021710583909655,
+      "duplicate_chars": 25350
+    },
+    "note": "Project Gutenberg header/footer boilerplate is removed before this scan; what remains is body text. No further records were removed. The duplicate rate is reported so the decision is visible."
+  }
+}

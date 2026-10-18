@@ -48,22 +48,29 @@ jobs:
       - name: Official frontmatter validation
         run: python .ci/quick_validate.py .
 
+      # The Agent Skills reference library. It parses the frontmatter with
+      # strictyaml and -- unlike quick_validate.py -- enforces the spec rule
+      # that `name` must match the parent directory name. Pinned, like
+      # everything else this workflow depends on.
+      - name: Install the Agent Skills reference validator
+        run: pip install skills-ref==0.1.1
+
       - name: Repository consistency checks
         run: python .github/scripts/check_package.py .
 
       - name: Recompute every documented number
         run: python .github/scripts/check_docs_math.py .
 
-      # The packaged .skill takes its name and its internal folder from the
-      # *directory*, not the frontmatter, and the official validator never
-      # compares the two. A checkout is always named after the repository, so
-      # testing the checkout directory would warn forever and prove nothing.
-      # Instead, run the rename-then-package procedure the README documents and
-      # fail if the result would disagree with its own frontmatter.
+      # A checkout is always named after the repository, so validating the
+      # checkout directory would fail forever on the directory-name rule and
+      # prove nothing. Instead, run the rename-then-package procedure the README
+      # documents, then point the reference validator at the result -- the form
+      # a user actually installs -- and fail if it would disagree with its own
+      # frontmatter or leak files that must not ship.
       - name: Packaged identity matches the frontmatter name
         run: |
           python - <<'PY'
-          import pathlib, re, shutil, sys, tempfile
+          import pathlib, re, shutil, subprocess, sys, tempfile
           name = re.search(r"^name:\s*(.+)$", pathlib.Path("SKILL.md").read_text().split("---")[1], re.M).group(1).strip()
           stage = pathlib.Path(tempfile.mkdtemp()) / name
           shutil.copytree(".", stage, ignore=shutil.ignore_patterns(".git", ".github", ".ci", "experiments", "data", "artifacts", "__pycache__", ".venv"))
@@ -75,6 +82,7 @@ jobs:
           leaked = [str(p.relative_to(stage)) for p in stage.rglob("*") if p.is_file() and p.relative_to(stage).parts[0] in {".git", ".github", "experiments"}]
           if leaked:
               sys.exit(f"staged copy leaked files that must not ship: {leaked[:5]}")
+          subprocess.run(["skills-ref", "validate", str(stage)], check=True)
           print(f"staged {stage} would package as {name}.skill, contents match the frontmatter")
           PY
 
