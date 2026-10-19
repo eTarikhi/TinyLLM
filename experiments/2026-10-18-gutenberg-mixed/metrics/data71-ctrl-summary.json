@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "data71-ctrl",
+  "stop_reason": "max_steps",
+  "steps": 4800,
+  "tokens": 39321600,
+  "elapsed_s": 3086.601191997528,
+  "mean_tokens_per_s": 12739.449496082321,
+  "final_val_loss": 3.494623397283051,
+  "final_val_bpb": 1.7160986196583383,
+  "best_val_loss": 3.490093039447581,
+  "clipped_steps": 63,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1203.55078125,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 157897425171.85886,
+  "checkpoints": {
+    "last": "artifacts/runs/data71-ctrl/last.pt",
+    "best": "artifacts/runs/data71-ctrl/best.pt"
+  }
+}

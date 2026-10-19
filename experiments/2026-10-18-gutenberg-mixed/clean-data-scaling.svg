@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" font-family="ui-sans-serif, system-ui, sans-serif">
+<rect width="760" height="420" fill="#ffffff"/>
+<text x="70" y="24" font-size="15" font-weight="600" fill="#111827">val_bpb vs training tokens</text>
+<line x1="70" y1="365.0" x2="610" y2="365.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="369.0" font-size="11" fill="#6b7280" text-anchor="end">1.571</text>
+<line x1="70" y1="283.7" x2="610" y2="283.7" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="287.7" font-size="11" fill="#6b7280" text-anchor="end">1.667</text>
+<line x1="70" y1="202.5" x2="610" y2="202.5" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="206.5" font-size="11" fill="#6b7280" text-anchor="end">1.763</text>
+<line x1="70" y1="121.3" x2="610" y2="121.3" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="125.3" font-size="11" fill="#6b7280" text-anchor="end">1.859</text>
+<line x1="70" y1="40.0" x2="610" y2="40.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="44.0" font-size="11" fill="#6b7280" text-anchor="end">1.956</text>
+<line x1="70.0" y1="40" x2="70.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="70.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">8.00M</text>
+<line x1="205.0" y1="40" x2="205.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="205.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">15.83M</text>
+<line x1="340.0" y1="40" x2="340.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="340.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">23.66M</text>
+<line x1="475.0" y1="40" x2="475.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="475.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">31.49M</text>
+<line x1="610.0" y1="40" x2="610.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="610.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">39.32M</text>
+<text x="340" y="408" font-size="12" fill="#374151" text-anchor="middle">training tokens</text>
+<path d="M84.6,112.5 L101.6,130.2 L118.5,152.9 L135.5,164.9 L152.4,176.5 L169.3,188.0 L186.3,204.6 L203.2,216.5 L220.2,225.8 L237.1,234.4 L254.1,243.9 L271.0,251.9 L288.0,257.8 L304.9,266.6 L321.9,274.3 L338.8,282.5 L355.8,289.1 L372.7,294.5 L389.7,301.6 L406.6,308.2 L423.6,312.8 L440.5,318.5 L457.5,322.7 L474.4,327.6 L491.4,332.7 L508.3,335.6 L525.3,339.1 L542.2,342.0 L559.2,342.7 L576.1,345.9 L593.1,348.1 L610.0,350.2" fill="none" stroke="#2563eb" stroke-width="2"/>
+<circle cx="610.0" cy="350.2" r="3" fill="#2563eb"/>
+<text x="620" y="56" font-size="12" fill="#2563eb">data71-full (1.588)</text>
+<path d="M84.6,54.8 L101.6,74.2 L118.5,87.1 L135.5,98.1 L152.4,109.3 L169.3,124.0 L186.3,129.7 L203.2,137.4 L220.2,147.1 L237.1,152.2 L254.1,161.6 L271.0,166.5 L288.0,171.7 L304.9,180.1 L321.9,186.2 L338.8,191.6 L355.8,197.4 L372.7,202.8 L389.7,205.8 L406.6,210.2 L423.6,216.7 L440.5,220.5 L457.5,223.2 L474.4,227.2 L491.4,230.8 L508.3,233.2 L525.3,236.8 L542.2,237.9 L559.2,239.8 L576.1,240.4 L593.1,244.2 L610.0,242.3" fill="none" stroke="#dc2626" stroke-width="2"/>
+<circle cx="610.0" cy="242.3" r="3" fill="#dc2626"/>
+<text x="620" y="74" font-size="12" fill="#dc2626">data71-ctrl (1.716)</text>
+</svg>

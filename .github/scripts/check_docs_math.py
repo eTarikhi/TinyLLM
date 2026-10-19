@@ -709,19 +709,135 @@ def check_data_seed_report(root: str) -> None:
         cn = "model-card.md"
         claim(card, r"seed span\s+\*\*([\d.]+)%\*\* of test bits per byte", round(bar, 2),
               "card: seed bar", tol=5e-3, doc=cn)
-        claim(card, r"against a ([\d.]+)× larger corpus",
+        claim(card, r"[Aa]gainst a ([\d.]+)× larger corpus",
               round(large["train_tokens"] / small["train_tokens"], 2), "card: data multiple",
               tol=5e-3, doc=cn)
-        claim(card, r"([\d,]+) train tokens", large["train_tokens"], "card: 71-book train tokens",
-              doc=cn)
-        claim(card, r"this ([\d,]+)-token corpus wins", small["train_tokens"],
-              "card: 27-book train tokens", doc=cn)
-        claim(card, r"wins by ([\d.]+)% of test bits per byte at equal compute",
-              round(s["data_delta_test_pct"], 2), "card: data margin", tol=5e-3, doc=cn)
-        if "shift" in s:
-            claim(card, r"scores ([\d.]+)% worse on them", round(s["shift"]["clean_shift_pct"], 2),
-                  "card: out-of-distribution shift", tol=5e-3, doc=cn)
+        claim(card, r"appeared to win by ([\d.]+)% of test bits per byte",
+              round(s["data_delta_test_pct"], 2), "card: narrow-evaluation margin", tol=5e-3, doc=cn)
+        claim(card, r"inside the ([\d.]+)% seed bar", round(bar, 2), "card: seed bar restated",
+              tol=5e-3, doc=cn)
+        clean_path = os.path.join(exp, "clean-data-summary.json")
+        if os.path.isfile(clean_path):
+            cd = json.load(open(clean_path, encoding="utf-8"))
+            claim(card, r"the larger corpus wins by ([\d.]+)%",
+                  round(abs(cd["full_vs_ctrl_test_pct"]), 2), "card: clean data margin",
+                  tol=5e-3, doc=cn)
+            claim(card, r"costs \+([\d.]+)% on the original 27 books",
+                  round(cd["delta_original27_pct"], 2), "card: original27 cost", tol=5e-3, doc=cn)
+            claim(card, r"gains ([\d.]+)% on the rest", round(abs(cd["delta_added44_pct"]), 2),
+                  "card: added44 gain", tol=5e-3, doc=cn)
 
+
+
+def check_clean_data_report(root: str) -> None:
+    """Tie `clean-data-scaling.md` back to `clean-data-summary.json`.
+
+    This report reverses the sign of the project's headline data result, so a
+    transcription slip here would be expensive. Every number is re-read from
+    the JSON the analysis script emits.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "clean-data-summary.json")
+    dp = os.path.join(exp, "clean-data-scaling.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    d = open(dp, encoding="utf-8").read()
+    name = "clean-data-scaling.md"
+    print("experiments/2026-10-18-gutenberg-mixed/clean-data-scaling.md — report vs. raw artifacts")
+
+    full = next(a for a in s["arms"] if a["run"] == "data71-full")
+    ctrl = next(a for a in s["arms"] if a["run"] == "data71-ctrl")
+
+    # ---- setup table
+    claim(d, r"\| train tokens \| \*\*([\d,]+)\*\*", full["train_tokens"], "full train tokens", doc=name)
+    claim(d, r"\| train tokens \| \*\*[\d,]+\*\* \| \*\*([\d,]+)\*\*", ctrl["train_tokens"],
+          "ctrl train tokens", doc=name)
+    claim(d, r"\| epochs at 39\.3M tokens \| ([\d.]+) \|", round(full["epochs"], 2),
+          "full epochs", tol=5e-3, doc=name)
+    claim(d, r"\| epochs at 39\.3M tokens \| [\d.]+ \| ([\d.]+) \|", round(ctrl["epochs"], 2),
+          "ctrl epochs", tol=5e-3, doc=name)
+    claim(d, r"\| val tokens \| ([\d,]+) \|", s["val_tokens"], "val tokens", doc=name)
+    claim(d, r"\| test tokens \| ([\d,]+) \|", s["test_tokens"], "test tokens", doc=name)
+
+    # ---- result table
+    claim(d, r"\*\*full\*\* \(71 books\) \| ([\d,]+) \|", full["train_tokens"],
+          "result row full tokens", doc=name)
+    claim(d, r"\*\*full\*\* \(71 books\) \|(?:[^|\n]*\|){2} \*\*([\d.]+)\*\*",
+          round(full["val_bpb"], 4), "full val bpb", tol=5e-5, doc=name)
+    claim(d, r"\*\*full\*\* \(71 books\) \|(?:[^|\n]*\|){3} \*\*([\d.]+)\*\*",
+          round(full["test_bpb"], 4), "full test bpb", tol=5e-5, doc=name)
+    claim(d, r"\*\*full\*\* \(71 books\) \|(?:[^|\n]*\|){4} −([\d.]+) \|",
+          round(abs(full["end_gap"]), 4), "full gap", tol=5e-5, doc=name)
+    claim(d, r"\*\*full\*\* \(71 books\) \|(?:[^|\n]*\|){5} (\d+) \|", full["clipped_steps"],
+          "full clipped", doc=name)
+    claim(d, r"\*\*full\*\* \(71 books\) \|(?:[^|\n]*\|){6} (\d+) \|", full["longest_verbatim"],
+          "full verbatim", doc=name)
+    claim(d, r"\| control \(27 books\) \|(?:[^|\n]*\|){2} ([\d.]+) \|", round(ctrl["val_bpb"], 4),
+          "ctrl val bpb", tol=5e-5, doc=name)
+    claim(d, r"\| control \(27 books\) \|(?:[^|\n]*\|){3} ([\d.]+) \|", round(ctrl["test_bpb"], 4),
+          "ctrl test bpb", tol=5e-5, doc=name)
+    claim(d, r"\| control \(27 books\) \|(?:[^|\n]*\|){4} −([\d.]+) \|", round(abs(ctrl["end_gap"]), 4),
+          "ctrl gap", tol=5e-5, doc=name)
+    claim(d, r"\| control \(27 books\) \|(?:[^|\n]*\|){5} (\d+) \|", ctrl["clipped_steps"],
+          "ctrl clipped", doc=name)
+    claim(d, r"\| Δ \| ([\d.]+)× \|", round(s["data_multiple"], 2), "data multiple", tol=5e-3, doc=name)
+    claim(d, r"\| Δ \|(?:[^|\n]*\|){2} \*\*−([\d.]+)%\*\*", round(abs(s["full_vs_ctrl_val_pct"]), 2),
+          "val delta", tol=5e-3, doc=name)
+    claim(d, r"\| Δ \|(?:[^|\n]*\|){3} \*\*−([\d.]+)%\*\*", round(abs(s["full_vs_ctrl_test_pct"]), 2),
+          "test delta", tol=5e-3, doc=name)
+
+    # ---- headline prose
+    claim(d, r"helps, by ([\d.]+)% of test bits per byte", round(abs(s["full_vs_ctrl_test_pct"]), 2),
+          "headline margin", tol=5e-3, doc=name)
+    claim(d, r"— ([\d.]+)× the measured seed\s+bar", round(s["effect_in_bar_units"], 1),
+          "margin in bar units", tol=5e-2, doc=name)
+    claim(d, r"leads from \*\*step (\d+)\*\*", s["lead_changes"][0]["step"], "first lead step", doc=name)
+    claim(d, r"at all \*\*(\d+)\*\* common evaluation", s["common_eval_steps"],
+          "common eval points", doc=name)
+
+    # ---- decomposition
+    g = s["groups"]
+    claim(d, r"the original 27 books \| ([\d,]+) \|", s["group_stats"]["original27_tokens"],
+          "original27 tokens", doc=name)
+    claim(d, r"the original 27 books \| [\d,]+ \| ([\d.]+) \|", round(g["data71-full"]["original27"], 4),
+          "full on original27", tol=5e-5, doc=name)
+    claim(d, r"the original 27 books \|(?:[^|\n]*\|){2} ([\d.]+) \|", round(g["data71-ctrl"]["original27"], 4),
+          "ctrl on original27", tol=5e-5, doc=name)
+    claim(d, r"the original 27 books \|(?:[^|\n]*\|){3} \*\*\+([\d.]+)%\*\*",
+          round(s["delta_original27_pct"], 2), "original27 delta", tol=5e-3, doc=name)
+    claim(d, r"the added 44 books \| ([\d,]+) \|", s["group_stats"]["added44_tokens"],
+          "added44 tokens", doc=name)
+    claim(d, r"the added 44 books \| [\d,]+ \| ([\d.]+) \|", round(g["data71-full"]["added44"], 4),
+          "full on added44", tol=5e-5, doc=name)
+    claim(d, r"the added 44 books \|(?:[^|\n]*\|){2} ([\d.]+) \|", round(g["data71-ctrl"]["added44"], 4),
+          "ctrl on added44", tol=5e-5, doc=name)
+    claim(d, r"the added 44 books \|(?:[^|\n]*\|){3} \*\*−([\d.]+)%\*\*",
+          round(abs(s["delta_added44_pct"]), 2), "added44 delta", tol=5e-3, doc=name)
+    claim(d, r"costs \*\*\+([\d.]+)%\*\* on the original", round(s["delta_original27_pct"], 2),
+          "restated original27 cost", tol=5e-3, doc=name)
+    claim(d, r"model is \*\*([\d.]+)% better\*\*", round(abs(s["delta_added44_pct"]), 2),
+          "restated added44 gain", tol=5e-3, doc=name)
+    claim(d, r"buys ([\d.]+)% on the rest", round(abs(s["delta_added44_pct"]), 2),
+          "blockquote gain", tol=5e-3, doc=name)
+    claim(d, r"training on ([\d.]+)× more text costs", round(s["data_multiple"], 2),
+          "blockquote multiple", tol=5e-3, doc=name)
+
+    # ---- the reproducibility floor
+    ref = json.load(open(os.path.join(exp, "eval-test-4800.json"), encoding="utf-8"))["model"]["bpb"]
+    ctrl27 = g["data71-ctrl"]["original27"]
+    claim(d, r"scores \*\*([\d.]+)\*\* against the released", round(ctrl27, 4),
+          "ctrl on the released test split", tol=5e-5, doc=name)
+    claim(d, r"against the released run's \*\*([\d.]+)\*\*", round(ref, 4),
+          "released test bpb", tol=5e-5, doc=name)
+    claim(d, r"\*\*\+([\d.]+)%\*\*\.\s*\n*The cause", round(100 * (ctrl27 / ref - 1), 3),
+          "checkpoint-selection cost", tol=5e-4, doc=name)
+
+    # ---- the standings table
+    claim(d, r"\| \*\*training data\*\* \|(?:[^|\n]*\|){1} \*\*−([\d.]+)%\*\*",
+          round(abs(s["full_vs_ctrl_test_pct"]), 2), "standings data row", tol=5e-3, doc=name)
 
 
 def main(root: str = ".") -> int:
@@ -729,6 +845,7 @@ def main(root: str = ".") -> int:
     check_training_defaults(root)
     check_experiment_reports(root)
     check_data_seed_report(root)
+    check_clean_data_report(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

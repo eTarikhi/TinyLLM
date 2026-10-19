@@ -1,0 +1,72 @@
+{
+  "run_id": "data71-full",
+  "checkpoint": "artifacts/runs/data71-full/best.pt",
+  "step": 4800,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.260975613614731,
+    "perplexity": 26.074963826904956,
+    "bpb": 1.6146509058313576,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.645990487008508,
+    "perplexity": 2092.239886287805,
+    "bpb": 3.7858625542254067,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      24,
+      31,
+      24,
+      23
+    ],
+    "max_longest_verbatim_match_chars": 31,
+    "mean_longest_verbatim_match_chars": 25.5,
+    "example_sample": "\nhealthy-thoughts; henceforth, he hath an inspired, and fled, and\ncrying of the baseness of the edification of the law. He is a good\nday, though he is in his power and fruitful. He may be a good defect,\nhe knows how he has in the habit, and as the greatest of allow the\ncity of her. What to this will the matter? His life is quite impossible,\nhe is very far offer to the world, and his son-ears and souls,\nhe, and it is not a wedding of what is most good enough to become\nthe laws of purers on the hill, he is not so often free from himself,\nhis name is he, has been widely destroyed, in his life his masters, and\ninfernal innocence of virtue has in his own life. Between his\nheart, he is the"
+  }
+}

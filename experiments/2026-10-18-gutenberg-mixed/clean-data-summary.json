@@ -1,0 +1,91 @@
+{
+  "evaluation_identical": true,
+  "val_tokens": 1042315,
+  "test_tokens": 1038419,
+  "arms": [
+    {
+      "run": "data71-full",
+      "train_tokens": 18939699,
+      "epochs": 2.076147039084412,
+      "val_bpb": 1.5882571452380723,
+      "test_bpb": 1.6146509058313576,
+      "end_gap": -0.06862748877715585,
+      "clipped_steps": 34,
+      "longest_verbatim": 31,
+      "elapsed_s": 3129.8923287391663,
+      "test_bytes": 3025186
+    },
+    {
+      "run": "data71-ctrl",
+      "train_tokens": 5771560,
+      "epochs": 6.8129933674777705,
+      "val_bpb": 1.7160986196583383,
+      "test_bpb": 1.7418381760700312,
+      "end_gap": -0.3929858642061106,
+      "clipped_steps": 63,
+      "longest_verbatim": 25,
+      "elapsed_s": 3086.601191997528,
+      "test_bytes": 3025186
+    }
+  ],
+  "full_vs_ctrl_test_pct": -7.301899337493911,
+  "full_vs_ctrl_val_pct": -7.449541241733426,
+  "data_multiple": 3.2815562863419943,
+  "effect_in_bar_units": 19.785793730084176,
+  "common_eval_steps": 40,
+  "lead_changes": [
+    {
+      "step": 120,
+      "leader": "full"
+    }
+  ],
+  "tail": [
+    {
+      "step": 4320,
+      "full": 1.5979549769512136,
+      "ctrl": 1.721226823228741,
+      "delta_pct": -7.161859472204224
+    },
+    {
+      "step": 4440,
+      "full": 1.5972278399682671,
+      "ctrl": 1.7190312296911554,
+      "delta_pct": -7.085583299424513
+    },
+    {
+      "step": 4560,
+      "full": 1.5934363368494084,
+      "ctrl": 1.7182740882634917,
+      "delta_pct": -7.265299073458397
+    },
+    {
+      "step": 4680,
+      "full": 1.5907570814205219,
+      "ctrl": 1.7138739047336764,
+      "delta_pct": -7.183540339409388
+    },
+    {
+      "step": 4800,
+      "full": 1.5882571452380723,
+      "ctrl": 1.7160986196583383,
+      "delta_pct": -7.449541241733426
+    }
+  ],
+  "groups": {
+    "data71-full": {
+      "original27": 1.6645109046526734,
+      "added44": 1.5926294082669856
+    },
+    "data71-ctrl": {
+      "original27": 1.6586436422800965,
+      "added44": 1.7788216148257465
+    }
+  },
+  "group_stats": {
+    "pieces_total": 71,
+    "original27_tokens": 323284,
+    "added44_tokens": 715134
+  },
+  "delta_original27_pct": 0.35373857427936084,
+  "delta_added44_pct": -10.467165735278083
+}

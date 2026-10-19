@@ -247,3 +247,24 @@ Ordered by what the evidence says is limiting, not by what is interesting:
    baseline.
 9. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
    trend's direction is known; its end is not.
+10. ~~**"More data" asked properly.**~~ **Done** — see
+    [`clean-data-scaling.md`](clean-data-scaling.md). Item 8 pinned the
+    evaluation to the original 27 books, so it could only ever measure
+    whether the additions help *there*. Two new corpora,
+    `gutenberg-mixed-71-full` and `-71-ctrl`, carry the same 71 documents and
+    the same val and test splits — byte-identical, shared vocabulary — and
+    differ only in which documents feed training (18,939,699 vs 5,771,560
+    tokens). Running both over the identical horizon answers the general
+    question and, by decomposing the test split into the 27 both arms train
+    on and the 44 only one arm trains on, reproduces item 8's result inside
+    the same pair of runs.
+11. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
+    showed clip rate and peak LR interact, and batch size is the third corner
+    of that; 8,192 tokens per step remains an inherited number.
+12. **Re-establish a baseline under `eval_spread`.** The in-training
+    validation metric covered the first 8 of 27 books until it was fixed, so
+    every published val number is a number about those eight. Test numbers,
+    and therefore every conclusion drawn so far, are unaffected. The spread
+    slice is opt-in to keep the committed configs reproducible; making it the
+    default needs one re-run of the released configuration to re-anchor the
+    val series.
