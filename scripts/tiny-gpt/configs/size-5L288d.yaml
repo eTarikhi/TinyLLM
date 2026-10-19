@@ -1,0 +1,63 @@
+# Size sweep at the main budget. One of three points; the third is the
+# committed 4,800-step run of 3L/192d/3H (1,770,816 params).
+#
+# The question: the pilots chose 1.77M parameters on eight-minute curves, and
+# that model has since been given 6x that budget. It ended deep into
+# diminishing returns -- the last four evaluations bought 0.0098 bpb against
+# the previous run's 0.0302 -- while its train/val gap kept *shrinking*. That
+# combination is the signature of a model too small for its compute. Compute-
+# optimal size also grows as sqrt(C), so 6x the budget nominally argues for
+# ~2.4x the parameters. This sweep tests that directly, at the real budget
+# rather than by extrapolating an eight-minute window, because that
+# extrapolation has already been scored once and came back 1.8x optimistic on
+# long-horizon gains.
+#
+# Matched on wall clock, not on steps or tokens: 2,926 s, the elapsed time of
+# the incumbent's run. Step counts come from measured throughput
+# (src/size_probe.py), so every config *completes* its cosine schedule inside
+# the budget. That matters more than it sounds -- the 4,800-step run read
+# 1.7161 at step 2,400 against the shorter run's 1.6815 at the identical step,
+# purely because its learning rate had not annealed yet. A config that ran out
+# of time mid-schedule would lose for the wrong reason.
+#
+# Warmup is 5% of each horizon rather than a fixed 240 steps. Holding the
+# *shape* of the schedule constant is what makes two different-length runs
+# comparable, and 5% is exactly what the incumbent used (240/4800).
+#
+# Everything else is held fixed: vocab 2048, block 256, batch 16 x accum 2,
+# lr 3e-3 cosine to 3e-4, AdamW beta2 0.99, wd 0.1, clip 1.0, dropout 0.0,
+# tied embeddings, seed 1337. Learning rate is *not* retuned per size, which
+# is a real limitation: bigger models often prefer a lower peak. Changing two
+# variables at once would confound the result, so this measures size at a
+# fixed recipe, and a win for a larger model would deserve an LR check.
+run_id: size-5L288d
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 5
+n_head: 6
+n_embd: 288
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 88
+max_steps: 1763
+
+eval_every: 88
+eval_tokens: 98304
+log_every: 50
+sample_every: 900
+sample_tokens: 240
+save_every: 600
+max_seconds: 3600
+threads: 2

@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "size-4L256d",
+  "stop_reason": "max_steps",
+  "steps": 2571,
+  "tokens": 21061632,
+  "elapsed_s": 2966.2159905433655,
+  "mean_tokens_per_s": 7100.505178027117,
+  "final_val_loss": 3.392898006170076,
+  "final_val_bpb": 1.620784020082511,
+  "best_val_loss": 3.392788772880276,
+  "clipped_steps": 38,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1365.93359375,
+  "params_total": 3737856,
+  "achieved_flops_per_s": 181580253248.98325,
+  "checkpoints": {
+    "last": "artifacts/runs/size-4L256d/last.pt",
+    "best": "artifacts/runs/size-4L256d/best.pt"
+  }
+}

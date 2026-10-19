@@ -248,6 +248,56 @@ def check_experiment_reports(root: str) -> None:
               "tokens trained", doc=run["doc"])
         claim(doc, r"\(([\d.]+) epochs\)", epochs, "epochs", tol=5e-3, doc=run["doc"])
 
+    # The size sweep: three runs at a matched wall-clock budget. Each row of
+    # its results table is recomputed from that run's own summary and
+    # evaluation JSON, and the two relative margins from the pair they
+    # compare -- those margins are the whole point of the sweep.
+    sweep_doc = "size-sweep.md"
+    if os.path.exists(os.path.join(exp, sweep_doc)):
+        print(f"experiments/2026-10-18-gutenberg-mixed/{sweep_doc} — sweep vs. raw artifacts")
+        sweep = text(sweep_doc)
+
+        # Results-table row: | label | params | steps | elapsed s | tokens | epochs | val | test |
+        FIELDS = [r"\*{0,2}([\d,]+)\*{0,2}", r"([\d,]+)", r"([\d,]+) s", r"([\d,]+)",
+                  r"([\d.]+)", r"\*{0,2}([\d.]+)\*{0,2}", r"\*{0,2}([\d.]+)\*{0,2}"]
+
+        def row_pattern(label, index):
+            """The table row, with a capture group on field `index` only."""
+            cells = [f if i == index else f.replace("(", "(?:") for i, f in enumerate(FIELDS)]
+            return r"\| \*{0,2}" + re.escape(label) + r"\*{0,2} \| " + r" \| ".join(cells) + r" \|"
+
+        points = [
+            ("3L/192d/3H", "main-gutenberg-4800", "eval-test-4800.json"),
+            ("4L/256d/4H", "size-4L256d", "eval-test-size-4L256d.json"),
+            ("5L/288d/6H", "size-5L288d", "eval-test-size-5L288d.json"),
+        ]
+        loaded = []
+        for label, run, evf in points:
+            su, evj = load(os.path.join("metrics", f"{run}-summary.json")), load(evf)
+            loaded.append((label, su, evj))
+            for index, value, what in ((0, su["params_total"], "params"),
+                                       (1, su["steps"], "steps"),
+                                       (3, su["tokens"], "tokens")):
+                claim(sweep, row_pattern(label, index), value, f"{what}, {label}", doc=sweep_doc)
+            claim(sweep, row_pattern(label, 5), round(su["final_val_bpb"], 4),
+                  f"val bpb, {label}", tol=5e-5, doc=sweep_doc)
+            claim(sweep, row_pattern(label, 6), round(evj["model"]["bpb"], 4),
+                  f"test bpb, {label}", tol=5e-5, doc=sweep_doc)
+
+        # The margins, recomputed from the pair each one compares.
+        base_su, base_ev = loaded[0][1], loaded[0][2]
+        for label, su, evj in loaded[1:]:
+            short = label.rsplit("/", 1)[0]  # the prose drops the head count
+            claim(sweep, re.escape(short) + r" is \*\*\+([\d.]+)%\*\* test bpb",
+                  round((evj["model"]["bpb"] / base_ev["model"]["bpb"] - 1) * 100, 2),
+                  f"test margin vs incumbent, {short}", tol=5e-3, doc=sweep_doc)
+            claim(sweep, re.escape(short) + r" is \*\*\+[\d.]+%\*\* test bpb at ([\d.]+)×",
+                  round(su["params_total"] / base_su["params_total"], 2),
+                  f"param ratio, {short}", tol=5e-3, doc=sweep_doc)
+        claim(sweep, r"\*\*([\d.]+)%\*\* validation, [\d.]+% test",
+              round((loaded[1][1]["final_val_bpb"] / base_su["final_val_bpb"] - 1) * 100, 2),
+              "val margin, 1.77M over 3.74M", tol=5e-3, doc=sweep_doc)
+
     # The model card describes the released model: the 4,800-step run.
     print("experiments/2026-10-18-gutenberg-mixed/model-card.md — card vs. raw artifacts")
     card = text("model-card.md")

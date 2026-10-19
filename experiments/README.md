@@ -23,6 +23,8 @@ the tokenizer choice was worth 19% in bits per byte, the learning rate 11%,
 and turning dropout off bought 40% throughput on CPU — and cost a validation
 minimum twelve epochs in.
 
+| 2026-10-19 | [`2026-10-18-gutenberg-mixed/`](2026-10-18-gutenberg-mixed/size-sweep.md) | Both earlier runs were chosen by eight-minute pilots whose extrapolation was later caught 1.8× optimistic. Does the model-size verdict survive at the real budget? | Three sizes at a matched 2,926 s wall clock, step counts set from measured throughput so each finishes its cosine schedule: 1.77M → **1.6569** test bpb, 3.74M → 1.6605, 5.64M → 1.6920. The pilots' 11% margin for the small model collapsed to 0.2% — a tie at single-seed precision, not a win — and 5.64M is clearly too big. Steps and size are both now measured and neither is binding. See the [size sweep](2026-10-18-gutenberg-mixed/size-sweep.md) |
+
 Four preceded the second ([`pilots.md`](2026-10-18-gutenberg-mixed/pilots.md)).
 They chose a model **half the size** the 6ND budget rule recommends — measured
 curves beat the rule by 11.7% — and they carry a recorded prediction that the

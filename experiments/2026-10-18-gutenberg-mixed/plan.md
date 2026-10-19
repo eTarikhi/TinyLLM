@@ -191,16 +191,24 @@ Ordered by what the evidence says is limiting, not by what is interesting:
    6.81 epochs; the train/val gap narrowed by two thirds. The prediction held,
    but the final four evaluations bought 0.0098 bpb against the shorter run's
    0.0302, so a third doubling is no longer the best use of the next hour.
-2. **Re-run the size sweep at the longer budget — now the top item.** The
-   pilots picked 1.77 M over the ~3.3 M the 6ND rule suggests, measured at 8
-   minutes, and that model has since been given 6× that budget. A model deep
-   into diminishing returns whose generalization gap keeps *shrinking* is the
-   signature of one that is too small for its compute, so this is where the
-   next improvement most likely is.
-3. **Context length.** Fixed at 256 for every run so far, never varied. Prose
-   plausibly rewards more; attention cost grows quadratically, so measure
-   rather than assume.
-4. **A second seed.** Every number in this directory is a single draw. One
-   repeat of the main run would put a bar on the headline.
-5. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
+2. ~~**Re-run the size sweep at the longer budget.**~~ **Done** — see
+   [`size-sweep.md`](size-sweep.md). Three sizes at a matched 2,926 s:
+   1.77 M scored 1.6569 test bpb, 3.74 M scored 1.6605, 5.64 M scored 1.6920.
+   The pilots' 11% margin for the small model has collapsed to 0.2%, which is
+   a tie at single-seed precision rather than a win, and 5.64 M is clearly too
+   big. The optimum sits in the 1.8–3.7 M band and the crossover is at or just
+   beyond this budget — recorded as a prediction, not a result.
+3. **Context length — now the top item.** Fixed at 256 for every run so far
+   and never varied, while steps and size have each now been measured and
+   found not to be binding. Prose plausibly rewards more context; attention
+   cost grows quadratically, so measure rather than assume.
+4. **The learning-rate and batch recipe.** 3e-3, batch 16 × accum 2,
+   β2 = 0.99 were chosen on iteration 1's corpus and carried through every run
+   since without re-examination. The size sweep held them fixed by design,
+   which means a larger model may have been handicapped by a peak LR picked
+   for a smaller one.
+5. **A second seed.** Every number in this directory is a single draw, and
+   the size sweep has now produced a 0.2% difference that a seed bar would
+   probably swallow. This has graduated from nice-to-have to necessary.
+6. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
    trend's direction is known; its end is not.

@@ -68,7 +68,10 @@ character counts and boilerplate removal stats — is in `data-manifest.json`.
 Architecture and vocabulary were chosen by a four-configuration pilot matrix at
 8 minutes each, documented with its arithmetic in `pilots.md`. The horizon was
 doubled from 2,400 steps afterwards, because that run ended compute-limited —
-see [`eval-report-4800.md`](eval-report-4800.md).
+see [`eval-report-4800.md`](eval-report-4800.md). The size choice was then
+re-tested at the full budget against 3.74 M and 5.64 M parameter models
+([`size-sweep.md`](size-sweep.md)): this size tied the first and beat the
+second, so it is the released model on a tie rather than a clear win.
 
 ## Evaluation
 

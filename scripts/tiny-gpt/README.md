@@ -26,6 +26,7 @@ scripts/tiny-gpt/
     evaluate.py               held-out loss/PPL/BPB, baselines, memorization probe
     generate.py               sampling with recorded settings
     plot_metrics.py           metrics.jsonl -> SVG, no plotting dependency
+    size_probe.py             params + tokens/s per config, for compute-matched sweeps
   tests/                      the seven gates SKILL.md names, plus tokenizer and
                               multi-document corpus tests
 ```

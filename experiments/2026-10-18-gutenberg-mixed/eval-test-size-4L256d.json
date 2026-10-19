@@ -1,0 +1,72 @@
+{
+  "run_id": "size-4L256d",
+  "checkpoint": "artifacts/runs/size-4L256d/best.pt",
+  "step": 2560,
+  "tokens_trained": 20971520,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 256,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 3737856,
+  "model": {
+    "loss": 3.3187559570898957,
+    "perplexity": 27.625961290810956,
+    "bpb": 1.660530096824938,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.672170206361865,
+    "perplexity": 2147.73742462487,
+    "bpb": 3.8387485251547777,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      24,
+      23,
+      26,
+      23
+    ],
+    "max_longest_verbatim_match_chars": 26,
+    "mean_longest_verbatim_match_chars": 24.0,
+    "example_sample": "\nheard this, he bit the wooden thyself, and astonished, and then began\nto rise out of his laughter's throat. \u2018What does he say then?\u2019 said\nthe cat. \u2018No,\u2019 said he. \u2018I am the best of you,\u2019 said the cat, \u2018but I\nwon\u2019t say it is as true as they please.\u2019 He told the cat. The whole\nmade him speak to my father\u2019s sitting there, and gave him some\nsolitude. After a time he had a large stretch, and he found a wicked\nthan two days before he had a great deal of his own fingers; he\naccomplishment of what he had said, and that he was going alone in the\nhoursom of the same time. Some of the pair he was talking, and so\nsick too many things that I could come.\n\nAfter a few minutes, there was a nicety, but he was"
+  }
+}
