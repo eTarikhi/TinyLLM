@@ -223,13 +223,27 @@ Ordered by what the evidence says is limiting, not by what is interesting:
 6. **Batch size, which the bracket did not move.** Learning rate and batch
    size trade off against each other and only the first has been swept;
    8,192 tokens per step is still an inherited number.
-7. **A second seed.** Every number in this directory is a single draw, and
-   there are now two differences in it — 0.2% on size and 0.08% on learning
-   rate — that a seed bar would probably swallow. This has graduated from
-   nice-to-have to necessary.
-8. **More data — now the only lever that is not a setting.** Four levers have
-   been measured at this budget and none binds. The corpus is 18.8 MB and the
-   released run has already made 6.81 passes over it; everything else is
-   rearranging a local optimum.
+7. ~~**A second seed.**~~ **Done** — see
+   [`data-scaling-and-seed-bar.md`](data-scaling-and-seed-bar.md). Seeds 1338
+   and 1339 of the released configuration put the run-to-run range at **0.37%**
+   of test bits per byte (0.24% on val). That swallows exactly the two margins
+   predicted here — size 3.74M at +0.22% and lr 6e-3 at +0.08% — and confirms
+   both as ties. It also leaves T=128's +0.64% at only 1.7× the bar, so that
+   one claim is thinner than the context sweep implied. The released seed,
+   1337, is not the best of the three; 1339 would have been quotable at 1.6531.
+8. ~~**More data.**~~ **Done, and the answer is no** — see
+   [`data-scaling-and-seed-bar.md`](data-scaling-and-seed-bar.md). 44 more
+   public-domain books take the training split from 5.77M to **20.4M tokens**
+   (3.53×, 6.81 → 1.93 epochs) with val/test and the tokenizer held
+   byte-identical. At fixed compute the larger corpus is **+0.53% worse** on
+   test and +1.10% worse on val, leads at no point after step 120, and the
+   deficit is still ≈1% at the end of the cosine. A probe explains why: a clean
+   27-book model finds the 44 additions **6.93% harder** than its own test
+   split, so they are a different distribution rather than more of the same,
+   and training on them moves the new-book score 17× more than the test score.
+   At 1.77M parameters the model cannot hold both. The clean restatement of the
+   question — val/test drawn from all 71 books — is now the open item, and it
+   would break comparability with every number above, so it needs its own
+   baseline.
 9. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
    trend's direction is known; its end is not.

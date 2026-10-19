@@ -70,12 +70,16 @@ Architecture and vocabulary were chosen by a four-configuration pilot matrix at
 doubled from 2,400 steps afterwards, because that run ended compute-limited —
 see [`eval-report-4800.md`](eval-report-4800.md).
 
-Three of those pilot choices have since been re-tested at the full budget,
-and the released configuration is the one that survived all three:
+Four of those pilot choices have since been re-tested at the full budget,
+and the released configuration is the one that survived all four. Read them
+against the measured noise floor: three runs that differ only in seed span
+**0.37%** of test bits per byte ([`data-scaling-and-seed-bar.md`](data-scaling-and-seed-bar.md)),
+so any margin below that is not a result.
 
 - **Model size** ([`size-sweep.md`](size-sweep.md)) — against 3.74 M and 5.64 M parameter models, this size tied the first (0.2%) and beat the second (2.1%). Released on a tie rather than a clear win.
 - **Context length** ([`context-sweep.md`](context-sweep.md)) — bracketed at 128, 512 and 1024 tokens. 256 wins all three comparisons, by 0.64%, 1.56% and 10.30% of test bits per byte. It is an interior optimum, not an edge.
 - **Peak learning rate** ([`lr-bracket.md`](lr-bracket.md)) — bracketed at 1.5e-3 and 6.0e-3. 3e-3 wins both, by 0.83% and 0.08%, but the margin over the higher rate is inside single-seed noise and the response is asymmetric: this value sits on the lower edge of a plateau rather than at its peak.
+- **Training data** ([`data-scaling-and-seed-bar.md`](data-scaling-and-seed-bar.md)) — against a 3.53× larger corpus (44 more public-domain books, 20,379,728 train tokens, val/test and tokenizer held byte-identical), this 5,771,560-token corpus wins by 0.53% of test bits per byte at equal compute. More data made this model worse, because the additions are a measurably different distribution: a model that never saw them scores 6.93% worse on them than on its own test split.
 
 Two settings in the table below have *not* been swept at this budget: the
 8,192-token optimizer batch and `grad_clip` 1.0. The learning-rate bracket

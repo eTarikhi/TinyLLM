@@ -545,10 +545,190 @@ def check_experiment_reports(root: str) -> None:
           ev4["memorization"]["max_longest_verbatim_match_chars"], "probe chars", doc="model-card.md")
 
 
+def check_data_seed_report(root: str) -> None:
+    """Tie `data-scaling-and-seed-bar.md` back to `data-seed-summary.json`.
+
+    This report carries the seed bar, which every other margin in the directory
+    is now judged against, so a transcription slip here would silently re-grade
+    all of them. Each number is re-read from the JSON the analysis script emits
+    rather than from the prose.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    summary_path = os.path.join(exp, "data-seed-summary.json")
+    doc_path = os.path.join(exp, "data-scaling-and-seed-bar.md")
+    if not (os.path.isfile(summary_path) and os.path.isfile(doc_path)):
+        return
+
+    s = json.load(open(summary_path, encoding="utf-8"))
+    d = open(doc_path, encoding="utf-8").read()
+    name = "data-scaling-and-seed-bar.md"
+    print("experiments/2026-10-18-gutenberg-mixed/data-scaling-and-seed-bar.md — report vs. raw artifacts")
+
+    # ---- per-seed table. One pattern per column; `.` never crosses a newline.
+    rows = {1337: r"\| 1337 \(released\) \|", 1338: r"\| 1338 \|", 1339: r"\| 1339 \|"}
+    for rec in s["seeds"]:
+        head = rows[rec["seed"]]
+        tag = f"seed {rec['seed']}"
+        claim(d, head + r" ([\d.]+) \|", round(rec["val_bpb"], 4), f"{tag} val bpb", tol=5e-5, doc=name)
+        claim(d, head + r" [\d.]+ \| ([\d.]+) \|", round(rec["test_bpb"], 4), f"{tag} test bpb",
+              tol=5e-5, doc=name)
+        claim(d, head + r" [\d.]+ \| [\d.]+ \| \+([\d.]+) \|", round(rec["end_gap"], 4),
+              f"{tag} gap", tol=5e-5, doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){3} (\d+) \|", rec["clipped_steps"], f"{tag} clipped steps", doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){4} (\d+) \|", rec["longest_verbatim"], f"{tag} longest verbatim",
+              doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){5} ([\d,]+) s \|", round(rec["elapsed_s"]), f"{tag} elapsed",
+              tol=1, doc=name)
+
+    # ---- spread table.
+    for key, head in (("val_spread", r"\| val bpb \|"), ("test_spread", r"\| test bpb \|")):
+        sp = s[key]
+        lab = key.split("_")[0]
+        claim(d, head + r" ([\d.]+) \|", round(sp["mean"], 4), f"{lab} mean", tol=5e-5, doc=name)
+        claim(d, head + r" [\d.]+ \| ([\d.]+) \|", round(sp["min"], 4), f"{lab} min", tol=5e-5, doc=name)
+        claim(d, head + r" [\d.]+ \| [\d.]+ \| ([\d.]+) \|", round(sp["max"], 4), f"{lab} max",
+              tol=5e-5, doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){3} ([\d.]+) \(", round(sp["range"], 4), f"{lab} range",
+              tol=5e-5, doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){3} [\d.]+ \(\*\*([\d.]+)%", round(sp["range_pct"], 2),
+              f"{lab} range pct", tol=5e-3, doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){4} ([\d.]+) \(", round(sp["stdev"], 4), f"{lab} sd",
+              tol=5e-5, doc=name)
+        claim(d, head + r"(?:[^|\n]*\|){4} [\d.]+ \(([\d.]+)%", round(sp["stdev_pct"], 2),
+              f"{lab} sd pct", tol=5e-3, doc=name)
+
+    # ---- re-grading table. Labels must match the analysis script's own labels.
+    heads = {
+        "size 3.74M": r"\| size 3\.74M params \| \+([\d.]+)%",
+        "size 5.64M": r"\| size 5\.64M params \| \+([\d.]+)%",
+        "context T=128": r"\| context T=128 \| \+([\d.]+)%",
+        "context T=512": r"\| context T=512 \| \+([\d.]+)%",
+        "context T=1024": r"\| context T=1024 \| \+([\d.]+)%",
+        "lr 1.5e-3": r"\| peak LR 1\.5e-3 \| \+([\d.]+)%",
+        "lr 6.0e-3": r"\| peak LR 6\.0e-3 \| \+([\d.]+)%",
+    }
+    for v in s["margin_verdicts"]:
+        claim(d, heads[v["label"]], round(v["margin_pct"], 2), f"re-graded margin {v['label']}",
+              tol=5e-3, doc=name)
+
+    bar = s["test_spread"]["range_pct"]
+    claim(d, r"T=128 is only ([\d.]+)× the bar",
+          round(s["margin_verdicts"][2]["margin_pct"] / bar, 1), "T=128 in bar units", tol=5e-2, doc=name)
+    claim(d, r"1\.5e-3 is ([\d.]+)× the bar", round(s["margin_verdicts"][5]["margin_pct"] / bar, 1),
+          "lr 1.5e-3 in bar units", tol=5e-2, doc=name)
+
+    # ---- corpus table.
+    small, large = s["data"][0], s["data"][1]
+    claim(d, r"\| train tokens \| ([\d,]+) \|", small["train_tokens"], "27-book train tokens", doc=name)
+    claim(d, r"\| train tokens \| [\d,]+ \| \*\*([\d,]+)\*\*", large["train_tokens"],
+          "71-book train tokens", doc=name)
+    claim(d, r"\*\*[\d,]+\*\* \(([\d.]+)×\)", round(large["train_tokens"] / small["train_tokens"], 2),
+          "data multiple", tol=5e-3, doc=name)
+    claim(d, r"\| epochs over train at 39\.3M tokens \| ([\d.]+) \|", round(small["epochs"], 2),
+          "27-book epochs", tol=5e-3, doc=name)
+    claim(d, r"\| epochs over train at 39\.3M tokens \| [\d.]+ \| ([\d.]+) \|", round(large["epochs"], 2),
+          "71-book epochs", tol=5e-3, doc=name)
+
+    # ---- result table.
+    claim(d, r"\| 71 books \| ([\d,]+) \|", large["train_tokens"], "result row train tokens", doc=name)
+    claim(d, r"\| 71 books \| [\d,]+ \| ([\d.]+) \|", round(large["epochs"], 2), "result row epochs",
+          tol=5e-3, doc=name)
+    claim(d, r"\| 71 books \|(?:[^|\n]*\|){2} ([\d.]+) \|", round(large["val_bpb"], 4),
+          "71-book val bpb", tol=5e-5, doc=name)
+    claim(d, r"\| 71 books \|(?:[^|\n]*\|){3} ([\d.]+) \|", round(large["test_bpb"], 4),
+          "71-book test bpb", tol=5e-5, doc=name)
+    claim(d, r"\| 71 books \|(?:[^|\n]*\|){4} \+([\d.]+) \|", round(large["end_gap"], 4),
+          "71-book gap", tol=5e-5, doc=name)
+    claim(d, r"\| 71 books \|(?:[^|\n]*\|){5} (\d+) \|", large["clipped_steps"],
+          "71-book clipped steps", doc=name)
+    claim(d, r"\| 71 books \|(?:[^|\n]*\|){6} (\d+) \|", large["longest_verbatim"],
+          "71-book longest verbatim", doc=name)
+    claim(d, r"\| Δ \| [\d.]+× \| \| \*\*\+([\d.]+)%\*\*", round(s["data_delta_val_pct"], 2),
+          "data val delta", tol=5e-3, doc=name)
+    claim(d, r"\| Δ \|(?:[^|\n]*\|){3} \*\*\+([\d.]+)%\*\*", round(s["data_delta_test_pct"], 2),
+          "data test delta", tol=5e-3, doc=name)
+
+    # ---- significance prose.
+    claim(d, r"is ([\d.]+)× the seed range", round(s["data_delta_test_pct"] / bar, 1),
+          "data effect in bar units", tol=5e-2, doc=name)
+    claim(d, r"seed range and\s+\+([\d.]+) seed standard deviations", round(s["data_sigma_test"], 1),
+          "data test sigma", tol=5e-2, doc=name)
+    claim(d, r"on val is \+([\d.]+) seed standard deviations", round(s["data_sigma_val"], 1),
+          "data val sigma", tol=5e-2, doc=name)
+    claim(d, r"takes the lead at \*\*step (\d+)\*\*", s["data_lead_changes"][0]["step"],
+          "lead change step", doc=name)
+    claim(d, r"across all \*\*(\d+)\*\* common evaluation points", s["data_common_eval_steps"],
+          "common eval points", doc=name)
+
+    # ---- distribution-shift probe.
+    if "shift" in s:
+        sh = s["shift"]
+        shift_doc = json.load(open(os.path.join(exp, "distribution-shift.json"), encoding="utf-8"))
+        res = shift_doc["results"]
+        for run in ("seed-1338", "seed-1339"):
+            r = res[run]
+            claim(d, rf"\| {run} \| no — held out \| ([\d.]+) \|", round(r["test_27_books_bpb"], 4),
+                  f"{run} probe test bpb", tol=5e-5, doc=name)
+            claim(d, rf"\| {run} \| no — held out \| [\d.]+ \| ([\d.]+) \|",
+                  round(r["new_44_books_bpb"], 4), f"{run} probe new bpb", tol=5e-5, doc=name)
+            claim(d, rf"\| {run} \| no — held out \|(?:[^|\n]*\|){{2}} \+([\d.]+)%",
+                  round(r["shift_pct"], 2), f"{run} probe shift", tol=5e-3, doc=name)
+        g = res["data-gb71"]
+        claim(d, r"\| data-gb71 \| \*\*yes — trained on\*\* \| ([\d.]+) \|",
+              round(g["test_27_books_bpb"], 4), "gb71 probe test bpb", tol=5e-5, doc=name)
+        claim(d, r"\| data-gb71 \| \*\*yes — trained on\*\* \| [\d.]+ \| ([\d.]+) \|",
+              round(g["new_44_books_bpb"], 4), "gb71 probe new bpb", tol=5e-5, doc=name)
+        claim(d, r"\| data-gb71 \| \*\*yes — trained on\*\* \|(?:[^|\n]*\|){2} −([\d.]+)%",
+              round(abs(g["shift_pct"]), 2), "gb71 probe shift", tol=5e-3, doc=name)
+        claim(d, r"additions ([\d.]+)% harder than its own test", round(sh["clean_shift_pct"], 2),
+              "clean out-of-distribution shift", tol=5e-3, doc=name)
+        claim(d, r"nearly (\d+)× the seed bar", round(sh["clean_shift_pct"] / bar),
+              "shift in bar units", doc=name)
+        claim(d, r"by \*\*−([\d.]+)%\*\* and the test score by", round(abs(sh["gb71_new_gain_pct"]), 2),
+              "gb71 new-book gain", tol=5e-3, doc=name)
+        claim(d, r"the test score by \*\*\+([\d.]+)%\*\*", round(sh["gb71_test_cost_pct"], 2),
+              "gb71 test cost", tol=5e-3, doc=name)
+        claim(d, r"\*\*(\d+)× more movement on the new", round(sh["gain_cost_ratio"]),
+              "gain/cost ratio", doc=name)
+        claim(d, r"\(\*\*([\d,]+)\*\* tokens, comparable", sh["probe_tokens"], "probe tokens", doc=name)
+
+    # ---- the one cross-report number in the summary table.
+    ev24 = json.load(open(os.path.join(exp, "eval-test-best.json"), encoding="utf-8"))["model"]["bpb"]
+    ev48 = json.load(open(os.path.join(exp, "eval-test-4800.json"), encoding="utf-8"))["model"]["bpb"]
+    claim(d, r"−([\d.]+) bpb \(−[\d.]+%\) — the only lever", round(ev24 - ev48, 4),
+          "steps lever absolute gain", tol=5e-5, doc=name)
+    claim(d, r"−[\d.]+ bpb \(−([\d.]+)%\) — the only lever", round(100 * (1 - ev48 / ev24), 2),
+          "steps lever relative gain", tol=5e-3, doc=name)
+
+    # ---- the model card quotes the seed bar and the data result; check those too.
+    card_path = os.path.join(exp, "model-card.md")
+    if os.path.isfile(card_path):
+        card = open(card_path, encoding="utf-8").read()
+        cn = "model-card.md"
+        claim(card, r"seed span\s+\*\*([\d.]+)%\*\* of test bits per byte", round(bar, 2),
+              "card: seed bar", tol=5e-3, doc=cn)
+        claim(card, r"against a ([\d.]+)× larger corpus",
+              round(large["train_tokens"] / small["train_tokens"], 2), "card: data multiple",
+              tol=5e-3, doc=cn)
+        claim(card, r"([\d,]+) train tokens", large["train_tokens"], "card: 71-book train tokens",
+              doc=cn)
+        claim(card, r"this ([\d,]+)-token corpus wins", small["train_tokens"],
+              "card: 27-book train tokens", doc=cn)
+        claim(card, r"wins by ([\d.]+)% of test bits per byte at equal compute",
+              round(s["data_delta_test_pct"], 2), "card: data margin", tol=5e-3, doc=cn)
+        if "shift" in s:
+            claim(card, r"scores ([\d.]+)% worse on them", round(s["shift"]["clean_shift_pct"], 2),
+                  "card: out-of-distribution shift", tol=5e-3, doc=cn)
+
+
+
 def main(root: str = ".") -> int:
     check_compute_budget(root)
     check_training_defaults(root)
     check_experiment_reports(root)
+    check_data_seed_report(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

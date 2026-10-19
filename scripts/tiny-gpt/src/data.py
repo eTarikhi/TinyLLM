@@ -30,6 +30,7 @@ contributes no bytes and is therefore excluded from both sides of bits-per-byte.
 
 from __future__ import annotations
 
+import array
 import hashlib
 import io
 import json
@@ -102,6 +103,16 @@ class Document:
     year: str
     repo: str
     member: str  # path inside the repo tarball
+    train_only: bool = False
+    """Contribute to the training split only, never to val or test.
+
+    This exists so a corpus can be *grown* without moving the evaluation
+    target. Adding documents the ordinary way changes the val and test splits
+    too, and then a bits-per-byte figure from the larger corpus cannot be
+    compared with one from the smaller -- the denominator is different text.
+    Marking the additions train-only keeps val and test byte-identical, so the
+    only thing that changed is how much the model read.
+    """
 
 
 @dataclass(frozen=True)
@@ -116,7 +127,7 @@ class MultiDocCorpus:
     access_date: str
 
 
-def _gb(pg: int, slug: str, title: str, author: str, year: str) -> Document:
+def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool = False) -> Document:
     """GITenberg mirrors Project Gutenberg as one git repository per book.
 
     Each repo carries ``<id>-0.txt`` (UTF-8) and ``<id>.txt`` (legacy encoding);
@@ -131,6 +142,7 @@ def _gb(pg: int, slug: str, title: str, author: str, year: str) -> Document:
         year=year,
         repo=f"GITenberg/{slug}_{pg}",
         member=f"{slug}_{pg}-master/{pg}-0.txt",
+        train_only=train_only,
     )
 
 
@@ -197,7 +209,91 @@ GUTENBERG_MIXED = MultiDocCorpus(
     access_date="2026-10-18",
 )
 
-CORPORA = {TINY_SHAKESPEARE.name: TINY_SHAKESPEARE, GUTENBERG_MIXED.name: GUTENBERG_MIXED}
+# 44 further titles, resolved against the GitHub search API and verified by
+# downloading each tarball on 2026-10-19 -- see
+# `experiments/2026-10-18-gutenberg-mixed/resolve-gitenberg.py`, which prints
+# exactly these lines. 21 further candidates were rejected because their
+# GITenberg repository has no canonical `<id>-0.txt` UTF-8 member; taking the
+# largest `.txt` instead would have silently mixed encodings into the corpus.
+#
+# Every one is `train_only`: they enlarge the training split and leave
+# validation and test byte-identical to `gutenberg-mixed-27`, which is the
+# only way a bits-per-byte number from this corpus can be compared with one
+# from that corpus.
+GUTENBERG_EXTRA_DOCS = (
+    _gb(2600, "War-and-Peace", "War and Peace", "Leo Tolstoy (tr. Maude)", "1869", train_only=True),
+    _gb(1399, "Anna-Karenina", "Anna Karenina", "Leo Tolstoy (tr. Garnett)", "1878", train_only=True),
+    _gb(766, "David-Copperfield", "David Copperfield", "Charles Dickens", "1850", train_only=True),
+    _gb(580, "The-Pickwick-Papers", "The Pickwick Papers", "Charles Dickens", "1837", train_only=True),
+    _gb(963, "Little-Dorrit", "Little Dorrit", "Charles Dickens", "1857", train_only=True),
+    _gb(883, "Our-Mutual-Friend", "Our Mutual Friend", "Charles Dickens", "1865", train_only=True),
+    _gb(786, "Hard-Times", "Hard Times", "Charles Dickens", "1854", train_only=True),
+    _gb(46, "A-Christmas-Carol", "A Christmas Carol", "Charles Dickens", "1843", train_only=True),
+    _gb(121, "Northanger-Abbey", "Northanger Abbey", "Jane Austen", "1817", train_only=True),
+    _gb(141, "Mansfield-Park", "Mansfield Park", "Jane Austen", "1814", train_only=True),
+    _gb(2852, "The-Hound-of-the-Baskervilles", "The Hound of the Baskervilles", "Arthur Conan Doyle", "1902", train_only=True),
+    _gb(244, "A-Study-in-Scarlet", "A Study in Scarlet", "Arthur Conan Doyle", "1887", train_only=True),
+    _gb(834, "The-Memoirs-of-Sherlock-Holmes", "The Memoirs of Sherlock Holmes", "Arthur Conan Doyle", "1894", train_only=True),
+    _gb(108, "The-Return-of-Sherlock-Holmes", "The Return of Sherlock Holmes", "Arthur Conan Doyle", "1905", train_only=True),
+    _gb(1184, "The-Count-of-Monte-Cristo", "The Count of Monte Cristo", "Alexandre Dumas (tr.)", "1844", train_only=True),
+    _gb(1257, "The-Three-Musketeers", "The Three Musketeers", "Alexandre Dumas (tr.)", "1844", train_only=True),
+    _gb(2413, "Madame-Bovary", "Madame Bovary", "Gustave Flaubert (tr. Marx-Aveling)", "1856", train_only=True),
+    _gb(135, "Les-Mis-rables", "Les Miserables", "Victor Hugo (tr. Hapgood)", "1862", train_only=True),
+    _gb(6130, "The-Iliad", "The Iliad", "Homer (tr. Pope)", "-750", train_only=True),
+    _gb(4300, "Ulysses", "Ulysses", "James Joyce", "1922", train_only=True),
+    _gb(4217, "A-Portrait-of-the-Artist-as-a-Young-Man", "A Portrait of the Artist as a Young Man", "James Joyce", "1916", train_only=True),
+    _gb(2814, "Dubliners", "Dubliners", "James Joyce", "1914", train_only=True),
+    _gb(160, "The-Awakening-and-Selected-Short-Stories", "The Awakening", "Kate Chopin", "1899", train_only=True),
+    _gb(205, "Walden-and-On-The-Duty-Of-Civil-Disobedience", "Walden", "Henry David Thoreau", "1854", train_only=True),
+    _gb(215, "The-Call-of-the-Wild", "The Call of the Wild", "Jack London", "1903", train_only=True),
+    _gb(521, "The-Life-and-Adventures-of-Robinson-Crusoe", "Robinson Crusoe", "Daniel Defoe", "1719", train_only=True),
+    _gb(829, "Gulliver-s-Travels", "Gulliver's Travels", "Jonathan Swift", "1726", train_only=True),
+    _gb(209, "The-Turn-of-the-Screw", "The Turn of the Screw", "Henry James", "1898", train_only=True),
+    _gb(2641, "A-Room-with-a-View", "A Room with a View", "E. M. Forster", "1908", train_only=True),
+    _gb(113, "The-Secret-Garden", "The Secret Garden", "Frances Hodgson Burnett", "1911", train_only=True),
+    _gb(271, "Black-Beauty", "Black Beauty", "Anna Sewell", "1877", train_only=True),
+    _gb(236, "The-Jungle-Book", "The Jungle Book", "Rudyard Kipling", "1894", train_only=True),
+    _gb(25344, "The-Scarlet-Letter", "The Scarlet Letter", "Nathaniel Hawthorne", "1850", train_only=True),
+    _gb(1998, "Thus-Spake-Zarathustra--A-Book-for-All-and-None", "Thus Spake Zarathustra", "Friedrich Nietzsche (tr. Common)", "1883", train_only=True),
+    _gb(6593, "History-of-Tom-Jones-a-Foundling", "The History of Tom Jones", "Henry Fielding", "1749", train_only=True),
+    _gb(28054, "The-Brothers-Karamazov", "The Brothers Karamazov", "Fyodor Dostoyevsky (tr. Garnett)", "1880", train_only=True),
+    _gb(2638, "The-Idiot", "The Idiot", "Fyodor Dostoyevsky (tr. Martin)", "1869", train_only=True),
+    _gb(203, "Uncle-Tom-s-Cabin", "Uncle Tom's Cabin", "Harriet Beecher Stowe", "1852", train_only=True),
+    _gb(16, "Peter-Pan", "Peter Pan", "J. M. Barrie", "1911", train_only=True),
+    _gb(289, "The-Wind-in-the-Willows", "The Wind in the Willows", "Kenneth Grahame", "1908", train_only=True),
+    _gb(3176, "The-Innocents-Abroad", "The Innocents Abroad", "Mark Twain", "1869", train_only=True),
+    _gb(1837, "The-Prince-and-the-Pauper", "The Prince and the Pauper", "Mark Twain", "1881", train_only=True),
+    _gb(86, "A-Connecticut-Yankee-in-King-Arthur-s-Court", "A Connecticut Yankee in King Arthur's Court", "Mark Twain", "1889", train_only=True),
+    _gb(1952, "The-Yellow-Wallpaper", "The Yellow Wallpaper", "Charlotte Perkins Gilman", "1892", train_only=True),
+)
+
+GUTENBERG_EXPANDED = MultiDocCorpus(
+    name="gutenberg-mixed-71",
+    description=(
+        "The 27-book corpus plus 44 further public-domain titles that feed the training "
+        "split only. Validation and test are byte-identical to `gutenberg-mixed-27`, so "
+        "the two corpora are directly comparable and the only variable is how much text "
+        "the model saw."
+    ),
+    sha256="52290d350e136a6d6e8b24e778e7489183b76389828b1bd8e16898e71d381368",
+    documents=GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=(
+        "Literary English of 1320-1922, mostly British and American, with ten works in "
+        "translation. It is not contemporary text, it is not balanced across dialects or "
+        "demographics, and several works contain racial slurs, antisemitism and other "
+        "period prejudice that a model trained on them will reproduce. The additions "
+        "widen the period and the register but not the demographics."
+    ),
+    access_date="2026-10-19",
+)
+
+CORPORA = {
+    TINY_SHAKESPEARE.name: TINY_SHAKESPEARE,
+    GUTENBERG_MIXED.name: GUTENBERG_MIXED,
+    GUTENBERG_EXPANDED.name: GUTENBERG_EXPANDED,
+}
 
 
 # --------------------------------------------------------------------------
@@ -475,9 +571,18 @@ def prepare(
     parts: dict[str, list[str]] = {"train": [], "val": [], "test": []}
     boundaries: list[list[int]] = []
     offset = 0
-    for length in documents:
+    train_only_flags = ([getattr(d, "train_only", False) for d in corpus.documents]
+                        if multi_doc else [False])
+    for length, train_only in zip(documents, train_only_flags):
         doc = text[offset : offset + length]
         offset += length + (2 if multi_doc else 0)  # the "\n\n" join
+        if train_only:
+            # No val or test piece at all -- not an empty one. An empty piece
+            # would still insert an EOS separator into those splits and change
+            # their bytes, which is exactly what this flag exists to prevent.
+            parts["train"].append(doc)
+            boundaries.append([len(doc), len(doc)])
+            continue
         i_train = snap(doc, int(len(doc) * splits[0]))
         i_val = snap(doc, int(len(doc) * (splits[0] + splits[1])))
         # `snap` only ever moves forward, so on a document with few paragraph
@@ -503,7 +608,33 @@ def prepare(
     # whole corpus produces. The cap is recorded, because an unrecorded sample
     # is an unreproducible tokenizer.
     train_text = "".join(parts["train"])
-    sample = train_text[:tokenizer_sample_chars] if tokenizer_sample_chars else train_text
+    # The tokenizer is trained on the *evaluation-bearing* documents only --
+    # those that contribute to val and test. Train-only documents are excluded
+    # from the sample even though they are trained on.
+    #
+    # Without this, adding train-only text silently rebuilds the vocabulary,
+    # and a run on the larger corpus then differs from the smaller one in two
+    # ways instead of one. The flag exists to make exactly one thing change,
+    # so the vocabulary has to be a function of the fixed part of the corpus.
+    # Caught by tests/test_train_only.py, which failed on token hashes while
+    # the underlying text was byte-identical.
+    #
+    # The tradeoff is real and deliberate: a 3x larger corpus might deserve a
+    # larger or better-fitted vocabulary, and this gives up that gain. That is
+    # a separate experiment -- vocabulary size -- and conflating the two would
+    # make neither answerable.
+    #
+    # This applies to byte-level tokenizers only. A character tokenizer's
+    # vocabulary *is* the set of characters in its sample, so excluding text
+    # it must later encode makes encoding fail outright -- which is how this
+    # restriction was found. A byte-BPE vocabulary always covers all 256
+    # bytes, so unseen text costs compression, never correctness.
+    excludes_train_only = tokenizer_kind != "char" and any(train_only_flags)
+    sample_source = train_text
+    if excludes_train_only:
+        sample_source = "".join(piece for piece, flag in zip(parts["train"], train_only_flags)
+                                if not flag) or train_text
+    sample = sample_source[:tokenizer_sample_chars] if tokenizer_sample_chars else sample_source
     tokenizer = build_tokenizer(tokenizer_kind, sample, vocab_size=vocab_size)
     tokenizer_path = out_dir / "tokenizer.json"
     tokenizer.save(tokenizer_path)
@@ -512,7 +643,11 @@ def prepare(
     split_paths: dict[str, Path] = {}
     split_stats: dict[str, dict] = {}
     for name, pieces in parts.items():
-        token_ids: list[int] = []
+        # array.array rather than a list: a Python int object costs ~28 bytes
+        # plus 8 for the list slot, so a 20M-token split needs ~700 MB as a
+        # list and 80 MB here. That is the difference between preparing a
+        # 60 MB corpus on a 3 GB machine and being killed by the OOM reaper.
+        token_ids = array.array("i")
         for i, piece in enumerate(pieces):
             token_ids.extend(tokenizer.encode(piece))
             if multi_doc and i < len(pieces) - 1:
