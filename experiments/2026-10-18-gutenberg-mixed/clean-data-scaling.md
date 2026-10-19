@@ -109,6 +109,39 @@ report used.
 
 ---
 
+## Capacity, re-asked — the obvious follow-up, and it fails
+
+The size sweep found 3.74M parameters a tie with 1.77M (+0.22% test bits per
+byte, inside the seed bar) and 5.64M clearly worse. That was measured on the
+27-book corpus at 6.81 epochs, where the model re-read the same text seven
+times. "Capacity does not help" and "capacity does not help *on this much
+data*" are different claims, and only the second was tested — so with the
+corpus 3.28× larger and the budget down to 2.08 epochs, the tie ought to break.
+
+It does not. Same method as the size sweep: wall-clock matching, because the
+question is what a fixed compute budget buys.
+
+| run | params | steps | tokens | elapsed | val bpb | test bpb |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `data71-full` | 1,770,816 | 4,800 | 39,321,600 | 3,130 s | **1.5883** | **1.6147** |
+| `size-4L256d-gb71` | 3,737,856 | 2,571 | 21,061,632 | 3,110 s | 1.6103 | 1.6365 |
+
+Wall clock matched to **−0.6%**. At 2.11× the parameters the larger model is
+**+1.35%** worse — against +0.22% on the 27-book corpus. The tie did not break;
+it widened to 3.7× the seed bar, and the direction is the opposite of the
+hypothesis.
+
+The reading: more data does not make parameters more valuable here, it makes
+*steps* more valuable. At 6.81 epochs a step is largely re-reading and is worth
+less; at 2.08 epochs most of what a step sees is new. The larger model buys its
+capacity by giving up 46% of its steps, and that trade got worse, not better,
+when the steps got more informative.
+
+So the binding constraint at this budget is optimization steps, which is
+consistent with the only other lever that ever paid being the step count
+itself. Growing the model is something to do after the compute, not instead
+of it.
+
 ## Two things in the table that are not what they look like
 
 **The gap changed sign, and it is not measuring overfitting.** `gap` is
@@ -175,7 +208,7 @@ because releasing it would silently change what every historical number means.
 | --- | --- | --- |
 | **training data** | 5.77M → 18.9M tokens | **−7.30%** on matching evaluation; tie on the old one |
 | training steps | 2,400 → 4,800 | −3.67% |
-| model size | 1.77M → 5.64M params | tie, then worse |
+| model size | 1.77M → 5.64M params | tie on 27 books, **+1.35% worse** on 71 |
 | context length | 128 → 1024 | worse in both directions |
 | peak learning rate | 1.5e-3 → 6e-3 | tie above, worse below |
 | seed | 1337–1339 | 0.37% noise floor |
@@ -184,6 +217,12 @@ because releasing it would silently change what every historical number means.
 Data is now the only lever that has produced a large win, and it was hiding
 behind an evaluation that could not see it. The corpus is the thing to grow
 next, and the evaluation has to grow with it.
+
+The capacity result above sharpens that: with more data the right move is
+*more steps on the small model*, not a bigger model on the same budget. Two
+levers therefore point the same way — at this scale the project is
+compute-limited, and the compute should be spent reading more text rather than
+on more parameters.
 
 ## Artifacts
 
@@ -195,4 +234,5 @@ next, and the evaluation has to grow with it.
 | `data-manifest-71-{full,ctrl}.json` | per-document provenance and split hashes for both arms |
 | `clean-data-summary.json` | every number in this document |
 | `clean-data-scaling.svg` | the two validation curves |
-| `analyze-clean-data.py` | the analysis, including the decomposition |
+| `metrics/size-4L256d-gb71.jsonl`, `-summary.json`, `eval-test-size-4L256d-gb71.json`, `config-size-4L256d-gb71.yaml` | the capacity re-test |
+| `analyze-clean-data.py` | the analysis, including the decomposition and the capacity re-test |

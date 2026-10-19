@@ -227,6 +227,42 @@ def main() -> int:
     print(f"  full vs ctrl on the added   44: {d_new:+.2f}%")
     print("  the first number is the earlier experiment; the second is what it could not see")
 
+    # ------------------------------------------------- capacity, re-asked
+    cap_run = "size-4L256d-gb71"
+    if (HERE / f"eval-test-{cap_run}.json").exists():
+        print("\n" + "=" * 96)
+        print("CAPACITY, RE-ASKED — does the size tie break now the model is not data-limited?")
+        print("=" * 96)
+        small_s, big_s = summary("data71-full"), summary(cap_run)
+        small_t, big_t = test_eval("data71-full"), test_eval(cap_run)
+        wall = 100 * (big_s["elapsed_s"] / small_s["elapsed_s"] - 1)
+        delta = 100 * (big_t["model"]["bpb"] / small_t["model"]["bpb"] - 1)
+        print(f"{'run':>18} {'params':>10} {'steps':>7} {'tokens':>12} {'elapsed':>8} "
+              f"{'val':>8} {'test':>8}")
+        for run, s, t in (("data71-full", small_s, small_t), (cap_run, big_s, big_t)):
+            print(f"{run:>18} {s['params_total']:>10,} {s['steps']:>7,} {s['tokens']:>12,} "
+                  f"{s['elapsed_s']:>8.0f} {s['final_val_bpb']:>8.4f} {t['model']['bpb']:>8.4f}")
+        print(f"\n  wall clock matched to {wall:+.1f}%")
+        print(f"  {big_s['params_total'] / small_s['params_total']:.2f}x the parameters: "
+              f"{delta:+.2f}% test bpb")
+        print(f"  the same comparison on the 27-book corpus was +0.22% -- inside the seed bar")
+        print(f"  => the tie did not break; it widened to {delta / SEED_BAR_PCT:.1f}x the bar")
+        out["capacity"] = {
+            "small": {"run": "data71-full", "params": small_s["params_total"],
+                      "steps": small_s["steps"], "tokens": small_s["tokens"],
+                      "elapsed_s": small_s["elapsed_s"], "val_bpb": small_s["final_val_bpb"],
+                      "test_bpb": small_t["model"]["bpb"]},
+            "big": {"run": cap_run, "params": big_s["params_total"],
+                    "steps": big_s["steps"], "tokens": big_s["tokens"],
+                    "elapsed_s": big_s["elapsed_s"], "val_bpb": big_s["final_val_bpb"],
+                    "test_bpb": big_t["model"]["bpb"], "clipped_steps": big_s["clipped_steps"]},
+            "wall_clock_delta_pct": wall,
+            "param_multiple": big_s["params_total"] / small_s["params_total"],
+            "delta_test_pct": delta,
+            "delta_in_bar_units": delta / SEED_BAR_PCT,
+            "delta_on_27_book_corpus_pct": 0.21648672334646513,
+        }
+
     (HERE / "clean-data-summary.json").write_text(json.dumps(out, indent=2) + "\n")
     print(f"\nwritten to {HERE / 'clean-data-summary.json'}")
     return 0

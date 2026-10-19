@@ -258,10 +258,18 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     question and, by decomposing the test split into the 27 both arms train
     on and the 44 only one arm trains on, reproduces item 8's result inside
     the same pair of runs.
-11. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
+11. ~~**Does the size tie break on more data?**~~ **Done, no** — folded into
+    [`clean-data-scaling.md`](clean-data-scaling.md). The size sweep's tie was
+    measured at 6.81 epochs, so it only ever tested capacity *at that data
+    volume*. Re-run at 2.08 epochs on the 71-book corpus and wall-clock
+    matched, 3.74M parameters is +1.35% worse than 1.77M, against +0.22%
+    before: the tie widened rather than broke. More data makes a *step* more
+    valuable, not a parameter, and the bigger model pays for its capacity with
+    46% fewer steps. Grow the model after the compute, not instead of it.
+12. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
     showed clip rate and peak LR interact, and batch size is the third corner
     of that; 8,192 tokens per step remains an inherited number.
-12. **Re-establish a baseline under `eval_spread`.** The in-training
+13. **Re-establish a baseline under `eval_spread`.** The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,
     and therefore every conclusion drawn so far, are unaffected. The spread

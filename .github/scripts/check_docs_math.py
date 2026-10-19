@@ -839,6 +839,48 @@ def check_clean_data_report(root: str) -> None:
     claim(d, r"\| \*\*training data\*\* \|(?:[^|\n]*\|){1} \*\*−([\d.]+)%\*\*",
           round(abs(s["full_vs_ctrl_test_pct"]), 2), "standings data row", tol=5e-3, doc=name)
 
+    # ---- capacity, re-asked
+    if "capacity" in s:
+        c = s["capacity"]
+        claim(d, r"`data71-full` \| ([\d,]+) \|", c["small"]["params"], "capacity: small params", doc=name)
+        claim(d, r"`data71-full` \| [\d,]+ \| ([\d,]+) \|", c["small"]["steps"],
+              "capacity: small steps", doc=name)
+        claim(d, r"`data71-full` \|(?:[^|\n]*\|){2} ([\d,]+) \|", c["small"]["tokens"],
+              "capacity: small tokens", doc=name)
+        claim(d, r"`data71-full` \|(?:[^|\n]*\|){3} ([\d,]+) s \|", round(c["small"]["elapsed_s"]),
+              "capacity: small elapsed", tol=1, doc=name)
+        claim(d, r"`data71-full` \|(?:[^|\n]*\|){4} \*\*([\d.]+)\*\*", round(c["small"]["val_bpb"], 4),
+              "capacity: small val", tol=5e-5, doc=name)
+        claim(d, r"`data71-full` \|(?:[^|\n]*\|){5} \*\*([\d.]+)\*\*", round(c["small"]["test_bpb"], 4),
+              "capacity: small test", tol=5e-5, doc=name)
+        claim(d, r"`size-4L256d-gb71` \| ([\d,]+) \|", c["big"]["params"], "capacity: big params", doc=name)
+        claim(d, r"`size-4L256d-gb71` \| [\d,]+ \| ([\d,]+) \|", c["big"]["steps"],
+              "capacity: big steps", doc=name)
+        claim(d, r"`size-4L256d-gb71` \|(?:[^|\n]*\|){2} ([\d,]+) \|", c["big"]["tokens"],
+              "capacity: big tokens", doc=name)
+        claim(d, r"`size-4L256d-gb71` \|(?:[^|\n]*\|){3} ([\d,]+) s \|", round(c["big"]["elapsed_s"]),
+              "capacity: big elapsed", tol=1, doc=name)
+        claim(d, r"`size-4L256d-gb71` \|(?:[^|\n]*\|){4} ([\d.]+) \|", round(c["big"]["val_bpb"], 4),
+              "capacity: big val", tol=5e-5, doc=name)
+        claim(d, r"`size-4L256d-gb71` \|(?:[^|\n]*\|){5} ([\d.]+) \|", round(c["big"]["test_bpb"], 4),
+              "capacity: big test", tol=5e-5, doc=name)
+        claim(d, r"Wall clock matched to \*\*−([\d.]+)%\*\*", round(abs(c["wall_clock_delta_pct"]), 1),
+              "capacity: wall clock match", tol=5e-2, doc=name)
+        claim(d, r"At ([\d.]+)× the parameters", round(c["param_multiple"], 2),
+              "capacity: param multiple", tol=5e-3, doc=name)
+        claim(d, r"is\s+\*\*\+([\d.]+)%\*\* worse", round(c["delta_test_pct"], 2),
+              "capacity: margin", tol=5e-3, doc=name)
+        claim(d, r"against \+([\d.]+)% on the 27-book corpus",
+              round(c["delta_on_27_book_corpus_pct"], 2), "capacity: old margin", tol=5e-3, doc=name)
+        claim(d, r"it widened to ([\d.]+)× the seed bar", round(c["delta_in_bar_units"], 1),
+              "capacity: margin in bar units", tol=5e-2, doc=name)
+        claim(d, r"giving up (\d+)% of its steps",
+              round(100 * (1 - c["big"]["steps"] / c["small"]["steps"])), "capacity: steps given up",
+              tol=1, doc=name)
+        claim(d, r"\| model size \|(?:[^|\n]*\|){1} tie on 27 books, \*\*\+([\d.]+)% worse\*\*",
+              round(c["delta_test_pct"], 2), "standings size row", tol=5e-3, doc=name)
+
+
 
 def main(root: str = ".") -> int:
     check_compute_budget(root)

@@ -1,0 +1,54 @@
+# Does extra capacity pay once the model is no longer data-limited?
+#
+#   The size sweep found 3.74M parameters a tie with 1.77M (+0.22% test bpb,
+#   inside the 0.37% seed bar) and 5.64M clearly worse. That was measured on
+#   the 27-book corpus at 6.81 epochs -- a model seeing the same text seven
+#   times. "Capacity does not help" and "capacity does not help on this much
+#   data" are different claims, and only the second one was tested.
+#
+#   clean-data-scaling.md then showed data is the dominant lever: 3.28x the
+#   training text is worth 7.30% test bpb, twenty times the seed bar. At
+#   18,939,699 training tokens the same budget is 2.08 epochs rather than
+#   6.81, so the model reads mostly-new text instead of re-reading. If the
+#   earlier tie was an artifact of being data-limited, it should break here.
+#
+#   Method is the size sweep's, unchanged: wall-clock matching rather than
+#   step matching, because the question is what a fixed compute budget buys.
+#   2,571 steps of this model cost about what 4,800 steps of the 1.77M model
+#   cost; warmup and the cosine horizon scale with the step count. The
+#   comparison arm is data71-full -- same corpus, same session, same host.
+#
+#   eval_spread is on for the same reason it is on in both data71 runs: a
+#   prefix of a 71-document split is the first few books.
+run_id: size-4L256d-gb71
+data_dir: data/prepared-71-full
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 5400
+threads: 2

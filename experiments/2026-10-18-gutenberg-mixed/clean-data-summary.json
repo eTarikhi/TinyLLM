@@ -87,5 +87,31 @@
     "added44_tokens": 715134
   },
   "delta_original27_pct": 0.35373857427936084,
-  "delta_added44_pct": -10.467165735278083
+  "delta_added44_pct": -10.467165735278083,
+  "capacity": {
+    "small": {
+      "run": "data71-full",
+      "params": 1770816,
+      "steps": 4800,
+      "tokens": 39321600,
+      "elapsed_s": 3129.8923287391663,
+      "val_bpb": 1.5882571452380723,
+      "test_bpb": 1.6146509058313576
+    },
+    "big": {
+      "run": "size-4L256d-gb71",
+      "params": 3737856,
+      "steps": 2571,
+      "tokens": 21061632,
+      "elapsed_s": 3109.990093946457,
+      "val_bpb": 1.6103322202139292,
+      "test_bpb": 1.6364727242142834,
+      "clipped_steps": 27
+    },
+    "wall_clock_delta_pct": -0.6358760207168745,
+    "param_multiple": 2.1108099316925077,
+    "delta_test_pct": 1.351488318875349,
+    "delta_in_bar_units": 3.662097746072658,
+    "delta_on_27_book_corpus_pct": 0.21648672334646513
+  }
 }
