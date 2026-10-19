@@ -199,22 +199,37 @@ Ordered by what the evidence says is limiting, not by what is interesting:
    big. The optimum sits in the 1.8–3.7 M band and the crossover is at or just
    beyond this budget — recorded as a prediction, not a result.
 3. ~~**Context length.**~~ **Done** — see [`context-sweep.md`](context-sweep.md).
-   Longer context is monotonically *worse* here: T=512 costs +1.56% test bpb
-   and T=1024 costs +10.30%, and the penalty survives token-matching, so it
-   is intrinsic rather than just the lost throughput. Attention also turned
-   out far cheaper in wall clock than `T/(6·d_model)` predicts — 18% rather
-   than ~100% for T=1024 — so the arithmetic overstates the price of context
-   on this machine. Cheap, but not free.
-4. **T=128 — now the top item, and the cheapest one left.** The sweep bracketed
-   256 only from above. Both longer settings lost, so 256 may itself be past
-   the optimum; the monotone trend predicts a shorter context should win.
-5. **The learning-rate and batch recipe.** 3e-3, batch 16 × accum 2,
-   β2 = 0.99 were chosen on iteration 1's corpus and carried through every run
-   since without re-examination. Both sweeps held them fixed by design, which
-   means every size and context conclusion in this directory is conditional
-   on a recipe tuned for neither.
-6. **A second seed.** Every number in this directory is a single draw, and
-   the size sweep has now produced a 0.2% difference that a seed bar would
-   probably swallow. This has graduated from nice-to-have to necessary.
-7. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
+   256 is an interior optimum, bracketed on both sides: T=128 costs +0.64%
+   test bpb, T=512 +1.56%, T=1024 +10.30%. The two sides fail differently.
+   Above 256 the penalty is intrinsic — it survives token-matching. Below it
+   the penalty is pure throughput: at matched tokens T=128 ties T=256 to
+   +0.03%, and it loses only because halving the context made the run 9.3%
+   *slower*, not faster. Attention at 192 dimensions is not the bottleneck,
+   so shrinking it saves nothing while doubling the batch adds overhead.
+4. ~~**T=128.**~~ **Done** — folded into item 3 above. Recorded separately
+   because it is the one place in this directory where a measured prediction
+   came out with the wrong *sign*: the throughput probe promised +5.8% and
+   delivered −9.3%, and the step budget had to be re-derived mid-flight from
+   a 300-step trial of the real configuration.
+5. ~~**The learning-rate recipe.**~~ **Done** — see
+   [`lr-bracket.md`](lr-bracket.md). 3e-3 survives a half-decade bracket:
+   1.5e-3 costs +0.83% test bpb, 6.0e-3 costs +0.08%. The response is sharply
+   asymmetric, so the inherited value sits on the lower edge of a plateau
+   rather than at a peak, and a log-quadratic through the three points puts
+   the vertex at 3.5e-3. This retroactively strengthens the size and context
+   sweeps: both were run within 1.3× of the best rate in the bracket. One
+   caveat found along the way — at 1.5e-3 the fixed `grad_clip: 1.0` binds on
+   54.8% of steps, so the low arm is partly a clipping experiment.
+6. **Batch size, which the bracket did not move.** Learning rate and batch
+   size trade off against each other and only the first has been swept;
+   8,192 tokens per step is still an inherited number.
+7. **A second seed.** Every number in this directory is a single draw, and
+   there are now two differences in it — 0.2% on size and 0.08% on learning
+   rate — that a seed bar would probably swallow. This has graduated from
+   nice-to-have to necessary.
+8. **More data — now the only lever that is not a setting.** Four levers have
+   been measured at this budget and none binds. The corpus is 18.8 MB and the
+   released run has already made 6.81 passes over it; everything else is
+   rearranging a local optimum.
+9. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
    trend's direction is known; its end is not.

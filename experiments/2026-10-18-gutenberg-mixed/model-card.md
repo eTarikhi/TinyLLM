@@ -68,10 +68,19 @@ character counts and boilerplate removal stats — is in `data-manifest.json`.
 Architecture and vocabulary were chosen by a four-configuration pilot matrix at
 8 minutes each, documented with its arithmetic in `pilots.md`. The horizon was
 doubled from 2,400 steps afterwards, because that run ended compute-limited —
-see [`eval-report-4800.md`](eval-report-4800.md). The size choice was then
-re-tested at the full budget against 3.74 M and 5.64 M parameter models
-([`size-sweep.md`](size-sweep.md)): this size tied the first and beat the
-second, so it is the released model on a tie rather than a clear win.
+see [`eval-report-4800.md`](eval-report-4800.md).
+
+Three of those pilot choices have since been re-tested at the full budget,
+and the released configuration is the one that survived all three:
+
+- **Model size** ([`size-sweep.md`](size-sweep.md)) — against 3.74 M and 5.64 M parameter models, this size tied the first (0.2%) and beat the second (2.1%). Released on a tie rather than a clear win.
+- **Context length** ([`context-sweep.md`](context-sweep.md)) — bracketed at 128, 512 and 1024 tokens. 256 wins all three comparisons, by 0.64%, 1.56% and 10.30% of test bits per byte. It is an interior optimum, not an edge.
+- **Peak learning rate** ([`lr-bracket.md`](lr-bracket.md)) — bracketed at 1.5e-3 and 6.0e-3. 3e-3 wins both, by 0.83% and 0.08%, but the margin over the higher rate is inside single-seed noise and the response is asymmetric: this value sits on the lower edge of a plateau rather than at its peak.
+
+Two settings in the table below have *not* been swept at this budget: the
+8,192-token optimizer batch and `grad_clip` 1.0. The learning-rate bracket
+showed those two interact — at 1.5e-3 the clip binds on 54.8% of steps — so
+neither should be assumed neutral.
 
 ## Evaluation
 

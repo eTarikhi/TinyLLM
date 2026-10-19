@@ -32,13 +32,14 @@ def read_series(path: Path, metric: str, label_metric: bool = False) -> tuple[st
     return (f"{label} {metric}" if label_metric else label), points
 
 
-def render(series: list[tuple[str, list[tuple[float, float]]]], metric: str, width: int = 760, height: int = 420) -> str:
+def render(series: list[tuple[str, list[tuple[float, float]]]], metric: str, width: int = 760,
+           height: int = 420, x_start: float = 0.0) -> str:
     pad_l, pad_r, pad_t, pad_b = 70, 150, 40, 55
     xs = [x for _, pts in series for x, _ in pts]
     ys = [y for _, pts in series for _, y in pts]
     if not xs:
         raise SystemExit(f"no points found for metric {metric!r}")
-    x0, x1 = 0.0, max(xs)
+    x0, x1 = x_start, max(xs)
     y0, y1 = min(ys), max(ys)
     span = max(y1 - y0, 1e-6)
     y0, y1 = y0 - 0.05 * span, y1 + 0.05 * span
@@ -87,6 +88,14 @@ def main() -> None:
     ap.add_argument("metrics", nargs="+")
     ap.add_argument("--metric", default="val_loss", help="one metric, or several separated by commas")
     ap.add_argument("--out", default="curve.svg")
+    ap.add_argument(
+        "--since-tokens",
+        type=float,
+        default=0.0,
+        help="drop points before this many training tokens. Runs that differ by "
+        "a percent converge visually at full scale; zooming on the tail is the "
+        "only way to see which curve is actually in front.",
+    )
     args = ap.parse_args()
     metrics = [m.strip() for m in args.metric.split(",") if m.strip()]
     series = [
@@ -94,7 +103,11 @@ def main() -> None:
         for p in args.metrics
         for metric in metrics
     ]
-    svg = render(series, " / ".join(metrics))
+    if args.since_tokens > 0:
+        series = [(label, [(x, y) for x, y in pts if x >= args.since_tokens]) for label, pts in series]
+        if not any(pts for _, pts in series):
+            raise SystemExit(f"--since-tokens {args.since_tokens:g} dropped every point")
+    svg = render(series, " / ".join(metrics), x_start=args.since_tokens)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(svg, encoding="utf-8")
     print(f"wrote {args.out} ({sum(len(p) for _, p in series)} points from {len(series)} run(s))")

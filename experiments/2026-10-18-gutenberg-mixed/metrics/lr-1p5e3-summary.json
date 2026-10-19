@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "lr-1p5e3",
+  "stop_reason": "max_steps",
+  "steps": 4800,
+  "tokens": 39321600,
+  "elapsed_s": 3420.299474954605,
+  "mean_tokens_per_s": 11496.537156449402,
+  "final_val_loss": 3.40898982325249,
+  "final_val_bpb": 1.6284710651790146,
+  "best_val_loss": 3.40898982325249,
+  "clipped_steps": 2630,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1154.60546875,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 142492312242.70746,
+  "checkpoints": {
+    "last": "artifacts/runs/lr-1p5e3/last.pt",
+    "best": "artifacts/runs/lr-1p5e3/best.pt"
+  }
+}

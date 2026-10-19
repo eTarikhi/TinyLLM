@@ -1,0 +1,72 @@
+{
+  "run_id": "lr-6e3",
+  "checkpoint": "artifacts/runs/lr-6e3/best.pt",
+  "step": 4800,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.3142075499696637,
+    "perplexity": 27.50059250205409,
+    "bpb": 1.658254314268639,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.648575795416907,
+    "perplexity": 2097.6559697646126,
+    "bpb": 3.8269431287961635,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      26,
+      28,
+      21,
+      24
+    ],
+    "max_longest_verbatim_match_chars": 28,
+    "mean_longest_verbatim_match_chars": 24.75,
+    "example_sample": "\nsometimes--what did you feel.  I wish you had ever seen a friend of\nhearing it, and yet I am no longer anguish.  You would not have been\nstruck by that time.  I would sit down before you, because I had\nfelt that you should be besimand.  How do you want to be ashamed?\"\n\n\"I think you should be happy in my pocket.  When I come to the\ndrawing-room, you will sitting with me, I will not stay at the window\nof Professor aid and you will soon have crowded.\"\n\n\"Then I shall be buried when you please.  By-by, then, if you please you\nwill, you will free me up on your street, you will find you alone,\nand you will not be able to give them your hand, which you and I will\nnot wish me.\"\n\n\"Because I will tell you,\" I answered, adding to the girl.  \""
+  }
+}

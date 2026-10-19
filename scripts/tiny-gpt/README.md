@@ -17,7 +17,8 @@ and do not quote its numbers as predictions for different hardware or data.
 ```text
 scripts/tiny-gpt/
   requirements.txt            pinned, with the CPU-only install note
-  configs/                    tiny.yaml (smoke), pilot*.yaml, main*.yaml
+  configs/                    tiny.yaml (smoke), pilot*.yaml, main*.yaml,
+                              size-*/ctx-*/lr-* sweep points
   src/
     tokenizer.py              CharTokenizer + ByteBPETokenizer (no tokenizer library)
     data.py                   fetch + checksum + audit + split + encode + batch
@@ -72,6 +73,14 @@ python src/evaluate.py --checkpoint artifacts/runs/main/best.pt --split test
 python src/generate.py --checkpoint artifacts/runs/main/best.pt --num-samples 3 \
     --temperature 0.8 --top-k 40 --out artifacts/runs/main/samples.txt
 python src/plot_metrics.py artifacts/runs/*/metrics.jsonl --metric val_bpb --out curve.svg
+
+# Gate 5 — sweep one lever at a matched budget. size_probe.py sizes each point
+# from measured throughput so every run completes its cosine schedule.
+python src/size_probe.py --sweep context --budget-s 2926 --reference-tok-s 13437
+for c in ctx-128 ctx-512 ctx-1024; do python -u src/train.py --config configs/$c.yaml; done
+# Curves a percent apart converge visually; --since-tokens zooms on the tail.
+python src/plot_metrics.py artifacts/runs/lr-*/metrics.jsonl --metric val_bpb \
+    --since-tokens 19660800 --out lr-bracket.svg
 ```
 
 Every run writes `metrics.jsonl` (one JSON record per log, eval, sample and

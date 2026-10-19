@@ -298,7 +298,50 @@ def check_experiment_reports(root: str) -> None:
               round((loaded[1][1]["final_val_bpb"] / base_su["final_val_bpb"] - 1) * 100, 2),
               "val margin, 1.77M over 3.74M", tol=5e-3, doc=sweep_doc)
 
-    # The context sweep, checked the same way as the size sweep.
+    # The context sweep, checked the same way as the size sweep -- now four
+    # points, because T=128 turned the monotone trend into an interior
+    # optimum and the document's headline changed with it.
+    def jsonl(run):
+        path = os.path.join(exp, "metrics", f"{run}.jsonl")
+        return [json.loads(line) for line in open(path, encoding="utf-8") if line.strip()]
+
+    def last_eval(run):
+        return [r for r in jsonl(run) if r["event"] == "eval"][-1]
+
+    def bpb_at_tokens(run, target):
+        """Linear interpolation of val bpb against tokens, as the report does."""
+        pts = [(r["tokens"], r["val_bpb"]) for r in jsonl(run) if r["event"] == "eval"]
+        for (t0, b0), (t1, b1) in zip(pts, pts[1:]):
+            if t0 <= target <= t1:
+                return b1 if t1 == t0 else b0 + (b1 - b0) * (target - t0) / (t1 - t0)
+        return pts[-1][1]
+
+    def clean_rate(run):
+        """Median throughput over train windows that contain no evaluation."""
+        rs = jsonl(run)
+        eval_steps = {r["step"] for r in rs if r["event"] == "eval"}
+        tr = [r for r in rs if r["event"] == "train"]
+        rates = []
+        for a, b in zip(tr, tr[1:]):
+            if any(a["step"] < st <= b["step"] for st in eval_steps):
+                continue
+            dt = b["elapsed_s"] - a["elapsed_s"]
+            if dt > 0:
+                rates.append((b["tokens"] - a["tokens"]) / dt)
+        rates.sort()
+        n = len(rates)
+        return rates[n // 2] if n % 2 else (rates[n // 2 - 1] + rates[n // 2]) / 2
+
+    def quarter_rates(run):
+        tr = [r for r in jsonl(run) if r["event"] == "train"]
+        n = len(tr)
+        out = []
+        for q in range(4):
+            chunk = tr[q * n // 4:(q + 1) * n // 4]
+            dt = chunk[-1]["elapsed_s"] - chunk[0]["elapsed_s"]
+            out.append((chunk[-1]["tokens"] - chunk[0]["tokens"]) / dt)
+        return out
+
     ctx_doc = "context-sweep.md"
     if os.path.exists(os.path.join(exp, ctx_doc)):
         print(f"experiments/2026-10-18-gutenberg-mixed/{ctx_doc} — sweep vs. raw artifacts")
@@ -310,15 +353,17 @@ def check_experiment_reports(root: str) -> None:
             cells = [f if i == index else f.replace("(", "(?:") for i, f in enumerate(CFIELDS)]
             return r"\| \*{0,2}" + re.escape(label) + r"\*{0,2} \| " + r" \| ".join(cells) + r" \|"
 
-        cpoints = [("T=256", "main-gutenberg-4800", "eval-test-4800.json"),
+        cpoints = [("T=128", "ctx-128", "eval-test-ctx-128.json"),
+                   ("T=256", "main-gutenberg-4800", "eval-test-4800.json"),
                    ("T=512", "ctx-512", "eval-test-ctx-512.json"),
                    ("T=1024", "ctx-1024", "eval-test-ctx-1024.json")]
-        cloaded = []
+        cloaded = {}
         for label, run, evf in cpoints:
             su, evj = load(os.path.join("metrics", f"{run}-summary.json")), load(evf)
-            cloaded.append((label, su, evj))
+            cloaded[label] = (run, su, evj)
             for index, value, what in ((0, su["params_total"], "params"),
                                        (1, su["steps"], "steps"),
+                                       (2, round(su["elapsed_s"]), "elapsed"),
                                        (3, su["tokens"], "tokens")):
                 claim(ctx, ctx_row(label, index), value, f"{what}, {label}", doc=ctx_doc)
             claim(ctx, ctx_row(label, 4), round(su["final_val_bpb"], 4),
@@ -326,11 +371,152 @@ def check_experiment_reports(root: str) -> None:
             claim(ctx, ctx_row(label, 5), round(evj["model"]["bpb"], 4),
                   f"test bpb, {label}", tol=5e-5, doc=ctx_doc)
 
-        cbase = cloaded[0][2]
-        for label, su, evj in cloaded[1:]:
+        cbase = cloaded["T=256"][2]
+        for label in ("T=128", "T=512", "T=1024"):
+            evj = cloaded[label][2]
             claim(ctx, re.escape(label) + r" is \*\*\+([\d.]+)%\*\*",
                   round((evj["model"]["bpb"] / cbase["model"]["bpb"] - 1) * 100, 2),
                   f"test margin vs T=256, {label}", tol=5e-3, doc=ctx_doc)
+
+        # Token-matched table: interpolate every run at the smallest run's
+        # token count, which is the whole basis of the "is it just the lost
+        # tokens?" argument.
+        floor = min(su["tokens"] for _, su, _ in cloaded.values())
+        claim(ctx, r"val bpb at ([\d,]+) tokens", floor, "token-matched floor", doc=ctx_doc)
+        TFIELDS = [r"([\d.]+)", r"(?:—|\+[\d.]+%)", r"([\d.]+)%"]
+        for label in ("T=128", "T=256", "T=512", "T=1024"):
+            run, su, _ = cloaded[label]
+            matched = bpb_at_tokens(run, floor)
+            claim(ctx, r"\| " + re.escape(label) + r" \| ([\d.]+) \| (?:—|\+[\d.]+%) \| (?:[\d.]+)% \|",
+                  round(matched, 4), f"token-matched val bpb, {label}", tol=5e-5, doc=ctx_doc)
+            claim(ctx, r"\| " + re.escape(label) + r" \| (?:[\d.]+) \| (?:—|\+[\d.]+%) \| ([\d.]+)% \|",
+                  round(100 * floor / su["tokens"], 1), f"cosine fraction, {label}",
+                  tol=5e-2, doc=ctx_doc)
+
+        # The generalization-gap ordering, read off the final evaluation.
+        for label in ("T=128", "T=256", "T=512", "T=1024"):
+            run = cloaded[label][0]
+            e = last_eval(run)
+            claim(ctx, r"\+([\d.]+) at " + re.escape(label),
+                  round(e["train_eval_loss"] - e["val_loss"], 4), f"end gap, {label}",
+                  tol=5e-5, doc=ctx_doc)
+
+        # Throughput: the probe predicted a short context would be cheaper and
+        # it is not, which is the only sign error in the whole directory.
+        same_host = [clean_rate(r) for r in ("lr-1p5e3", "lr-6e3")]
+        same_host_t256 = sum(same_host) / len(same_host)
+        ref_t256 = clean_rate("main-gutenberg-4800")
+        for label in ("T=128", "T=256", "T=512", "T=1024"):
+            run = cloaded[label][0]
+            rate = clean_rate(run)
+            claim(ctx, r"\| " + re.escape(label) + r" \| (?:[\d,]+) \| ([\d,]+) \|",
+                  round(rate), f"measured tok/s, {label}", tol=1, doc=ctx_doc)
+            if label == "T=256":
+                continue
+            ref = same_host_t256 if label == "T=128" else ref_t256
+            claim(ctx, r"\| " + re.escape(label) + r" \| (?:[\d,]+) \| (?:[\d,]+) \| \*{0,2}−([\d.]+)%",
+                  round(abs(100 * (rate - ref) / ref), 1), f"throughput vs T=256, {label}",
+                  tol=5e-2, doc=ctx_doc)
+        claim(ctx, r"same-host T=256 figure of ([\d,]+) tok/s", round(same_host_t256),
+              "same-host T=256 throughput", tol=1, doc=ctx_doc)
+
+        # Host-speed control.
+        ref_mean = load(os.path.join("metrics", "main-gutenberg-4800-summary.json"))["mean_tokens_per_s"]
+        today = [load(os.path.join("metrics", f"{r}-summary.json"))["mean_tokens_per_s"]
+                 for r in ("lr-1p5e3", "lr-6e3")]
+        today_mean = sum(today) / len(today)
+        claim(ctx, r"averaged ([\d,]+) tok/s end-to-end", round(today_mean),
+              "same-shape throughput today", tol=1, doc=ctx_doc)
+        claim(ctx, r"\*\*([\d.]+)% slower\*\*", round(abs(100 * (today_mean - ref_mean) / ref_mean), 1),
+              "host slowdown", tol=5e-2, doc=ctx_doc)
+
+        # Per-quarter throughput, including the T=1024 collapse the table exists for.
+        for label in ("T=128", "T=256", "T=512", "T=1024"):
+            run = cloaded[label][0]
+            q = quarter_rates(run)
+            for i in range(4):
+                cells = [r"(?:[\d,]+)"] * 4
+                cells[i] = r"([\d,]+)"
+                claim(ctx, r"\| " + re.escape(label) + r" \| " + r" \| ".join(cells) +
+                      r" \| \*{0,2}[+−][\d.]+%", round(q[i]), f"Q{i + 1} tok/s, {label}",
+                      tol=1, doc=ctx_doc)
+            claim(ctx, r"\| " + re.escape(label) + r" \| (?:[\d,]+) \| (?:[\d,]+) \| (?:[\d,]+) \| "
+                  r"(?:[\d,]+) \| \*{0,2}[+−]([\d.]+)%",
+                  round(abs(100 * (q[3] - q[0]) / q[0]), 1), f"quarter drift, {label}",
+                  tol=5e-2, doc=ctx_doc)
+
+    # The learning-rate bracket: three runs identical except peak LR, so the
+    # comparison is matched on steps and tokens and every margin is exact.
+    lr_doc = "lr-bracket.md"
+    if os.path.exists(os.path.join(exp, lr_doc)):
+        print(f"experiments/2026-10-18-gutenberg-mixed/{lr_doc} — bracket vs. raw artifacts")
+        lrt = text(lr_doc)
+        LFIELDS = [r"([\d,]+)", r"([\d,]+)", r"\*{0,2}([\d.]+)\*{0,2}",
+                   r"\*{0,2}([\d.]+)\*{0,2}", r"([\d,]+)", r"([\d.]+)"]
+
+        def lr_row(label, index):
+            cells = [f if i == index else f.replace("(", "(?:") for i, f in enumerate(LFIELDS)]
+            return r"\| \*{0,2}" + re.escape(label) + r"\*{0,2} \| " + r" \| ".join(cells) + r" \|"
+
+        lpoints = [("1.5e-3", "lr-1p5e3", "eval-test-lr-1p5e3.json"),
+                   ("3.0e-3", "main-gutenberg-4800", "eval-test-4800.json"),
+                   ("6.0e-3", "lr-6e3", "eval-test-lr-6e3.json")]
+        lloaded = {}
+        for label, run, evf in lpoints:
+            su, evj = load(os.path.join("metrics", f"{run}-summary.json")), load(evf)
+            lloaded[label] = (run, su, evj)
+            gnorms = sorted(r["grad_norm_preclip"] for r in jsonl(run) if r["event"] == "train")
+            n = len(gnorms)
+            median = gnorms[n // 2] if n % 2 else (gnorms[n // 2 - 1] + gnorms[n // 2]) / 2
+            for index, value, what in ((0, su["steps"], "steps"),
+                                       (1, su["tokens"], "tokens"),
+                                       (4, su["clipped_steps"], "clipped steps")):
+                claim(lrt, lr_row(label, index), value, f"{what}, lr {label}", doc=lr_doc)
+            claim(lrt, lr_row(label, 2), round(su["final_val_bpb"], 4),
+                  f"val bpb, lr {label}", tol=5e-5, doc=lr_doc)
+            claim(lrt, lr_row(label, 3), round(evj["model"]["bpb"], 4),
+                  f"test bpb, lr {label}", tol=5e-5, doc=lr_doc)
+            claim(lrt, lr_row(label, 5), round(median, 3),
+                  f"median grad norm, lr {label}", tol=5e-4, doc=lr_doc)
+
+        lbase_su, lbase_ev = lloaded["3.0e-3"][1], lloaded["3.0e-3"][2]
+        for label in ("1.5e-3", "6.0e-3"):
+            _, su, evj = lloaded[label]
+            claim(lrt, re.escape(label) + r" is \*\*\+([\d.]+)%\*\* test bpb",
+                  round((evj["model"]["bpb"] / lbase_ev["model"]["bpb"] - 1) * 100, 2),
+                  f"test margin vs 3e-3, lr {label}", tol=5e-3, doc=lr_doc)
+        claim(lrt, r"same ordering is clearer — \+([\d.]+)%",
+              round((lloaded["1.5e-3"][1]["final_val_bpb"] / lbase_su["final_val_bpb"] - 1) * 100, 2),
+              "val margin, lr 1.5e-3", tol=5e-3, doc=lr_doc)
+        claim(lrt, r"same ordering is clearer — \+[\d.]+% and \+([\d.]+)%",
+              round((lloaded["6.0e-3"][1]["final_val_bpb"] / lbase_su["final_val_bpb"] - 1) * 100, 2),
+              "val margin, lr 6e-3", tol=5e-3, doc=lr_doc)
+
+        low_su = lloaded["1.5e-3"][1]
+        claim(lrt, r"\*\*([\d,]+) of 4,800 steps", low_su["clipped_steps"],
+              "clipped steps, lr 1.5e-3", doc=lr_doc)
+        claim(lrt, r"\*\*[\d,]+ of 4,800 steps — ([\d.]+)%\*\*",
+              round(100 * low_su["clipped_steps"] / low_su["steps"], 1),
+              "clipped share, lr 1.5e-3", tol=5e-2, doc=lr_doc)
+
+        for label, phrase in (("1.5e-3", r"\+([\d.]+) at 1\.5e-3"),
+                              ("3.0e-3", r"\+([\d.]+) at 3e-3"),
+                              ("6.0e-3", r"\+([\d.]+) at 6e-3")):
+            run = lloaded[label][0]
+            e = [r for r in jsonl(run) if r["event"] == "eval"][-1]
+            claim(lrt, phrase, round(e["train_eval_loss"] - e["val_loss"], 4),
+                  f"end gap, lr {label}", tol=5e-5, doc=lr_doc)
+
+        # Common evaluation grid and the single lead change.
+        grids = [{r["step"] for r in jsonl(run) if r["event"] == "eval"} for run, _, _ in lloaded.values()]
+        common = sorted(set.intersection(*grids))
+        claim(lrt, r"evaluated at (\d+) common steps", len(common), "common eval steps", doc=lr_doc)
+        series = {label: {r["step"]: r["val_bpb"] for r in jsonl(run) if r["event"] == "eval"}
+                  for label, (run, _, _) in lloaded.items()}
+        leaders = [min(series, key=lambda lb: series[lb][st]) for st in common]
+        trailing = len(common) - 1 - leaders[1:].index(leaders[-1]) if leaders[-1] in leaders[1:] else 0
+        held = sum(1 for lb in leaders[1:] if lb == "3.0e-3")
+        claim(lrt, r"remaining (\d+) evaluations", held, "evaluations led by 3e-3", doc=lr_doc)
 
     # The model card describes the released model: the 4,800-step run.
     print("experiments/2026-10-18-gutenberg-mixed/model-card.md — card vs. raw artifacts")

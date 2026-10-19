@@ -1,0 +1,72 @@
+{
+  "run_id": "ctx-128",
+  "checkpoint": "artifacts/runs/ctx-128/best.pt",
+  "step": 4100,
+  "tokens_trained": 33587200,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 128,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1746240,
+  "model": {
+    "loss": 3.3329276702164505,
+    "perplexity": 28.020255804366318,
+    "bpb": 1.6675726869969563,
+    "tokens": 323174,
+    "bytes": 931863
+  },
+  "untrained": {
+    "loss": 7.641219367072769,
+    "perplexity": 2082.281334469567,
+    "bpb": 3.823151887078064,
+    "tokens": 323174,
+    "bytes": 931863
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      20,
+      29,
+      26,
+      22
+    ],
+    "max_longest_verbatim_match_chars": 29,
+    "mean_longest_verbatim_match_chars": 24.25,
+    "example_sample": "\nhe seemed to be the tyrannic at first, and there was a white stockade\nand foolishness of the old villainy. The sun was the crack of\nthe craft, but the gunwale flew up to the fruits of the windows; they\nstraightened on the roofs of the hall, and had lit a dense and crying a\ncristic carved band of the candles which led the water below with\nthe tailors, and the crowds and the stories dropped and clothed along\nthe woods with some carpet-work. These were dusky, and the huge\nblack water flew up and down and slept.\n\n\u201cOh, no, sir; do you think so--but it's not going and cats. You would\nhave battered.\u201d\n\nMr. Lorry rose on the top of the hall door,"
+  }
+}
