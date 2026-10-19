@@ -18,7 +18,9 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import statistics
 import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -109,6 +111,92 @@ def evaluate_model(model: GPT, batcher: TokenBatcher, byte_lens: torch.Tensor, m
         "bpb": total_nats / (LN2 * total_bytes),
         "tokens": total_tokens,
         "bytes": total_bytes,
+    }
+
+
+# --------------------------------------------------------------------------
+# Per-document breakdown
+# --------------------------------------------------------------------------
+
+
+def evaluate_per_document(
+    model: GPT,
+    split_path: Path,
+    eos_id: int,
+    byte_lens: torch.Tensor,
+    block_size: int,
+    doc_records: list[dict] | None = None,
+    batch_size: int = 16,
+) -> list[dict]:
+    """Bits per byte for each document in a multi-document split.
+
+    A single aggregate number averages over whatever mixture the corpus
+    happens to be, and that average can hide a large effect in either
+    direction. Measured here: adding 44 books to a 27-book corpus moved the
+    aggregate test figure by 0.35% while moving the added books' own figure by
+    10.47%. Nothing in the aggregate said so.
+
+    The split is the per-document pieces joined by a single EOS, and EOS is
+    only ever emitted as that separator, so splitting on it recovers the
+    documents exactly and in corpus order. Pieces shorter than one block are
+    reported with ``"scored": false`` rather than silently dropped or padded.
+    """
+    ids = np.fromfile(split_path, dtype=np.uint16)
+    cuts = np.flatnonzero(ids == eos_id)
+    pieces, prev = [], 0
+    for c in cuts:
+        pieces.append(ids[prev:c])
+        prev = int(c) + 1
+    pieces.append(ids[prev:])
+
+    out: list[dict] = []
+    for i, piece in enumerate(pieces):
+        rec = (doc_records[i] if doc_records and i < len(doc_records) else {})
+        entry = {
+            "index": i,
+            "doc_id": rec.get("doc_id", f"doc{i}"),
+            "title": rec.get("title", ""),
+            "author": rec.get("author", ""),
+            "tokens": int(piece.size),
+        }
+        if piece.size < block_size + 1:
+            entry.update({"scored": False, "bpb": None, "bytes": 0,
+                          "reason": f"piece is shorter than block_size+1={block_size + 1}"})
+            out.append(entry)
+            continue
+        with tempfile.NamedTemporaryFile(suffix=".bin", delete=False) as fh:
+            tmp = Path(fh.name)
+        try:
+            piece.tofile(tmp)
+            res = evaluate_model(model, TokenBatcher(tmp, block_size, batch_size, seed=0), byte_lens)
+        finally:
+            tmp.unlink(missing_ok=True)
+        entry.update({"scored": True, "bpb": res["bpb"], "bytes": res["bytes"],
+                      "loss": res["loss"]})
+        out.append(entry)
+    return out
+
+
+def summarise_per_document(rows: list[dict]) -> dict:
+    scored = [r for r in rows if r["scored"]]
+    if not scored:
+        return {"documents": len(rows), "scored": 0}
+    bpbs = [r["bpb"] for r in scored]
+    best = min(scored, key=lambda r: r["bpb"])
+    worst = max(scored, key=lambda r: r["bpb"])
+    mean = sum(bpbs) / len(bpbs)
+    return {
+        "documents": len(rows),
+        "scored": len(scored),
+        "unscored": len(rows) - len(scored),
+        "mean_bpb": mean,
+        "min_bpb": best["bpb"],
+        "max_bpb": worst["bpb"],
+        "range_bpb": worst["bpb"] - best["bpb"],
+        "range_pct_of_mean": 100 * (worst["bpb"] - best["bpb"]) / mean,
+        "stdev_bpb": statistics.stdev(bpbs) if len(bpbs) > 1 else 0.0,
+        "easiest": {"doc_id": best["doc_id"], "title": best["title"], "bpb": best["bpb"]},
+        "hardest": {"doc_id": worst["doc_id"], "title": worst["title"], "bpb": worst["bpb"]},
     }
 
 
@@ -230,6 +318,35 @@ def build_report(results: dict) -> str:
         "## Memorization probe",
         "",
     ]
+    pd = results.get("per_document_summary")
+    if pd and pd.get("scored"):
+        rows = [r for r in results["per_document"] if r["scored"]]
+        rows.sort(key=lambda r: r["bpb"])
+        lines += [
+            "",
+            "## Per-document breakdown",
+            "",
+            f"{pd['scored']} of {pd['documents']} documents scored. "
+            f"Mean {pd['mean_bpb']:.4f} bits per byte, spread "
+            f"{pd['range_bpb']:.4f} ({pd['range_pct_of_mean']:.1f}% of the mean), "
+            f"sd {pd['stdev_bpb']:.4f}.",
+            "",
+            "An aggregate figure is a weighted average over whatever mixture the corpus is; "
+            "the spread below is how much that average is hiding.",
+            "",
+            "| | Document | Author | Tokens | Bits per byte |",
+            "| --- | --- | --- | ---: | ---: |",
+        ]
+        shown = rows[:3] + ([{"doc_id": "...", "title": "…", "author": "", "tokens": 0, "bpb": None}]
+                            if len(rows) > 6 else []) + rows[-3:] if len(rows) > 6 else rows
+        for r in shown:
+            if r["bpb"] is None:
+                lines.append("| | … | | | |")
+                continue
+            tag = "easiest" if r is rows[0] else ("hardest" if r is rows[-1] else "")
+            lines.append(f"| {tag} | {r['title'] or r['doc_id']} | {r['author']} | "
+                         f"{r['tokens']:,} | {r['bpb']:.4f} |")
+
     mem = results["memorization"]
     if not mem.get("samples"):
         # A probe that silently measured nothing must not print "0 characters",
@@ -265,6 +382,10 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=None)
     ap.add_argument("--threads", type=int, default=0)
+    ap.add_argument("--per-document", action="store_true",
+                    help="also score every document in the split separately; an aggregate "
+                         "bits-per-byte figure averages over the corpus mixture and can hide "
+                         "a large effect on one part of it")
     args = ap.parse_args()
 
     if args.threads:
@@ -318,6 +439,15 @@ def main() -> None:
         **baselines,
         "memorization": probe,
     }
+
+    if args.per_document:
+        doc_records = manifest.get("corpus", {}).get("document_records") or None
+        rows = evaluate_per_document(
+            model, data_dir / f"{args.split}.bin", tokenizer.eos_id, byte_lens,
+            model_cfg.block_size, doc_records, batch_size=args.batch_size,
+        )
+        results["per_document"] = rows
+        results["per_document_summary"] = summarise_per_document(rows)
 
     out_dir = Path(args.out_dir) if args.out_dir else Path(args.checkpoint).parent
     out_dir.mkdir(parents=True, exist_ok=True)

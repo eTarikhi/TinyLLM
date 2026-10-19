@@ -67,6 +67,16 @@ def test_eval(run: str) -> dict:
 
 
 def manifest(name: str) -> dict:
+    """Prefer the committed copy; prepared data is gitignored and may be absent.
+
+    A re-run in a fresh checkout has the manifests (they are committed next to
+    the metrics) but not necessarily the multi-gigabyte prepared directories.
+    The analysis should not require re-downloading 60 MB of books to restate a
+    number it already has.
+    """
+    committed = HERE / f"data-manifest-{name.removeprefix('prepared-')}.json"
+    if committed.is_file():
+        return json.loads(committed.read_text())
     return json.loads((PKG / "data" / name / "manifest.json").read_text())
 
 
@@ -120,9 +130,18 @@ def split_test_by_document_group(eos_id: int) -> tuple[Path, Path, dict]:
     return p_old, p_new, stats
 
 
+def have_checkpoint(run: str) -> bool:
+    return (PKG / "artifacts" / "runs" / run / "best.pt").is_file()
+
+
 def main() -> int:
     torch.set_num_threads(2)
-    out: dict = {}
+    # Merge into the committed summary rather than replacing it. Checkpoints
+    # are gitignored, so a re-run in a fresh checkout can recompute the parts
+    # that only need committed metrics and must not silently drop the parts
+    # that needed weights. Every section below is guarded on what it needs.
+    out_path = HERE / "clean-data-summary.json"
+    out: dict = json.loads(out_path.read_text()) if out_path.is_file() else {}
 
     print("=" * 96)
     print("CLEAN DATA SCALING — val and test drawn from all 71 books, identical across arms")
@@ -204,11 +223,15 @@ def main() -> int:
     tok = load_tokenizer(FULL_DIR)
     p_old, p_new, stats = split_test_by_document_group(tok.eos_id)
     byte_lens = torch.tensor(np.array(tok.token_byte_lengths(), dtype=np.int64))
+    have_arms = all(have_checkpoint(a) for a in ARMS)
+    if not have_arms:
+        print("  (skipped: the two arms' checkpoints are not in this checkout; "
+              "keeping the committed numbers)")
     print(f"  original 27: {stats['original27_tokens']:,} tokens   "
           f"added 44: {stats['added44_tokens']:,} tokens")
 
     groups: dict[str, dict] = {}
-    for arm in ARMS:
+    for arm in (ARMS if have_arms else ()):
         model, cfg = load_model(arm)
         res = {}
         for label, path in (("original27", p_old), ("added44", p_new)):
@@ -217,15 +240,21 @@ def main() -> int:
         groups[arm] = res
         print(f"  {arm:>12}  original27 {res['original27']:.4f}   added44 {res['added44']:.4f}")
 
-    d_old = 100 * (groups["data71-full"]["original27"] / groups["data71-ctrl"]["original27"] - 1)
-    d_new = 100 * (groups["data71-full"]["added44"] / groups["data71-ctrl"]["added44"] - 1)
-    out["groups"] = groups
-    out["group_stats"] = stats
-    out["delta_original27_pct"] = d_old
-    out["delta_added44_pct"] = d_new
-    print(f"\n  full vs ctrl on the original 27: {d_old:+.2f}%")
-    print(f"  full vs ctrl on the added   44: {d_new:+.2f}%")
-    print("  the first number is the earlier experiment; the second is what it could not see")
+    if have_arms:
+        d_old = 100 * (groups["data71-full"]["original27"] / groups["data71-ctrl"]["original27"] - 1)
+        d_new = 100 * (groups["data71-full"]["added44"] / groups["data71-ctrl"]["added44"] - 1)
+        out["groups"] = groups
+        out["group_stats"] = stats
+        out["delta_original27_pct"] = d_old
+        out["delta_added44_pct"] = d_new
+        print(f"\n  full vs ctrl on the original 27: {d_old:+.2f}%")
+        print(f"  full vs ctrl on the added   44: {d_new:+.2f}%")
+        print("  the first number is the earlier experiment; the second is what it could not see")
+    else:
+        g = out.get("groups", {})
+        print(f"  committed: full vs ctrl on the original 27 "
+              f"{out.get('delta_original27_pct', float('nan')):+.2f}%, "
+              f"on the added 44 {out.get('delta_added44_pct', float('nan')):+.2f}%")
 
     # ------------------------------------------------- capacity, re-asked
     cap_run = "size-4L256d-gb71"
@@ -262,6 +291,78 @@ def main() -> int:
             "delta_in_bar_units": delta / SEED_BAR_PCT,
             "delta_on_27_book_corpus_pct": 0.21648672334646513,
         }
+
+    # ------------------------------------------------- horizon, doubled
+    long_run = "data71-full-9600"
+    if (HERE / f"eval-test-{long_run}.json").exists():
+        print("\n" + "=" * 96)
+        print("HORIZON — the same model and corpus, twice the steps")
+        print("=" * 96)
+        short_s, long_s = summary("data71-full"), summary(long_run)
+        short_t, long_t = test_eval("data71-full"), test_eval(long_run)
+        tr = manifest("prepared-71-full")["splits"]["train"]["tokens"]
+        print(f"{'run':>18} {'steps':>7} {'tokens':>12} {'epochs':>7} {'elapsed':>8} "
+              f"{'val':>8} {'test':>8}")
+        for run, s, t in (("data71-full", short_s, short_t), (long_run, long_s, long_t)):
+            print(f"{run:>18} {s['steps']:>7,} {s['tokens']:>12,} {s['tokens'] / tr:>7.2f} "
+                  f"{s['elapsed_s']:>8.0f} {s['final_val_bpb']:>8.4f} {t['model']['bpb']:>8.4f}")
+        d = 100 * (1 - long_t["model"]["bpb"] / short_t["model"]["bpb"])
+        print(f"\n  doubling the horizon bought {d:.2f}% of test bits per byte "
+              f"({short_t['model']['bpb'] - long_t['model']['bpb']:.4f} absolute)")
+
+        # Marginal return: what did the last four evaluations buy in each run?
+        def last_four(run: str) -> float:
+            e = evals(run)
+            return e[-5]["val_bpb"] - e[-1]["val_bpb"]
+        m_short, m_long = last_four("data71-full"), last_four(long_run)
+        print(f"  final four evaluations bought: 4,800-step {m_short:.4f} bpb, "
+              f"9,600-step {m_long:.4f} bpb")
+        print("  (a falling marginal return is the signal that the next doubling buys less)")
+
+        # Where does the gain land? Same decomposition as above.
+        if have_checkpoint(long_run):
+            model, cfg = load_model(long_run)
+            gl = {}
+            for label, path in (("original27", p_old), ("added44", p_new)):
+                gl[label] = evaluate_model(model, TokenBatcher(path, cfg.block_size, 16, seed=0),
+                                           byte_lens)["bpb"]
+        else:
+            gl = out.get("horizon", {}).get("groups", {})
+            if not gl:
+                print("  (no checkpoint and no committed decomposition for the long run)")
+                gl = {"original27": float("nan"), "added44": float("nan")}
+        print(f"\n  {long_run} on the original 27: {gl['original27']:.4f}   "
+              f"on the added 44: {gl['added44']:.4f}")
+        released = json.loads((HERE / "eval-test-4800.json").read_text())["model"]["bpb"]
+        vs_released = 100 * (1 - gl["original27"] / released)
+        print(f"  against the released model's {released:.4f} on those same bytes: "
+              f"{vs_released:+.2f}% better")
+        out["horizon"] = {
+            "short": {"run": "data71-full", "steps": short_s["steps"],
+                      "tokens": short_s["tokens"], "epochs": short_s["tokens"] / tr,
+                      "elapsed_s": short_s["elapsed_s"], "val_bpb": short_s["final_val_bpb"],
+                      "test_bpb": short_t["model"]["bpb"],
+                      "last_four_bpb": m_short},
+            "long": {"run": long_run, "steps": long_s["steps"], "tokens": long_s["tokens"],
+                     "epochs": long_s["tokens"] / tr, "elapsed_s": long_s["elapsed_s"],
+                     "val_bpb": long_s["final_val_bpb"], "test_bpb": long_t["model"]["bpb"],
+                     "clipped_steps": long_s["clipped_steps"],
+                     "longest_verbatim": long_t["memorization"]["max_longest_verbatim_match_chars"],
+                     "last_four_bpb": m_long},
+            "gain_pct": d,
+            "gain_bpb": short_t["model"]["bpb"] - long_t["model"]["bpb"],
+            "groups": gl,
+            "released_test_bpb": released,
+            "vs_released_on_original27_pct": vs_released,
+        }
+        if "per_document_summary" in long_t:
+            out["horizon"]["per_document"] = long_t["per_document_summary"]
+            pds = long_t["per_document_summary"]
+            print(f"\n  per-document spread over {pds['scored']} books: "
+                  f"{pds['min_bpb']:.4f} to {pds['max_bpb']:.4f} "
+                  f"({pds['range_pct_of_mean']:.1f}% of the mean, sd {pds['stdev_bpb']:.4f})")
+            print(f"    easiest {pds['easiest']['title']} {pds['easiest']['bpb']:.4f}")
+            print(f"    hardest {pds['hardest']['title']} {pds['hardest']['bpb']:.4f}")
 
     (HERE / "clean-data-summary.json").write_text(json.dumps(out, indent=2) + "\n")
     print(f"\nwritten to {HERE / 'clean-data-summary.json'}")
