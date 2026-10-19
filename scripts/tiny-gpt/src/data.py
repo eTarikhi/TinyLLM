@@ -40,7 +40,7 @@ import subprocess
 import tarfile
 import time
 import urllib.request
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Iterator, Sequence
 
@@ -114,6 +114,31 @@ class Document:
     only thing that changed is how much the model read.
     """
 
+    eval_only: bool = False
+    """Contribute to val and test only, never to the training split.
+
+    The mirror of ``train_only``, and the other half of a clean data-scaling
+    experiment. ``train_only`` answers "does more training text help on a fixed
+    evaluation"; it cannot answer "does more training text help" at all,
+    because its evaluation never covers the new material -- and the measured
+    answer to the first question came out negative precisely because of that
+    gap. To ask the second, the additions have to appear in val and test too,
+    and then the *control* run needs a corpus with the same evaluation splits
+    and without the extra training text. That is this flag: the document is
+    split in the usual proportions, its val and test pieces are kept, and its
+    training piece is dropped.
+
+    A document cannot be both; ``__post_init__`` rejects it.
+    """
+
+    def __post_init__(self) -> None:
+        if self.train_only and self.eval_only:
+            raise ValueError(
+                f"document {self.doc_id!r} is marked both train_only and eval_only; "
+                "a document contributes to the training split, to the evaluation "
+                "splits, or to both, but 'neither' is not a corpus worth building"
+            )
+
 
 @dataclass(frozen=True)
 class MultiDocCorpus:
@@ -127,7 +152,8 @@ class MultiDocCorpus:
     access_date: str
 
 
-def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool = False) -> Document:
+def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool = False,
+        eval_only: bool = False) -> Document:
     """GITenberg mirrors Project Gutenberg as one git repository per book.
 
     Each repo carries ``<id>-0.txt`` (UTF-8) and ``<id>.txt`` (legacy encoding);
@@ -143,6 +169,7 @@ def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool
         repo=f"GITenberg/{slug}_{pg}",
         member=f"{slug}_{pg}-master/{pg}-0.txt",
         train_only=train_only,
+        eval_only=eval_only,
     )
 
 
@@ -289,10 +316,73 @@ GUTENBERG_EXPANDED = MultiDocCorpus(
     access_date="2026-10-19",
 )
 
+# The clean restatement of the data-scaling question.
+#
+# `gutenberg-mixed-71` holds its evaluation splits fixed by marking the 44
+# additions train-only, which answers "does more training text help on the
+# original 27 books' val/test". Measured answer: no, it costs 0.53% test bpb,
+# because a 27-book model finds the additions 6.93% harder than its own test
+# split -- they are a different distribution, so the extra text competes for
+# capacity with the material being scored.
+#
+# That leaves the general question unanswered, and these two corpora ask it.
+# Both carry the same 71 documents and therefore produce the same assembled
+# text and the same corpus hash; they differ only in which documents feed the
+# training split:
+#
+#   gutenberg-mixed-71-full  all 71 train, all 71 evaluate
+#   gutenberg-mixed-71-ctrl  27 train,     all 71 evaluate
+#
+# Prepared with a shared vocabulary (`--tokenizer-from`), their val.bin and
+# test.bin are byte-identical, so a model from each can be scored on exactly
+# the same bytes and the only variable is how much text was trained on.
+GUTENBERG_71_FULL_DOCS = tuple(
+    replace(d, train_only=False, eval_only=False) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
+)
+
+GUTENBERG_71_CTRL_DOCS = tuple(
+    replace(d, train_only=False, eval_only=d.train_only) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
+)
+
+GUTENBERG_71_FULL = MultiDocCorpus(
+    name="gutenberg-mixed-71-full",
+    description=(
+        "All 71 public-domain titles, every one of them feeding train, val and test. "
+        "The treatment arm of the clean data-scaling experiment: unlike "
+        "`gutenberg-mixed-71`, the evaluation splits cover the added books, so a win "
+        "here is a win on the distribution that was actually trained on."
+    ),
+    sha256=GUTENBERG_EXPANDED.sha256,
+    documents=GUTENBERG_71_FULL_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-19",
+)
+
+GUTENBERG_71_CTRL = MultiDocCorpus(
+    name="gutenberg-mixed-71-ctrl",
+    description=(
+        "The control arm: the same 71 titles and the same val and test splits as "
+        "`gutenberg-mixed-71-full`, but only the original 27 books contribute to "
+        "training. Prepare it with --tokenizer-from pointed at the full arm so the "
+        "two share a vocabulary and their evaluation splits are byte-identical."
+    ),
+    sha256=GUTENBERG_EXPANDED.sha256,
+    documents=GUTENBERG_71_CTRL_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-19",
+)
+
+
 CORPORA = {
     TINY_SHAKESPEARE.name: TINY_SHAKESPEARE,
     GUTENBERG_MIXED.name: GUTENBERG_MIXED,
     GUTENBERG_EXPANDED.name: GUTENBERG_EXPANDED,
+    GUTENBERG_71_FULL.name: GUTENBERG_71_FULL,
+    GUTENBERG_71_CTRL.name: GUTENBERG_71_CTRL,
 }
 
 
@@ -540,7 +630,19 @@ def prepare(
     local_file: str | Path | None = None,
     repo_root: str | Path = ".",
     tokenizer_sample_chars: int = 4_000_000,
+    tokenizer_from: str | Path | None = None,
 ) -> PreparedData:
+    """Fetch, split, tokenize and write a corpus.
+
+    ``tokenizer_from`` points at an already-prepared directory (or a
+    ``tokenizer.json`` directly) and reuses that vocabulary instead of training
+    a new one. Bits per byte is tokenizer-independent as a *unit*, but a model
+    is not: its embedding table is indexed by token id, so two models can only
+    be scored on the same text if that text was tokenized the same way. Without
+    this, any comparison across two corpora is confounded by the vocabulary,
+    and whether the two vocabularies happen to coincide depends on invisible
+    details like the order of the documents and the sample cap.
+    """
     if abs(sum(splits) - 1.0) > 1e-9:
         raise ValueError(f"splits must sum to 1.0, got {splits}")
     corpus = CORPORA[corpus_name]
@@ -573,7 +675,13 @@ def prepare(
     offset = 0
     train_only_flags = ([getattr(d, "train_only", False) for d in corpus.documents]
                         if multi_doc else [False])
-    for length, train_only in zip(documents, train_only_flags):
+    eval_only_flags = ([getattr(d, "eval_only", False) for d in corpus.documents]
+                       if multi_doc else [False])
+    # Parallel to parts["train"], not to `documents`. With eval-only documents
+    # the two lengths differ, and zipping the per-document flags against the
+    # per-piece list would silently misalign the tokenizer sample below.
+    train_piece_train_only: list[bool] = []
+    for length, train_only, eval_only in zip(documents, train_only_flags, eval_only_flags):
         doc = text[offset : offset + length]
         offset += length + (2 if multi_doc else 0)  # the "\n\n" join
         if train_only:
@@ -581,6 +689,7 @@ def prepare(
             # would still insert an EOS separator into those splits and change
             # their bytes, which is exactly what this flag exists to prevent.
             parts["train"].append(doc)
+            train_piece_train_only.append(True)
             boundaries.append([len(doc), len(doc)])
             continue
         i_train = snap(doc, int(len(doc) * splits[0]))
@@ -594,7 +703,13 @@ def prepare(
         if not 0 < i_train < i_val < len(doc):
             i_train = int(len(doc) * splits[0])
             i_val = int(len(doc) * (splits[0] + splits[1]))
-        parts["train"].append(doc[:i_train])
+        if not eval_only:
+            # The boundaries are a function of len(doc) and `splits` alone, so
+            # dropping the training piece leaves the val and test pieces exactly
+            # where a full-corpus preparation would put them. That is what makes
+            # the control corpus share its evaluation splits byte for byte.
+            parts["train"].append(doc[:i_train])
+            train_piece_train_only.append(False)
         parts["val"].append(doc[i_train:i_val])
         parts["test"].append(doc[i_val:])
         boundaries.append([i_train, i_val])
@@ -632,10 +747,35 @@ def prepare(
     excludes_train_only = tokenizer_kind != "char" and any(train_only_flags)
     sample_source = train_text
     if excludes_train_only:
-        sample_source = "".join(piece for piece, flag in zip(parts["train"], train_only_flags)
+        sample_source = "".join(piece for piece, flag in zip(parts["train"], train_piece_train_only)
                                 if not flag) or train_text
     sample = sample_source[:tokenizer_sample_chars] if tokenizer_sample_chars else sample_source
-    tokenizer = build_tokenizer(tokenizer_kind, sample, vocab_size=vocab_size)
+
+    reused_from: str | None = None
+    if tokenizer_from is not None:
+        src = Path(tokenizer_from)
+        src_file = src / "tokenizer.json" if src.is_dir() else src
+        if not src_file.is_file():
+            raise FileNotFoundError(
+                f"tokenizer_from={tokenizer_from!r} does not name a tokenizer.json "
+                f"(looked for {src_file})"
+            )
+        tokenizer = BaseTokenizer.load(src_file)
+        if tokenizer.kind != tokenizer_kind:
+            raise ValueError(
+                f"tokenizer_from holds a {tokenizer.kind!r} tokenizer but "
+                f"tokenizer_kind={tokenizer_kind!r} was requested; reusing a vocabulary "
+                "only makes sense when it is the same kind of vocabulary"
+            )
+        if tokenizer_kind != "char" and tokenizer.vocab_size != vocab_size:
+            raise ValueError(
+                f"tokenizer_from holds a vocabulary of {tokenizer.vocab_size} but "
+                f"vocab_size={vocab_size} was requested"
+            )
+        reused_from = str(src_file)
+        sample = ""
+    else:
+        tokenizer = build_tokenizer(tokenizer_kind, sample, vocab_size=vocab_size)
     tokenizer_path = out_dir / "tokenizer.json"
     tokenizer.save(tokenizer_path)
 
@@ -712,7 +852,8 @@ def prepare(
         "tokenizer": {
             "kind": tokenizer_kind,
             "vocab_size": tokenizer.vocab_size,
-            "trained_on": "train split only",
+            "trained_on": "train split only" if reused_from is None else f"reused from {reused_from}",
+            "reused_from": reused_from,
             "requested_vocab_size": vocab_size if tokenizer_kind != "char" else None,
             "bos_id": tokenizer.bos_id,
             "eos_id": tokenizer.eos_id,
@@ -782,21 +923,40 @@ class TokenBatcher:
         y = np.stack([self.data[s + 1 : s + 1 + self.block_size] for s in starts]).astype(np.int64)
         return torch.from_numpy(x).to(device), torch.from_numpy(y).to(device)
 
-    def iter_eval_batches(self, max_tokens: int | None = None, device: str = "cpu") -> Iterator:
+    def iter_eval_batches(self, max_tokens: int | None = None, device: str = "cpu",
+                          spread: bool = False) -> Iterator:
         """Non-overlapping windows covering the split, in order.
 
         Deterministic and exhaustive, which is what an evaluation number needs
         to be comparable between runs.
+
+        ``max_tokens`` caps the cost by taking a *prefix* of the split. On a
+        single-document corpus that is a fair sample. On a multi-document one
+        it is not: the splits are the per-document pieces concatenated in
+        document order, so a prefix covers the first few documents and nothing
+        else. With the 27-book corpus and the default 98,304-token budget the
+        in-training validation metric saw roughly the first eight books -- a
+        third of the split, and not a random third.
+
+        ``spread=True`` keeps the same cost and covers the whole split by
+        taking evenly spaced windows instead of the leading ones. It is off by
+        default so that every previously published number stays reproducible;
+        new configurations should turn it on, and must not be compared against
+        numbers produced without it.
         """
         import torch
 
         T = self.block_size
         n = len(self.data) - 1
-        if max_tokens is not None:
-            n = min(n, max_tokens)
-        n_windows = n // T
-        for i in range(0, n_windows, self.batch_size):
-            starts = [j * T for j in range(i, min(i + self.batch_size, n_windows))]
+        total_windows = n // T
+        if max_tokens is None:
+            window_ids = list(range(total_windows))
+        else:
+            want = max(1, min(total_windows, max_tokens // T))
+            window_ids = ([(j * total_windows) // want for j in range(want)] if spread
+                          else list(range(want)))
+        for i in range(0, len(window_ids), self.batch_size):
+            starts = [j * T for j in window_ids[i : i + self.batch_size]]
             x = np.stack([self.data[s : s + T] for s in starts]).astype(np.int64)
             y = np.stack([self.data[s + 1 : s + 1 + T] for s in starts]).astype(np.int64)
             yield torch.from_numpy(x).to(device), torch.from_numpy(y).to(device)
@@ -822,6 +982,9 @@ def main() -> None:
     ap.add_argument("--local-file", default=None, help="use a local copy instead of downloading")
     ap.add_argument("--tokenizer-sample-chars", type=int, default=4_000_000,
                     help="cap the text a BPE vocabulary is fitted on; 0 means the whole train split")
+    ap.add_argument("--tokenizer-from", default=None,
+                    help="reuse the vocabulary of an already-prepared directory instead of "
+                         "fitting a new one; required to compare models across two corpora")
     args = ap.parse_args()
 
     out_dir = args.out_dir or f"data/prepared-{args.tokenizer}{'' if args.tokenizer == 'char' else '-' + str(args.vocab_size)}"
@@ -834,6 +997,7 @@ def main() -> None:
         local_file=args.local_file,
         repo_root=Path(__file__).resolve().parents[3],
         tokenizer_sample_chars=args.tokenizer_sample_chars,
+        tokenizer_from=args.tokenizer_from,
     )
     m = prepared.manifest
     print(f"corpus      {m['corpus']['name']}  {m['corpus']['chars']:,} chars in "

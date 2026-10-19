@@ -74,6 +74,14 @@ class TrainConfig:
     # evaluation / logging / checkpointing
     eval_every: int = 100
     eval_tokens: int = 131072
+    eval_spread: bool = False
+    """Spread the capped evaluation slice over the whole split.
+
+    Off by default because it changes the metric: a prefix slice and an
+    evenly spaced slice are different samples of the same split. Leave it
+    off to reproduce a published run; turn it on for a multi-document
+    corpus, where a prefix covers only the first few documents.
+    """
     log_every: int = 20
     sample_every: int = 0
     sample_tokens: int = 200
@@ -148,6 +156,7 @@ def evaluate_split(
     batcher: TokenBatcher,
     byte_lens: torch.Tensor,
     max_tokens: int | None = None,
+    spread: bool = False,
 ) -> dict:
     """Mean per-token loss, perplexity and bits per byte over a split.
 
@@ -159,7 +168,7 @@ def evaluate_split(
     total_nats = 0.0
     total_tokens = 0
     total_bytes = 0
-    for x, y in batcher.iter_eval_batches(max_tokens=max_tokens):
+    for x, y in batcher.iter_eval_batches(max_tokens=max_tokens, spread=spread):
         nll = model.token_nll(x, y)
         blen = byte_lens[y]
         mask = blen > 0
@@ -388,8 +397,8 @@ def train(cfg: TrainConfig, resume_from: str | None = None) -> dict:
 
         is_last = step + 1 == cfg.max_steps
         if cfg.eval_every and ((step + 1) % cfg.eval_every == 0 or is_last):
-            val = evaluate_split(model, val_batcher, byte_lens, max_tokens=cfg.eval_tokens)
-            train_eval = evaluate_split(model, train_batcher, byte_lens, max_tokens=cfg.eval_tokens)
+            val = evaluate_split(model, val_batcher, byte_lens, max_tokens=cfg.eval_tokens, spread=cfg.eval_spread)
+            train_eval = evaluate_split(model, train_batcher, byte_lens, max_tokens=cfg.eval_tokens, spread=cfg.eval_spread)
             last_eval = val
             record = {
                 "event": "eval",
@@ -444,7 +453,7 @@ def train(cfg: TrainConfig, resume_from: str | None = None) -> dict:
     save_checkpoint(run_dir / "last.pt", model, optimizer, cfg, final_step, tokens_seen, best_val,
                     {"data_dir": str(data_dir)})
 
-    val = evaluate_split(model, val_batcher, byte_lens, max_tokens=cfg.eval_tokens)
+    val = evaluate_split(model, val_batcher, byte_lens, max_tokens=cfg.eval_tokens, spread=cfg.eval_spread)
     summary = {
         "event": "run_end",
         "run_id": cfg.run_id,

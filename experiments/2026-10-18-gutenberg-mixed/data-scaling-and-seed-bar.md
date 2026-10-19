@@ -245,6 +245,37 @@ it is in compute, which is the one axis that has never stopped paying.
 1.32× better than the bigram baseline and 1.48× better than the best primed
 general-purpose compressor.
 
+## Correction, found afterwards
+
+While setting up the follow-up experiment ([`clean-data-scaling.md`](clean-data-scaling.md))
+a defect surfaced in how the **validation** numbers above were sampled.
+
+`eval_tokens: 98304` caps the cost of the in-training evaluation, and the
+batcher honoured that cap by taking a **prefix** of the split. The evaluation
+splits of a multi-document corpus are the per-document pieces concatenated in
+document order, so a prefix covers the first few documents and nothing else.
+98,304 of 317,418 val tokens is the first 31% of the file — which is **8 of the
+27 books**: Moby Dick, Pride and Prejudice, Emma, Sense and Sensibility,
+Frankenstein, Dracula, Jane Eyre and Wuthering Heights. Seven Victorian and
+Romantic novels and one whaling book, all British bar one.
+
+What this does and does not touch:
+
+* **Every `test bpb` number in this directory is unaffected.** `evaluate.py`
+  passes no cap and evaluates the whole split, which is why the verdicts above
+  are all stated on test.
+* **Every `val bpb` number is a number about those eight books,** including the
+  0.24% val seed range and the +1.10% val margin for the larger corpus. The
+  val/test disagreement in the data-scaling result — +1.10% val against +0.53%
+  test — is at least partly this: the val metric over-weighted the eight books
+  that sit at the front of the file.
+* **No conclusion above changes**, because each one rests on the test column.
+
+The cap now takes evenly spaced windows instead when `eval_spread: true` is
+set, at identical cost. It is opt-in rather than the new default so that every
+number already published stays reproducible from its committed config; the two
+runs in the follow-up set it.
+
 ## Artifacts
 
 | file | what |
