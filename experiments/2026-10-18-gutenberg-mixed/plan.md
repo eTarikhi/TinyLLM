@@ -198,17 +198,23 @@ Ordered by what the evidence says is limiting, not by what is interesting:
    a tie at single-seed precision rather than a win, and 5.64 M is clearly too
    big. The optimum sits in the 1.8–3.7 M band and the crossover is at or just
    beyond this budget — recorded as a prediction, not a result.
-3. **Context length — now the top item.** Fixed at 256 for every run so far
-   and never varied, while steps and size have each now been measured and
-   found not to be binding. Prose plausibly rewards more context; attention
-   cost grows quadratically, so measure rather than assume.
-4. **The learning-rate and batch recipe.** 3e-3, batch 16 × accum 2,
+3. ~~**Context length.**~~ **Done** — see [`context-sweep.md`](context-sweep.md).
+   Longer context is monotonically *worse* here: T=512 costs +1.56% test bpb
+   and T=1024 costs +10.30%, and the penalty survives token-matching, so it
+   is intrinsic rather than just the lost throughput. Attention also turned
+   out far cheaper in wall clock than `T/(6·d_model)` predicts — 18% rather
+   than ~100% for T=1024 — so the arithmetic overstates the price of context
+   on this machine. Cheap, but not free.
+4. **T=128 — now the top item, and the cheapest one left.** The sweep bracketed
+   256 only from above. Both longer settings lost, so 256 may itself be past
+   the optimum; the monotone trend predicts a shorter context should win.
+5. **The learning-rate and batch recipe.** 3e-3, batch 16 × accum 2,
    β2 = 0.99 were chosen on iteration 1's corpus and carried through every run
-   since without re-examination. The size sweep held them fixed by design,
-   which means a larger model may have been handicapped by a peak LR picked
-   for a smaller one.
-5. **A second seed.** Every number in this directory is a single draw, and
+   since without re-examination. Both sweeps held them fixed by design, which
+   means every size and context conclusion in this directory is conditional
+   on a recipe tuned for neither.
+6. **A second seed.** Every number in this directory is a single draw, and
    the size sweep has now produced a 0.2% difference that a seed bar would
    probably swallow. This has graduated from nice-to-have to necessary.
-6. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
+7. **Vocabulary above 2,048.** 2,048 beat 1,024 on token-matched loss. The
    trend's direction is known; its end is not.

@@ -1,0 +1,57 @@
+# Context-length sweep at the main budget. The third point is the committed
+# 4,800-step run at T=256.
+#
+# Context length has been fixed at 256 tokens since the very first pilot and
+# never once varied, while the two levers that *were* swept -- steps and model
+# size -- have both now been measured and found not to be binding. More steps
+# buys 0.0098 bpb over the final four evaluations; 2.11x the parameters buys a
+# tie. So this is the remaining unexamined axis.
+#
+# Tokens per optimizer step is held at 8,192 by scaling batch inversely with
+# context (8 x 512 x 2). That keeps the optimization recipe identical and
+# leaves context length as the only variable. Learned positional embeddings
+# mean parameter count moves slightly with context (1,746,240 at T=128 to
+# 1,918,272 at T=1024, a 10% spread); that is inherent to the axis, not a
+# confound that can be removed.
+#
+# Matched on wall clock (2,926 s) with step counts from measured throughput,
+# so every config completes its cosine schedule -- annealing is worth ~0.035
+# bpb and a run that stopped mid-schedule would lose for the wrong reason.
+# Warmup is 5% of the horizon, as in the size sweep.
+#
+# Measured cost of context on this CPU is much milder than the FLOP estimate
+# suggests: the attention share rule of thumb T/(6*d_model) implies T=1024
+# should cost nearly twice T=256, but pure training throughput fell only 18%
+# (13,925 -> 11,437 tok/s). Attention here is memory-bound rather than
+# FLOP-bound, so the arithmetic overstates the price of context.
+run_id: ctx-512
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 512
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 8
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 209
+max_steps: 4187
+
+eval_every: 209
+eval_tokens: 98304
+log_every: 50
+sample_every: 2100
+sample_tokens: 240
+save_every: 1400
+max_seconds: 3600
+threads: 2

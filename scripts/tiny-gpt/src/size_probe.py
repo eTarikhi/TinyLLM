@@ -29,14 +29,25 @@ import torch
 
 from model import GPT, GPTConfig
 
-CANDIDATES = [
-    # (label, n_layer, n_embd, n_head)
-    ("3L/192d/3H", 3, 192, 3),   # the incumbent, already measured at this budget
-    ("4L/256d/4H", 4, 256, 4),
-    ("5L/288d/6H", 5, 288, 6),
-    ("5L/320d/5H", 5, 320, 5),
-    ("6L/384d/6H", 6, 384, 6),
-]
+# Each candidate is (label, n_layer, n_embd, n_head, block_size, batch_size).
+# Tokens per optimizer step is held at 8,192 across every entry in a family --
+# with grad_accum 2 that means batch_size * block_size == 4096 -- so the
+# optimization recipe is unchanged and only the swept variable moves.
+SWEEPS = {
+    "size": [
+        ("3L/192d/3H", 3, 192, 3, 256, 16),   # incumbent, already measured
+        ("4L/256d/4H", 4, 256, 4, 256, 16),
+        ("5L/288d/6H", 5, 288, 6, 256, 16),
+        ("5L/320d/5H", 5, 320, 5, 256, 16),
+        ("6L/384d/6H", 6, 384, 6, 256, 16),
+    ],
+    "context": [
+        ("T=128", 3, 192, 3, 128, 32),
+        ("T=256", 3, 192, 3, 256, 16),        # incumbent, already measured
+        ("T=512", 3, 192, 3, 512, 8),
+        ("T=1024", 3, 192, 3, 1024, 4),
+    ],
+}
 
 
 def probe(n_layer: int, n_embd: int, n_head: int, vocab_size: int, block_size: int,
@@ -80,8 +91,7 @@ def main() -> None:
                     help="end-to-end tokens/s of a completed run of the reference config")
     ap.add_argument("--reference-label", default="3L/192d/3H")
     ap.add_argument("--vocab-size", type=int, default=2048)
-    ap.add_argument("--block-size", type=int, default=256)
-    ap.add_argument("--batch-size", type=int, default=16)
+    ap.add_argument("--sweep", default="size", choices=sorted(SWEEPS))
     ap.add_argument("--grad-accum", type=int, default=2)
     ap.add_argument("--warmup", type=int, default=5)
     ap.add_argument("--measured", type=int, default=20)
@@ -89,12 +99,19 @@ def main() -> None:
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
-    tokens_per_step = args.batch_size * args.block_size * args.grad_accum
     results = []
-    for label, n_layer, n_embd, n_head in CANDIDATES:
-        r = probe(n_layer, n_embd, n_head, args.vocab_size, args.block_size,
-                  args.batch_size, args.grad_accum, args.warmup, args.measured, args.threads)
-        r.update(label=label, n_layer=n_layer, n_embd=n_embd, n_head=n_head)
+    tokens_per_step = None
+    for label, n_layer, n_embd, n_head, block_size, batch_size in SWEEPS[args.sweep]:
+        this_tps = batch_size * block_size * args.grad_accum
+        if tokens_per_step is None:
+            tokens_per_step = this_tps
+        elif this_tps != tokens_per_step:
+            raise SystemExit(f"{label}: {this_tps:,} tokens/step breaks the family's "
+                             f"{tokens_per_step:,} -- the sweep would confound two variables")
+        r = probe(n_layer, n_embd, n_head, args.vocab_size, block_size,
+                  batch_size, args.grad_accum, args.warmup, args.measured, args.threads)
+        r.update(label=label, n_layer=n_layer, n_embd=n_embd, n_head=n_head,
+                 block_size=block_size, batch_size=batch_size)
         results.append(r)
         print(f"  {label:12} {r['params_total']:>10,} params  "
               f"{r['tokens_per_s']:>8,.0f} tok/s (pure train)", flush=True)

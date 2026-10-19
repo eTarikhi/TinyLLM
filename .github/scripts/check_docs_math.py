@@ -298,6 +298,40 @@ def check_experiment_reports(root: str) -> None:
               round((loaded[1][1]["final_val_bpb"] / base_su["final_val_bpb"] - 1) * 100, 2),
               "val margin, 1.77M over 3.74M", tol=5e-3, doc=sweep_doc)
 
+    # The context sweep, checked the same way as the size sweep.
+    ctx_doc = "context-sweep.md"
+    if os.path.exists(os.path.join(exp, ctx_doc)):
+        print(f"experiments/2026-10-18-gutenberg-mixed/{ctx_doc} — sweep vs. raw artifacts")
+        ctx = text(ctx_doc)
+        CFIELDS = [r"\*{0,2}([\d,]+)\*{0,2}", r"([\d,]+)", r"([\d,]+) s", r"([\d,]+)",
+                   r"\*{0,2}([\d.]+)\*{0,2}", r"\*{0,2}([\d.]+)\*{0,2}"]
+
+        def ctx_row(label, index):
+            cells = [f if i == index else f.replace("(", "(?:") for i, f in enumerate(CFIELDS)]
+            return r"\| \*{0,2}" + re.escape(label) + r"\*{0,2} \| " + r" \| ".join(cells) + r" \|"
+
+        cpoints = [("T=256", "main-gutenberg-4800", "eval-test-4800.json"),
+                   ("T=512", "ctx-512", "eval-test-ctx-512.json"),
+                   ("T=1024", "ctx-1024", "eval-test-ctx-1024.json")]
+        cloaded = []
+        for label, run, evf in cpoints:
+            su, evj = load(os.path.join("metrics", f"{run}-summary.json")), load(evf)
+            cloaded.append((label, su, evj))
+            for index, value, what in ((0, su["params_total"], "params"),
+                                       (1, su["steps"], "steps"),
+                                       (3, su["tokens"], "tokens")):
+                claim(ctx, ctx_row(label, index), value, f"{what}, {label}", doc=ctx_doc)
+            claim(ctx, ctx_row(label, 4), round(su["final_val_bpb"], 4),
+                  f"val bpb, {label}", tol=5e-5, doc=ctx_doc)
+            claim(ctx, ctx_row(label, 5), round(evj["model"]["bpb"], 4),
+                  f"test bpb, {label}", tol=5e-5, doc=ctx_doc)
+
+        cbase = cloaded[0][2]
+        for label, su, evj in cloaded[1:]:
+            claim(ctx, re.escape(label) + r" is \*\*\+([\d.]+)%\*\*",
+                  round((evj["model"]["bpb"] / cbase["model"]["bpb"] - 1) * 100, 2),
+                  f"test margin vs T=256, {label}", tol=5e-3, doc=ctx_doc)
+
     # The model card describes the released model: the 4,800-step run.
     print("experiments/2026-10-18-gutenberg-mixed/model-card.md — card vs. raw artifacts")
     card = text("model-card.md")
