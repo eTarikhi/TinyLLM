@@ -1271,6 +1271,14 @@ def check_broad_report(root: str) -> None:
               "3.74M non-fiction ctrl", tol=5e-5, doc=name)
         claim(d, r"narrative ([\d.]+) →", round(big["forms_ctrl"]["narrative"], 4),
               "3.74M narrative ctrl", tol=5e-5, doc=name)
+    if "long_horizon" in s:
+        lh = s["long_horizon"]
+        claim(d, r"\| broad \| ([\d.]+) \| ([\d.]+)", round(s["arms"]["broad-full"]["test_bpb"], 4),
+              "broad at 4800 steps", tol=5e-5, doc=name)
+        claim(d, r"verse ([\d.]+) → ([\d.]+) \(−3\.78%\)",
+              round(lh["forms_released"]["verse"], 4), "released verse", tol=5e-5, doc=name)
+        claim(d, r"cost of broadening \| \+[\d.]+% \| \+([\d.]+)%",
+              round(lh["delta_pct"], 2), "cost at 9600 steps", tol=5e-3, doc=name)
 
 
 def main(root: str = ".") -> int:

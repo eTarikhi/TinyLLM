@@ -102,13 +102,30 @@ Extrapolating the halving is tempting and should be resisted: two points do
 not give a rate. What the 2×2 establishes is direction — capacity is *a*
 constraint, not necessarily the only one.
 
+## The released horizon: length trims it too
+
+`broad-full-9600` runs the released configuration on the broad corpus.
+
+| | 4,800 steps | 9,600 steps |
+| --- | ---: | ---: |
+| 71 books | 1.6147 | 1.5662 |
+| broad | 1.6338 | 1.5790 |
+| cost of broadening | +1.19% | +0.82% |
+
+Per form against the released model: verse 1.9743 → 1.8996 (−3.78%),
+non-fiction 1.8429 → 1.8173 (−1.39%), narrative 1.5450 → 1.5604 (+1.00%),
+experimental 1.9063 → 1.9166 (+0.54%). The shape never changes; only the
+price does. Horizon and capacity both behave like slack in the same budget:
+each reduces what the added text costs the dominant form, and neither
+changes how much the targeted forms gain.
+
 ## What it does not settle
 
-The released model trains for 9,600 steps, not 4,800, and longer training
-might amortise the competition the way capacity does. `broad-full-9600` is
-running to test that. And none of this measures the 80 added books
-themselves — they are out of the evaluation by design, so "the broad model
-is more general" is supported only through transfer to the original 71.
+Whether capacity and horizon compound — the pair
+`broad-4L256d-{full,ctrl}-long` is running. And none of this measures the 80
+added books themselves; they are out of the evaluation by design, so "the
+broad model is more general" is supported only through transfer to the
+original 71.
 
 ## Artifacts
 
