@@ -142,6 +142,83 @@ consistent with the only other lever that ever paid being the step count
 itself. Growing the model is something to do after the compute, not instead
 of it.
 
+## Horizon — spending the compute the capacity test said to spend
+
+The capacity result says the binding constraint is optimization steps, not
+parameters. The direct test of that is to leave the model alone and double the
+horizon. `data71-full-9600` is `data71-full` with two lines changed:
+`max_steps: 9600` and a larger wall-clock guard.
+
+| run | steps | tokens | epochs | s | val | test |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `data71-full` | 4,800 | 39,321,600 | 2.08 | 3,130 | 1.5883 | 1.6147 |
+| `data71-full-9600` | 9,600 | 78,643,200 | 4.15 | 6,131 | 1.5417 | **1.5662** |
+
+![Validation bits per byte against training tokens for the two horizons](horizon.svg)
+
+The two curves are nearly superimposed where they overlap, and that is a
+schedule artifact rather than a result — read the endpoints, not the overlap.
+
+**Doubling the horizon bought 3.00% of test bits per byte** (0.0484 absolute),
+or 8.1× the seed bar. Unlike the capacity test this is *not* clock-matched —
+it is twice the compute for 3.00%, and it should be read as "what does another
+hour buy", not "is this the better way to spend the hour".
+
+Three things are worth pulling out of it.
+
+**The return is falling, but slowly.** The previous doubling, 2,400 → 4,800,
+bought 3.67%; this one bought 3.00%. The sharper version of the same signal is
+inside each run: over its final four evaluations the 4,800-step run was still
+improving at 0.0097 bpb, the 9,600-step run at 0.0031 bpb — 3.2× flatter. Both
+numbers are measured on the same 120-step eval grid, so they are comparable
+even though the runs are not comparable mid-flight.
+
+**The run still has not converged.** `best.pt` is step 9,600 — the argmin of
+the validation curve is its last point. Every run in this project has ended
+while still improving, which is why "train longer" keeps working and why the
+checkpoint-selection floor found [below](#a-reproducibility-floor-found-by-accident)
+does not bite here.
+
+**Mid-run comparison between the two is meaningless.** They share a warmup and
+an eval grid, so the curves are identical up to step 240 and then diverge —
+but the divergence is mostly the cosine schedule, not learning. At any step
+before the end the longer run is mid-anneal at a higher learning rate and is
+penalised roughly 0.035 bpb for it. Only the endpoints compare cleanly, which
+is why the table has two rows and not forty.
+
+### Where the extra compute landed
+
+Running the same EOS decomposition on the longer model:
+
+| slice | released (27-book model) | `data71-full` | `data71-full-9600` |
+| --- | ---: | ---: | ---: |
+| original 27 | 1.6569 | 1.6645 | **1.6139** |
+| added 44 | — | 1.5926 | **1.5451** |
+
+This is the number that changes the release decision. On the *exact bytes the
+released model is scored on*, the longer run is **2.60% better** — 7.0× the
+seed bar. The earlier full-data model was tied there (+0.35%, inside the bar),
+so continuity cost nothing to keep. It is no longer free: the 71-book model is
+now better on the old benchmark as well as the new one.
+
+### The spread between books dwarfs every lever
+
+The new `--per-document` evaluation scores all 71 test documents separately:
+
+| | book | bpb |
+| --- | --- | ---: |
+| easiest | Pride and Prejudice | 1.3511 |
+| hardest | On the Origin of Species | 2.1509 |
+
+Mean 1.5798, sd 0.1612, range 0.7998 — **50.6% of the mean**. Every lever this
+project has measured moves the aggregate by less than 8%; *which books are in
+the test set* moves it by 50%. An aggregate bits-per-byte number is a weighted
+average over a corpus mixture, and comparing two such numbers is only
+meaningful when the mixture is held byte-for-byte identical. That is the same
+lesson the decomposition taught, stated as a property of the corpus rather
+than of one experiment, and it is now a flag on the evaluator so the next
+experiment gets it for free.
+
 ## Two things in the table that are not what they look like
 
 **The gap changed sign, and it is not measuring overfitting.** `gap` is
@@ -191,23 +268,33 @@ checkpoint is the better default.
 
 ## What this means for the released model
 
-`main-gutenberg-4800` stays the released model, because every published number
-in this directory is measured against the 27-book test split and continuity is
-worth more than 0.35%. But the honest summary is:
+The argument for keeping `main-gutenberg-4800` was that the 71-book model only
+*tied* with it on the 27-book test split:
 
 * On the 27-book test split the two are **tied** (+0.35%, inside the seed bar).
 * On the 71-book test split the full-data model is **7.30% better**.
 * They cost the same to train.
 
-A model trained on all 71 books is the better artifact. It is not released only
-because releasing it would silently change what every historical number means.
+A tie made continuity free, so continuity won. The horizon run ends that: at
+9,600 steps the 71-book model scores **1.6139** on the 27-book test bytes
+against the released model's **1.6569**, which is 2.60% better and 7.0× the
+seed bar. There is no longer a slice of the evaluation on which the old
+release is competitive.
+
+**`data71-full-9600` is therefore the released model as of 2026-10-20**, with
+its own card at [`model-card-71.md`](model-card-71.md).
+[`model-card.md`](model-card.md) stays in place, marked superseded, as the
+record of the numbers published before it. Nothing historical is restated:
+every earlier number keeps meaning what it meant, which is exactly why the
+comparison above had to be run on the old bytes rather than the new ones.
 
 ## Where the project stands
 
 | lever | tested range | effect at full budget |
 | --- | --- | --- |
 | **training data** | 5.77M → 18.9M tokens | **−7.30%** on matching evaluation; tie on the old one |
-| training steps | 2,400 → 4,800 | −3.67% |
+| **training steps** | 2,400 → 4,800 → 9,600 | **−3.67%**, then **−3.00%** |
+| *corpus mixture* | *which 71 books* | *50.6% spread between easiest and hardest* |
 | model size | 1.77M → 5.64M params | tie on 27 books, **+1.35% worse** on 71 |
 | context length | 128 → 1024 | worse in both directions |
 | peak learning rate | 1.5e-3 → 6e-3 | tie above, worse below |
@@ -224,6 +311,15 @@ levers therefore point the same way — at this scale the project is
 compute-limited, and the compute should be spent reading more text rather than
 on more parameters.
 
+The horizon run then confirms it by prediction rather than by hindsight: the
+capacity test said steps were the binding constraint, the obvious consequence
+was that doubling steps should pay, and it paid 3.00%. The marginal return is
+falling (3.67% → 3.00%, and 3.2× flatter inside the run), so the next doubling
+is worth perhaps 2% and the one after that less. That is the point at which
+*more books* overtakes *more passes over the same books*, which is where the
+last row of the table is pointing: 50.6% of spread between documents is a much
+larger pool of available signal than anything left on the step axis.
+
 ## Artifacts
 
 | file | what |
@@ -234,5 +330,9 @@ on more parameters.
 | `data-manifest-71-{full,ctrl}.json` | per-document provenance and split hashes for both arms |
 | `clean-data-summary.json` | every number in this document |
 | `clean-data-scaling.svg` | the two validation curves |
+| `horizon.svg` | the 4,800- and 9,600-step validation curves |
 | `metrics/size-4L256d-gb71.jsonl`, `-summary.json`, `eval-test-size-4L256d-gb71.json`, `config-size-4L256d-gb71.yaml` | the capacity re-test |
+| `metrics/data71-full-9600.jsonl`, `-summary.json`, `config-data71-full-9600.yaml` | the horizon run |
+| `eval-test-data71-full-9600.json` | its test evaluation, including the 71 per-document scores |
+| `model-card-71.md` | card for the model this run released |
 | `analyze-clean-data.py` | the analysis, including the decomposition and the capacity re-test |

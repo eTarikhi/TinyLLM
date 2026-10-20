@@ -350,10 +350,12 @@ def main() -> int:
                      "longest_verbatim": long_t["memorization"]["max_longest_verbatim_match_chars"],
                      "last_four_bpb": m_long},
             "gain_pct": d,
+            "gain_in_bar_units": d / SEED_BAR_PCT,
             "gain_bpb": short_t["model"]["bpb"] - long_t["model"]["bpb"],
             "groups": gl,
             "released_test_bpb": released,
             "vs_released_on_original27_pct": vs_released,
+            "vs_released_in_bar_units": vs_released / SEED_BAR_PCT,
         }
         if "per_document_summary" in long_t:
             out["horizon"]["per_document"] = long_t["per_document_summary"]

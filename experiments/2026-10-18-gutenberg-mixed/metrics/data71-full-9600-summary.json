@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "data71-full-9600",
+  "stop_reason": "max_steps",
+  "steps": 9600,
+  "tokens": 78643200,
+  "elapsed_s": 6131.119364738464,
+  "mean_tokens_per_s": 12826.89103270373,
+  "final_val_loss": 3.139580114387812,
+  "final_val_bpb": 1.5417481336605665,
+  "best_val_loss": 3.139580114387812,
+  "clipped_steps": 38,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1183.11328125,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 158981207755.23007,
+  "checkpoints": {
+    "last": "artifacts/runs/data71-full-9600/last.pt",
+    "best": "artifacts/runs/data71-full-9600/best.pt"
+  }
+}

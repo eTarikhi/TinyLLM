@@ -880,6 +880,141 @@ def check_clean_data_report(root: str) -> None:
         claim(d, r"\| model size \|(?:[^|\n]*\|){1} tie on 27 books, \*\*\+([\d.]+)% worse\*\*",
               round(c["delta_test_pct"], 2), "standings size row", tol=5e-3, doc=name)
 
+    # ---- horizon: the same model and corpus, twice the steps
+    if "horizon" in s:
+        h = s["horizon"]
+        sh, lo = h["short"], h["long"]
+        # Scope the row patterns to this section. The capacity table above
+        # has a `data71-full` row too, with a different column order, and an
+        # unscoped pattern silently reads the wrong one.
+        m = re.search(r"\n## Horizon\b.*?(?=\n## )", d, re.S)
+        assert m, "horizon section not found in clean-data-scaling.md"
+        dh = m.group(0)
+        for key, run, bold in (("short", "data71-full", False), ("long", "data71-full-9600", True)):
+            r = h[key]
+            row = rf"\| `{run}` \|"
+            claim(dh, row + r" ([\d,]+) \|", r["steps"], f"horizon: {key} steps", doc=name)
+            claim(dh, row + r"(?:[^|\n]*\|){1} ([\d,]+) \|", r["tokens"],
+                  f"horizon: {key} tokens", doc=name)
+            claim(dh, row + r"(?:[^|\n]*\|){2} ([\d.]+) \|", round(r["epochs"], 2),
+                  f"horizon: {key} epochs", tol=5e-3, doc=name)
+            claim(dh, row + r"(?:[^|\n]*\|){3} ([\d,]+) \|", round(r["elapsed_s"]),
+                  f"horizon: {key} elapsed", tol=1, doc=name)
+            claim(dh, row + r"(?:[^|\n]*\|){4} ([\d.]+) \|", round(r["val_bpb"], 4),
+                  f"horizon: {key} val", tol=5e-5, doc=name)
+            star = r"\*\*([\d.]+)\*\*" if bold else r"([\d.]+)"
+            claim(dh, row + r"(?:[^|\n]*\|){5} " + star, round(r["test_bpb"], 4),
+                  f"horizon: {key} test", tol=5e-5, doc=name)
+        claim(dh, r"bought ([\d.]+)% of test bits per byte", round(h["gain_pct"], 2),
+              "horizon: gain pct", tol=5e-3, doc=name)
+        claim(dh, r"of test bits per byte\*\* \(([\d.]+) absolute", round(h["gain_bpb"], 4),
+              "horizon: gain bpb", tol=5e-5, doc=name)
+        claim(dh, r"or ([\d.]+)× the seed bar", round(h["gain_in_bar_units"], 1),
+              "horizon: gain in bar units", tol=5e-2, doc=name)
+        claim(dh, r"still\s+improving at ([\d.]+) bpb", round(sh["last_four_bpb"], 4),
+              "horizon: short marginal", tol=5e-5, doc=name)
+        claim(dh, r"the 9,600-step run at ([\d.]+) bpb", round(lo["last_four_bpb"], 4),
+              "horizon: long marginal", tol=5e-5, doc=name)
+        claim(dh, r"([\d.]+)× flatter", round(sh["last_four_bpb"] / lo["last_four_bpb"], 1),
+              "horizon: marginal ratio", tol=5e-2, doc=name)
+        claim(dh, r"`best\.pt` is step ([\d,]+)", lo["steps"], "horizon: argmin step", doc=name)
+        claim(dh, r"\| original 27 \| ([\d.]+) \|", round(h["released_test_bpb"], 4),
+              "horizon: released on original 27", tol=5e-5, doc=name)
+        claim(dh, r"\| original 27 \|(?:[^|\n]*\|){2} \*\*([\d.]+)\*\*",
+              round(h["groups"]["original27"], 4), "horizon: long on original 27", tol=5e-5, doc=name)
+        claim(dh, r"\| added 44 \|(?:[^|\n]*\|){2} \*\*([\d.]+)\*\*",
+              round(h["groups"]["added44"], 4), "horizon: long on added 44", tol=5e-5, doc=name)
+        claim(dh, r"the longer run is \*\*([\d.]+)% better\*\*",
+              round(h["vs_released_on_original27_pct"], 2), "horizon: vs released", tol=5e-3, doc=name)
+        claim(dh, r"better\*\* — ([\d.]+)× the\s+seed bar",
+              round(h["vs_released_in_bar_units"], 1),
+              "horizon: vs released in bar units", tol=5e-2, doc=name)
+        pd = h["per_document"]
+        claim(dh, r"scores all (\d+) test documents", pd["documents"], "horizon: documents", doc=name)
+        claim(dh, r"\| easiest \|(?:[^|\n]*\|){1} ([\d.]+) \|", round(pd["min_bpb"], 4),
+              "horizon: easiest bpb", tol=5e-5, doc=name)
+        claim(dh, r"\| hardest \|(?:[^|\n]*\|){1} ([\d.]+) \|", round(pd["max_bpb"], 4),
+              "horizon: hardest bpb", tol=5e-5, doc=name)
+        claim(dh, r"Mean ([\d.]+), sd", round(pd["mean_bpb"], 4), "horizon: mean bpb",
+              tol=5e-5, doc=name)
+        claim(dh, r"sd ([\d.]+), range", round(pd["stdev_bpb"], 4), "horizon: sd bpb",
+              tol=5e-5, doc=name)
+        claim(dh, r"range ([\d.]+) —", round(pd["range_bpb"], 4), "horizon: range bpb",
+              tol=5e-5, doc=name)
+        claim(dh, r"\*\*([\d.]+)% of the mean\*\*", round(pd["range_pct_of_mean"], 1),
+              "horizon: range pct of mean", tol=5e-2, doc=name)
+        claim(d, r"\| \*corpus mixture\* \|(?:[^|\n]*\|){1} \*([\d.]+)% spread",
+              round(pd["range_pct_of_mean"], 1), "standings mixture row", tol=5e-2, doc=name)
+        claim(d, r"\*\*training steps\*\* \|(?:[^|\n]*\|){1} \*\*−[\d.]+%\*\*, then \*\*−([\d.]+)%\*\*",
+              round(h["gain_pct"], 2), "standings steps row", tol=5e-3, doc=name)
+
+        # ---- the card for the model this run released
+        if not os.path.isfile(os.path.join(exp, "model-card-71.md")):
+            return
+        print("experiments/2026-10-18-gutenberg-mixed/model-card-71.md — card vs. raw artifacts")
+        run71 = h["long"]["run"]
+        n71 = "model-card-71.md"
+        c71 = open(os.path.join(exp, n71), encoding="utf-8").read()
+        card = open(os.path.join(exp, "model-card.md"), encoding="utf-8").read()
+        lt = json.load(open(os.path.join(exp, f"eval-test-{run71}.json"), encoding="utf-8"))
+        ls = json.load(open(os.path.join(exp, "metrics", f"{run71}-summary.json"),
+                            encoding="utf-8"))
+        claim(c71, r"\| Steps \| ([\d,]+) \|", ls["steps"], "card71: steps", doc=n71)
+        claim(c71, r"\| Tokens seen \| ([\d,]+) ", ls["tokens"], "card71: tokens", doc=n71)
+        claim(c71, r"\(([\d.]+) epochs\)", round(h["long"]["epochs"], 2), "card71: epochs",
+              tol=5e-3, doc=n71)
+        claim(c71, r"\*\*([\d,]+)\*\* total", ls["params_total"], "card71: params", doc=n71)
+        claim(c71, r"engaged on (\d+) steps", ls["clipped_steps"], "card71: clipped", doc=n71)
+        claim(c71, r"Non-finite steps \| (\d+)", ls["nonfinite_steps"], "card71: nonfinite", doc=n71)
+        claim(c71, r"\| ([\d,]+) s \(", round(ls["elapsed_s"]), "card71: elapsed", tol=1, doc=n71)
+        claim(c71, r"s \(([\d.]+) min\)", round(ls["elapsed_s"] / 60, 1), "card71: minutes",
+              tol=5e-2, doc=n71)
+        claim(c71, r"at ([\d,]+) tokens/s", round(ls["mean_tokens_per_s"]), "card71: throughput",
+              tol=1, doc=n71)
+        claim(c71, r"Peak RSS \| ([\d,]+) MB", round(ls["peak_rss_mb"]), "card71: peak rss",
+              tol=1, doc=n71)
+        claim(c71, r"\*\*This model\*\* \| \*\*([\d.]+)\*\*", round(lt["model"]["bpb"], 4),
+              "card71: test bpb", tol=5e-5, doc=n71)
+        claim(c71, r"Final validation bits per byte: ([\d.]+)", round(ls["final_val_bpb"], 4),
+              "card71: val bpb", tol=5e-5, doc=n71)
+        claim(c71, r"split, ([\d,]+) tokens", lt["model"]["tokens"], "card71: eval tokens", doc=n71)
+        claim(c71, r"tokens / ([\d,]+) bytes", lt["model"]["bytes"], "card71: eval bytes", doc=n71)
+        for base in ("bigram", "unigram"):
+            claim(c71, rf"\| {base.capitalize()} \| ([\d.]+) \|", round(lt[base]["bpb"], 4),
+                  f"card71: {base} bpb", tol=5e-5, doc=n71)
+            claim(c71, rf"\| {base.capitalize()} \| [\d.]+ \| ([\d.]+)×",
+                  round(lt[base]["bpb"] / lt["model"]["bpb"], 3), f"card71: {base} ratio",
+                  tol=5e-4, doc=n71)
+        claim(c71, r"was \*\*(\d+) characters\*\*",
+              lt["memorization"]["max_longest_verbatim_match_chars"], "card71: probe chars", doc=n71)
+        claim(c71, r"characters\*\* \(mean ([\d.]+)\)",
+              lt["memorization"]["mean_longest_verbatim_match_chars"], "card71: probe mean",
+              tol=5e-2, doc=n71)
+        claim(c71, r"this model is \*\*([\d.]+)% better\*\*",
+              round(h["vs_released_on_original27_pct"], 2), "card71: vs released", tol=5e-3, doc=n71)
+        claim(c71, r"([\d.]+)× the seed bar", round(h["vs_released_in_bar_units"], 1),
+              "card71: vs released in bar units", tol=5e-2, doc=n71)
+        claim(c71, r"test bytes: ([\d.]+) vs", round(h["groups"]["original27"], 4),
+              "card71: long on original 27", tol=5e-5, doc=n71)
+        claim(c71, r"split: ([\d.]+) vs", round(lt["model"]["bpb"], 4),
+              "card71: vs short run", tol=5e-5, doc=n71)
+        pd71 = h["per_document"]
+        claim(c71, r"\| easiest \|(?:[^|\n]*\|){1} ([\d.]+) \|", round(pd71["min_bpb"], 4),
+              "card71: easiest", tol=5e-5, doc=n71)
+        claim(c71, r"\| hardest \|(?:[^|\n]*\|){1} ([\d.]+) \|", round(pd71["max_bpb"], 4),
+              "card71: hardest", tol=5e-5, doc=n71)
+        claim(c71, r"Mean ([\d.]+), standard deviation", round(pd71["mean_bpb"], 4),
+              "card71: mean", tol=5e-5, doc=n71)
+        claim(c71, r"standard deviation ([\d.]+), range", round(pd71["stdev_bpb"], 4),
+              "card71: sd", tol=5e-5, doc=n71)
+        claim(c71, r"range ([\d.]+) —", round(pd71["range_bpb"], 4), "card71: range",
+              tol=5e-5, doc=n71)
+        claim(c71, r"\*\*([\d.]+)% of the mean\*\*", round(pd71["range_pct_of_mean"], 1),
+              "card71: range pct", tol=5e-2, doc=n71)
+        claim(card, r"these same test bytes by ([\d.]+)%",
+              round(h["vs_released_on_original27_pct"], 2), "superseded banner", tol=5e-3,
+              doc="model-card.md")
+
 
 
 def main(root: str = ".") -> int:

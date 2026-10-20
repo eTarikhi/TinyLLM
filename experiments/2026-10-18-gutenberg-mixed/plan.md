@@ -266,10 +266,24 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     before: the tie widened rather than broke. More data makes a *step* more
     valuable, not a parameter, and the bigger model pays for its capacity with
     46% fewer steps. Grow the model after the compute, not instead of it.
-12. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
+12. ~~**Spend the compute on steps instead, then.**~~ **Done** — folded into
+    [`clean-data-scaling.md`](clean-data-scaling.md). Item 11 said the binding
+    constraint is optimization steps, so the prediction was that doubling the
+    horizon should pay. It paid 3.00% of test bits per byte (8.1× the seed
+    bar) for 2× the compute, and the resulting model is better than the
+    previous release on the previous release's own test bytes by 2.60%, which
+    is why it is now the released model
+    ([`model-card-71.md`](model-card-71.md)). The marginal return is falling —
+    3.67% for the previous doubling, 3.00% for this one, and 3.2× flatter
+    inside the run — so one more doubling is worth roughly 2% and the step
+    axis is close to exhausted. The per-document evaluation added alongside it
+    says where the remaining signal is: 50.6% of spread between the easiest
+    and hardest book, against under 8% for any lever tried so far. **More
+    books beats more passes from here.**
+13. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
     showed clip rate and peak LR interact, and batch size is the third corner
     of that; 8,192 tokens per step remains an inherited number.
-13. **Re-establish a baseline under `eval_spread`.** The in-training
+14. **Re-establish a baseline under `eval_spread`.** The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,
     and therefore every conclusion drawn so far, are unaffected. The spread

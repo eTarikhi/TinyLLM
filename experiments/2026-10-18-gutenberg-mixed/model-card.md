@@ -4,7 +4,10 @@ A teaching artifact: the smallest honest end-to-end language model this
 repository's Track 1 produces. Trained from random initialization on two CPU
 cores in 49 minutes.
 
-This card describes the 4,800-step model, which is the released one. Its
+This card describes the 4,800-step model, which was the released one until
+2026-10-20. It has been **superseded by [`model-card-71.md`](model-card-71.md)**,
+the 71-book model, which is better on these same test bytes by 2.60%. This card
+stays in place as the record of every number published before that. Its
 2,400-step predecessor `main-gutenberg` is still committed and documented in
 [`eval-report.md`](eval-report.md); the two differ only in horizon.
 

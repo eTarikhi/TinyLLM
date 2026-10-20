@@ -113,5 +113,60 @@
     "delta_test_pct": 1.351488318875349,
     "delta_in_bar_units": 3.662097746072658,
     "delta_on_27_book_corpus_pct": 0.21648672334646513
+  },
+  "horizon": {
+    "short": {
+      "run": "data71-full",
+      "steps": 4800,
+      "tokens": 39321600,
+      "epochs": 2.076147039084412,
+      "elapsed_s": 3129.8923287391663,
+      "val_bpb": 1.5882571452380723,
+      "test_bpb": 1.6146509058313576,
+      "last_four_bpb": 0.009697831713141314
+    },
+    "long": {
+      "run": "data71-full-9600",
+      "steps": 9600,
+      "tokens": 78643200,
+      "epochs": 4.152294078168824,
+      "elapsed_s": 6131.119364738464,
+      "val_bpb": 1.5417481336605665,
+      "test_bpb": 1.5662221471939244,
+      "clipped_steps": 38,
+      "longest_verbatim": 29,
+      "last_four_bpb": 0.0030612876310966985
+    },
+    "gain_pct": 2.999333073330679,
+    "gain_in_bar_units": 8.12722591395074,
+    "gain_bpb": 0.048428758637433234,
+    "groups": {
+      "original27": 1.613933453938289,
+      "added44": 1.5451115901565748
+    },
+    "released_test_bpb": 1.656943035140445,
+    "vs_released_on_original27_pct": 2.5957187597888898,
+    "vs_released_in_bar_units": 7.033561213145897,
+    "per_document": {
+      "documents": 71,
+      "scored": 71,
+      "unscored": 0,
+      "mean_bpb": 1.579823898616362,
+      "min_bpb": 1.3510666334662906,
+      "max_bpb": 2.150874274030117,
+      "range_bpb": 0.7998076405638266,
+      "range_pct_of_mean": 50.62637938724135,
+      "stdev_bpb": 0.1611983820448415,
+      "easiest": {
+        "doc_id": "pg1342",
+        "title": "Pride and Prejudice",
+        "bpb": 1.3510666334662906
+      },
+      "hardest": {
+        "doc_id": "pg1228",
+        "title": "On the Origin of Species",
+        "bpb": 2.150874274030117
+      }
+    }
   }
 }
