@@ -88,7 +88,7 @@ def main() -> int:
     for arm in ARMS:
         rows, blob = read_arm(arm)
         docs[arm] = rows
-        totals[arm] = blob["model"]["bits_per_byte"]
+        totals[arm] = blob["model"]["bpb"]
 
     titles = [r["title"] for r in docs[ARMS[0]]]
     for arm in ARMS[1:]:
@@ -117,7 +117,7 @@ def main() -> int:
     print(header + f"{'full-ctrl':>12}{'full-narr':>12}")
     for form in forms:
         idx = [i for i, t in enumerate(titles) if label_of(t, labels) == form]
-        means = {arm: statistics.fmean(docs[arm][i]["bits_per_byte"] for i in idx)
+        means = {arm: statistics.fmean(docs[arm][i]["bpb"] for i in idx)
                  for arm in ARMS}
         d_ctrl = pct(means["broad-full"], means["broad-ctrl"])
         d_narr = pct(means["broad-full"], means["broad-narrative"])

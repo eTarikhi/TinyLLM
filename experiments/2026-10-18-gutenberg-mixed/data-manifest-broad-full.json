@@ -1,0 +1,3281 @@
+{
+  "created_utc": "2026-10-20T12:59:11Z",
+  "code_revision": "8f1832013a1a11659d8b7a192d5dcb16e56b1991",
+  "corpus": {
+    "name": "gutenberg-mixed-broad-full",
+    "description": "The 71-book corpus plus 80 works of drama, verse and non-fiction, which takes narrative prose from 90.7% of the bytes to 67.8%. The treatment arm for the question of whether the per-form penalties are a property of the forms or of how little of them the model ever saw.",
+    "source_urls": [
+      "https://codeload.github.com/GITenberg/Moby-Dick--Or-The-Whale_2701/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Pride-and-Prejudice_1342/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Emma_158/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Sense-and-Sensibility_161/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Frankenstein_84/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Dracula_345/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Jane-Eyre_1260/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Wuthering-Heights_768/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Great-Expectations_1400/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Tale-of-Two-Cities_98/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Alice-s-Adventures-in-Wonderland_11/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Adventures-of-Huckleberry-Finn_76/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Adventures-of-Tom-Sawyer_74/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Treasure-Island_120/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Picture-of-Dorian-Gray_174/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Time-Machine_35/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-War-of-the-Worlds_36/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Adventures-of-Sherlock-Holmes_1661/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Heart-of-Darkness_219/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Little-Women_514/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Anne-of-Green-Gables_45/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Grimms-Fairy-Tales_2591/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Leaves-of-Grass_1322/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Crime-and-Punishment_2554/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Don-Quixote_996/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/War-and-Peace_2600/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Anna-Karenina_1399/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/David-Copperfield_766/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Pickwick-Papers_580/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Little-Dorrit_963/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Our-Mutual-Friend_883/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Hard-Times_786/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Christmas-Carol_46/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Northanger-Abbey_121/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Mansfield-Park_141/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Hound-of-the-Baskervilles_2852/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Study-in-Scarlet_244/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Memoirs-of-Sherlock-Holmes_834/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Return-of-Sherlock-Holmes_108/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Count-of-Monte-Cristo_1184/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Three-Musketeers_1257/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Madame-Bovary_2413/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Les-Mis-rables_135/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Iliad_6130/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Ulysses_4300/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Portrait-of-the-Artist-as-a-Young-Man_4217/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Dubliners_2814/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Awakening-and-Selected-Short-Stories_160/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Walden-and-On-The-Duty-Of-Civil-Disobedience_205/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Call-of-the-Wild_215/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Life-and-Adventures-of-Robinson-Crusoe_521/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Gulliver-s-Travels_829/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Turn-of-the-Screw_209/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Room-with-a-View_2641/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Secret-Garden_113/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Black-Beauty_271/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Jungle-Book_236/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Scarlet-Letter_25344/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Thus-Spake-Zarathustra--A-Book-for-All-and-None_1998/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/History-of-Tom-Jones-a-Foundling_6593/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Brothers-Karamazov_28054/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Idiot_2638/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Uncle-Tom-s-Cabin_203/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Peter-Pan_16/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Wind-in-the-Willows_289/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Innocents-Abroad_3176/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Prince-and-the-Pauper_1837/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Connecticut-Yankee-in-King-Arthur-s-Court_86/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Yellow-Wallpaper_1952/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Lady-Windermere-s-Fan_790/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/A-Woman-of-No-Importance_854/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/An-Ideal-Husband_885/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Divine-Comedy-Longfellow-s-Translation-Hell_1001/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1104/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Tragedy-of-Romeo-and-Juliet_1112/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1504/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Romeo-and-Juliet_1513/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Much-Ado-about-Nothing_1519/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Julius-Caesar_1522/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Hamlet-Prince-of-Denmark_1524/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Tragedy-of-King-Lear_1532/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1769/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Chastelard-a-Tragedy_2379/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Locrine-A-Tragedy_3325/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Six-Plays_5618/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Spanish-Tragedie_6043/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Playful-Poems_6332/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/First-Plays_7805/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Plays-by-Anton-Chekhov-Second-Series_7986/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Tragedie-of-Hamlet-Prince-of-DenmarkA-Study-with-the-Text-of-the-Folio-of-1623_10606/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Plays_10623/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Plays_10722/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Maids-Tragedy_10847/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Tragedies-of-the-Medici_10877/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Saint-s-Tragedy_11346/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Common-Sense_147/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Cicero-s-Orations_226/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Essays-and-Lectures_774/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-2_990/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-3_991/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-4_992/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Autobiography-and-Selected-Essays_1315/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Shelley--an-essay_1336/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Essays_1434/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Essays-in-Little_1594/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Miscellaneous-Writings-and-Speeches---Volume-1_2167/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Thoughts-on-the-Present-Discontents-and-Speeches_2173/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Seven-Discourses-on-Art_2176/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/An-Essay-on-Man--Moral-Essays-and-Satires_2428/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Sermons-on-the-Card-and-Other-Discourses_2458/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Discourses-on-Satire-and-on-Epic-Poetry_2615/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Essays---Second-Series_2945/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Cowley-s-Essays_3549/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/An-Autobiography_4220/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Representative-Men-Seven-Lectures_6312/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Orations-of-Lysias_6969/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Five-Lectures-on-Reincarnation_7377/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Public-Orations-of-Demosthenes-volume-2_9061/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Initiation-into-Philosophy_9304/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Scientific-Essays-and-Lectures_10427/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Indian-speeches--1907-1909-_10956/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Cyclopedia-of-Philosophy_11261/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Aeneid_228/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Ballads_413/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Breitmann-Ballads_454/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Ballads-of-a-Bohemian_995/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Shakespeare-s-Sonnets_1041/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Shakespearian-Sonnets_1105/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Poems_1469/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Poetical-Works-of-John-Milton_1745/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Songs-of-Innocence-and-Songs-of-Experience_1934/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Sonnets-from-the-Portuguese_2002/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Complete-Poetical-Works_2507/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Ballads_2732/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Barrack-Room-Ballads_2819/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Yorkshire-Dialect-Poems--1673-1915--and-traditional-poems_2888/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Aesthetic-Poetry_4207/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Odes-and-Carmen-Saeculare-of-Horace_5432/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Poems-of-Schiller---Suppressed-poems_6797/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Farm-Ballads_9500/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Poems-of-Nature-Poems-Subjective-and-Reminiscent-and-Religious-Poems-Complete--13-Volume-II-of__9574/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Horace--Odes-and-Epodes_9646/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Miscellany-of-Poetry1919_9652/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Poetical-Works-of-Mark-Akenside_9814/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Poems_10367/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Extant-Odes-of-Pindar--13-Translated-with-Introduction-and-Short-Notes-by-Ernest-Myers_10717/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Old-Ballads_11236/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/Poetry_11496/tar.gz/refs/heads/master",
+      "https://codeload.github.com/GITenberg/The-Metamorphoses-of-Ovid-Books-I-VII_21765/tar.gz/refs/heads/master"
+    ],
+    "member": null,
+    "access_date": "2026-10-20",
+    "sha256": "",
+    "text_license": "Public domain in the United States: every title was published before 1929 and its author died more than 70 years ago, so no copyright subsists in the text itself.",
+    "file_license": "The Project Gutenberg files carry PG's own licence, which governs the PG header, footer and trademark rather than the work. That boilerplate is stripped here and never trained on, which is the condition PG states for using the text as an ordinary public-domain work. GITenberg's repository metadata is CC0/MIT.",
+    "restrictions": "Literary English of 1320-1922, mostly British and American, with ten works in translation. It is not contemporary text, it is not balanced across dialects or demographics, and several works contain racial slurs, antisemitism and other period prejudice that a model trained on them will reproduce. The additions widen the period and the register but not the demographics.",
+    "chars": 78947277,
+    "bytes": 79832942,
+    "documents": 151,
+    "document_records": [
+      {
+        "doc_id": "pg2701",
+        "title": "Moby Dick",
+        "author": "Herman Melville",
+        "year": "1851",
+        "source_url": "https://codeload.github.com/GITenberg/Moby-Dick--Or-The-Whale_2701/tar.gz/refs/heads/master",
+        "member": "Moby-Dick--Or-The-Whale_2701-master/2701-0.txt",
+        "chars": 1218995,
+        "bytes": 1234559,
+        "sha256": "00dd0634b1a5b710b540a4672877dba51caa0bde7d46fc3a692673638e9e04cb",
+        "boilerplate": {
+          "original_chars": 1238244,
+          "body_chars": 1218995,
+          "removed_chars": 19249
+        }
+      },
+      {
+        "doc_id": "pg1342",
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "year": "1813",
+        "source_url": "https://codeload.github.com/GITenberg/Pride-and-Prejudice_1342/tar.gz/refs/heads/master",
+        "member": "Pride-and-Prejudice_1342-master/1342-0.txt",
+        "chars": 684781,
+        "bytes": 691843,
+        "sha256": "d02c06ecdee0120842aa1274288a07fe68d5316d1e8285853eaf4fc65a0b39a0",
+        "boilerplate": {
+          "original_chars": 704190,
+          "body_chars": 684781,
+          "removed_chars": 19409
+        }
+      },
+      {
+        "doc_id": "pg158",
+        "title": "Emma",
+        "author": "Jane Austen",
+        "year": "1815",
+        "source_url": "https://codeload.github.com/GITenberg/Emma_158/tar.gz/refs/heads/master",
+        "member": "Emma_158-master/158-0.txt",
+        "chars": 883051,
+        "bytes": 891429,
+        "sha256": "b1f407ebf45d923e2c2532a1000ce2ee7b4eb5008b63fa9898522b16c70c9c00",
+        "boilerplate": {
+          "original_chars": 902388,
+          "body_chars": 883051,
+          "removed_chars": 19337
+        }
+      },
+      {
+        "doc_id": "pg161",
+        "title": "Sense and Sensibility",
+        "author": "Jane Austen",
+        "year": "1811",
+        "source_url": "https://codeload.github.com/GITenberg/Sense-and-Sensibility_161/tar.gz/refs/heads/master",
+        "member": "Sense-and-Sensibility_161-master/161-0.txt",
+        "chars": 673795,
+        "bytes": 673795,
+        "sha256": "31131fdec8e4292dd9794691ea98ff1c0b1c0147b63579a7e530203ca669160f",
+        "boilerplate": {
+          "original_chars": 693116,
+          "body_chars": 673795,
+          "removed_chars": 19321
+        }
+      },
+      {
+        "doc_id": "pg84",
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "year": "1818",
+        "source_url": "https://codeload.github.com/GITenberg/Frankenstein_84/tar.gz/refs/heads/master",
+        "member": "Frankenstein_84-master/84-0.txt",
+        "chars": 421074,
+        "bytes": 423273,
+        "sha256": "45d51448cdd07b2d2e859dedc19e63be95263a174790bf3e4cbe825152c53942",
+        "boilerplate": {
+          "original_chars": 440748,
+          "body_chars": 421074,
+          "removed_chars": 19674
+        }
+      },
+      {
+        "doc_id": "pg345",
+        "title": "Dracula",
+        "author": "Bram Stoker",
+        "year": "1897",
+        "source_url": "https://codeload.github.com/GITenberg/Dracula_345/tar.gz/refs/heads/master",
+        "member": "Dracula_345-master/345-0.txt",
+        "chars": 847585,
+        "bytes": 847585,
+        "sha256": "0fb917140292597cc0b038d44539f9697ee33103c67dd3a471738245e7366510",
+        "boilerplate": {
+          "original_chars": 867184,
+          "body_chars": 847585,
+          "removed_chars": 19599
+        }
+      },
+      {
+        "doc_id": "pg1260",
+        "title": "Jane Eyre",
+        "author": "Charlotte Bronte",
+        "year": "1847",
+        "source_url": "https://codeload.github.com/GITenberg/Jane-Eyre_1260/tar.gz/refs/heads/master",
+        "member": "Jane-Eyre_1260-master/1260-0.txt",
+        "chars": 1029898,
+        "bytes": 1029898,
+        "sha256": "27ede6c44cb4cc667a09ff824ae2b4b836d6cd4bd3b4d98cd8031611272993d2",
+        "boilerplate": {
+          "original_chars": 1049267,
+          "body_chars": 1029898,
+          "removed_chars": 19369
+        }
+      },
+      {
+        "doc_id": "pg768",
+        "title": "Wuthering Heights",
+        "author": "Emily Bronte",
+        "year": "1847",
+        "source_url": "https://codeload.github.com/GITenberg/Wuthering-Heights_768/tar.gz/refs/heads/master",
+        "member": "Wuthering-Heights_768-master/768-0.txt",
+        "chars": 649779,
+        "bytes": 649779,
+        "sha256": "3f56cc89f896981c0df9528efe5f2b10659b14c68b5a19e7887908e82eff7e99",
+        "boilerplate": {
+          "original_chars": 669150,
+          "body_chars": 649779,
+          "removed_chars": 19371
+        }
+      },
+      {
+        "doc_id": "pg1400",
+        "title": "Great Expectations",
+        "author": "Charles Dickens",
+        "year": "1861",
+        "source_url": "https://codeload.github.com/GITenberg/Great-Expectations_1400/tar.gz/refs/heads/master",
+        "member": "Great-Expectations_1400-master/1400-0.txt",
+        "chars": 994027,
+        "bytes": 1009733,
+        "sha256": "f3a5b94d61f8adbbc2d2195e10e8a5498a12c3b6b17ade9fda7eed30f5b3154c",
+        "boilerplate": {
+          "original_chars": 1013445,
+          "body_chars": 994027,
+          "removed_chars": 19418
+        }
+      },
+      {
+        "doc_id": "pg98",
+        "title": "A Tale of Two Cities",
+        "author": "Charles Dickens",
+        "year": "1859",
+        "source_url": "https://codeload.github.com/GITenberg/A-Tale-of-Two-Cities_98/tar.gz/refs/heads/master",
+        "member": "A-Tale-of-Two-Cities_98-master/98-0.txt",
+        "chars": 757248,
+        "bytes": 768568,
+        "sha256": "5faf3c53a19a8d78a8a30e2740d2b03c2e7306adf86cdf434509e0381badea32",
+        "boilerplate": {
+          "original_chars": 776697,
+          "body_chars": 757248,
+          "removed_chars": 19449
+        }
+      },
+      {
+        "doc_id": "pg11",
+        "title": "Alice's Adventures in Wonderland",
+        "author": "Lewis Carroll",
+        "year": "1865",
+        "source_url": "https://codeload.github.com/GITenberg/Alice-s-Adventures-in-Wonderland_11/tar.gz/refs/heads/master",
+        "member": "Alice-s-Adventures-in-Wonderland_11-master/11-0.txt",
+        "chars": 144519,
+        "bytes": 150491,
+        "sha256": "ca2e25b8e461d834c0dadf32c2a45275f13ab4d5acf4bb1a92ba28f735528b88",
+        "boilerplate": {
+          "original_chars": 163817,
+          "body_chars": 144519,
+          "removed_chars": 19298
+        }
+      },
+      {
+        "doc_id": "pg76",
+        "title": "Adventures of Huckleberry Finn",
+        "author": "Mark Twain",
+        "year": "1884",
+        "source_url": "https://codeload.github.com/GITenberg/Adventures-of-Huckleberry-Finn_76/tar.gz/refs/heads/master",
+        "member": "Adventures-of-Huckleberry-Finn_76-master/76-0.txt",
+        "chars": 574648,
+        "bytes": 584637,
+        "sha256": "9d4325cd64b37a17e1c2cef7a2f551febc11b36f10d61d84f391d3cd4e0d197a",
+        "boilerplate": {
+          "original_chars": 593960,
+          "body_chars": 574648,
+          "removed_chars": 19312
+        }
+      },
+      {
+        "doc_id": "pg74",
+        "title": "The Adventures of Tom Sawyer",
+        "author": "Mark Twain",
+        "year": "1876",
+        "source_url": "https://codeload.github.com/GITenberg/The-Adventures-of-Tom-Sawyer_74/tar.gz/refs/heads/master",
+        "member": "The-Adventures-of-Tom-Sawyer_74-master/74-0.txt",
+        "chars": 393444,
+        "bytes": 399576,
+        "sha256": "e5a318e36aab301da3d7ecc3b8ac82a83e143862e15a8789710650a11820bd36",
+        "boilerplate": {
+          "original_chars": 412717,
+          "body_chars": 393444,
+          "removed_chars": 19273
+        }
+      },
+      {
+        "doc_id": "pg120",
+        "title": "Treasure Island",
+        "author": "Robert Louis Stevenson",
+        "year": "1883",
+        "source_url": "https://codeload.github.com/GITenberg/Treasure-Island_120/tar.gz/refs/heads/master",
+        "member": "Treasure-Island_120-master/120-0.txt",
+        "chars": 364380,
+        "bytes": 369324,
+        "sha256": "bc7f3f2031c526dfb56ccf876f6df469c87e2ba40a40450899cce6f83e22b567",
+        "boilerplate": {
+          "original_chars": 383719,
+          "body_chars": 364380,
+          "removed_chars": 19339
+        }
+      },
+      {
+        "doc_id": "pg174",
+        "title": "The Picture of Dorian Gray",
+        "author": "Oscar Wilde",
+        "year": "1890",
+        "source_url": "https://codeload.github.com/GITenberg/The-Picture-of-Dorian-Gray_174/tar.gz/refs/heads/master",
+        "member": "The-Picture-of-Dorian-Gray_174-master/174-0.txt",
+        "chars": 433770,
+        "bytes": 433770,
+        "sha256": "663c022eea4a7d7ac233acb4d48bdbae7602b61ac4bb4c76e9fdb987ba3e5e0d",
+        "boilerplate": {
+          "original_chars": 453198,
+          "body_chars": 433770,
+          "removed_chars": 19428
+        }
+      },
+      {
+        "doc_id": "pg35",
+        "title": "The Time Machine",
+        "author": "H. G. Wells",
+        "year": "1895",
+        "source_url": "https://codeload.github.com/GITenberg/The-Time-Machine_35/tar.gz/refs/heads/master",
+        "member": "The-Time-Machine_35-master/35-0.txt",
+        "chars": 179682,
+        "bytes": 181456,
+        "sha256": "ddc5b7195fb6cd86759bd8b8bc645f9cfdb552254d186a8cebe68da6e7c629ff",
+        "boilerplate": {
+          "original_chars": 199135,
+          "body_chars": 179682,
+          "removed_chars": 19453
+        }
+      },
+      {
+        "doc_id": "pg36",
+        "title": "The War of the Worlds",
+        "author": "H. G. Wells",
+        "year": "1898",
+        "source_url": "https://codeload.github.com/GITenberg/The-War-of-the-Worlds_36/tar.gz/refs/heads/master",
+        "member": "The-War-of-the-Worlds_36-master/36-0.txt",
+        "chars": 337343,
+        "bytes": 340425,
+        "sha256": "b3392949b56cdfdd67a320492e707a26a9f8deca8c075f5f1ff8ecb752ddf273",
+        "boilerplate": {
+          "original_chars": 357013,
+          "body_chars": 337343,
+          "removed_chars": 19670
+        }
+      },
+      {
+        "doc_id": "pg1661",
+        "title": "The Adventures of Sherlock Holmes",
+        "author": "Arthur Conan Doyle",
+        "year": "1892",
+        "source_url": "https://codeload.github.com/GITenberg/The-Adventures-of-Sherlock-Holmes_1661/tar.gz/refs/heads/master",
+        "member": "The-Adventures-of-Sherlock-Holmes_1661-master/1661-0.txt",
+        "chars": 562331,
+        "bytes": 562331,
+        "sha256": "369b44ac9865a7dd3c06eb27212002653a7ae92422aaeb5f8b15fe9f429fbf8e",
+        "boilerplate": {
+          "original_chars": 581888,
+          "body_chars": 562331,
+          "removed_chars": 19557
+        }
+      },
+      {
+        "doc_id": "pg219",
+        "title": "Heart of Darkness",
+        "author": "Joseph Conrad",
+        "year": "1899",
+        "source_url": "https://codeload.github.com/GITenberg/Heart-of-Darkness_219/tar.gz/refs/heads/master",
+        "member": "Heart-of-Darkness_219-master/219-0.txt",
+        "chars": 210444,
+        "bytes": 210900,
+        "sha256": "7175436c7de60753c755cb30a4858747c6ac93014b340b6d96f2093efafa2c2a",
+        "boilerplate": {
+          "original_chars": 229831,
+          "body_chars": 210444,
+          "removed_chars": 19387
+        }
+      },
+      {
+        "doc_id": "pg514",
+        "title": "Little Women",
+        "author": "Louisa May Alcott",
+        "year": "1868",
+        "source_url": "https://codeload.github.com/GITenberg/Little-Women_514/tar.gz/refs/heads/master",
+        "member": "Little-Women_514-master/514-0.txt",
+        "chars": 1013070,
+        "bytes": 1013070,
+        "sha256": "265a009c91bcb80a85eb581e191413e6cb5f4f58d0a5288dc596d2a11cffb5d4",
+        "boilerplate": {
+          "original_chars": 1032411,
+          "body_chars": 1013070,
+          "removed_chars": 19341
+        }
+      },
+      {
+        "doc_id": "pg45",
+        "title": "Anne of Green Gables",
+        "author": "L. M. Montgomery",
+        "year": "1908",
+        "source_url": "https://codeload.github.com/GITenberg/Anne-of-Green-Gables_45/tar.gz/refs/heads/master",
+        "member": "Anne-of-Green-Gables_45-master/45-0.txt",
+        "chars": 560961,
+        "bytes": 575923,
+        "sha256": "4cf85c41b3e4c870f5f127cda7920888bb415c10ae409a4724a9b2de4cdac9bd",
+        "boilerplate": {
+          "original_chars": 580635,
+          "body_chars": 560961,
+          "removed_chars": 19674
+        }
+      },
+      {
+        "doc_id": "pg23",
+        "title": "Narrative of the Life of Frederick Douglass",
+        "author": "Frederick Douglass",
+        "year": "1845",
+        "source_url": "https://codeload.github.com/GITenberg/Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23/tar.gz/refs/heads/master",
+        "member": "Narrative-of-the-Life-of-Frederick-Douglass-an-American-Slave_23-master/23-0.txt",
+        "chars": 224818,
+        "bytes": 224818,
+        "sha256": "02d6833970bf6c03f6c82a6a65c378408e060578fffe18310ddd97f73b930918",
+        "boilerplate": {
+          "original_chars": 244293,
+          "body_chars": 224818,
+          "removed_chars": 19475
+        }
+      },
+      {
+        "doc_id": "pg2591",
+        "title": "Grimms' Fairy Tales",
+        "author": "Jacob and Wilhelm Grimm",
+        "year": "1812",
+        "source_url": "https://codeload.github.com/GITenberg/Grimms-Fairy-Tales_2591/tar.gz/refs/heads/master",
+        "member": "Grimms-Fairy-Tales_2591-master/2591-0.txt",
+        "chars": 520813,
+        "bytes": 531099,
+        "sha256": "b8f050dd4474df191aa20580223110d58f7eceebd6557bc2b2f4934cf1d22648",
+        "boilerplate": {
+          "original_chars": 540241,
+          "body_chars": 520813,
+          "removed_chars": 19428
+        }
+      },
+      {
+        "doc_id": "pg1322",
+        "title": "Leaves of Grass",
+        "author": "Walt Whitman",
+        "year": "1855",
+        "source_url": "https://codeload.github.com/GITenberg/Leaves-of-Grass_1322/tar.gz/refs/heads/master",
+        "member": "Leaves-of-Grass_1322-master/1322-0.txt",
+        "chars": 738055,
+        "bytes": 738055,
+        "sha256": "b21232a27d05c499c304d37c1b9ae70620c75a49e96b45d4ca9fbf846b710fe3",
+        "boilerplate": {
+          "original_chars": 757390,
+          "body_chars": 738055,
+          "removed_chars": 19335
+        }
+      },
+      {
+        "doc_id": "pg1228",
+        "title": "On the Origin of Species",
+        "author": "Charles Darwin",
+        "year": "1859",
+        "source_url": "https://codeload.github.com/GITenberg/On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228/tar.gz/refs/heads/master",
+        "member": "On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228-master/1228-0.txt",
+        "chars": 935255,
+        "bytes": 935255,
+        "sha256": "b423f686da0422c6b4232996fbd94fabcbfeb4e7465ea5ffe11c6529ab64d46b",
+        "boilerplate": {
+          "original_chars": 954594,
+          "body_chars": 935255,
+          "removed_chars": 19339
+        }
+      },
+      {
+        "doc_id": "pg2554",
+        "title": "Crime and Punishment",
+        "author": "Fyodor Dostoyevsky (tr. Garnett)",
+        "year": "1866",
+        "source_url": "https://codeload.github.com/GITenberg/Crime-and-Punishment_2554/tar.gz/refs/heads/master",
+        "member": "Crime-and-Punishment_2554-master/2554-0.txt",
+        "chars": 1135164,
+        "bytes": 1159872,
+        "sha256": "bda22594fb921fdd0bab0104032bc5760b5477dee346d34a8965f32e485826af",
+        "boilerplate": {
+          "original_chars": 1154508,
+          "body_chars": 1135164,
+          "removed_chars": 19344
+        }
+      },
+      {
+        "doc_id": "pg996",
+        "title": "Don Quixote",
+        "author": "Miguel de Cervantes (tr. Ormsby)",
+        "year": "1605",
+        "source_url": "https://codeload.github.com/GITenberg/Don-Quixote_996/tar.gz/refs/heads/master",
+        "member": "Don-Quixote_996-master/996-0.txt",
+        "chars": 2288489,
+        "bytes": 2288489,
+        "sha256": "12c97247f4ad7c6ef27148cba8f0eb03437c774c823d7a2de8a7845995d56dc3",
+        "boilerplate": {
+          "original_chars": 2307844,
+          "body_chars": 2288489,
+          "removed_chars": 19355
+        }
+      },
+      {
+        "doc_id": "pg2600",
+        "title": "War and Peace",
+        "author": "Leo Tolstoy (tr. Maude)",
+        "year": "1869",
+        "source_url": "https://codeload.github.com/GITenberg/War-and-Peace_2600/tar.gz/refs/heads/master",
+        "member": "War-and-Peace_2600-master/2600-0.txt",
+        "chars": 3208282,
+        "bytes": 3274135,
+        "sha256": "ac586f72605194107d9180a45f301fd038fc4b4a6464e9479d9111294d32f4cc",
+        "boilerplate": {
+          "original_chars": 3227574,
+          "body_chars": 3208282,
+          "removed_chars": 19292
+        }
+      },
+      {
+        "doc_id": "pg1399",
+        "title": "Anna Karenina",
+        "author": "Leo Tolstoy (tr. Garnett)",
+        "year": "1878",
+        "source_url": "https://codeload.github.com/GITenberg/Anna-Karenina_1399/tar.gz/refs/heads/master",
+        "member": "Anna-Karenina_1399-master/1399-0.txt",
+        "chars": 1964831,
+        "bytes": 2008352,
+        "sha256": "eef309128846da0f79c7c18806ee522dcbe6ea58742c2673634329db878f58a0",
+        "boilerplate": {
+          "original_chars": 1984304,
+          "body_chars": 1964831,
+          "removed_chars": 19473
+        }
+      },
+      {
+        "doc_id": "pg766",
+        "title": "David Copperfield",
+        "author": "Charles Dickens",
+        "year": "1850",
+        "source_url": "https://codeload.github.com/GITenberg/David-Copperfield_766/tar.gz/refs/heads/master",
+        "member": "David-Copperfield_766-master/766-0.txt",
+        "chars": 1934596,
+        "bytes": 1975094,
+        "sha256": "91b1a66d366c0a2629fe7f780a1c6b09c322032a9077f0659bef000d8cdda62e",
+        "boilerplate": {
+          "original_chars": 1953995,
+          "body_chars": 1934596,
+          "removed_chars": 19399
+        }
+      },
+      {
+        "doc_id": "pg580",
+        "title": "The Pickwick Papers",
+        "author": "Charles Dickens",
+        "year": "1837",
+        "source_url": "https://codeload.github.com/GITenberg/The-Pickwick-Papers_580/tar.gz/refs/heads/master",
+        "member": "The-Pickwick-Papers_580-master/580-0.txt",
+        "chars": 1746281,
+        "bytes": 1798695,
+        "sha256": "9b64a639b39c69734fdab76fb1af8b1a025a6c5cfe4d942dbb2d215b05f08c98",
+        "boilerplate": {
+          "original_chars": 1765587,
+          "body_chars": 1746281,
+          "removed_chars": 19306
+        }
+      },
+      {
+        "doc_id": "pg963",
+        "title": "Little Dorrit",
+        "author": "Charles Dickens",
+        "year": "1857",
+        "source_url": "https://codeload.github.com/GITenberg/Little-Dorrit_963/tar.gz/refs/heads/master",
+        "member": "Little-Dorrit_963-master/963-0.txt",
+        "chars": 1880607,
+        "bytes": 1916619,
+        "sha256": "8b3217437f2b74fab2e87eeb73712a720803f0f2a4847089c7f7897c3aeb2911",
+        "boilerplate": {
+          "original_chars": 1900010,
+          "body_chars": 1880607,
+          "removed_chars": 19403
+        }
+      },
+      {
+        "doc_id": "pg883",
+        "title": "Our Mutual Friend",
+        "author": "Charles Dickens",
+        "year": "1865",
+        "source_url": "https://codeload.github.com/GITenberg/Our-Mutual-Friend_883/tar.gz/refs/heads/master",
+        "member": "Our-Mutual-Friend_883-master/883-0.txt",
+        "chars": 1812753,
+        "bytes": 1813589,
+        "sha256": "bc1e3bad51e86dbcfbd73a0c8b8eb96f054a0c0f6536badc4fd87de937a74db8",
+        "boilerplate": {
+          "original_chars": 1832132,
+          "body_chars": 1812753,
+          "removed_chars": 19379
+        }
+      },
+      {
+        "doc_id": "pg786",
+        "title": "Hard Times",
+        "author": "Charles Dickens",
+        "year": "1854",
+        "source_url": "https://codeload.github.com/GITenberg/Hard-Times_786/tar.gz/refs/heads/master",
+        "member": "Hard-Times_786-master/786-0.txt",
+        "chars": 579413,
+        "bytes": 594776,
+        "sha256": "b47020b618c77fcdef3d36478c90316264f336080af06f89ce78721abc2c841d",
+        "boilerplate": {
+          "original_chars": 598654,
+          "body_chars": 579413,
+          "removed_chars": 19241
+        }
+      },
+      {
+        "doc_id": "pg46",
+        "title": "A Christmas Carol",
+        "author": "Charles Dickens",
+        "year": "1843",
+        "source_url": "https://codeload.github.com/GITenberg/A-Christmas-Carol_46/tar.gz/refs/heads/master",
+        "member": "A-Christmas-Carol_46-master/46-0.txt",
+        "chars": 158415,
+        "bytes": 158416,
+        "sha256": "9a17e3fa751c44022b9f9b282ca3551780b6c7385aea8ac162a59d773de2e3cd",
+        "boilerplate": {
+          "original_chars": 177816,
+          "body_chars": 158415,
+          "removed_chars": 19401
+        }
+      },
+      {
+        "doc_id": "pg121",
+        "title": "Northanger Abbey",
+        "author": "Jane Austen",
+        "year": "1817",
+        "source_url": "https://codeload.github.com/GITenberg/Northanger-Abbey_121/tar.gz/refs/heads/master",
+        "member": "Northanger-Abbey_121-master/121-0.txt",
+        "chars": 433427,
+        "bytes": 437729,
+        "sha256": "d3c12e4a1550846656554ea0d7de99afa4dd2611758052463b23ecdd4cf129c5",
+        "boilerplate": {
+          "original_chars": 452792,
+          "body_chars": 433427,
+          "removed_chars": 19365
+        }
+      },
+      {
+        "doc_id": "pg141",
+        "title": "Mansfield Park",
+        "author": "Jane Austen",
+        "year": "1814",
+        "source_url": "https://codeload.github.com/GITenberg/Mansfield-Park_141/tar.gz/refs/heads/master",
+        "member": "Mansfield-Park_141-master/141-0.txt",
+        "chars": 883303,
+        "bytes": 889888,
+        "sha256": "a8576df84d9d1f3e8c5ba45a6cbb337d1a547222daa0f5c220e03f9164bc12e9",
+        "boilerplate": {
+          "original_chars": 902689,
+          "body_chars": 883303,
+          "removed_chars": 19386
+        }
+      },
+      {
+        "doc_id": "pg2852",
+        "title": "The Hound of the Baskervilles",
+        "author": "Arthur Conan Doyle",
+        "year": "1902",
+        "source_url": "https://codeload.github.com/GITenberg/The-Hound-of-the-Baskervilles_2852/tar.gz/refs/heads/master",
+        "member": "The-Hound-of-the-Baskervilles_2852-master/2852-0.txt",
+        "chars": 319832,
+        "bytes": 326244,
+        "sha256": "9b6e592c530c5dfa537e8589d24e310691e33bdf84678062170d33f4f1165711",
+        "boilerplate": {
+          "original_chars": 339188,
+          "body_chars": 319832,
+          "removed_chars": 19356
+        }
+      },
+      {
+        "doc_id": "pg244",
+        "title": "A Study in Scarlet",
+        "author": "Arthur Conan Doyle",
+        "year": "1887",
+        "source_url": "https://codeload.github.com/GITenberg/A-Study-in-Scarlet_244/tar.gz/refs/heads/master",
+        "member": "A-Study-in-Scarlet_244-master/244-0.txt",
+        "chars": 243018,
+        "bytes": 247739,
+        "sha256": "c7d8706566f7abade037035de527748ae4839bc716b5543815fb3e7aed78a036",
+        "boilerplate": {
+          "original_chars": 262340,
+          "body_chars": 243018,
+          "removed_chars": 19322
+        }
+      },
+      {
+        "doc_id": "pg834",
+        "title": "The Memoirs of Sherlock Holmes",
+        "author": "Arthur Conan Doyle",
+        "year": "1894",
+        "source_url": "https://codeload.github.com/GITenberg/The-Memoirs-of-Sherlock-Holmes_834/tar.gz/refs/heads/master",
+        "member": "The-Memoirs-of-Sherlock-Holmes_834-master/834-0.txt",
+        "chars": 473222,
+        "bytes": 480886,
+        "sha256": "44012494c2a3c63692342bead1c66840f0107479c5d563c48bcd18952b8c969c",
+        "boilerplate": {
+          "original_chars": 492669,
+          "body_chars": 473222,
+          "removed_chars": 19447
+        }
+      },
+      {
+        "doc_id": "pg108",
+        "title": "The Return of Sherlock Holmes",
+        "author": "Arthur Conan Doyle",
+        "year": "1905",
+        "source_url": "https://codeload.github.com/GITenberg/The-Return-of-Sherlock-Holmes_108/tar.gz/refs/heads/master",
+        "member": "The-Return-of-Sherlock-Holmes_108-master/108-0.txt",
+        "chars": 609195,
+        "bytes": 620977,
+        "sha256": "4f67b91bd3323ef24404d564ec1b3e94bd0b349ad7d0d8211844be1b2821b24a",
+        "boilerplate": {
+          "original_chars": 628720,
+          "body_chars": 609195,
+          "removed_chars": 19525
+        }
+      },
+      {
+        "doc_id": "pg1184",
+        "title": "The Count of Monte Cristo",
+        "author": "Alexandre Dumas (tr.)",
+        "year": "1844",
+        "source_url": "https://codeload.github.com/GITenberg/The-Count-of-Monte-Cristo_1184/tar.gz/refs/heads/master",
+        "member": "The-Count-of-Monte-Cristo_1184-master/1184-0.txt",
+        "chars": 2624548,
+        "bytes": 2703174,
+        "sha256": "99bce41c4a075bc6a4a99519b7c08ade128e2ea41d705a93e89600b3f04ce294",
+        "boilerplate": {
+          "original_chars": 2643851,
+          "body_chars": 2624548,
+          "removed_chars": 19303
+        }
+      },
+      {
+        "doc_id": "pg1257",
+        "title": "The Three Musketeers",
+        "author": "Alexandre Dumas (tr.)",
+        "year": "1844",
+        "source_url": "https://codeload.github.com/GITenberg/The-Three-Musketeers_1257/tar.gz/refs/heads/master",
+        "member": "The-Three-Musketeers_1257-master/1257-0.txt",
+        "chars": 1296719,
+        "bytes": 1334203,
+        "sha256": "ae4293691344f075c65174a666245a9953c3a6842dcb8088d18b630865b96fdb",
+        "boilerplate": {
+          "original_chars": 1316974,
+          "body_chars": 1296719,
+          "removed_chars": 20255
+        }
+      },
+      {
+        "doc_id": "pg2413",
+        "title": "Madame Bovary",
+        "author": "Gustave Flaubert (tr. Marx-Aveling)",
+        "year": "1856",
+        "source_url": "https://codeload.github.com/GITenberg/Madame-Bovary_2413/tar.gz/refs/heads/master",
+        "member": "Madame-Bovary_2413-master/2413-0.txt",
+        "chars": 652006,
+        "bytes": 661286,
+        "sha256": "aa7cc3d2fd34e362c6b451e71a3abf5477790b275d4f6adfff3a29d6a1e9fac4",
+        "boilerplate": {
+          "original_chars": 671476,
+          "body_chars": 652006,
+          "removed_chars": 19470
+        }
+      },
+      {
+        "doc_id": "pg135",
+        "title": "Les Miserables",
+        "author": "Victor Hugo (tr. Hapgood)",
+        "year": "1862",
+        "source_url": "https://codeload.github.com/GITenberg/Les-Mis-rables_135/tar.gz/refs/heads/master",
+        "member": "Les-Mis-rables_135-master/135-0.txt",
+        "chars": 3235042,
+        "bytes": 3237373,
+        "sha256": "2fe2e7e7550623758794f928f19dfa17112eb716aee9d2aa28ce14c42396d79a",
+        "boilerplate": {
+          "original_chars": 3254333,
+          "body_chars": 3235042,
+          "removed_chars": 19291
+        }
+      },
+      {
+        "doc_id": "pg6130",
+        "title": "The Iliad",
+        "author": "Homer (tr. Pope)",
+        "year": "-750",
+        "source_url": "https://codeload.github.com/GITenberg/The-Iliad_6130/tar.gz/refs/heads/master",
+        "member": "The-Iliad_6130-master/6130-0.txt",
+        "chars": 1154123,
+        "bytes": 1167528,
+        "sha256": "94e2f7249dac5483d86fadac9dd6ff84dd19c0ade28b1e323431708d46d63cc7",
+        "boilerplate": {
+          "original_chars": 1174128,
+          "body_chars": 1154123,
+          "removed_chars": 20005
+        }
+      },
+      {
+        "doc_id": "pg4300",
+        "title": "Ulysses",
+        "author": "James Joyce",
+        "year": "1922",
+        "source_url": "https://codeload.github.com/GITenberg/Ulysses_4300/tar.gz/refs/heads/master",
+        "member": "Ulysses_4300-master/4300-0.txt",
+        "chars": 1514875,
+        "bytes": 1528899,
+        "sha256": "a95febec982c6ab1ffd368eb680ed651365f7050f94660ff25d622a3a2e4140f",
+        "boilerplate": {
+          "original_chars": 1534140,
+          "body_chars": 1514875,
+          "removed_chars": 19265
+        }
+      },
+      {
+        "doc_id": "pg4217",
+        "title": "A Portrait of the Artist as a Young Man",
+        "author": "James Joyce",
+        "year": "1916",
+        "source_url": "https://codeload.github.com/GITenberg/A-Portrait-of-the-Artist-as-a-Young-Man_4217/tar.gz/refs/heads/master",
+        "member": "A-Portrait-of-the-Artist-as-a-Young-Man_4217-master/4217-0.txt",
+        "chars": 462622,
+        "bytes": 466521,
+        "sha256": "19dd2765a93a031b6e338e1b245404ebe17915fd33a668100ca8ac51233d67a0",
+        "boilerplate": {
+          "original_chars": 482150,
+          "body_chars": 462622,
+          "removed_chars": 19528
+        }
+      },
+      {
+        "doc_id": "pg2814",
+        "title": "Dubliners",
+        "author": "James Joyce",
+        "year": "1914",
+        "source_url": "https://codeload.github.com/GITenberg/Dubliners_2814/tar.gz/refs/heads/master",
+        "member": "Dubliners_2814-master/2814-0.txt",
+        "chars": 369886,
+        "bytes": 378165,
+        "sha256": "16c5328632ccd51367e0a527e6d55a71491fdd51a32a2586fc2b1e476da25619",
+        "boilerplate": {
+          "original_chars": 389199,
+          "body_chars": 369886,
+          "removed_chars": 19313
+        }
+      },
+      {
+        "doc_id": "pg160",
+        "title": "The Awakening",
+        "author": "Kate Chopin",
+        "year": "1899",
+        "source_url": "https://codeload.github.com/GITenberg/The-Awakening-and-Selected-Short-Stories_160/tar.gz/refs/heads/master",
+        "member": "The-Awakening-and-Selected-Short-Stories_160-master/160-0.txt",
+        "chars": 359499,
+        "bytes": 363229,
+        "sha256": "4006e9ec0f8eb81aee8055d26d08e9c7d9a5f3e40532abf4ae4a3e34a60caa21",
+        "boilerplate": {
+          "original_chars": 378957,
+          "body_chars": 359499,
+          "removed_chars": 19458
+        }
+      },
+      {
+        "doc_id": "pg205",
+        "title": "Walden",
+        "author": "Henry David Thoreau",
+        "year": "1854",
+        "source_url": "https://codeload.github.com/GITenberg/Walden-and-On-The-Duty-Of-Civil-Disobedience_205/tar.gz/refs/heads/master",
+        "member": "Walden-and-On-The-Duty-Of-Civil-Disobedience_205-master/205-0.txt",
+        "chars": 636702,
+        "bytes": 636747,
+        "sha256": "38a9aaaac83ea4e6b4b9f53743f432ee17dce558ec1095a38f5422eb6f6c6d22",
+        "boilerplate": {
+          "original_chars": 656207,
+          "body_chars": 636702,
+          "removed_chars": 19505
+        }
+      },
+      {
+        "doc_id": "pg215",
+        "title": "The Call of the Wild",
+        "author": "Jack London",
+        "year": "1903",
+        "source_url": "https://codeload.github.com/GITenberg/The-Call-of-the-Wild_215/tar.gz/refs/heads/master",
+        "member": "The-Call-of-the-Wild_215-master/215-0.txt",
+        "chars": 175671,
+        "bytes": 176263,
+        "sha256": "5e31d18f937e17f0efbbe4584a04633e5b8e0979fd66b49ed4e3b7d5b64025f5",
+        "boilerplate": {
+          "original_chars": 195155,
+          "body_chars": 175671,
+          "removed_chars": 19484
+        }
+      },
+      {
+        "doc_id": "pg521",
+        "title": "Robinson Crusoe",
+        "author": "Daniel Defoe",
+        "year": "1719",
+        "source_url": "https://codeload.github.com/GITenberg/The-Life-and-Adventures-of-Robinson-Crusoe_521/tar.gz/refs/heads/master",
+        "member": "The-Life-and-Adventures-of-Robinson-Crusoe_521-master/521-0.txt",
+        "chars": 623085,
+        "bytes": 625510,
+        "sha256": "85c2409ecf98c9e289daf7097d4a5c69fde3acea9489c624fb2755598312f6cf",
+        "boilerplate": {
+          "original_chars": 642909,
+          "body_chars": 623085,
+          "removed_chars": 19824
+        }
+      },
+      {
+        "doc_id": "pg829",
+        "title": "Gulliver's Travels",
+        "author": "Jonathan Swift",
+        "year": "1726",
+        "source_url": "https://codeload.github.com/GITenberg/Gulliver-s-Travels_829/tar.gz/refs/heads/master",
+        "member": "Gulliver-s-Travels_829-master/829-0.txt",
+        "chars": 580726,
+        "bytes": 582769,
+        "sha256": "0efdba399d6730ac5fb61cad64e0c2d84ffb4c1a094a43ead66dc0f7d0ff8d92",
+        "boilerplate": {
+          "original_chars": 600105,
+          "body_chars": 580726,
+          "removed_chars": 19379
+        }
+      },
+      {
+        "doc_id": "pg209",
+        "title": "The Turn of the Screw",
+        "author": "Henry James",
+        "year": "1898",
+        "source_url": "https://codeload.github.com/GITenberg/The-Turn-of-the-Screw_209/tar.gz/refs/heads/master",
+        "member": "The-Turn-of-the-Screw_209-master/209-0.txt",
+        "chars": 228689,
+        "bytes": 233815,
+        "sha256": "8e0159989c1bc57406f386491d3700ef61326620c1a9bf13eb2266ecd391d229",
+        "boilerplate": {
+          "original_chars": 248089,
+          "body_chars": 228689,
+          "removed_chars": 19400
+        }
+      },
+      {
+        "doc_id": "pg2641",
+        "title": "A Room with a View",
+        "author": "E. M. Forster",
+        "year": "1908",
+        "source_url": "https://codeload.github.com/GITenberg/A-Room-with-a-View_2641/tar.gz/refs/heads/master",
+        "member": "A-Room-with-a-View_2641-master/2641-0.txt",
+        "chars": 375597,
+        "bytes": 386327,
+        "sha256": "fab97ee034b97eb622d4828da529f31378a215be81fbbe6f08c19e27e5639ae1",
+        "boilerplate": {
+          "original_chars": 395013,
+          "body_chars": 375597,
+          "removed_chars": 19416
+        }
+      },
+      {
+        "doc_id": "pg113",
+        "title": "The Secret Garden",
+        "author": "Frances Hodgson Burnett",
+        "year": "1911",
+        "source_url": "https://codeload.github.com/GITenberg/The-Secret-Garden_113/tar.gz/refs/heads/master",
+        "member": "The-Secret-Garden_113-master/113-0.txt",
+        "chars": 428711,
+        "bytes": 446158,
+        "sha256": "e19b9d9caeec3b7b4b7a574fa38a92935728fbd88a2c87eab9d032a01df7e49b",
+        "boilerplate": {
+          "original_chars": 448096,
+          "body_chars": 428711,
+          "removed_chars": 19385
+        }
+      },
+      {
+        "doc_id": "pg271",
+        "title": "Black Beauty",
+        "author": "Anna Sewell",
+        "year": "1877",
+        "source_url": "https://codeload.github.com/GITenberg/Black-Beauty_271/tar.gz/refs/heads/master",
+        "member": "Black-Beauty_271-master/271-0.txt",
+        "chars": 303978,
+        "bytes": 307458,
+        "sha256": "6630d911f45f5d5e9802dba896423f2b8669475a328f2e10f73178a728c07765",
+        "boilerplate": {
+          "original_chars": 323362,
+          "body_chars": 303978,
+          "removed_chars": 19384
+        }
+      },
+      {
+        "doc_id": "pg236",
+        "title": "The Jungle Book",
+        "author": "Rudyard Kipling",
+        "year": "1894",
+        "source_url": "https://codeload.github.com/GITenberg/The-Jungle-Book_236/tar.gz/refs/heads/master",
+        "member": "The-Jungle-Book_236-master/236-0.txt",
+        "chars": 273641,
+        "bytes": 279101,
+        "sha256": "54d65e2c82e25493e89be7893663a352aa559550cde58c7f3f2c055bc31c32bc",
+        "boilerplate": {
+          "original_chars": 293051,
+          "body_chars": 273641,
+          "removed_chars": 19410
+        }
+      },
+      {
+        "doc_id": "pg25344",
+        "title": "The Scarlet Letter",
+        "author": "Nathaniel Hawthorne",
+        "year": "1850",
+        "source_url": "https://codeload.github.com/GITenberg/The-Scarlet-Letter_25344/tar.gz/refs/heads/master",
+        "member": "The-Scarlet-Letter_25344-master/25344-0.txt",
+        "chars": 492132,
+        "bytes": 496620,
+        "sha256": "cfdf24febb68db31d5ff1a1d35e54fafea0cd2c380915ed87d892e6b49ad0d25",
+        "boilerplate": {
+          "original_chars": 511854,
+          "body_chars": 492132,
+          "removed_chars": 19722
+        }
+      },
+      {
+        "doc_id": "pg1998",
+        "title": "Thus Spake Zarathustra",
+        "author": "Friedrich Nietzsche (tr. Common)",
+        "year": "1883",
+        "source_url": "https://codeload.github.com/GITenberg/Thus-Spake-Zarathustra--A-Book-for-All-and-None_1998/tar.gz/refs/heads/master",
+        "member": "Thus-Spake-Zarathustra--A-Book-for-All-and-None_1998-master/1998-0.txt",
+        "chars": 639407,
+        "bytes": 645363,
+        "sha256": "8cee6af09601604e73b03fe73353ec5b9c93ebb948b9b60a21499688f36a9754",
+        "boilerplate": {
+          "original_chars": 658812,
+          "body_chars": 639407,
+          "removed_chars": 19405
+        }
+      },
+      {
+        "doc_id": "pg6593",
+        "title": "The History of Tom Jones",
+        "author": "Henry Fielding",
+        "year": "1749",
+        "source_url": "https://codeload.github.com/GITenberg/History-of-Tom-Jones-a-Foundling_6593/tar.gz/refs/heads/master",
+        "member": "History-of-Tom-Jones-a-Foundling_6593-master/6593-0.txt",
+        "chars": 1961023,
+        "bytes": 1978515,
+        "sha256": "4cd300efb6604397436205bf972fcff9dd9fcec80a3786a581f8f49033377b22",
+        "boilerplate": {
+          "original_chars": 1980720,
+          "body_chars": 1961023,
+          "removed_chars": 19697
+        }
+      },
+      {
+        "doc_id": "pg28054",
+        "title": "The Brothers Karamazov",
+        "author": "Fyodor Dostoyevsky (tr. Garnett)",
+        "year": "1880",
+        "source_url": "https://codeload.github.com/GITenberg/The-Brothers-Karamazov_28054/tar.gz/refs/heads/master",
+        "member": "The-Brothers-Karamazov_28054-master/28054-0.txt",
+        "chars": 1936851,
+        "bytes": 1983729,
+        "sha256": "cafbd92885ba3d650b69ed0722973805fbca7863dfd5c63ac0c1fd699e9863a1",
+        "boilerplate": {
+          "original_chars": 1956941,
+          "body_chars": 1936851,
+          "removed_chars": 20090
+        }
+      },
+      {
+        "doc_id": "pg2638",
+        "title": "The Idiot",
+        "author": "Fyodor Dostoyevsky (tr. Martin)",
+        "year": "1869",
+        "source_url": "https://codeload.github.com/GITenberg/The-Idiot_2638/tar.gz/refs/heads/master",
+        "member": "The-Idiot_2638-master/2638-0.txt",
+        "chars": 1350311,
+        "bytes": 1378454,
+        "sha256": "63b7dc5bdb619eb4f69e56ea54800b563bf42a63f20da0a17346bba1458e5552",
+        "boilerplate": {
+          "original_chars": 1369813,
+          "body_chars": 1350311,
+          "removed_chars": 19502
+        }
+      },
+      {
+        "doc_id": "pg203",
+        "title": "Uncle Tom's Cabin",
+        "author": "Harriet Beecher Stowe",
+        "year": "1852",
+        "source_url": "https://codeload.github.com/GITenberg/Uncle-Tom-s-Cabin_203/tar.gz/refs/heads/master",
+        "member": "Uncle-Tom-s-Cabin_203-master/203-0.txt",
+        "chars": 1006091,
+        "bytes": 1034853,
+        "sha256": "4a32b77f50b0522bb56862115d4b77cc7b00bb070a5fe3e6d05771afeee417f8",
+        "boilerplate": {
+          "original_chars": 1025490,
+          "body_chars": 1006091,
+          "removed_chars": 19399
+        }
+      },
+      {
+        "doc_id": "pg16",
+        "title": "Peter Pan",
+        "author": "J. M. Barrie",
+        "year": "1911",
+        "source_url": "https://codeload.github.com/GITenberg/Peter-Pan_16/tar.gz/refs/heads/master",
+        "member": "Peter-Pan_16-master/16-0.txt",
+        "chars": 256964,
+        "bytes": 262832,
+        "sha256": "ded6538cd94222589e27613569496e216ce07116b40707d03070f5cf6b08d3ad",
+        "boilerplate": {
+          "original_chars": 278192,
+          "body_chars": 256964,
+          "removed_chars": 21228
+        }
+      },
+      {
+        "doc_id": "pg289",
+        "title": "The Wind in the Willows",
+        "author": "Kenneth Grahame",
+        "year": "1908",
+        "source_url": "https://codeload.github.com/GITenberg/The-Wind-in-the-Willows_289/tar.gz/refs/heads/master",
+        "member": "The-Wind-in-the-Willows_289-master/289-0.txt",
+        "chars": 325727,
+        "bytes": 332299,
+        "sha256": "5048e9ae4a0f75b67165d67d5d531461b443108b8cab03ae69bab81f2c06b1eb",
+        "boilerplate": {
+          "original_chars": 345053,
+          "body_chars": 325727,
+          "removed_chars": 19326
+        }
+      },
+      {
+        "doc_id": "pg3176",
+        "title": "The Innocents Abroad",
+        "author": "Mark Twain",
+        "year": "1869",
+        "source_url": "https://codeload.github.com/GITenberg/The-Innocents-Abroad_3176/tar.gz/refs/heads/master",
+        "member": "The-Innocents-Abroad_3176-master/3176-0.txt",
+        "chars": 1106858,
+        "bytes": 1110764,
+        "sha256": "2c2f252a8ac815d34a4c8f5c276f067d33e270f76616d3758116d7ffb130fc8f",
+        "boilerplate": {
+          "original_chars": 1126280,
+          "body_chars": 1106858,
+          "removed_chars": 19422
+        }
+      },
+      {
+        "doc_id": "pg1837",
+        "title": "The Prince and the Pauper",
+        "author": "Mark Twain",
+        "year": "1881",
+        "source_url": "https://codeload.github.com/GITenberg/The-Prince-and-the-Pauper_1837/tar.gz/refs/heads/master",
+        "member": "The-Prince-and-the-Pauper_1837-master/1837-0.txt",
+        "chars": 395898,
+        "bytes": 403737,
+        "sha256": "8c9a4447f40b8223a74cb32a530aba0422ba36e8d99b843ec6874626b5342573",
+        "boilerplate": {
+          "original_chars": 415264,
+          "body_chars": 395898,
+          "removed_chars": 19366
+        }
+      },
+      {
+        "doc_id": "pg86",
+        "title": "A Connecticut Yankee in King Arthur's Court",
+        "author": "Mark Twain",
+        "year": "1889",
+        "source_url": "https://codeload.github.com/GITenberg/A-Connecticut-Yankee-in-King-Arthur-s-Court_86/tar.gz/refs/heads/master",
+        "member": "A-Connecticut-Yankee-in-King-Arthur-s-Court_86-master/86-0.txt",
+        "chars": 643630,
+        "bytes": 648632,
+        "sha256": "d7f7a86ea55ca06bbc469605e6f529f19442ada842ec1bb3fb428bd0f46a894a",
+        "boilerplate": {
+          "original_chars": 663191,
+          "body_chars": 643630,
+          "removed_chars": 19561
+        }
+      },
+      {
+        "doc_id": "pg1952",
+        "title": "The Yellow Wallpaper",
+        "author": "Charlotte Perkins Gilman",
+        "year": "1892",
+        "source_url": "https://codeload.github.com/GITenberg/The-Yellow-Wallpaper_1952/tar.gz/refs/heads/master",
+        "member": "The-Yellow-Wallpaper_1952-master/1952-0.txt",
+        "chars": 31578,
+        "bytes": 31984,
+        "sha256": "9e8aca22c6a9d1f0abebe249e1b7690e0d43e7cfcda7b71a9253b6fb9c2d7b7f",
+        "boilerplate": {
+          "original_chars": 50779,
+          "body_chars": 31578,
+          "removed_chars": 19201
+        }
+      },
+      {
+        "doc_id": "pg790",
+        "title": "Lady Windermere's Fan",
+        "author": "Oscar Wilde",
+        "year": "1892",
+        "source_url": "https://codeload.github.com/GITenberg/Lady-Windermere-s-Fan_790/tar.gz/refs/heads/master",
+        "member": "Lady-Windermere-s-Fan_790-master/790-0.txt",
+        "chars": 117127,
+        "bytes": 118450,
+        "sha256": "818c92345f7eff501b494f05876bcc755777b40228da6b05b46113df4f6c9e5c",
+        "boilerplate": {
+          "original_chars": 136866,
+          "body_chars": 117127,
+          "removed_chars": 19739
+        }
+      },
+      {
+        "doc_id": "pg854",
+        "title": "A Woman of No Importance",
+        "author": "Oscar Wilde",
+        "year": "1893",
+        "source_url": "https://codeload.github.com/GITenberg/A-Woman-of-No-Importance_854/tar.gz/refs/heads/master",
+        "member": "A-Woman-of-No-Importance_854-master/854-0.txt",
+        "chars": 129320,
+        "bytes": 130206,
+        "sha256": "05f63cd3252f0f897d58c09e2f58314f95ca3f94253f4ea374274a6ce8c5b65a",
+        "boilerplate": {
+          "original_chars": 149049,
+          "body_chars": 129320,
+          "removed_chars": 19729
+        }
+      },
+      {
+        "doc_id": "pg885",
+        "title": "An Ideal Husband",
+        "author": "Oscar Wilde",
+        "year": "1895",
+        "source_url": "https://codeload.github.com/GITenberg/An-Ideal-Husband_885/tar.gz/refs/heads/master",
+        "member": "An-Ideal-Husband_885-master/885-0.txt",
+        "chars": 178647,
+        "bytes": 179625,
+        "sha256": "d155d8e3f0a3978a8b1d58e83f765c55c835da9e9c2f927c1f8f7fc39736fee4",
+        "boilerplate": {
+          "original_chars": 197976,
+          "body_chars": 178647,
+          "removed_chars": 19329
+        }
+      },
+      {
+        "doc_id": "pg1001",
+        "title": "Divine Comedy Longfellow s Translation Hell",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Divine-Comedy-Longfellow-s-Translation-Hell_1001/tar.gz/refs/heads/master",
+        "member": "Divine-Comedy-Longfellow-s-Translation-Hell_1001-master/1001.txt",
+        "chars": 216073,
+        "bytes": 216073,
+        "sha256": "2c80f3d46f8262f78a92c9bccef402715e6ce130f5d961fd76f959ce3aec8d13",
+        "boilerplate": {
+          "original_chars": 235574,
+          "body_chars": 216073,
+          "removed_chars": 19501
+        }
+      },
+      {
+        "doc_id": "pg1104",
+        "title": "The Comedy of Errors",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1104/tar.gz/refs/heads/master",
+        "member": "The-Comedy-of-Errors_1104-master/1104.txt",
+        "chars": 102810,
+        "bytes": 102810,
+        "sha256": "56402bc1721f6a3036d75ce17c63a4d3e7d0f1b1afbf264ad147b4dafb0c2279",
+        "boilerplate": {
+          "original_chars": 102811,
+          "body_chars": 102810,
+          "removed_chars": 1
+        }
+      },
+      {
+        "doc_id": "pg1112",
+        "title": "The Tragedy of Romeo and Juliet",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Tragedy-of-Romeo-and-Juliet_1112/tar.gz/refs/heads/master",
+        "member": "The-Tragedy-of-Romeo-and-Juliet_1112-master/1112.txt",
+        "chars": 154797,
+        "bytes": 154797,
+        "sha256": "c692e1a6278a683a1497a8250633a61331a293c02cffde575da69e487a8a7cc8",
+        "boilerplate": {
+          "original_chars": 174157,
+          "body_chars": 154797,
+          "removed_chars": 19360
+        }
+      },
+      {
+        "doc_id": "pg1504",
+        "title": "The Comedy of Errors",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1504/tar.gz/refs/heads/master",
+        "member": "The-Comedy-of-Errors_1504-master/1504.txt",
+        "chars": 100270,
+        "bytes": 100270,
+        "sha256": "4ffd72b80de85dd19140652926c24f1d1af43ac26f07727d7d498a3ea5da6472",
+        "boilerplate": {
+          "original_chars": 100272,
+          "body_chars": 100270,
+          "removed_chars": 2
+        }
+      },
+      {
+        "doc_id": "pg1513",
+        "title": "Romeo and Juliet",
+        "author": "William Shakespeare",
+        "year": "1597",
+        "source_url": "https://codeload.github.com/GITenberg/Romeo-and-Juliet_1513/tar.gz/refs/heads/master",
+        "member": "Romeo-and-Juliet_1513-master/1513-0.txt",
+        "chars": 142560,
+        "bytes": 144487,
+        "sha256": "8429c3ec6129bca7f36d83234184a32f98226afec2369b1578bce705d095c309",
+        "boilerplate": {
+          "original_chars": 162329,
+          "body_chars": 142560,
+          "removed_chars": 19769
+        }
+      },
+      {
+        "doc_id": "pg1519",
+        "title": "Much Ado About Nothing",
+        "author": "William Shakespeare",
+        "year": "1600",
+        "source_url": "https://codeload.github.com/GITenberg/Much-Ado-about-Nothing_1519/tar.gz/refs/heads/master",
+        "member": "Much-Ado-about-Nothing_1519-master/1519-0.txt",
+        "chars": 122846,
+        "bytes": 123963,
+        "sha256": "57e2a0ddffb93535d27e23394b26f01ba66fe73ac883adb9ddf5c0edbc963431",
+        "boilerplate": {
+          "original_chars": 142620,
+          "body_chars": 122846,
+          "removed_chars": 19774
+        }
+      },
+      {
+        "doc_id": "pg1522",
+        "title": "Julius Caesar",
+        "author": "William Shakespeare",
+        "year": "1599",
+        "source_url": "https://codeload.github.com/GITenberg/Julius-Caesar_1522/tar.gz/refs/heads/master",
+        "member": "Julius-Caesar_1522-master/1522-0.txt",
+        "chars": 116767,
+        "bytes": 117992,
+        "sha256": "377eab01b0e93b49f4ca027b5858aaf30955a423830e17bd042851b86f1809bb",
+        "boilerplate": {
+          "original_chars": 136512,
+          "body_chars": 116767,
+          "removed_chars": 19745
+        }
+      },
+      {
+        "doc_id": "pg1524",
+        "title": "Hamlet",
+        "author": "William Shakespeare",
+        "year": "1603",
+        "source_url": "https://codeload.github.com/GITenberg/Hamlet-Prince-of-Denmark_1524/tar.gz/refs/heads/master",
+        "member": "Hamlet-Prince-of-Denmark_1524-master/1524-0.txt",
+        "chars": 177699,
+        "bytes": 180203,
+        "sha256": "2b6c771ccca874b41b0902ee6ff606184585ffa33187f1299662a14b6b57d143",
+        "boilerplate": {
+          "original_chars": 197305,
+          "body_chars": 177699,
+          "removed_chars": 19606
+        }
+      },
+      {
+        "doc_id": "pg1532",
+        "title": "King Lear",
+        "author": "William Shakespeare",
+        "year": "1606",
+        "source_url": "https://codeload.github.com/GITenberg/The-Tragedy-of-King-Lear_1532/tar.gz/refs/heads/master",
+        "member": "The-Tragedy-of-King-Lear_1532-master/1532-0.txt",
+        "chars": 155465,
+        "bytes": 157650,
+        "sha256": "a417fb072b7a67aba76af7e38acf243b7479fb4ded402f288dd59e89e64ead0e",
+        "boilerplate": {
+          "original_chars": 175125,
+          "body_chars": 155465,
+          "removed_chars": 19660
+        }
+      },
+      {
+        "doc_id": "pg1769",
+        "title": "The Comedy of Errors",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Comedy-of-Errors_1769/tar.gz/refs/heads/master",
+        "member": "The-Comedy-of-Errors_1769-master/1769.txt",
+        "chars": 102824,
+        "bytes": 102824,
+        "sha256": "425b736ca817e01e1d70fd515e4bece89b299e222d645d94cc2e54e072d59d7a",
+        "boilerplate": {
+          "original_chars": 102825,
+          "body_chars": 102824,
+          "removed_chars": 1
+        }
+      },
+      {
+        "doc_id": "pg2379",
+        "title": "Chastelard a Tragedy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Chastelard-a-Tragedy_2379/tar.gz/refs/heads/master",
+        "member": "Chastelard-a-Tragedy_2379-master/2379.txt",
+        "chars": 144245,
+        "bytes": 144245,
+        "sha256": "ab7be4f1d0116c9c8f9ca6df096af225899f6efdbc45a61631602f5f9be0906d",
+        "boilerplate": {
+          "original_chars": 163664,
+          "body_chars": 144245,
+          "removed_chars": 19419
+        }
+      },
+      {
+        "doc_id": "pg3325",
+        "title": "Locrine A Tragedy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Locrine-A-Tragedy_3325/tar.gz/refs/heads/master",
+        "member": "Locrine-A-Tragedy_3325-master/3325-0.txt",
+        "chars": 127479,
+        "bytes": 128863,
+        "sha256": "50489243087f10d312c921a164dec31afc05f3dbec39d13ee8946efcb5cda4ef",
+        "boilerplate": {
+          "original_chars": 147172,
+          "body_chars": 127479,
+          "removed_chars": 19693
+        }
+      },
+      {
+        "doc_id": "pg5618",
+        "title": "Six Plays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Six-Plays_5618/tar.gz/refs/heads/master",
+        "member": "Six-Plays_5618-master/5618-0.txt",
+        "chars": 450139,
+        "bytes": 459858,
+        "sha256": "548ce42b477dae461d3e31f8a6faf70f6ee94b322d61a7de5568866a8078b9f3",
+        "boilerplate": {
+          "original_chars": 469866,
+          "body_chars": 450139,
+          "removed_chars": 19727
+        }
+      },
+      {
+        "doc_id": "pg6043",
+        "title": "The Spanish Tragedie",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Spanish-Tragedie_6043/tar.gz/refs/heads/master",
+        "member": "The-Spanish-Tragedie_6043-master/6043.txt",
+        "chars": 145828,
+        "bytes": 145828,
+        "sha256": "fa000e961d3329f24f6d5e739edf3e14716a9ee98f7c1eb3a5df1b2fc92842b8",
+        "boilerplate": {
+          "original_chars": 165197,
+          "body_chars": 145828,
+          "removed_chars": 19369
+        }
+      },
+      {
+        "doc_id": "pg6332",
+        "title": "Playful Poems",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Playful-Poems_6332/tar.gz/refs/heads/master",
+        "member": "Playful-Poems_6332-master/6332-0.txt",
+        "chars": 269005,
+        "bytes": 273473,
+        "sha256": "03b83f1e27bb1e015334f93c0228cab142b7fd2d69eb0b71be2dd67a42b037ef",
+        "boilerplate": {
+          "original_chars": 288625,
+          "body_chars": 269005,
+          "removed_chars": 19620
+        }
+      },
+      {
+        "doc_id": "pg7805",
+        "title": "First Plays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/First-Plays_7805/tar.gz/refs/heads/master",
+        "member": "First-Plays_7805-master/7805.txt",
+        "chars": 310067,
+        "bytes": 310067,
+        "sha256": "cd4101a62cc96fa3915c49c58a93078bdb5a57130b2996e3f55ab204d008e97f",
+        "boilerplate": {
+          "original_chars": 329407,
+          "body_chars": 310067,
+          "removed_chars": 19340
+        }
+      },
+      {
+        "doc_id": "pg7986",
+        "title": "Plays by Anton Chekhov, Second Series",
+        "author": "Anton Chekhov (tr. Fell)",
+        "year": "1916",
+        "source_url": "https://codeload.github.com/GITenberg/Plays-by-Anton-Chekhov-Second-Series_7986/tar.gz/refs/heads/master",
+        "member": "Plays-by-Anton-Chekhov-Second-Series_7986-master/7986-0.txt",
+        "chars": 382284,
+        "bytes": 389710,
+        "sha256": "3542bff5c6f8fb17a789e845523252d4e21a57cbb630ea451248e647cb00339f",
+        "boilerplate": {
+          "original_chars": 401843,
+          "body_chars": 382284,
+          "removed_chars": 19559
+        }
+      },
+      {
+        "doc_id": "pg10606",
+        "title": "The Tragedie of Hamlet Prince of DenmarkA Study with the Text of the Folio of 1623",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Tragedie-of-Hamlet-Prince-of-DenmarkA-Study-with-the-Text-of-the-Folio-of-1623_10606/tar.gz/refs/heads/master",
+        "member": "The-Tragedie-of-Hamlet-Prince-of-DenmarkA-Study-with-the-Text-of-the-Folio-of-1623_10606-master/10606.txt",
+        "chars": 525875,
+        "bytes": 525875,
+        "sha256": "38c0cf82c383b8b68d6fd56306e7fc5ea864995cf37cef041dab704e1a45d2a1",
+        "boilerplate": {
+          "original_chars": 546948,
+          "body_chars": 525875,
+          "removed_chars": 21073
+        }
+      },
+      {
+        "doc_id": "pg10623",
+        "title": "Plays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Plays_10623/tar.gz/refs/heads/master",
+        "member": "Plays_10623-master/10623.txt",
+        "chars": 323614,
+        "bytes": 323614,
+        "sha256": "a77fa28235c849a39bbdfcc1663d79ee8b1fc1c83a529b6358557bb4e79875fe",
+        "boilerplate": {
+          "original_chars": 344500,
+          "body_chars": 323614,
+          "removed_chars": 20886
+        }
+      },
+      {
+        "doc_id": "pg10722",
+        "title": "Plays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Plays_10722/tar.gz/refs/heads/master",
+        "member": "Plays_10722-master/10722.txt",
+        "chars": 425800,
+        "bytes": 425800,
+        "sha256": "3db95cd156f89247ee4bc4878ac8a2d9aefb186a894a3ae45f2593375005c56d",
+        "boilerplate": {
+          "original_chars": 446838,
+          "body_chars": 425800,
+          "removed_chars": 21038
+        }
+      },
+      {
+        "doc_id": "pg10847",
+        "title": "The Maids Tragedy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Maids-Tragedy_10847/tar.gz/refs/heads/master",
+        "member": "The-Maids-Tragedy_10847-master/10847.txt",
+        "chars": 194106,
+        "bytes": 194106,
+        "sha256": "2a30745f6fd5e86423a796e1737d4ec2c34530c6e94b3369e020d224a884296c",
+        "boilerplate": {
+          "original_chars": 215086,
+          "body_chars": 194106,
+          "removed_chars": 20980
+        }
+      },
+      {
+        "doc_id": "pg10877",
+        "title": "The Tragedies of the Medici",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Tragedies-of-the-Medici_10877/tar.gz/refs/heads/master",
+        "member": "The-Tragedies-of-the-Medici_10877-master/10877.txt",
+        "chars": 430746,
+        "bytes": 430746,
+        "sha256": "f75fe5d09fffcbfd7bd0dbad6a59c3684964850820dbec34f32b3f775ba8462f",
+        "boilerplate": {
+          "original_chars": 451651,
+          "body_chars": 430746,
+          "removed_chars": 20905
+        }
+      },
+      {
+        "doc_id": "pg11346",
+        "title": "The Saint s Tragedy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Saint-s-Tragedy_11346/tar.gz/refs/heads/master",
+        "member": "The-Saint-s-Tragedy_11346-master/11346.txt",
+        "chars": 284715,
+        "bytes": 284715,
+        "sha256": "828eac28b84ba5cfce6c6826f9951767206a6fa205038fd57ecec61d6d176f81",
+        "boilerplate": {
+          "original_chars": 305427,
+          "body_chars": 284715,
+          "removed_chars": 20712
+        }
+      },
+      {
+        "doc_id": "pg147",
+        "title": "Common Sense",
+        "author": "Thomas Paine",
+        "year": "1776",
+        "source_url": "https://codeload.github.com/GITenberg/Common-Sense_147/tar.gz/refs/heads/master",
+        "member": "Common-Sense_147-master/147-0.txt",
+        "chars": 126459,
+        "bytes": 126471,
+        "sha256": "2b10b12d4670a2a7f2eada3427f0c5bc89d514f7f7a92b58f268ab7b840ba607",
+        "boilerplate": {
+          "original_chars": 145353,
+          "body_chars": 126459,
+          "removed_chars": 18894
+        }
+      },
+      {
+        "doc_id": "pg226",
+        "title": "Cicero s Orations",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Cicero-s-Orations_226/tar.gz/refs/heads/master",
+        "member": "Cicero-s-Orations_226-master/226.txt",
+        "chars": 91244,
+        "bytes": 91244,
+        "sha256": "3165ef33b8a54f24d046ba7f49d32458ac9367be91773a7fa43b77191b1da570",
+        "boilerplate": {
+          "original_chars": 110508,
+          "body_chars": 91244,
+          "removed_chars": 19264
+        }
+      },
+      {
+        "doc_id": "pg774",
+        "title": "Essays and Lectures",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Essays-and-Lectures_774/tar.gz/refs/heads/master",
+        "member": "Essays-and-Lectures_774-master/774-0.txt",
+        "chars": 297863,
+        "bytes": 300623,
+        "sha256": "1d56e8588177a9f322f5f902e747ded15abda42ce381aaecba7abef76a0ae3f5",
+        "boilerplate": {
+          "original_chars": 317171,
+          "body_chars": 297863,
+          "removed_chars": 19308
+        }
+      },
+      {
+        "doc_id": "pg990",
+        "title": "Theologico Political Treatise Part 2",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-2_990/tar.gz/refs/heads/master",
+        "member": "Theologico-Political-Treatise-Part-2_990-master/990.txt",
+        "chars": 186116,
+        "bytes": 186116,
+        "sha256": "3ca2952b4a10b394c232db1c93037f8a642c8880ac23e443b819eba0672635da",
+        "boilerplate": {
+          "original_chars": 206103,
+          "body_chars": 186116,
+          "removed_chars": 19987
+        }
+      },
+      {
+        "doc_id": "pg991",
+        "title": "Theologico Political Treatise Part 3",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-3_991/tar.gz/refs/heads/master",
+        "member": "Theologico-Political-Treatise-Part-3_991-master/991.txt",
+        "chars": 92656,
+        "bytes": 92656,
+        "sha256": "a85dca46793d8712a2ac976722bdf8f5f93a7dff9e8c6ab1ee52b642844f1b86",
+        "boilerplate": {
+          "original_chars": 112618,
+          "body_chars": 92656,
+          "removed_chars": 19962
+        }
+      },
+      {
+        "doc_id": "pg992",
+        "title": "Theologico Political Treatise Part 4",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Theologico-Political-Treatise-Part-4_992/tar.gz/refs/heads/master",
+        "member": "Theologico-Political-Treatise-Part-4_992-master/992.txt",
+        "chars": 160907,
+        "bytes": 160907,
+        "sha256": "6e71f85da6c7232d4975669eb273d217d7abffbffcab3f629f77e8917c10d7db",
+        "boilerplate": {
+          "original_chars": 180866,
+          "body_chars": 160907,
+          "removed_chars": 19959
+        }
+      },
+      {
+        "doc_id": "pg1315",
+        "title": "Autobiography and Selected Essays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Autobiography-and-Selected-Essays_1315/tar.gz/refs/heads/master",
+        "member": "Autobiography-and-Selected-Essays_1315-master/1315.txt",
+        "chars": 314581,
+        "bytes": 314581,
+        "sha256": "4efb70f0dece471625daecccd22270c4698b940ca14749ed3a0ce7bd74692283",
+        "boilerplate": {
+          "original_chars": 333996,
+          "body_chars": 314581,
+          "removed_chars": 19415
+        }
+      },
+      {
+        "doc_id": "pg1336",
+        "title": "Shelley an essay",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Shelley--an-essay_1336/tar.gz/refs/heads/master",
+        "member": "Shelley--an-essay_1336-master/1336.txt",
+        "chars": 52548,
+        "bytes": 52548,
+        "sha256": "2c2105e96f474b58307de0fbd957f8959c58ac640c45997470fa009935b87621",
+        "boilerplate": {
+          "original_chars": 71778,
+          "body_chars": 52548,
+          "removed_chars": 19230
+        }
+      },
+      {
+        "doc_id": "pg1434",
+        "title": "Essays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Essays_1434/tar.gz/refs/heads/master",
+        "member": "Essays_1434-master/1434.txt",
+        "chars": 361253,
+        "bytes": 361253,
+        "sha256": "b9391f3e020a13172b0df6e9dfb74d04cdb15036bd1158e3e1066bccb03fcf36",
+        "boilerplate": {
+          "original_chars": 380555,
+          "body_chars": 361253,
+          "removed_chars": 19302
+        }
+      },
+      {
+        "doc_id": "pg1594",
+        "title": "Essays in Little",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Essays-in-Little_1594/tar.gz/refs/heads/master",
+        "member": "Essays-in-Little_1594-master/1594.txt",
+        "chars": 331179,
+        "bytes": 331179,
+        "sha256": "0dde4d2df0105ea53c67b3c0c310502d3b79e08da447810630cd5ad113886e14",
+        "boilerplate": {
+          "original_chars": 350571,
+          "body_chars": 331179,
+          "removed_chars": 19392
+        }
+      },
+      {
+        "doc_id": "pg2167",
+        "title": "Miscellaneous Writings and Speeches Volume 1",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Miscellaneous-Writings-and-Speeches---Volume-1_2167/tar.gz/refs/heads/master",
+        "member": "Miscellaneous-Writings-and-Speeches---Volume-1_2167-master/2167.txt",
+        "chars": 331957,
+        "bytes": 331957,
+        "sha256": "bf7475706424e26b65551dc9205d068a728951a78f476b8b5c2f3e1b1799e883",
+        "boilerplate": {
+          "original_chars": 351605,
+          "body_chars": 331957,
+          "removed_chars": 19648
+        }
+      },
+      {
+        "doc_id": "pg2173",
+        "title": "Thoughts on the Present Discontents and Speeches",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Thoughts-on-the-Present-Discontents-and-Speeches_2173/tar.gz/refs/heads/master",
+        "member": "Thoughts-on-the-Present-Discontents-and-Speeches_2173-master/2173.txt",
+        "chars": 272884,
+        "bytes": 272884,
+        "sha256": "e6993fc19eaaf76eacf70b5a9ef518aa57fc6b31da59836ff07f49c549f66f62",
+        "boilerplate": {
+          "original_chars": 292415,
+          "body_chars": 272884,
+          "removed_chars": 19531
+        }
+      },
+      {
+        "doc_id": "pg2176",
+        "title": "Seven Discourses on Art",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Seven-Discourses-on-Art_2176/tar.gz/refs/heads/master",
+        "member": "Seven-Discourses-on-Art_2176-master/2176.txt",
+        "chars": 227955,
+        "bytes": 227955,
+        "sha256": "419801cb98416d6cec45adfec082bc4ba18a6cb4c99b271e97d7d770d1880f2f",
+        "boilerplate": {
+          "original_chars": 247451,
+          "body_chars": 227955,
+          "removed_chars": 19496
+        }
+      },
+      {
+        "doc_id": "pg2428",
+        "title": "An Essay on Man Moral Essays and Satires",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/An-Essay-on-Man--Moral-Essays-and-Satires_2428/tar.gz/refs/heads/master",
+        "member": "An-Essay-on-Man--Moral-Essays-and-Satires_2428-master/2428.txt",
+        "chars": 262338,
+        "bytes": 262338,
+        "sha256": "7f6059d87de5fd5a57464a4beba42dc49020926b97c39e2e3db30abbfe31feee",
+        "boilerplate": {
+          "original_chars": 281714,
+          "body_chars": 262338,
+          "removed_chars": 19376
+        }
+      },
+      {
+        "doc_id": "pg2458",
+        "title": "Sermons on the Card and Other Discourses",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Sermons-on-the-Card-and-Other-Discourses_2458/tar.gz/refs/heads/master",
+        "member": "Sermons-on-the-Card-and-Other-Discourses_2458-master/2458.txt",
+        "chars": 203126,
+        "bytes": 203126,
+        "sha256": "6c63c8259d241369a5b41069149dec63106099a891df80c75bad69919c9d4d77",
+        "boilerplate": {
+          "original_chars": 222590,
+          "body_chars": 203126,
+          "removed_chars": 19464
+        }
+      },
+      {
+        "doc_id": "pg2615",
+        "title": "Discourses on Satire and on Epic Poetry",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Discourses-on-Satire-and-on-Epic-Poetry_2615/tar.gz/refs/heads/master",
+        "member": "Discourses-on-Satire-and-on-Epic-Poetry_2615-master/2615-0.txt",
+        "chars": 353456,
+        "bytes": 355824,
+        "sha256": "233e1177601e3971c513925b9061f8597983086536c702902cc3101e04465eb6",
+        "boilerplate": {
+          "original_chars": 373275,
+          "body_chars": 353456,
+          "removed_chars": 19819
+        }
+      },
+      {
+        "doc_id": "pg2945",
+        "title": "Essays Second Series",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Essays---Second-Series_2945/tar.gz/refs/heads/master",
+        "member": "Essays---Second-Series_2945-master/2945.txt",
+        "chars": 327825,
+        "bytes": 327825,
+        "sha256": "d32e85703488b40031ef2601debfa23444df135db504ce3d89d64713f31fd84f",
+        "boilerplate": {
+          "original_chars": 347126,
+          "body_chars": 327825,
+          "removed_chars": 19301
+        }
+      },
+      {
+        "doc_id": "pg3549",
+        "title": "Cowley s Essays",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Cowley-s-Essays_3549/tar.gz/refs/heads/master",
+        "member": "Cowley-s-Essays_3549-master/3549-0.txt",
+        "chars": 186850,
+        "bytes": 188376,
+        "sha256": "14c1bee7dbb73817c8dfdb81ab7e1adecda3bd43936c71a8733f7c69c3bc146f",
+        "boilerplate": {
+          "original_chars": 206535,
+          "body_chars": 186850,
+          "removed_chars": 19685
+        }
+      },
+      {
+        "doc_id": "pg4220",
+        "title": "An Autobiography",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/An-Autobiography_4220/tar.gz/refs/heads/master",
+        "member": "An-Autobiography_4220-master/4220.txt",
+        "chars": 390442,
+        "bytes": 390442,
+        "sha256": "9c0c278c6854f50c50d0b20bc6297fc2e9a7d556d81a8171e9d2381e3bedb41f",
+        "boilerplate": {
+          "original_chars": 409825,
+          "body_chars": 390442,
+          "removed_chars": 19383
+        }
+      },
+      {
+        "doc_id": "pg6312",
+        "title": "Representative Men Seven Lectures",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Representative-Men-Seven-Lectures_6312/tar.gz/refs/heads/master",
+        "member": "Representative-Men-Seven-Lectures_6312-master/6312.txt",
+        "chars": 332712,
+        "bytes": 332712,
+        "sha256": "707972ab361da2c938b8be157c1e070f4a9c3254acd407cb30b035d0230b7c2f",
+        "boilerplate": {
+          "original_chars": 347492,
+          "body_chars": 332712,
+          "removed_chars": 14780
+        }
+      },
+      {
+        "doc_id": "pg6969",
+        "title": "The Orations of Lysias",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Orations-of-Lysias_6969/tar.gz/refs/heads/master",
+        "member": "The-Orations-of-Lysias_6969-master/6969.txt",
+        "chars": 269234,
+        "bytes": 269234,
+        "sha256": "7968e59b7065ba72d7600003498d554732dace30cafc88b00583dd3d22bdcbb7",
+        "boilerplate": {
+          "original_chars": 283921,
+          "body_chars": 269234,
+          "removed_chars": 14687
+        }
+      },
+      {
+        "doc_id": "pg7377",
+        "title": "Five Lectures on Reincarnation",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Five-Lectures-on-Reincarnation_7377/tar.gz/refs/heads/master",
+        "member": "Five-Lectures-on-Reincarnation_7377-master/7377.txt",
+        "chars": 118804,
+        "bytes": 118804,
+        "sha256": "16d48985db17d8688188ba996fc2335ba5383a7e7cea8492172bf114bdd1d8f2",
+        "boilerplate": {
+          "original_chars": 138238,
+          "body_chars": 118804,
+          "removed_chars": 19434
+        }
+      },
+      {
+        "doc_id": "pg9061",
+        "title": "The Public Orations of Demosthenes volume 2",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Public-Orations-of-Demosthenes-volume-2_9061/tar.gz/refs/heads/master",
+        "member": "The-Public-Orations-of-Demosthenes-volume-2_9061-master/9061.txt",
+        "chars": 370042,
+        "bytes": 370042,
+        "sha256": "71626ae1a3688d80b3d09119b1c4c5cc22821287564453d9835aaef437e5f831",
+        "boilerplate": {
+          "original_chars": 390011,
+          "body_chars": 370042,
+          "removed_chars": 19969
+        }
+      },
+      {
+        "doc_id": "pg9304",
+        "title": "Initiation into Philosophy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Initiation-into-Philosophy_9304/tar.gz/refs/heads/master",
+        "member": "Initiation-into-Philosophy_9304-master/9304.txt",
+        "chars": 236200,
+        "bytes": 236200,
+        "sha256": "099bf9b7002195a849540558f872ebb603153397b009c93945febe7964b33459",
+        "boilerplate": {
+          "original_chars": 255610,
+          "body_chars": 236200,
+          "removed_chars": 19410
+        }
+      },
+      {
+        "doc_id": "pg10427",
+        "title": "Scientific Essays and Lectures",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Scientific-Essays-and-Lectures_10427/tar.gz/refs/heads/master",
+        "member": "Scientific-Essays-and-Lectures_10427-master/10427.txt",
+        "chars": 274323,
+        "bytes": 274323,
+        "sha256": "ddc451257e6cbf3df34b21309ee4898cab1c854ac0c8b3b160f3add3963b3260",
+        "boilerplate": {
+          "original_chars": 295079,
+          "body_chars": 274323,
+          "removed_chars": 20756
+        }
+      },
+      {
+        "doc_id": "pg10956",
+        "title": "Indian speeches 1907 1909",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Indian-speeches--1907-1909-_10956/tar.gz/refs/heads/master",
+        "member": "Indian-speeches--1907-1909-_10956-master/10956.txt",
+        "chars": 238636,
+        "bytes": 238636,
+        "sha256": "7f1aad4fee9a3628d70f3965f950c7e24f91b0a05530a9155324b271a6b14375",
+        "boilerplate": {
+          "original_chars": 259671,
+          "body_chars": 238636,
+          "removed_chars": 21035
+        }
+      },
+      {
+        "doc_id": "pg11261",
+        "title": "Cyclopedia of Philosophy",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Cyclopedia-of-Philosophy_11261/tar.gz/refs/heads/master",
+        "member": "Cyclopedia-of-Philosophy_11261-master/11261.txt",
+        "chars": 186,
+        "bytes": 186,
+        "sha256": "fb65a795f61b74e44944df10ed19bfc92ed362259400c97bbab743c8b26a5a49",
+        "boilerplate": {
+          "original_chars": 21380,
+          "body_chars": 186,
+          "removed_chars": 21194
+        }
+      },
+      {
+        "doc_id": "pg228",
+        "title": "The Aeneid",
+        "author": "Virgil (tr. Dryden)",
+        "year": "-19",
+        "source_url": "https://codeload.github.com/GITenberg/The-Aeneid_228/tar.gz/refs/heads/master",
+        "member": "The-Aeneid_228-master/228-0.txt",
+        "chars": 697001,
+        "bytes": 712529,
+        "sha256": "c9a7f912b125884809863dcd2a8b8c58a07cadc44930bec6934728783815b13b",
+        "boilerplate": {
+          "original_chars": 716641,
+          "body_chars": 697001,
+          "removed_chars": 19640
+        }
+      },
+      {
+        "doc_id": "pg413",
+        "title": "Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Ballads_413/tar.gz/refs/heads/master",
+        "member": "Ballads_413-master/413-0.txt",
+        "chars": 91139,
+        "bytes": 92140,
+        "sha256": "7286bbde77bc6cddcab26aaf7c32d1fc860fb58f114fd25082fcdc8b30a8a068",
+        "boilerplate": {
+          "original_chars": 110385,
+          "body_chars": 91139,
+          "removed_chars": 19246
+        }
+      },
+      {
+        "doc_id": "pg454",
+        "title": "The Breitmann Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Breitmann-Ballads_454/tar.gz/refs/heads/master",
+        "member": "The-Breitmann-Ballads_454-master/454.txt",
+        "chars": 308432,
+        "bytes": 308432,
+        "sha256": "02777f948d0eb6b07e2bf6e1aaa1c95de41e33ea137516ef9d39ab01f8875bc6",
+        "boilerplate": {
+          "original_chars": 308433,
+          "body_chars": 308432,
+          "removed_chars": 1
+        }
+      },
+      {
+        "doc_id": "pg995",
+        "title": "Ballads of a Bohemian",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Ballads-of-a-Bohemian_995/tar.gz/refs/heads/master",
+        "member": "Ballads-of-a-Bohemian_995-master/995.txt",
+        "chars": 228707,
+        "bytes": 228707,
+        "sha256": "3d0ed4e8d1f2ece61f3662cb0b8a7b1778a52b0bf218eca5230d720a7dda3be4",
+        "boilerplate": {
+          "original_chars": 247993,
+          "body_chars": 228707,
+          "removed_chars": 19286
+        }
+      },
+      {
+        "doc_id": "pg1041",
+        "title": "Shakespeare s Sonnets",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Shakespeare-s-Sonnets_1041/tar.gz/refs/heads/master",
+        "member": "Shakespeare-s-Sonnets_1041-master/1041.txt",
+        "chars": 100353,
+        "bytes": 100353,
+        "sha256": "6749c7315b18c613b0ecffbe74e353d611524badb034158b1537b2b255ea9400",
+        "boilerplate": {
+          "original_chars": 119778,
+          "body_chars": 100353,
+          "removed_chars": 19425
+        }
+      },
+      {
+        "doc_id": "pg1105",
+        "title": "The Shakespearian Sonnets",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Shakespearian-Sonnets_1105/tar.gz/refs/heads/master",
+        "member": "The-Shakespearian-Sonnets_1105-master/1105.txt",
+        "chars": 112292,
+        "bytes": 112292,
+        "sha256": "36f0ed06f375f74fc6f649956b33a11ed0473fac9c041e4789b06c1781a9e65b",
+        "boilerplate": {
+          "original_chars": 112293,
+          "body_chars": 112292,
+          "removed_chars": 1
+        }
+      },
+      {
+        "doc_id": "pg1469",
+        "title": "Poems",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Poems_1469/tar.gz/refs/heads/master",
+        "member": "Poems_1469-master/1469-0.txt",
+        "chars": 72095,
+        "bytes": 72914,
+        "sha256": "c371247c3f7d921b84fdf689f38a9c54e22311b2680b6d5e2ce9b89245410f4a",
+        "boilerplate": {
+          "original_chars": 91754,
+          "body_chars": 72095,
+          "removed_chars": 19659
+        }
+      },
+      {
+        "doc_id": "pg1745",
+        "title": "The Poetical Works of John Milton",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Poetical-Works-of-John-Milton_1745/tar.gz/refs/heads/master",
+        "member": "The-Poetical-Works-of-John-Milton_1745-master/1745.txt",
+        "chars": 910684,
+        "bytes": 910684,
+        "sha256": "922050aa9755c0ac6115d577e84861ea78e13cc771ff0879579a25aff2139949",
+        "boilerplate": {
+          "original_chars": 930020,
+          "body_chars": 910684,
+          "removed_chars": 19336
+        }
+      },
+      {
+        "doc_id": "pg1934",
+        "title": "Songs of Innocence and of Experience",
+        "author": "William Blake",
+        "year": "1794",
+        "source_url": "https://codeload.github.com/GITenberg/Songs-of-Innocence-and-Songs-of-Experience_1934/tar.gz/refs/heads/master",
+        "member": "Songs-of-Innocence-and-Songs-of-Experience_1934-master/1934-0.txt",
+        "chars": 32293,
+        "bytes": 32663,
+        "sha256": "1e457781fe29ac133258b345ebe09f5a2ba9fb93cfb72d1ec732ac6a3b5cf3a0",
+        "boilerplate": {
+          "original_chars": 51724,
+          "body_chars": 32293,
+          "removed_chars": 19431
+        }
+      },
+      {
+        "doc_id": "pg2002",
+        "title": "Sonnets from the Portuguese",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Sonnets-from-the-Portuguese_2002/tar.gz/refs/heads/master",
+        "member": "Sonnets-from-the-Portuguese_2002-master/2002-0.txt",
+        "chars": 32262,
+        "bytes": 32607,
+        "sha256": "dbfbfa8b129eee07d01644fdf6d050fd1cede1c0f6644bd3fbeb3a403f2b56ac",
+        "boilerplate": {
+          "original_chars": 52018,
+          "body_chars": 32262,
+          "removed_chars": 19756
+        }
+      },
+      {
+        "doc_id": "pg2507",
+        "title": "Complete Poetical Works",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Complete-Poetical-Works_2507/tar.gz/refs/heads/master",
+        "member": "Complete-Poetical-Works_2507-master/2507.txt",
+        "chars": 353026,
+        "bytes": 353026,
+        "sha256": "fd2e74a8bd18b5acf4746119a133f444a2021f87e34cfe653c491988a3014900",
+        "boilerplate": {
+          "original_chars": 372442,
+          "body_chars": 353026,
+          "removed_chars": 19416
+        }
+      },
+      {
+        "doc_id": "pg2732",
+        "title": "Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Ballads_2732/tar.gz/refs/heads/master",
+        "member": "Ballads_2732-master/2732.txt",
+        "chars": 234879,
+        "bytes": 234879,
+        "sha256": "e2d1ecf62d1c7f118a4593d3c58ade3c8b8162cd3d7e9dc886cf5741a56d5213",
+        "boilerplate": {
+          "original_chars": 254229,
+          "body_chars": 234879,
+          "removed_chars": 19350
+        }
+      },
+      {
+        "doc_id": "pg2819",
+        "title": "Barrack Room Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Barrack-Room-Ballads_2819/tar.gz/refs/heads/master",
+        "member": "Barrack-Room-Ballads_2819-master/2819-0.txt",
+        "chars": 95139,
+        "bytes": 95723,
+        "sha256": "0438d36b3f869b111337c9a00ab4745961d1c42d42f63cd6a0a2e055a8b7cc3c",
+        "boilerplate": {
+          "original_chars": 114546,
+          "body_chars": 95139,
+          "removed_chars": 19407
+        }
+      },
+      {
+        "doc_id": "pg2888",
+        "title": "Yorkshire Dialect Poems 1673 1915 and traditional poems",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Yorkshire-Dialect-Poems--1673-1915--and-traditional-poems_2888/tar.gz/refs/heads/master",
+        "member": "Yorkshire-Dialect-Poems--1673-1915--and-traditional-poems_2888-master/2888.txt",
+        "chars": 196806,
+        "bytes": 196806,
+        "sha256": "346b4a964d3a4b2bba838ee02a0a737fedaff6d74481ce9a0721bb3208ccb924",
+        "boilerplate": {
+          "original_chars": 216193,
+          "body_chars": 196806,
+          "removed_chars": 19387
+        }
+      },
+      {
+        "doc_id": "pg4207",
+        "title": "Aesthetic Poetry",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Aesthetic-Poetry_4207/tar.gz/refs/heads/master",
+        "member": "Aesthetic-Poetry_4207-master/4207.txt",
+        "chars": 19530,
+        "bytes": 19530,
+        "sha256": "e629bea6be6914c05858357c85aafacfb459b69281ed56afd45ab364bbacf6ff",
+        "boilerplate": {
+          "original_chars": 38921,
+          "body_chars": 19530,
+          "removed_chars": 19391
+        }
+      },
+      {
+        "doc_id": "pg5432",
+        "title": "The Odes and Carmen Saeculare of Horace",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Odes-and-Carmen-Saeculare-of-Horace_5432/tar.gz/refs/heads/master",
+        "member": "The-Odes-and-Carmen-Saeculare-of-Horace_5432-master/5432.txt",
+        "chars": 189127,
+        "bytes": 189127,
+        "sha256": "bfdbcfee3298f69f2e645125dd4c896608ff1afc314fd2d73bf48d7262b93219",
+        "boilerplate": {
+          "original_chars": 203710,
+          "body_chars": 189127,
+          "removed_chars": 14583
+        }
+      },
+      {
+        "doc_id": "pg6797",
+        "title": "The Poems of Schiller Suppressed poems",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Poems-of-Schiller---Suppressed-poems_6797/tar.gz/refs/heads/master",
+        "member": "The-Poems-of-Schiller---Suppressed-poems_6797-master/6797.txt",
+        "chars": 65993,
+        "bytes": 65993,
+        "sha256": "5d95100f9e8e0aa175009ce910593a5576833f5a457f6759858eb6dde850b4da",
+        "boilerplate": {
+          "original_chars": 85381,
+          "body_chars": 65993,
+          "removed_chars": 19388
+        }
+      },
+      {
+        "doc_id": "pg9500",
+        "title": "Farm Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Farm-Ballads_9500/tar.gz/refs/heads/master",
+        "member": "Farm-Ballads_9500-master/9500.txt",
+        "chars": 85118,
+        "bytes": 85118,
+        "sha256": "9a4ed177ec77131e5f337d8cce483fcfaa833c6a7d592c6f7970d0908ec8c5bf",
+        "boilerplate": {
+          "original_chars": 105902,
+          "body_chars": 85118,
+          "removed_chars": 20784
+        }
+      },
+      {
+        "doc_id": "pg9574",
+        "title": "Poems of Nature Poems Subjective and Reminiscent and Religious Poems Complete 13 Volume II of",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Poems-of-Nature-Poems-Subjective-and-Reminiscent-and-Religious-Poems-Complete--13-Volume-II-of__9574/tar.gz/refs/heads/master",
+        "member": "Poems-of-Nature-Poems-Subjective-and-Reminiscent-and-Religious-Poems-Complete--13-Volume-II-of__9574-master/9574.txt",
+        "chars": 367327,
+        "bytes": 367327,
+        "sha256": "f9701fd6b215c47d247849f8d13616f52a02d5796a2b63a10acf38d2ee0d2962",
+        "boilerplate": {
+          "original_chars": 386883,
+          "body_chars": 367327,
+          "removed_chars": 19556
+        }
+      },
+      {
+        "doc_id": "pg9646",
+        "title": "Horace Odes and Epodes",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Horace--Odes-and-Epodes_9646/tar.gz/refs/heads/master",
+        "member": "Horace--Odes-and-Epodes_9646-master/9646.txt",
+        "chars": 143984,
+        "bytes": 143984,
+        "sha256": "60c2afa2064a28c06dcb2209e45a6c85719fe6829220e9a91a426424100c584c",
+        "boilerplate": {
+          "original_chars": 163488,
+          "body_chars": 143984,
+          "removed_chars": 19504
+        }
+      },
+      {
+        "doc_id": "pg9652",
+        "title": "Miscellany of Poetry1919",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Miscellany-of-Poetry1919_9652/tar.gz/refs/heads/master",
+        "member": "Miscellany-of-Poetry1919_9652-master/9652.txt",
+        "chars": 125606,
+        "bytes": 125606,
+        "sha256": "ebf8055148f96b73110344ffe91b5d295cbe175d88286aba043d2327c37ad6be",
+        "boilerplate": {
+          "original_chars": 145261,
+          "body_chars": 125606,
+          "removed_chars": 19655
+        }
+      },
+      {
+        "doc_id": "pg9814",
+        "title": "The Poetical Works of Mark Akenside",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Poetical-Works-of-Mark-Akenside_9814/tar.gz/refs/heads/master",
+        "member": "The-Poetical-Works-of-Mark-Akenside_9814-master/9814.txt",
+        "chars": 504490,
+        "bytes": 504490,
+        "sha256": "08b5c633eb3ca76a10e60660d4ec08a19b8f812dbad9f42423c7fa5f00a9d987",
+        "boilerplate": {
+          "original_chars": 524005,
+          "body_chars": 504490,
+          "removed_chars": 19515
+        }
+      },
+      {
+        "doc_id": "pg10367",
+        "title": "Poems",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Poems_10367/tar.gz/refs/heads/master",
+        "member": "Poems_10367-master/10367.txt",
+        "chars": 122440,
+        "bytes": 122440,
+        "sha256": "80a54271371357da8e71cabfd6ff1349db6c4e8c5d02280c933b335be2e71919",
+        "boilerplate": {
+          "original_chars": 143382,
+          "body_chars": 122440,
+          "removed_chars": 20942
+        }
+      },
+      {
+        "doc_id": "pg10717",
+        "title": "The Extant Odes of Pindar 13 Translated with Introduction and Short Notes by Ernest Myers",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/The-Extant-Odes-of-Pindar--13-Translated-with-Introduction-and-Short-Notes-by-Ernest-Myers_10717/tar.gz/refs/heads/master",
+        "member": "The-Extant-Odes-of-Pindar--13-Translated-with-Introduction-and-Short-Notes-by-Ernest-Myers_10717-master/10717.txt",
+        "chars": 294755,
+        "bytes": 294755,
+        "sha256": "acadc708e6e25790c87cabaf1fc0409f8abb3ea2757c0a0a879238d10fefa943",
+        "boilerplate": {
+          "original_chars": 315692,
+          "body_chars": 294755,
+          "removed_chars": 20937
+        }
+      },
+      {
+        "doc_id": "pg11236",
+        "title": "Old Ballads",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Old-Ballads_11236/tar.gz/refs/heads/master",
+        "member": "Old-Ballads_11236-master/11236.txt",
+        "chars": 52411,
+        "bytes": 52411,
+        "sha256": "9f9b2ce7a9dcff2d5abda3914dde80bb59c04d0b7318d098c78bde97dc8998c0",
+        "boilerplate": {
+          "original_chars": 73355,
+          "body_chars": 52411,
+          "removed_chars": 20944
+        }
+      },
+      {
+        "doc_id": "pg11496",
+        "title": "Poetry",
+        "author": "",
+        "year": "",
+        "source_url": "https://codeload.github.com/GITenberg/Poetry_11496/tar.gz/refs/heads/master",
+        "member": "Poetry_11496-master/11496-0.txt",
+        "chars": 60217,
+        "bytes": 60359,
+        "sha256": "9e3a56969c58bd787dbd21fafef479e456aeffa639a67ecea48100352227e9d4",
+        "boilerplate": {
+          "original_chars": 81147,
+          "body_chars": 60217,
+          "removed_chars": 20930
+        }
+      },
+      {
+        "doc_id": "pg21765",
+        "title": "Metamorphoses",
+        "author": "Ovid (tr. More)",
+        "year": "8",
+        "source_url": "https://codeload.github.com/GITenberg/The-Metamorphoses-of-Ovid-Books-I-VII_21765/tar.gz/refs/heads/master",
+        "member": "The-Metamorphoses-of-Ovid-Books-I-VII_21765-master/21765-0.txt",
+        "chars": 740803,
+        "bytes": 747655,
+        "sha256": "f03af829d514f7d9f43d135c04d9dae4c592c0935007be24a66e45807bea1c7c",
+        "boilerplate": {
+          "original_chars": 760321,
+          "body_chars": 740803,
+          "removed_chars": 19518
+        }
+      }
+    ]
+  },
+  "split_policy": {
+    "method": "per document, contiguous, boundaries snapped to a blank line",
+    "fractions": [
+      0.9,
+      0.05,
+      0.05
+    ],
+    "rationale": "A shuffled split leaks overlapping context windows across the boundary. Splitting each document contiguously and in the same proportions avoids that leak and also keeps every author present in every split, so validation measures language modelling rather than domain transfer.",
+    "boundaries_chars": [
+      [
+        1097540,
+        1158809
+      ],
+      [
+        616387,
+        650929
+      ],
+      [
+        807086,
+        839549
+      ],
+      [
+        606505,
+        640794
+      ],
+      [
+        379064,
+        400250
+      ],
+      [
+        763545,
+        806539
+      ],
+      [
+        927559,
+        978886
+      ],
+      [
+        585046,
+        617362
+      ],
+      [
+        894990,
+        944487
+      ],
+      [
+        681568,
+        719425
+      ],
+      [
+        130212,
+        137301
+      ],
+      [
+        517199,
+        545980
+      ],
+      [
+        354444,
+        373821
+      ],
+      [
+        328295,
+        346495
+      ],
+      [
+        390646,
+        412204
+      ],
+      [
+        162468,
+        170702
+      ],
+      [
+        303890,
+        321709
+      ],
+      [
+        506257,
+        535421
+      ],
+      [
+        192208,
+        200696
+      ],
+      [
+        911782,
+        962735
+      ],
+      [
+        505606,
+        532919
+      ],
+      [
+        203117,
+        213587
+      ],
+      [
+        469180,
+        496206
+      ],
+      [
+        664370,
+        701520
+      ],
+      [
+        842656,
+        889834
+      ],
+      [
+        1022269,
+        1079273
+      ],
+      [
+        2060689,
+        2174813
+      ],
+      [
+        2887571,
+        3048330
+      ],
+      [
+        1768474,
+        1866861
+      ],
+      [
+        1741399,
+        1838255
+      ],
+      [
+        1571695,
+        1659048
+      ],
+      [
+        1692946,
+        1787240
+      ],
+      [
+        1631597,
+        1722326
+      ],
+      [
+        521527,
+        550714
+      ],
+      [
+        142783,
+        150613
+      ],
+      [
+        390351,
+        413653
+      ],
+      [
+        795228,
+        839566
+      ],
+      [
+        288003,
+        304377
+      ],
+      [
+        219891,
+        230886
+      ],
+      [
+        426102,
+        450950
+      ],
+      [
+        548326,
+        578876
+      ],
+      [
+        2362201,
+        2493414
+      ],
+      [
+        1167088,
+        1232024
+      ],
+      [
+        586835,
+        619515
+      ],
+      [
+        2912683,
+        3075271
+      ],
+      [
+        1038857,
+        1096674
+      ],
+      [
+        1364727,
+        1440047
+      ],
+      [
+        416512,
+        439537
+      ],
+      [
+        332914,
+        351900
+      ],
+      [
+        323761,
+        341955
+      ],
+      [
+        573944,
+        605405
+      ],
+      [
+        158998,
+        167097
+      ],
+      [
+        560889,
+        593058
+      ],
+      [
+        523066,
+        551905
+      ],
+      [
+        206859,
+        217568
+      ],
+      [
+        338124,
+        356880
+      ],
+      [
+        386188,
+        407945
+      ],
+      [
+        273628,
+        288932
+      ],
+      [
+        246288,
+        260036
+      ],
+      [
+        443616,
+        468467
+      ],
+      [
+        575751,
+        608303
+      ],
+      [
+        1765189,
+        1863460
+      ],
+      [
+        1743937,
+        1840527
+      ],
+      [
+        1215598,
+        1282797
+      ],
+      [
+        905488,
+        955805
+      ],
+      [
+        231378,
+        244172
+      ],
+      [
+        293314,
+        309846
+      ],
+      [
+        996387,
+        1051965
+      ],
+      [
+        356505,
+        376970
+      ],
+      [
+        579794,
+        612568
+      ],
+      [
+        28478,
+        30070
+      ],
+      [
+        117127,
+        117127
+      ],
+      [
+        129320,
+        129320
+      ],
+      [
+        178647,
+        178647
+      ],
+      [
+        216073,
+        216073
+      ],
+      [
+        102810,
+        102810
+      ],
+      [
+        154797,
+        154797
+      ],
+      [
+        100270,
+        100270
+      ],
+      [
+        142560,
+        142560
+      ],
+      [
+        122846,
+        122846
+      ],
+      [
+        116767,
+        116767
+      ],
+      [
+        177699,
+        177699
+      ],
+      [
+        155465,
+        155465
+      ],
+      [
+        102824,
+        102824
+      ],
+      [
+        144245,
+        144245
+      ],
+      [
+        127479,
+        127479
+      ],
+      [
+        450139,
+        450139
+      ],
+      [
+        145828,
+        145828
+      ],
+      [
+        269005,
+        269005
+      ],
+      [
+        310067,
+        310067
+      ],
+      [
+        382284,
+        382284
+      ],
+      [
+        525875,
+        525875
+      ],
+      [
+        323614,
+        323614
+      ],
+      [
+        425800,
+        425800
+      ],
+      [
+        194106,
+        194106
+      ],
+      [
+        430746,
+        430746
+      ],
+      [
+        284715,
+        284715
+      ],
+      [
+        126459,
+        126459
+      ],
+      [
+        91244,
+        91244
+      ],
+      [
+        297863,
+        297863
+      ],
+      [
+        186116,
+        186116
+      ],
+      [
+        92656,
+        92656
+      ],
+      [
+        160907,
+        160907
+      ],
+      [
+        314581,
+        314581
+      ],
+      [
+        52548,
+        52548
+      ],
+      [
+        361253,
+        361253
+      ],
+      [
+        331179,
+        331179
+      ],
+      [
+        331957,
+        331957
+      ],
+      [
+        272884,
+        272884
+      ],
+      [
+        227955,
+        227955
+      ],
+      [
+        262338,
+        262338
+      ],
+      [
+        203126,
+        203126
+      ],
+      [
+        353456,
+        353456
+      ],
+      [
+        327825,
+        327825
+      ],
+      [
+        186850,
+        186850
+      ],
+      [
+        390442,
+        390442
+      ],
+      [
+        332712,
+        332712
+      ],
+      [
+        269234,
+        269234
+      ],
+      [
+        118804,
+        118804
+      ],
+      [
+        370042,
+        370042
+      ],
+      [
+        236200,
+        236200
+      ],
+      [
+        274323,
+        274323
+      ],
+      [
+        238636,
+        238636
+      ],
+      [
+        186,
+        186
+      ],
+      [
+        697001,
+        697001
+      ],
+      [
+        91139,
+        91139
+      ],
+      [
+        308432,
+        308432
+      ],
+      [
+        228707,
+        228707
+      ],
+      [
+        100353,
+        100353
+      ],
+      [
+        112292,
+        112292
+      ],
+      [
+        72095,
+        72095
+      ],
+      [
+        910684,
+        910684
+      ],
+      [
+        32293,
+        32293
+      ],
+      [
+        32262,
+        32262
+      ],
+      [
+        353026,
+        353026
+      ],
+      [
+        234879,
+        234879
+      ],
+      [
+        95139,
+        95139
+      ],
+      [
+        196806,
+        196806
+      ],
+      [
+        19530,
+        19530
+      ],
+      [
+        189127,
+        189127
+      ],
+      [
+        65993,
+        65993
+      ],
+      [
+        85118,
+        85118
+      ],
+      [
+        367327,
+        367327
+      ],
+      [
+        143984,
+        143984
+      ],
+      [
+        125606,
+        125606
+      ],
+      [
+        504490,
+        504490
+      ],
+      [
+        122440,
+        122440
+      ],
+      [
+        294755,
+        294755
+      ],
+      [
+        52411,
+        52411
+      ],
+      [
+        60217,
+        60217
+      ],
+      [
+        740803,
+        740803
+      ]
+    ]
+  },
+  "splits": {
+    "train": {
+      "chars": 72939261,
+      "bytes": 73749093,
+      "tokens": 25952894,
+      "documents": 151,
+      "eos_separators": 150,
+      "tokens_per_char": 0.35581514871668357,
+      "sha256_text": "4ed3bbe171b7ed75dc6e75a085abf2dab1bc2695ef8907395d267bb197798801",
+      "sha256_tokens": "bc723a75c1a81521fd90d64b2e582acaff00df82db4a19d8367fd26d469d9f52",
+      "file": "train.bin",
+      "dtype": "uint16"
+    },
+    "val": {
+      "chars": 3018586,
+      "bytes": 3058143,
+      "tokens": 1042315,
+      "documents": 71,
+      "eos_separators": 70,
+      "tokens_per_char": 0.3452990903688018,
+      "sha256_text": "432c4e1082e9f6c8c8c01cfef36e105bf85b9efaaa2f02bdaa25f20a1c9c8b82",
+      "sha256_tokens": "c3f8dffcbf636fb871ad8c6798df943fc496dc76bee1027f89a50fdd0ba48d35",
+      "file": "val.bin",
+      "dtype": "uint16"
+    },
+    "test": {
+      "chars": 2989130,
+      "bytes": 3025406,
+      "tokens": 1038419,
+      "documents": 71,
+      "eos_separators": 70,
+      "tokens_per_char": 0.3473984068943137,
+      "sha256_text": "9811ec1789a196a8a820c5960c91839adc797fcb116a54edf44e962bfb29beb4",
+      "sha256_tokens": "1b32c53ae8b11232badc6fae3c60ab013e66e6610e23a2c59fa73645b34ac5a8",
+      "file": "test.bin",
+      "dtype": "uint16"
+    }
+  },
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048,
+    "trained_on": "train split only",
+    "reused_from": null,
+    "requested_vocab_size": 2048,
+    "bos_id": 2046,
+    "eos_id": 2047,
+    "sha256": "6c223a63a523a7a04b7d02edc087954b467eb304885e2d748176e93e66fe8413",
+    "trained_on_chars": 4000000,
+    "train_split_chars": 72939261,
+    "measurement_on_val": {
+      "kind": "byte_bpe",
+      "vocab_size": 2048,
+      "chars": 3018586,
+      "bytes": 3058143,
+      "tokens": 1042310,
+      "tokens_per_char": 0.34529743396411433,
+      "tokens_per_byte": 0.34083102065534543,
+      "bytes_per_token": 2.934005238364786
+    }
+  },
+  "audit": {
+    "sensitive_patterns_full_corpus": {
+      "email": 22,
+      "phone_like": 4,
+      "ipv4": 0,
+      "url": 3,
+      "aws_key_like": 0,
+      "private_key_header": 0
+    },
+    "duplicates_full_corpus": {
+      "blocks": 283515,
+      "unique_blocks": 273829,
+      "duplicate_blocks": 9686,
+      "duplicate_block_fraction": 0.03416397721460945,
+      "duplicate_chars": 223217
+    },
+    "note": "Project Gutenberg header/footer boilerplate is removed before this scan; what remains is body text. No further records were removed. The duplicate rate is reported so the decision is visible."
+  }
+}
