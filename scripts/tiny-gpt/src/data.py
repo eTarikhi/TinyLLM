@@ -488,13 +488,28 @@ GUTENBERG_BROAD_DOCS = (
 # neither arm's val or test split contains them -- and sharing a vocabulary via
 # --tokenizer-from makes the two directly comparable. The measurement that
 # matters happens on the 71 originals, whose form labels are hand-assigned.
+# Computed on 2026-10-20 over the assembled 151-document text, 78,947,277
+# characters. Both arms assemble the same documents in the same order, so
+# they share it; the control verifying against a hash computed from the
+# treatment is the check that they really are the same corpus.
+GUTENBERG_BROAD_SHA = "0a3c53a3c9a1321fa38ba197d4c58528e7db6f609d5ca0858f58a36c1d295d81"
+
 GUTENBERG_BROAD_DOCS_FULL = tuple(
     replace(d, train_only=False, eval_only=False) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
 ) + GUTENBERG_BROAD_DOCS
 
+# The control omits the additions rather than marking them eval_only. That
+# distinction is the whole experiment and it is easy to get backwards:
+# eval_only puts a document *into* val and test while keeping it out of train,
+# which is right for the data-scaling arms -- there the added books were the
+# thing being evaluated -- and wrong here. Here the additions are training
+# mass and must never be evaluated, so the treatment marks them train_only and
+# the control drops them. Both arms then evaluate on exactly the original 71
+# books. Measured, not asserted: tests/test_broad_corpus.py compares the two
+# prepared val.bin and test.bin byte for byte.
 GUTENBERG_BROAD_DOCS_CTRL = tuple(
     replace(d, train_only=False, eval_only=False) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
-) + tuple(replace(d, train_only=False, eval_only=True) for d in GUTENBERG_BROAD_DOCS)
+)
 
 GUTENBERG_BROAD_FULL = MultiDocCorpus(
     name="gutenberg-mixed-broad-full",
@@ -504,7 +519,7 @@ GUTENBERG_BROAD_FULL = MultiDocCorpus(
         "treatment arm for the question of whether the per-form penalties are a "
         "property of the forms or of how little of them the model ever saw."
     ),
-    sha256="",
+    sha256=GUTENBERG_BROAD_SHA,
     documents=GUTENBERG_BROAD_DOCS_FULL,
     text_license=GUTENBERG_MIXED.text_license,
     file_license=GUTENBERG_MIXED.file_license,
@@ -515,12 +530,14 @@ GUTENBERG_BROAD_FULL = MultiDocCorpus(
 GUTENBERG_BROAD_CTRL = MultiDocCorpus(
     name="gutenberg-mixed-broad-ctrl",
     description=(
-        "The control arm: the same 151 titles and byte-identical val and test "
-        "splits as `gutenberg-mixed-broad-full`, but only the original 71 books "
-        "contribute to training. Prepare it with --tokenizer-from pointed at the "
-        "full arm so the two share a vocabulary."
+        "The control arm: the original 71 books alone. Because the 80 additions "
+        "are train_only in `gutenberg-mixed-broad-full`, dropping them here "
+        "leaves val and test byte-identical between the two arms while the "
+        "training split loses 7.0M tokens of drama, verse and non-fiction. "
+        "Prepare it with --tokenizer-from pointed at the full arm so the two "
+        "share a vocabulary."
     ),
-    sha256="",
+    sha256=GUTENBERG_EXPANDED.sha256,   # the 71-book text, unchanged
     documents=GUTENBERG_BROAD_DOCS_CTRL,
     text_license=GUTENBERG_MIXED.text_license,
     file_license=GUTENBERG_MIXED.file_license,
