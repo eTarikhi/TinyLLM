@@ -1,0 +1,71 @@
+{
+ "token_budget": 39321600,
+ "seed_bar_pct": 0.3690475821746498,
+ "arms": {
+  "batch-4096": {
+   "tokens_per_step": 4096,
+   "steps": 9600,
+   "tokens": 39321600,
+   "elapsed_s": 3127.4021332263947,
+   "tokens_per_s": 12573.247163272139,
+   "clipped_steps": 936,
+   "clipped_pct": 9.75,
+   "val_bpb": 1.5983673112032024,
+   "test_bpb": 1.6248682891044999,
+   "delta_vs_centre_pct": 0.6327920937115206,
+   "delta_in_bar_units": 1.7146626187949259,
+   "elapsed_vs_centre_pct": -0.07956169897304077
+  },
+  "data71-full": {
+   "tokens_per_step": 8192,
+   "steps": 4800,
+   "tokens": 39321600,
+   "elapsed_s": 3129.8923287391663,
+   "tokens_per_s": 12563.24367421296,
+   "clipped_steps": 34,
+   "clipped_pct": 0.7083333333333334,
+   "val_bpb": 1.5882571452380723,
+   "test_bpb": 1.6146509058313576,
+   "elapsed_vs_centre_pct": 0.0
+  },
+  "batch-16384": {
+   "tokens_per_step": 16384,
+   "steps": 2400,
+   "tokens": 39321600,
+   "elapsed_s": 2973.8166711330414,
+   "tokens_per_s": 13222.603929050623,
+   "clipped_steps": 44,
+   "clipped_pct": 1.8333333333333333,
+   "val_bpb": 1.6175221535895348,
+   "test_bpb": 1.6422611530401052,
+   "delta_vs_centre_pct": 1.7099824555903975,
+   "delta_in_bar_units": 4.633501310357204,
+   "elapsed_vs_centre_pct": -4.986614273373357
+  }
+ },
+ "best_arm": "data71-full",
+ "best_test_bpb": 1.6146509058313576,
+ "spread_pct": 1.7099824555903975,
+ "spread_in_bar_units": 4.633501310357204,
+ "steps_hypothesis": {
+  "statement": "at a fixed token budget, more optimizer updates should win",
+  "small_batch_delta_pct": 0.6327920937115206,
+  "large_batch_delta_pct": 1.7099824555903975,
+  "monotone_in_steps": false,
+  "supported": false
+ },
+ "clip_monotone_decreasing": false,
+ "common_token_points": 40,
+ "lead_counts": {
+  "batch-4096": 7,
+  "data71-full": 33,
+  "batch-16384": 0
+ },
+ "lead_changes": 3,
+ "final_common_point": {
+  "tokens": 39321600,
+  "batch-4096": 1.5983673112032024,
+  "data71-full": 1.5882571452380723,
+  "batch-16384": 1.6175221535895348
+ }
+}

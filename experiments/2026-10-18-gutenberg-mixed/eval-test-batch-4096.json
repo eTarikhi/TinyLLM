@@ -1,0 +1,72 @@
+{
+  "run_id": "batch-4096",
+  "checkpoint": "artifacts/runs/batch-4096/best.pt",
+  "step": 9600,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.2816108094755463,
+    "perplexity": 26.618615703052868,
+    "bpb": 1.6248682891044999,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.645990487008508,
+    "perplexity": 2092.239886287805,
+    "bpb": 3.7858625542254067,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      25,
+      26,
+      24,
+      29
+    ],
+    "max_longest_verbatim_match_chars": 29,
+    "mean_longest_verbatim_match_chars": 26.0,
+    "example_sample": "\nhealth, and he did not feel much likely that he would\nnot think of him, if he had not had any more than any of him of\naccession as the cause of his own; and that he felt himself good for his\nfavorite, and had never been in the world, and had seen him there\nwas no doubt about it. But as he had, he wouldn\u2019t want to be sure of him,\nand was all, and for that was full of spirits that she had ever\nformed him, and felt very much of his mind, and might have said it\ndirectly.\n\n\u2018I dare say he was a man of honor! Your position is not a child, and I\nshould not be, if you were better.\u2019\n\n\u2018That\u2019s an unhappy man, and you know,\u2019 pursued Miss Murdstone.\n\n\u2018But, I am quite so!\u2019 cried Planchet.\n\n\u2018I hope I\u2019m not afraid of you, sir!\u2019 she retorted"
+  }
+}

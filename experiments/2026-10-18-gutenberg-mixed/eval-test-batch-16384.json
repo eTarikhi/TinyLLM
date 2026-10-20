@@ -1,0 +1,72 @@
+{
+  "run_id": "batch-16384",
+  "checkpoint": "artifacts/runs/batch-16384/best.pt",
+  "step": 2400,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.3167377244886245,
+    "perplexity": 27.570261901160936,
+    "bpb": 1.6422611530401052,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.645990487008508,
+    "perplexity": 2092.239886287805,
+    "bpb": 3.7858625542254067,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      27,
+      30,
+      25,
+      22
+    ],
+    "max_longest_verbatim_match_chars": 30,
+    "mean_longest_verbatim_match_chars": 26.0,
+    "example_sample": "\nhe seemed to be the traces of the street, and there was a green, noise\nupon the vast sparks of the band had been traversed.\n\n\"I have seen it,\" said Sancho; \"but I do not want to do or be that I\nhave no chance, and I know what to do. I had better sin, but as I\nhave not been meditated at all, and I am sure I have come to be my\njourneys, and be a-and-like, and a dream, and I will never have\nbeen, on my travels.\u201d\n\nThe avenue was not eased; but after I resolved faltered a\nclothes.\n\n\"Look at your fifteen years,\" said Don Quixote, \"it is not to be in\nregentle, I am a cathor; but it may be as well as I can. I will go to\nGeneral, to give up a word, and"
+  }
+}

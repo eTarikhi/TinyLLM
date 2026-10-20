@@ -1,0 +1,78 @@
+# Batch size, lower arm: 4,096 tokens per optimizer update.
+#
+# The last untouched lever in the plan. Two results now point the same way --
+# at matched wall clock a 2.11x larger model is 1.35% WORSE, and doubling the
+# step count at fixed batch bought 3.00% -- so the project's working
+# hypothesis is that optimization steps, not tokens and not parameters, are
+# the binding constraint on this corpus.
+#
+# Batch size tests that hypothesis on a third axis, and it is the sharpest of
+# the three because it is the only one that can trade steps for batch at a
+# FIXED token budget. All three arms see exactly 39,321,600 tokens:
+#
+#   grad_accum 1 -> 4,096 tok/step -> 9,600 steps   (this file)
+#   grad_accum 2 -> 8,192 tok/step -> 4,800 steps   (data71-full, the centre)
+#   grad_accum 4 -> 16,384 tok/step -> 2,400 steps  (batch-16384)
+#
+# If steps are what matter, this arm wins by a lot. If tokens are what matter,
+# all three tie. The truth is normally in between, and where it lands is the
+# critical batch size for this model and corpus.
+#
+# SCHEDULE. warmup_steps and eval_every are scaled with the step budget so
+# every arm has the same schedule SHAPE in normalised time: warmup is 5% of
+# the run and there are exactly 40 evaluations, the k-th of which lands on the
+# same cumulative token count in all three arms. That is what makes the curves
+# comparable: they cannot be compared step-for-step, but they can be compared
+# token-for-token, and the eval grids were chosen so that comparison needs no
+# interpolation.
+#
+# THE CONFOUND, stated up front. The learning rate is held at 3.0e-3 in all
+# three arms, and 3.0e-3 is the value the LR bracket selected AT THE CENTRE
+# BATCH. The literature expects the optimal LR to rise with batch size, so
+# both outer arms are being run slightly off their own optimum and the centre
+# is not. That biases the experiment towards the centre arm. It is the right
+# first experiment anyway -- it answers the practical question, "what happens
+# if I change batch size and nothing else" -- but it means a win for the
+# centre is weak evidence while a win for an outer arm is strong evidence.
+# The bracket also measured how flat the LR optimum is here (3e-3 -> 6e-3 is
+# +0.08%, 3e-3 -> 1.5e-3 is +0.83%), which bounds how much the confound can
+# be worth.
+#
+# Everything else is byte-identical to data71-full.yaml.
+
+run_id: batch-4096
+data_dir: data/prepared-71-full
+out_dir: artifacts/runs
+
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 1        # 4,096 tokens per optimizer update -- half the centre
+
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+
+warmup_steps: 480    # 5% of the run, as in every other arm
+max_steps: 9600      # 9,600 x 4,096 = 39,321,600 tokens, matching data71-full
+
+eval_every: 240      # 40 evaluations, landing on the same token counts
+eval_tokens: 98304
+eval_spread: true
+log_every: 100
+sample_every: 2400
+sample_tokens: 240
+save_every: 1600
+
+max_seconds: 7200    # guard: twice the optimizer updates means more overhead
+threads: 2
