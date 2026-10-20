@@ -1,0 +1,40 @@
+# The released configuration on the broad corpus: 9,600 steps.
+#
+#   Every corpus-composition arm so far ran 4,800 steps. The released
+#   model runs 9,600, and horizon is the one lever that has kept paying
+#   (-3.67%, then -3.00%). If extra text costs a small model because it
+#   competes for capacity, a longer run might amortise the competition;
+#   if the cost is a property of evaluating on a fixed set, it will not.
+#   Warmup held at 240, exactly as data71-full-9600 held it.
+run_id: broad-full-9600
+data_dir: data/prepared-broad-full
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, not scaled with the horizon
+max_steps: 9600      # the released horizon
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # 9.4% of the 1,042,315-token val split
+eval_spread: true    # spread over all 71 evaluated books, not the leading few
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 9000    # guard: 120 min; 151-document splits evaluate slower
+threads: 2
