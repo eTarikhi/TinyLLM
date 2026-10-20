@@ -294,23 +294,26 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     **false** — twice the updates on identical tokens can at best draw. Item 6
     is answered: clip rate tracks the gradient norm rather than the learning
     rate, and is a symptom to investigate rather than a quantity to optimize.
-14. **The corpus is the only direction left, and it is now specified.**
-    Every hyperparameter in the standings table has been tested and is flat
-    or harmful; three of the four inherited defaults survived. The
-    per-document evaluation puts 50.6% of spread between the easiest and
-    hardest book against under 8% for any lever, and
-    [`corpus-composition.md`](corpus-composition.md) says what that spread is
-    made of: not length (r = −0.122), but **form** — the corpus is 91%
-    narrative prose by bytes and contains no drama at all, and the four form
-    labels explain 45% of the per-document variance. Verse is +27.8% against
-    narrative prose, experimental prose +23.4%, non-fiction +19.3%, and each
-    holds about 3% of the bytes. Books by an author who appears more than
-    once score 5.0% better, which is the evidence that these forms are
-    under-trained rather than intrinsically unpredictable. The next
-    experiment is a `gutenberg-mixed-broad` corpus that raises the
-    non-narrative share to roughly a third, run against a control with a
-    byte-identical evaluation split, and reported **per form** rather than in
-    aggregate.
+14. **The corpus is the only direction left — done, and it is a trade.**
+    [`broad-results.md`](broad-results.md). Three arms with byte-identical
+    evaluation splits and volume matched to 0.02%: broadening the corpus
+    cost +1.19% in aggregate, decomposed into volume +0.93% and composition
+    +0.25% (inside the seed bar). Per form the targeting worked — verse
+    −3.31% and non-fiction −3.41% against the volume-matched narrative arm,
+    experimental unmoved as the internal control — so the penalties were
+    under-training, as hypothesised. But extra text costs a small model on a
+    fixed evaluation set whatever its form: **capacity is what the text
+    competes for**, which re-explains the `data-gb71` +0.53% without needing
+    a distribution story. Along the way `broad-ctrl` reproduced the
+    published test figure to four decimal places from an independently
+    prepared corpus.
+
+16. **Does capacity absorb a broader mixture?** `broad-4L256d-{full,ctrl}`
+    (3.74M parameters, clock-matched 2,571 steps) complete the 2×2. If the
+    full-vs-ctrl gap narrows with size, the constraint is capacity; if it
+    holds, the cost is a property of evaluating on a fixed set. Then the
+    released configuration itself — 9,600 steps, not 4,800 — on the broad
+    corpus, to test whether longer training amortises the competition.
 15. **Re-establish a baseline under `eval_spread`.** The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,
