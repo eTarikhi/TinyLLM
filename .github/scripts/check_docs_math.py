@@ -1254,6 +1254,23 @@ def check_broad_report(root: str) -> None:
     claim(d, r"non-fiction from \+([\d.]+)% to",
           round(s["penalty_vs_narrative"]["non-fiction"]["broad-ctrl"], 1),
           "non-fiction penalty under ctrl", tol=5e-2, doc=name)
+    if "two_by_two" in s:
+        t = s["two_by_two"]
+        for size in ("1.77M", "3.74M"):
+            row = rf"\| {size} \|"
+            claim(d, row + r" ([\d.]+) \|", round(t[size]["ctrl"], 4),
+                  f"{size} ctrl", tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){1} ([\d.]+) \|", round(t[size]["full"], 4),
+                  f"{size} full", tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){2} \+([\d.]+)%", round(t[size]["gap_pct"], 2),
+                  f"{size} gap", tol=5e-3, doc=name)
+        big = t["3.74M"]
+        claim(d, r"verse ([\d.]+) →", round(big["forms_ctrl"]["verse"], 4),
+              "3.74M verse ctrl", tol=5e-5, doc=name)
+        claim(d, r"non-fiction ([\d.]+) →", round(big["forms_ctrl"]["non-fiction"], 4),
+              "3.74M non-fiction ctrl", tol=5e-5, doc=name)
+        claim(d, r"narrative ([\d.]+) →", round(big["forms_ctrl"]["narrative"], 4),
+              "3.74M narrative ctrl", tol=5e-5, doc=name)
 
 
 def main(root: str = ".") -> int:

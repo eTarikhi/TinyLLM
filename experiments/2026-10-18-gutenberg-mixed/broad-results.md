@@ -76,19 +76,39 @@ distribution". The narrative arm shows the effect needs no distribution
 story: same form, same period, same register still costs. Capacity is what
 the text competes for.
 
+## The 2×2: capacity halves the cost, it does not remove it
+
+`broad-4L256d-{ctrl,full}` repeat the comparison at 3,737,856 parameters,
+clock-matched at 2,571 steps. The control again reproduces a previously
+published figure exactly — **1.6365**, the `size-4L256d-gb71` number — so
+both cells sit on measurements this project already trusts.
+
+| | broad-ctrl | broad-full | gap |
+| --- | ---: | ---: | ---: |
+| 1.77M | 1.6147 | 1.6338 | +1.19% |
+| 3.74M | 1.6365 | 1.6467 | +0.62% |
+
+Doubling the parameters roughly **halves** the cost of broadening. Per form
+the same trade repeats at the larger size — verse 2.0415 → 1.9701 (−3.50%),
+non-fiction 1.9492 → 1.9046 (−2.29%), narrative 1.6132 → 1.6260 (+0.79%),
+experimental 1.9592 → 1.9680 (+0.45%) — and the verse penalty closes by the
+same ~6 percentage points at both sizes (27.4% → 20.8% at 1.77M, 26.5% →
+21.2% at 3.74M). What capacity buys is not a larger form gain; it is a
+smaller narrative loss (+1.44% → +0.79%). That is what "the text competes
+for capacity" predicts: the benefit of targeting a form is roughly
+size-independent, and the price falls as the model grows.
+
+Extrapolating the halving is tempting and should be resisted: two points do
+not give a rate. What the 2×2 establishes is direction — capacity is *a*
+constraint, not necessarily the only one.
+
 ## What it does not settle
 
-Whether capacity is really the binding constraint, or whether any fixed
-evaluation set mechanically penalises a broader training distribution. The
-2×2 follow-up (`broad-4L256d-{ctrl,full}`, 3.74M parameters, clock-matched)
-separates those: if the gap narrows with size, it is capacity. Results
-appended below when they land.
-
-Also unsettled: the released model trains for 9,600 steps, not 4,800, and
-longer training might amortise the competition. And none of this measures
-the 80 added books themselves — they are out of the evaluation by design, so
-"the broad model is more general" is supported only through transfer to the
-original 71.
+The released model trains for 9,600 steps, not 4,800, and longer training
+might amortise the competition the way capacity does. `broad-full-9600` is
+running to test that. And none of this measures the 80 added books
+themselves — they are out of the evaluation by design, so "the broad model
+is more general" is supported only through transfer to the original 71.
 
 ## Artifacts
 

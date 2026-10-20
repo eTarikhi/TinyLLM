@@ -93,5 +93,43 @@
    "non-fiction",
    "verse"
   ]
+ },
+ "two_by_two": {
+  "1.77M": {
+   "ctrl": 1.6146509058313576,
+   "full": 1.633785888537557,
+   "gap_pct": 1.185084815367381,
+   "forms_ctrl": {
+    "narrative": 1.5913256621815135,
+    "experimental": 1.9427009197353806,
+    "non-fiction": 1.9124375187659448,
+    "verse": 2.0267554143198785
+   },
+   "forms_full": {
+    "narrative": 1.614263217836348,
+    "experimental": 1.9684361354456352,
+    "non-fiction": 1.8860804127409507,
+    "verse": 1.9493248340629274
+   }
+  },
+  "3.74M": {
+   "ctrl": 1.6364727242142834,
+   "full": 1.6466805598142125,
+   "gap_pct": 0.6237705920109469,
+   "forms_ctrl": {
+    "narrative": 1.6132059000496954,
+    "experimental": 1.9592412380777304,
+    "non-fiction": 1.9492372859284715,
+    "verse": 2.0415065893424558
+   },
+   "forms_full": {
+    "narrative": 1.6260462865840757,
+    "experimental": 1.9679839397568268,
+    "non-fiction": 1.9046022258682003,
+    "verse": 1.970092297177557
+   }
+  },
+  "published_size_4L256d_gb71": 1.6365,
+  "reproduces_published": true
  }
 }
