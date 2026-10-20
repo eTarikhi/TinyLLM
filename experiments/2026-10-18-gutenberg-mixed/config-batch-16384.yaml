@@ -1,0 +1,62 @@
+# Batch size, upper arm: 16,384 tokens per optimizer update.
+#
+# The other end of the bracket described in configs/batch-4096.yaml. Same
+# token budget (39,321,600), same schedule shape, a quarter of the optimizer
+# updates of the lower arm:
+#
+#   grad_accum 1 -> 4,096 tok/step -> 9,600 steps   (batch-4096)
+#   grad_accum 2 -> 8,192 tok/step -> 4,800 steps   (data71-full, the centre)
+#   grad_accum 4 -> 16,384 tok/step -> 2,400 steps  (this file)
+#
+# This arm also carries a second, cheaper signal worth watching: gradient
+# clipping. The LR bracket found clip rate and peak LR interact strongly --
+# 1.5e-3 clipped on 2,630 steps, 3e-3 on 63, 6e-3 on 23 -- and a larger batch
+# averages more samples per update, so its gradients should be less noisy and
+# clip less often even at identical LR. If the clip counts move the way that
+# predicts, the gradient-noise story behind the batch result is corroborated
+# by a measurement that costs nothing extra to collect.
+#
+# Wall clock is NOT expected to match across the arms and is not supposed to:
+# the budget held fixed here is tokens, not seconds. Fewer, larger updates
+# should be slightly cheaper per token (less optimizer and Python-loop
+# overhead per token), so if this arm also scores better it wins twice, and
+# if it scores worse the elapsed column says what that accuracy cost.
+#
+# Everything else is byte-identical to data71-full.yaml.
+
+run_id: batch-16384
+data_dir: data/prepared-71-full
+out_dir: artifacts/runs
+
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 4        # 16,384 tokens per optimizer update -- twice the centre
+
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+
+warmup_steps: 120    # 5% of the run, as in every other arm
+max_steps: 2400      # 2,400 x 16,384 = 39,321,600 tokens, matching data71-full
+
+eval_every: 60       # 40 evaluations, landing on the same token counts
+eval_tokens: 98304
+eval_spread: true
+log_every: 25
+sample_every: 600
+sample_tokens: 240
+save_every: 400
+
+max_seconds: 7200
+threads: 2

@@ -1,0 +1,802 @@
+[
+ {
+  "pg_id": 106,
+  "slug": "Jungle-Tales-of-Tarzan",
+  "title": "Jungle Tales of Tarzan",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 443592,
+  "member_file": "106.txt"
+ },
+ {
+  "pg_id": 201,
+  "slug": "Flatland--A-Romance-of-Many-Dimensions--Illustrated-",
+  "title": "Flatland A Romance of Many Dimensions Illustrated",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 227396,
+  "member_file": "201.txt"
+ },
+ {
+  "pg_id": 416,
+  "slug": "Winesburg-Ohio--A-Group-of-Tales-of-Ohio-Small-Town-Life",
+  "title": "Winesburg Ohio A Group of Tales of Ohio Small Town Life",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 424222,
+  "member_file": "416.txt"
+ },
+ {
+  "pg_id": 689,
+  "slug": "The-Kreutzer-Sonata-and-Other-Stories",
+  "title": "The Kreutzer Sonata and Other Stories",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 384147,
+  "member_file": "689-0.txt"
+ },
+ {
+  "pg_id": 809,
+  "slug": "Holiday-Romance",
+  "title": "Holiday Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 98922,
+  "member_file": "809-0.txt"
+ },
+ {
+  "pg_id": 831,
+  "slug": "Four-Arthurian-Romances",
+  "title": "Four Arthurian Romances",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 1040625,
+  "member_file": "831.txt"
+ },
+ {
+  "pg_id": 864,
+  "slug": "The-Master-of-Ballantrae--A-Winter-s-Tale",
+  "title": "The Master of Ballantrae A Winter s Tale",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 505367,
+  "member_file": "864-0.txt"
+ },
+ {
+  "pg_id": 976,
+  "slug": "Tanglewood-Tales",
+  "title": "Tanglewood Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 386196,
+  "member_file": "976.txt"
+ },
+ {
+  "pg_id": 1354,
+  "slug": "Chronicles-of-Avonlea",
+  "title": "Chronicles of Avonlea",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 397770,
+  "member_file": "1354-0.txt"
+ },
+ {
+  "pg_id": 1375,
+  "slug": "New-Chronicles-of-Rebecca",
+  "title": "New Chronicles of Rebecca",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 370897,
+  "member_file": "1375-0.txt"
+ },
+ {
+  "pg_id": 1597,
+  "slug": "Andersen-s-Fairy-Tales",
+  "title": "Andersen s Fairy Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 329102,
+  "member_file": "1597-0.txt"
+ },
+ {
+  "pg_id": 1630,
+  "slug": "Little-Novels",
+  "title": "Little Novels",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 867831,
+  "member_file": "1630-0.txt"
+ },
+ {
+  "pg_id": 1640,
+  "slug": "Lilith--A-Romance",
+  "title": "Lilith A Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 539721,
+  "member_file": "1640-0.txt"
+ },
+ {
+  "pg_id": 1678,
+  "slug": "An-Historical-Mystery--The-Gondreville-Mystery-",
+  "title": "An Historical Mystery The Gondreville Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 470019,
+  "member_file": "1678-0.txt"
+ },
+ {
+  "pg_id": 1828,
+  "slug": "Chronicles-of-the-Canongate-1st-Series",
+  "title": "Chronicles of the Canongate 1st Series",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 531031,
+  "member_file": "1828-0.txt"
+ },
+ {
+  "pg_id": 1994,
+  "slug": "Adventures-Among-Books",
+  "title": "Adventures Among Books",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 448154,
+  "member_file": "1994.txt"
+ },
+ {
+  "pg_id": 2021,
+  "slug": "Nostromo--A-Tale-of-the-Seaboard",
+  "title": "Nostromo A Tale of the Seaboard",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 1015106,
+  "member_file": "2021-0.txt"
+ },
+ {
+  "pg_id": 2736,
+  "slug": "The-Champdoce-Mystery",
+  "title": "The Champdoce Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 598479,
+  "member_file": "2736-0.txt"
+ },
+ {
+  "pg_id": 3261,
+  "slug": "News-from-Nowhere--Or-An-Epoch-of-Rest--13-Being-Some-Chapters-from-a-Utopian-Romance",
+  "title": "News from Nowhere Or An Epoch of Rest 13 Being Some Chapters from a Utopian Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 450413,
+  "member_file": "3261.txt"
+ },
+ {
+  "pg_id": 3492,
+  "slug": "Homespun-Tales",
+  "title": "Homespun Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 439812,
+  "member_file": "3492-0.txt"
+ },
+ {
+  "pg_id": 3688,
+  "slug": "The-Chronicles-of-Clovis",
+  "title": "The Chronicles of Clovis",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 332736,
+  "member_file": "3688.txt"
+ },
+ {
+  "pg_id": 4253,
+  "slug": "Dramatic-Romances",
+  "title": "Dramatic Romances",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 255862,
+  "member_file": "4253.txt"
+ },
+ {
+  "pg_id": 4282,
+  "slug": "Don-Rodriguez--Chronicles-of-Shadow-Valley",
+  "title": "Don Rodriguez Chronicles of Shadow Valley",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 429453,
+  "member_file": "4282.txt"
+ },
+ {
+  "pg_id": 4682,
+  "slug": "Nonsense-Novels",
+  "title": "Nonsense Novels",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 199038,
+  "member_file": "4682.txt"
+ },
+ {
+  "pg_id": 4931,
+  "slug": "Won-By-the-Sword---a-tale-of-the-Thirty-Years-War",
+  "title": "Won By the Sword a tale of the Thirty Years War",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 739430,
+  "member_file": "4931-0.txt"
+ },
+ {
+  "pg_id": 5139,
+  "slug": "Tales",
+  "title": "Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 658576,
+  "member_file": "5139-0.txt"
+ },
+ {
+  "pg_id": 5217,
+  "slug": "Tales",
+  "title": "Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 468740,
+  "member_file": "5217.txt"
+ },
+ {
+  "pg_id": 5230,
+  "slug": "The-Invisible-Man--A-Grotesque-Romance",
+  "title": "The Invisible Man A Grotesque Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 299055,
+  "member_file": "5230.txt"
+ },
+ {
+  "pg_id": 5308,
+  "slug": "The-Paradise-Mystery",
+  "title": "The Paradise Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 469103,
+  "member_file": "5308-0.txt"
+ },
+ {
+  "pg_id": 5340,
+  "slug": "Further-Chronicles-of-Avonlea",
+  "title": "Further Chronicles of Avonlea",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 416030,
+  "member_file": "5340.txt"
+ },
+ {
+  "pg_id": 6133,
+  "slug": "The-Extraordinary-Adventures-of-Arsene-Lupin-Gentleman-Burglar",
+  "title": "The Extraordinary Adventures of Arsene Lupin Gentleman Burglar",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 344176,
+  "member_file": "6133-0.txt"
+ },
+ {
+  "pg_id": 6695,
+  "slug": "Tales-of-the-Jazz-Age",
+  "title": "Tales of the Jazz Age",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 528840,
+  "member_file": "6695.txt"
+ },
+ {
+  "pg_id": 6805,
+  "slug": "The-Mill-Mystery",
+  "title": "The Mill Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 432351,
+  "member_file": "6805.txt"
+ },
+ {
+  "pg_id": 7119,
+  "slug": "The-Dolliver-Romance",
+  "title": "The Dolliver Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 118570,
+  "member_file": "7119.txt"
+ },
+ {
+  "pg_id": 8240,
+  "slug": "The-World-English-Bible-WEB-1-Chronicles",
+  "title": "The World English Bible WEB 1 Chronicles",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 144041,
+  "member_file": "8240.txt"
+ },
+ {
+  "pg_id": 8241,
+  "slug": "The-World-English-Bible-WEB-2-Chronicles",
+  "title": "The World English Bible WEB 2 Chronicles",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 174357,
+  "member_file": "8241.txt"
+ },
+ {
+  "pg_id": 8720,
+  "slug": "Tales-and-Novels---Volume-02--13-Popular-Tales",
+  "title": "Tales and Novels Volume 02 13 Popular Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 1101252,
+  "member_file": "8720-0.txt"
+ },
+ {
+  "pg_id": 8826,
+  "slug": "Tales-and-Novels---Volume-01--13-Moral-Tales",
+  "title": "Tales and Novels Volume 01 13 Moral Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 956944,
+  "member_file": "8826.txt"
+ },
+ {
+  "pg_id": 9254,
+  "slug": "Biographical-Stories-From---True-Stories-of-History-and-Biography--",
+  "title": "Biographical Stories From True Stories of History and Biography",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 162992,
+  "member_file": "9254-0.txt"
+ },
+ {
+  "pg_id": 9370,
+  "slug": "Tiverton-Tales",
+  "title": "Tiverton Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 459249,
+  "member_file": "9370.txt"
+ },
+ {
+  "pg_id": 9629,
+  "slug": "Ghost-Stories-of-an-Antiquary-Part-2--More-Ghost-Stories",
+  "title": "Ghost Stories of an Antiquary Part 2 More Ghost Stories",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 283551,
+  "member_file": "9629.txt"
+ },
+ {
+  "pg_id": 9808,
+  "slug": "The-Loudwater-Mystery",
+  "title": "The Loudwater Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 373298,
+  "member_file": "9808.txt"
+ },
+ {
+  "pg_id": 10008,
+  "slug": "The-Mystery",
+  "title": "The Mystery",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 407271,
+  "member_file": "10008.txt"
+ },
+ {
+  "pg_id": 10148,
+  "slug": "The-Merry-Adventures-of-Robin-Hood",
+  "title": "The Merry Adventures of Robin Hood",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 622517,
+  "member_file": "10148.txt"
+ },
+ {
+  "pg_id": 10472,
+  "slug": "Arthurian-Chronicles--Roman-de-Brut",
+  "title": "Arthurian Chronicles Roman de Brut",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 354574,
+  "member_file": "10472.txt"
+ },
+ {
+  "pg_id": 10592,
+  "slug": "Adventures-in-Friendship",
+  "title": "Adventures in Friendship",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 213185,
+  "member_file": "10592.txt"
+ },
+ {
+  "pg_id": 10605,
+  "slug": "Adventures-in-Contentment",
+  "title": "Adventures in Contentment",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 275273,
+  "member_file": "10605.txt"
+ },
+ {
+  "pg_id": 10707,
+  "slug": "A-Christmas-MysteryThe-Story-of-Three-Wise-Men",
+  "title": "A Christmas MysteryThe Story of Three Wise Men",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 51383,
+  "member_file": "10707.txt"
+ },
+ {
+  "pg_id": 11167,
+  "slug": "Deccan-Nursery-Tales--13-or-Fairy-Tales-from-the-South",
+  "title": "Deccan Nursery Tales 13 or Fairy Tales from the South",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 165231,
+  "member_file": "11167.txt"
+ },
+ {
+  "pg_id": 11703,
+  "slug": "The-Swiss-Family-Robinson--or-Adventures-in-a-Desert-Island",
+  "title": "The Swiss Family Robinson or Adventures in a Desert Island",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 708672,
+  "member_file": "11703.txt"
+ },
+ {
+  "pg_id": 11738,
+  "slug": "Hindoo-TalesOr-the-Adventures-of-Ten-Princes",
+  "title": "Hindoo TalesOr the Adventures of Ten Princes",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 320734,
+  "member_file": "11738.txt"
+ },
+ {
+  "pg_id": 13415,
+  "slug": "The-Lady-with-the-Dog-and-Other-Stories",
+  "title": "The Lady with the Dog and Other Stories",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 423158,
+  "member_file": "13415.txt"
+ },
+ {
+  "pg_id": 13731,
+  "slug": "Romance-Island",
+  "title": "Romance Island",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 530780,
+  "member_file": "13731.txt"
+ },
+ {
+  "pg_id": 15252,
+  "slug": "Victorian-Short-Stories--Stories-of-Successful-Marriages",
+  "title": "Victorian Short Stories Stories of Successful Marriages",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 223072,
+  "member_file": "15252.txt"
+ },
+ {
+  "pg_id": 15381,
+  "slug": "Victorian-Short-Stories--Stories-of-Courtship",
+  "title": "Victorian Short Stories Stories of Courtship",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 222151,
+  "member_file": "15381.txt"
+ },
+ {
+  "pg_id": 15616,
+  "slug": "Hero-Tales",
+  "title": "Hero Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 239353,
+  "member_file": "15616-0.txt"
+ },
+ {
+  "pg_id": 16012,
+  "slug": "The-Ned-M-Keown-StoriesWilliam-Carleton-Volume-Three",
+  "title": "The Ned M Keown StoriesWilliam Carleton Volume Three",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 541737,
+  "member_file": "16012-0.txt"
+ },
+ {
+  "pg_id": 16050,
+  "slug": "The-Gold-Hunters-AdventuresOr-Life-in-Australia",
+  "title": "The Gold Hunters AdventuresOr Life in Australia",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 1698277,
+  "member_file": "16050.txt"
+ },
+ {
+  "pg_id": 16127,
+  "slug": "The-Diamond-Cross-MysteryBeing-a-Somewhat-Different-Detective-Story",
+  "title": "The Diamond Cross MysteryBeing a Somewhat Different Detective Story",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 372993,
+  "member_file": "16127.txt"
+ },
+ {
+  "pg_id": 17113,
+  "slug": "Indian-Ghost-StoriesSecond-Edition",
+  "title": "Indian Ghost StoriesSecond Edition",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 249912,
+  "member_file": "17113.txt"
+ },
+ {
+  "pg_id": 17183,
+  "slug": "Atm-A-Romance",
+  "title": "Atm A Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 165891,
+  "member_file": "17183.txt"
+ },
+ {
+  "pg_id": 17452,
+  "slug": "Adventures-in-Criticism",
+  "title": "Adventures in Criticism",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 499789,
+  "member_file": "17452-0.txt"
+ },
+ {
+  "pg_id": 17581,
+  "slug": "The-RomancersA-Comedy-in-Three-Acts",
+  "title": "The RomancersA Comedy in Three Acts",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 78675,
+  "member_file": "17581.txt"
+ },
+ {
+  "pg_id": 17642,
+  "slug": "Romance",
+  "title": "Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 927002,
+  "member_file": "17642-0.txt"
+ },
+ {
+  "pg_id": 18031,
+  "slug": "A-Dweller-in-MesopotamiaBeing-the-Adventures-of-an-Official-Artist-in-the-Garden-of-Eden",
+  "title": "A Dweller in MesopotamiaBeing the Adventures of an Official Artist in the Garden of Eden",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 155539,
+  "member_file": "18031.txt"
+ },
+ {
+  "pg_id": 18304,
+  "slug": "American-AdventuresA-Second-Trip-Abroad-at-home-",
+  "title": "American AdventuresA Second Trip Abroad at home",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 1008860,
+  "member_file": "18304.txt"
+ },
+ {
+  "pg_id": 18450,
+  "slug": "Hawaiian-Folk-TalesA-Collection-of-Native-Legends",
+  "title": "Hawaiian Folk TalesA Collection of Native Legends",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 423004,
+  "member_file": "18450.txt"
+ },
+ {
+  "pg_id": 19068,
+  "slug": "Household-Stories-by-the-Brothers-Grimm",
+  "title": "Household Stories by the Brothers Grimm",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 496265,
+  "member_file": "19068.txt"
+ },
+ {
+  "pg_id": 19367,
+  "slug": "Romance--Two-Lectures",
+  "title": "Romance Two Lectures",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 115728,
+  "member_file": "19367.txt"
+ },
+ {
+  "pg_id": 20205,
+  "slug": "The-Maya-ChroniclesBrinton-s-Library-Of-Aboriginal-American-Literature-Number-1",
+  "title": "The Maya ChroniclesBrinton s Library Of Aboriginal American Literature Number 1",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 360669,
+  "member_file": "20205-0.txt"
+ },
+ {
+  "pg_id": 20380,
+  "slug": "Ten-Tales",
+  "title": "Ten Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 184954,
+  "member_file": "20380.txt"
+ },
+ {
+  "pg_id": 20486,
+  "slug": "Tiverton-Tales",
+  "title": "Tiverton Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 459393,
+  "member_file": "20486.txt"
+ },
+ {
+  "pg_id": 20491,
+  "slug": "Kafir-Stories--Seven-Short-Stories",
+  "title": "Kafir Stories Seven Short Stories",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 254394,
+  "member_file": "20491.txt"
+ },
+ {
+  "pg_id": 21078,
+  "slug": "The-Tale-of-Miss-Kitty-CatSlumber-Town-Tales",
+  "title": "The Tale of Miss Kitty CatSlumber Town Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 101330,
+  "member_file": "21078.txt"
+ },
+ {
+  "pg_id": 21286,
+  "slug": "Mother-West-Wind--How--Stories",
+  "title": "Mother West Wind How Stories",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 166603,
+  "member_file": "21286.txt"
+ },
+ {
+  "pg_id": 21322,
+  "slug": "The-Tale-of-Betsy-ButterflyTuck-Me-In-Tales",
+  "title": "The Tale of Betsy ButterflyTuck Me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 96799,
+  "member_file": "21322.txt"
+ },
+ {
+  "pg_id": 21383,
+  "slug": "Adventures-in-Australia",
+  "title": "Adventures in Australia",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 220700,
+  "member_file": "21383.txt"
+ },
+ {
+  "pg_id": 21412,
+  "slug": "The-Tale-of-Bobby-BobolinkTuck-me-In-Tales",
+  "title": "The Tale of Bobby BobolinkTuck me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 93461,
+  "member_file": "21412.txt"
+ },
+ {
+  "pg_id": 21426,
+  "slug": "The-Tale-of-Daddy-LonglegsTuck-Me-In-Tales",
+  "title": "The Tale of Daddy LonglegsTuck Me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 101097,
+  "member_file": "21426.txt"
+ },
+ {
+  "pg_id": 21619,
+  "slug": "The-Tale-of-Nimble-DeerSleepy-Time-Tales",
+  "title": "The Tale of Nimble DeerSleepy Time Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 103842,
+  "member_file": "21619.txt"
+ }
+]

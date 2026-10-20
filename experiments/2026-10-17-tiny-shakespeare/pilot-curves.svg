@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" font-family="ui-sans-serif, system-ui, sans-serif">
+<rect width="760" height="420" fill="#ffffff"/>
+<text x="70" y="24" font-size="15" font-weight="600" fill="#111827">val_bpb vs training tokens</text>
+<line x1="70" y1="365.0" x2="610" y2="365.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="369.0" font-size="11" fill="#6b7280" text-anchor="end">2.650</text>
+<line x1="70" y1="283.8" x2="610" y2="283.8" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="287.8" font-size="11" fill="#6b7280" text-anchor="end">2.912</text>
+<line x1="70" y1="202.5" x2="610" y2="202.5" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="206.5" font-size="11" fill="#6b7280" text-anchor="end">3.173</text>
+<line x1="70" y1="121.2" x2="610" y2="121.2" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="125.2" font-size="11" fill="#6b7280" text-anchor="end">3.435</text>
+<line x1="70" y1="40.0" x2="610" y2="40.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="44.0" font-size="11" fill="#6b7280" text-anchor="end">3.696</text>
+<line x1="70.0" y1="40" x2="70.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="70.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">0.00M</text>
+<line x1="205.0" y1="40" x2="205.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="205.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">0.41M</text>
+<line x1="340.0" y1="40" x2="340.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="340.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">0.82M</text>
+<line x1="475.0" y1="40" x2="475.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="475.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">1.23M</text>
+<line x1="610.0" y1="40" x2="610.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="610.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">1.64M</text>
+<text x="340" y="408" font-size="12" fill="#374151" text-anchor="middle">training tokens</text>
+<path d="M205.0,62.0 L340.0,82.6 L475.0,113.7 L610.0,142.9" fill="none" stroke="#2563eb" stroke-width="2"/>
+<circle cx="610.0" cy="142.9" r="3" fill="#2563eb"/>
+<text x="620" y="56" font-size="12" fill="#2563eb">p1-char-baseline (3.365)</text>
+<path d="M205.0,262.9 L340.0,304.2 L475.0,327.8 L610.0,341.7" fill="none" stroke="#dc2626" stroke-width="2"/>
+<circle cx="610.0" cy="341.7" r="3" fill="#dc2626"/>
+<text x="620" y="74" font-size="12" fill="#dc2626">p2-bpe512 (2.725)</text>
+<path d="M205.0,54.8 L340.0,75.6 L475.0,183.9 L610.0,260.1" fill="none" stroke="#059669" stroke-width="2"/>
+<circle cx="610.0" cy="260.1" r="3" fill="#059669"/>
+<text x="620" y="92" font-size="12" fill="#059669">p4-lr3e-3 (2.988)</text>
+<path d="M205.0,57.5 L340.0,93.6 L475.0,144.7 L610.0,185.2" fill="none" stroke="#d97706" stroke-width="2"/>
+<circle cx="610.0" cy="185.2" r="3" fill="#d97706"/>
+<text x="620" y="110" font-size="12" fill="#d97706">p5-nodropout (3.229)</text>
+<path d="M205.0,269.1 L340.0,297.7 L475.0,333.5 L610.0,350.2" fill="none" stroke="#7c3aed" stroke-width="2"/>
+<circle cx="610.0" cy="350.2" r="3" fill="#7c3aed"/>
+<text x="620" y="128" font-size="12" fill="#7c3aed">p6-bpe-lr3e-3 (2.698)</text>
+</svg>

@@ -1,0 +1,68 @@
+# Batch size at its own learning rate: removing the confound from the bracket.
+#
+# The first bracket (configs/batch-4096.yaml, configs/batch-16384.yaml) held
+# the learning rate at 3.0e-3 for all three arms and found a clean interior
+# optimum at the centre: 4,096 tok/step was +0.63% and 16,384 was +1.71%.
+# That header flagged why the result could not be taken at face value --
+# 3.0e-3 is the value the LR bracket selected AT THE CENTRE BATCH, so the
+# centre was the only arm running at a learning rate chosen for it.
+#
+# This arm re-runs 16384 tokens/step at the square-root-scaled learning rate,
+# the standard rule for carrying a tuned LR across batch sizes:
+#
+#     lr(B) = 3.0e-3 * sqrt(B / 8192)   ->   4.24e-3 at B = 16384
+#
+# The first bracket also produced the mechanism that makes this worth paying
+# for: at 4,096 tok/step the gradient clip engaged on 9.75% of updates
+# against 0.71% at the centre, and the median pre-clip gradient norm at
+# MATCHED TRAINING LOSS was 14% higher. A tenth of the extra updates were
+# being truncated, which is exactly what too high a learning rate for the
+# batch looks like.
+#
+# Interpretation is binary and decided in advance:
+#   * if this arm closes the gap to the centre, the first bracket measured an
+#     LR mismatch and the honest conclusion is "batch size and learning rate
+#     have to move together"
+#   * if it does not, the centre batch is genuinely near optimal for this
+#     model and corpus, and the first bracket stands
+#
+# Token budget, schedule shape and evaluation grid are unchanged from the
+# corresponding fixed-LR arm, so the two are directly comparable and both are
+# comparable to the centre.
+
+run_id: batch-16384-lr4p24e3
+data_dir: data/prepared-71-full
+out_dir: artifacts/runs
+
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 4
+
+learning_rate: 4.24e-3      # 3.0e-3 * sqrt(16384 / 8192)
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+
+warmup_steps: 120
+max_steps: 2400
+
+eval_every: 60
+eval_tokens: 98304
+eval_spread: true
+log_every: 25
+sample_every: 600
+sample_tokens: 240
+save_every: 400
+
+max_seconds: 7200
+threads: 2

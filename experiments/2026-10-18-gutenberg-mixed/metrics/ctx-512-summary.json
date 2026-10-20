@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "ctx-512",
+  "stop_reason": "max_steps",
+  "steps": 4187,
+  "tokens": 34299904,
+  "elapsed_s": 2882.720451116562,
+  "mean_tokens_per_s": 11898.449600520455,
+  "final_val_loss": 3.4418782927950495,
+  "final_val_bpb": 1.6441818545344904,
+  "best_val_loss": 3.4418782927950495,
+  "clipped_steps": 75,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1155.24609375,
+  "params_total": 1819968,
+  "achieved_flops_per_s": 172036731958.42432,
+  "checkpoints": {
+    "last": "artifacts/runs/ctx-512/last.pt",
+    "best": "artifacts/runs/ctx-512/best.pt"
+  }
+}

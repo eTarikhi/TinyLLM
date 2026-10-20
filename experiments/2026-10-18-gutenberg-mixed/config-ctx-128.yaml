@@ -1,0 +1,50 @@
+# Context sweep, downward. The sweep at T=512 and T=1024 bracketed the
+# incumbent only from above, and both lost -- T=512 by 1.56% test bpb and
+# T=1024 by 10.30%, with the penalty surviving token-matching. A monotone
+# trend with 256 at the end of it does not establish that 256 is optimal; it
+# establishes that the optimum is at or below 256. This probes below.
+#
+# Same discipline as the rest of the sweep: matched wall clock (2,926 s),
+# tokens per optimizer step held at 8,192 by scaling batch inversely with
+# context (32 x 128 x 2), step count chosen so the cosine schedule completes
+# inside that wall clock, warmup 5% of the horizon. Only context moves.
+#
+# STEP BUDGET: measured, not predicted. size_probe.py --sweep context called
+# this config at 14,730 tok/s pure / 14,214 end-to-end and sized it at 5,076
+# steps. A 300-step trial of the real thing ran at 11,550 tok/s end-to-end --
+# 19% slower -- which would have driven the run into its 3,600 s guard with
+# the cosine unfinished. The probe is accurate at its own reference point
+# (T=256, 0.0%) and unreliable away from it (+1.5% at T=512, -7.6% at
+# T=1024, -19% here), so the budget below is re-derived from the trial:
+# 2,926 s x 11,500 tok/s / 8,192 = 4,108 steps, rounded to 4,100.
+run_id: ctx-128
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 128
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 32
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 205
+max_steps: 4100
+
+eval_every: 205
+eval_tokens: 98304
+log_every: 50
+sample_every: 2000
+sample_tokens: 240
+save_every: 1400
+max_seconds: 3600
+threads: 2

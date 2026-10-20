@@ -1,0 +1,90 @@
+# Samples — main-gutenberg-4800 (best.pt, step 4800)
+
+Generated with src/generate.py. Prompt is a single newline unless stated.
+
+## temperature 0.6, top-k 40, seed 7
+
+```text
+
+
+“Almost astonishing,” said I, “Is it not the best place in the Bay, and
+you are to be bound to keep my witch?”
+
+“Why, I should be a bad thing, if you get it?”
+
+“I am not a word, sir.”
+
+“That ain't a bad thing, sir, and it's not the same,” said he.
+“I don't know why I'm so. Let's a bad fool!”
+
+“Well, now, you see, you know, and I want to see what ain't that, and
+you've come to. It's a good deal fool there; and if you want to
+come and tell me that's all right. I'll be a good luck. But you've got no
+charm, and you know, I'll never say no more. Well, I'll be a piece of
+anybody
+
+```
+
+## temperature 0.8, top-k 40, seed 7
+
+```text
+
+
+“Almost astonishing,” said Silver. “I have had a mind to get the city
+from the house. I have been a little girl like to live in any other
+other. I have a very pleasant child, and it isn't such a mode of
+swalled in my life. I have a harder on that side which is over,
+you know, and I do not know it.”
+
+“Oh, good God, ma'am.”
+
+I stopped my hands.
+
+“Well, I did, you know, and I want to see what a good time was,
+but I was about to go home.”
+
+Women were there; and I would have been a bite of, that's all! I wanted
+it.”
+
+“Who's to do with it!” said Jerry. “It's enough!” said he. “You
+couldn't go a few days. You had pulled you and
+
+```
+
+## temperature 1.0, top-k 40, seed 7
+
+```text
+
+
+Thanks are alive, and everyone for whom they have been in the
+present place. Even in the first place where I have heard a little; and he
+kettled on a tale in the middle the 9thman, and we noticed everything
+which have been done in my own way, and that my duty must not come out
+of it; I was not like the palace, and not in my heart; but though I could
+be in my life I was not a thing to go into frequent and rain.  I was sure
+the volcanine was not a man's saved one; or else alive did not come
+about to me, or a row of suffered until when I heard of what he
+should like to do with no other danger you must come.  You must not
+translating with me, as I have been drawn from the rocky
+
+```
+
+## prompted: "It was a bright cold day"
+
+```text
+It was a bright cold day, in a great gallery of style
+timid gaol, a little white, sigh as it was, from the bottom and the
+waxhawl. ‘If any one will do a good.’ ‘Well, the cow is frequent,’ ‘Oh,
+I’ll fall on my lips,’ said Alice; ‘and a tall thing in the west.’
+‘Reed!’ said the Gryphon; ‘you’re an old man, too, is it not the
+ball?’
+
+‘I see your eyes as you can,’ said the Hatter.
+
+‘Come,’ said the Dode. ‘Goodbye,’ answered Cat.
+
+‘What am I do not want to go home.’
+
+The D
+
+```

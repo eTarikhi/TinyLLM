@@ -1,0 +1,9 @@
+# Pinned 2026-10-17. Versions verified live against the PyPI JSON API on that
+# date; re-check before reusing this file months later.
+#
+# CPU-only installs: on Linux the PyPI `torch` wheel depends on the CUDA
+# runtime packages (several GB). For a CPU box use PyTorch's CPU index instead:
+#   pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1
+numpy==2.4.6      # newest numpy that publishes a CPython 3.11 wheel; 2.5.x needs 3.12+
+PyYAML==6.0.3

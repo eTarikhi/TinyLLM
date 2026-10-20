@@ -1,0 +1,59 @@
+# The best-known configuration, at double the horizon, on the full corpus.
+#
+#   Two independent results now say the same thing. Data is the dominant
+#   lever: 3.28x the training text is worth 7.30% test bits per byte, twenty
+#   times the seed bar. And capacity is not: at matched wall clock 2.11x the
+#   parameters is 1.35% *worse* on this same corpus, a tie that widened rather
+#   than broke when the data grew. What makes a step valuable here is how much
+#   new text it sees, and the way to buy more of that is more steps, not more
+#   parameters.
+#
+#   So this is the one remaining move: the 1.77M-parameter model, the 71-book
+#   corpus, and twice the steps. 9,600 x 8,192 = 78.64M tokens = 4.16 epochs
+#   over the 18,939,699-token training split, against 2.08 before.
+#
+#   As with main-gutenberg-4800, this is a fresh run rather than a resume: the
+#   cosine schedule is a function of the horizon, and restarting a finished
+#   run with a larger max_steps jumps the learning rate off its floor. The
+#   4,800-step run stays committed and comparable.
+#
+#   Comparison rule, inherited from eval-report-4800.md: the two runs share an
+#   evaluation grid but not a cosine horizon, so only the *endpoints* compare
+#   cleanly. At any matched intermediate step the longer run is mid-anneal and
+#   is penalised by roughly 0.035 bpb; that bias is stated wherever a
+#   mid-run number is quoted.
+#
+#   Warmup stays at 240 steps. Warmup exists to keep the first updates stable,
+#   which is a property of the early steps rather than of the run length.
+run_id: data71-full-9600
+data_dir: data/prepared-71-full
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, not scaled with the horizon
+max_steps: 9600      # 2x data71-full; cosine horizon equals run length
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # 9.4% of the 1,042,315-token val split
+eval_spread: true    # spread over all 71 books, not the leading few
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 9000    # guard: 150 min against a ~110 min estimate
+threads: 2

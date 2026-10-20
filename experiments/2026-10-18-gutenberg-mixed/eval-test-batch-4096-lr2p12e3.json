@@ -1,0 +1,72 @@
+{
+  "run_id": "batch-4096-lr2p12e3",
+  "checkpoint": "artifacts/runs/batch-4096-lr2p12e3/best.pt",
+  "step": 9600,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.2566111321853275,
+    "perplexity": 25.96140811765947,
+    "bpb": 1.6124898611844585,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.645990487008508,
+    "perplexity": 2092.239886287805,
+    "bpb": 3.7858625542254067,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      22,
+      19,
+      21,
+      27
+    ],
+    "max_longest_verbatim_match_chars": 27,
+    "mean_longest_verbatim_match_chars": 22.25,
+    "example_sample": "\n\n\"I do not know.\"\n\n\nCHAPTER XXI\n\nJonathan Sancho fled, and made no effort of the basin of the\nForgan to go and find it.  The next thing it was like a squaw and\nfatigue which had been seen was a little phantom of baseness; the\nbusiness of the dying mansion, the Circumlocution, and the king's\nladyship, and the post-clergies, and the squires, the kingdom,\nrejoicing, was frightened with a scrape-business, and looked fixed upon\nher, the more departed, all the latter, and the king was bowed in the\nhorse copy of his son and the wall was on the couple and the crowd; and\nthe bat-house was alive up a glass of biscuit for the school,"
+  }
+}

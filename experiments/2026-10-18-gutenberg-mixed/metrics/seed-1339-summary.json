@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "seed-1339",
+  "stop_reason": "max_steps",
+  "steps": 4800,
+  "tokens": 39321600,
+  "elapsed_s": 2963.0911662578583,
+  "mean_tokens_per_s": 13270.465805363649,
+  "final_val_loss": 3.380553839702636,
+  "final_val_bpb": 1.6148872239762673,
+  "best_val_loss": 3.380553839702636,
+  "clipped_steps": 76,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1160.73046875,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 164479036723.0934,
+  "checkpoints": {
+    "last": "artifacts/runs/seed-1339/last.pt",
+    "best": "artifacts/runs/seed-1339/best.pt"
+  }
+}

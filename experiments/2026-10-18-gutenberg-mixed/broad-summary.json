@@ -1,0 +1,135 @@
+{
+ "arms": {
+  "broad-ctrl": {
+   "test_bpb": 1.6146509058313576,
+   "vs_ctrl_pct": 0.0
+  },
+  "broad-narrative": {
+   "test_bpb": 1.6297324774556807,
+   "vs_ctrl_pct": 0.9340453450250815
+  },
+  "broad-full": {
+   "test_bpb": 1.633785888537557,
+   "vs_ctrl_pct": 1.185084815367381
+  }
+ },
+ "seed_bar_pct": 0.3690475821746498,
+ "by_form": {
+  "narrative": {
+   "n": 64,
+   "broad-ctrl": 1.5913256621815135,
+   "broad-narrative": 1.6027009357733657,
+   "broad-full": 1.614263217836348,
+   "full_vs_ctrl_pct": 1.441411786408948,
+   "full_vs_narrative_pct": 0.7214248026506034,
+   "verdict_vs_ctrl": "worse",
+   "verdict_vs_narrative": "worse"
+  },
+  "experimental": {
+   "n": 2,
+   "broad-ctrl": 1.9427009197353806,
+   "broad-narrative": 1.961242939698191,
+   "broad-full": 1.9684361354456352,
+   "full_vs_ctrl_pct": 1.324713209780127,
+   "full_vs_narrative_pct": 0.3667671965488985,
+   "verdict_vs_ctrl": "worse",
+   "verdict_vs_narrative": "inside the seed bar"
+  },
+  "non-fiction": {
+   "n": 3,
+   "broad-ctrl": 1.9124375187659448,
+   "broad-narrative": 1.9526909491861408,
+   "broad-full": 1.8860804127409507,
+   "full_vs_ctrl_pct": -1.3781943601483913,
+   "full_vs_narrative_pct": -3.4112175545727097,
+   "verdict_vs_ctrl": "better",
+   "verdict_vs_narrative": "better"
+  },
+  "verse": {
+   "n": 2,
+   "broad-ctrl": 2.0267554143198785,
+   "broad-narrative": 2.0161192428353414,
+   "broad-full": 1.9493248340629274,
+   "full_vs_ctrl_pct": -3.820420545561219,
+   "full_vs_narrative_pct": -3.3130187616521405,
+   "verdict_vs_ctrl": "better",
+   "verdict_vs_narrative": "better"
+  }
+ },
+ "decomposition": {
+  "volume_pct": 0.9340453450250815,
+  "composition_pct": 0.24871634688193225,
+  "combined_pct": 1.185084815367381
+ },
+ "penalty_vs_narrative": {
+  "experimental": {
+   "broad-ctrl": 22.080663053731847,
+   "broad-narrative": 22.371110911706978,
+   "broad-full": 21.940221005840492
+  },
+  "non-fiction": {
+   "broad-ctrl": 20.178890105010066,
+   "broad-narrative": 21.83751226450063,
+   "broad-full": 16.838467971098822
+  },
+  "verse": {
+   "broad-ctrl": 27.36270535230632,
+   "broad-narrative": 25.795099873856707,
+   "broad-full": 20.756318580787205
+  }
+ },
+ "penalty_change_pp": {
+  "experimental": -0.14044204789135506,
+  "non-fiction": -3.340422133911243,
+  "verse": -6.606386771519116
+ },
+ "falsifier": {
+  "statement": "if the verse and non-fiction penalties survive this increase in training mass, the forms are intrinsically harder at 1.77M parameters and 256 tokens of context",
+  "forms_whose_penalty_survived": [],
+  "forms_whose_penalty_unmoved": [
+   "experimental"
+  ],
+  "forms_whose_penalty_closed": [
+   "non-fiction",
+   "verse"
+  ]
+ },
+ "two_by_two": {
+  "1.77M": {
+   "ctrl": 1.6146509058313576,
+   "full": 1.633785888537557,
+   "gap_pct": 1.185084815367381,
+   "forms_ctrl": {
+    "narrative": 1.5913256621815135,
+    "experimental": 1.9427009197353806,
+    "non-fiction": 1.9124375187659448,
+    "verse": 2.0267554143198785
+   },
+   "forms_full": {
+    "narrative": 1.614263217836348,
+    "experimental": 1.9684361354456352,
+    "non-fiction": 1.8860804127409507,
+    "verse": 1.9493248340629274
+   }
+  },
+  "3.74M": {
+   "ctrl": 1.6364727242142834,
+   "full": 1.6466805598142125,
+   "gap_pct": 0.6237705920109469,
+   "forms_ctrl": {
+    "narrative": 1.6132059000496954,
+    "experimental": 1.9592412380777304,
+    "non-fiction": 1.9492372859284715,
+    "verse": 2.0415065893424558
+   },
+   "forms_full": {
+    "narrative": 1.6260462865840757,
+    "experimental": 1.9679839397568268,
+    "non-fiction": 1.9046022258682003,
+    "verse": 1.970092297177557
+   }
+  },
+  "published_size_4L256d_gb71": 1.6365,
+  "reproduces_published": true
+ }
+}

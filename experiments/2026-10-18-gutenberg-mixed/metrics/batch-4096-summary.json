@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "batch-4096",
+  "stop_reason": "max_steps",
+  "steps": 9600,
+  "tokens": 39321600,
+  "elapsed_s": 3127.4021332263947,
+  "mean_tokens_per_s": 12573.247163272139,
+  "final_val_loss": 3.254878093366906,
+  "final_val_bpb": 1.5983673112032024,
+  "best_val_loss": 3.254878093366906,
+  "clipped_steps": 936,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1153.375,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 155837452296.55096,
+  "checkpoints": {
+    "last": "artifacts/runs/batch-4096/last.pt",
+    "best": "artifacts/runs/batch-4096/best.pt"
+  }
+}

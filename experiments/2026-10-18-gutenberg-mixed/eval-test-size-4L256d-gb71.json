@@ -1,0 +1,72 @@
+{
+  "run_id": "size-4L256d-gb71",
+  "checkpoint": "artifacts/runs/size-4L256d-gb71/best.pt",
+  "step": 2560,
+  "tokens_trained": 20971520,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 256,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 3737856,
+  "model": {
+    "loss": 3.305047318114108,
+    "perplexity": 27.249830968906547,
+    "bpb": 1.6364727242142834,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.670525565206194,
+    "perplexity": 2144.208070320958,
+    "bpb": 3.7980109389208154,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      24,
+      29,
+      27,
+      24
+    ],
+    "max_longest_verbatim_match_chars": 29,
+    "mean_longest_verbatim_match_chars": 26.0,
+    "example_sample": "\nheard this groaning over. The street, however, he was an aggravated\ngood-horn; he was very good, during the night, and the wagon rose to\nthe cross. Huck flew, with his fingers from the winter, washed\non the centre barge; the crowd, and the man\u2019s feet deep, the gray\ncloudering, and the barber-lump of the squadron-water. As for a year\ntight alive and stretch crowded with wicketed wooden roles, and\ncreeping and lingering as a paper on the hill, he tried to flee up with\ncloud, and darted in his face.\n\nThen then, in his hand, he said, \u2018Who?\u2019\n\nThen he stopped.\n\n\u2018Gentlemen!\u2019 he asked for a sigh, and"
+  }
+}

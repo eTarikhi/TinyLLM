@@ -1,0 +1,199 @@
+{
+  "seeds": [
+    {
+      "run": "main-gutenberg-4800",
+      "seed": 1337,
+      "steps": 4800,
+      "val_bpb": 1.6157628003101168,
+      "test_bpb": 1.656943035140445,
+      "end_gap": 0.03990934343956454,
+      "clipped_steps": 63,
+      "longest_verbatim": 24,
+      "elapsed_s": 2926.3999774456024,
+      "tokens": 39321600
+    },
+    {
+      "run": "seed-1338",
+      "seed": 1338,
+      "steps": 4800,
+      "val_bpb": 1.6187780389321813,
+      "test_bpb": 1.659243777645637,
+      "end_gap": 0.03649304119119545,
+      "clipped_steps": 40,
+      "longest_verbatim": 25,
+      "elapsed_s": 2915.872505903244,
+      "tokens": 39321600
+    },
+    {
+      "run": "seed-1339",
+      "seed": 1339,
+      "steps": 4800,
+      "val_bpb": 1.6148872239762673,
+      "test_bpb": 1.6531307288995798,
+      "end_gap": 0.024426442286143768,
+      "clipped_steps": 76,
+      "longest_verbatim": 23,
+      "elapsed_s": 2963.0911662578583,
+      "tokens": 39321600
+    }
+  ],
+  "val_spread": {
+    "values": [
+      1.6157628003101168,
+      1.6187780389321813,
+      1.6148872239762673
+    ],
+    "mean": 1.616476021072855,
+    "min": 1.6148872239762673,
+    "max": 1.6187780389321813,
+    "range": 0.003890814955914035,
+    "range_pct": 0.24069735060664255,
+    "stdev": 0.002041108313537498,
+    "stdev_pct": 0.12626901277402275
+  },
+  "test_spread": {
+    "values": [
+      1.656943035140445,
+      1.659243777645637,
+      1.6531307288995798
+    ],
+    "mean": 1.6564391805618872,
+    "min": 1.6531307288995798,
+    "max": 1.659243777645637,
+    "range": 0.006113048746057226,
+    "range_pct": 0.3690475821746498,
+    "stdev": 0.003087514100399895,
+    "stdev_pct": 0.18639465527207388
+  },
+  "margin_verdicts": [
+    {
+      "label": "size 3.74M",
+      "margin_pct": 0.21648672334646513,
+      "inside_seed_range": true
+    },
+    {
+      "label": "size 5.64M",
+      "margin_pct": 2.114662935300049,
+      "inside_seed_range": false
+    },
+    {
+      "label": "context T=128",
+      "margin_pct": 0.6415218647278564,
+      "inside_seed_range": false
+    },
+    {
+      "label": "context T=512",
+      "margin_pct": 1.5604601477201552,
+      "inside_seed_range": false
+    },
+    {
+      "label": "context T=1024",
+      "margin_pct": 10.296776403635487,
+      "inside_seed_range": false
+    },
+    {
+      "label": "lr 1.5e-3",
+      "margin_pct": 0.831251738123906,
+      "inside_seed_range": false
+    },
+    {
+      "label": "lr 6.0e-3",
+      "margin_pct": 0.07913845560072463,
+      "inside_seed_range": true
+    }
+  ],
+  "data": [
+    {
+      "run": "main-gutenberg-4800",
+      "label": "27 books",
+      "train_tokens": 5771560,
+      "epochs": 6.8129933674777705,
+      "tokens_trained": 39321600,
+      "val_bpb": 1.6157628003101168,
+      "test_bpb": 1.656943035140445,
+      "end_gap": 0.03990934343956454,
+      "longest_verbatim": 24,
+      "mean_longest_verbatim": 22.25,
+      "clipped_steps": 63,
+      "elapsed_s": 2926.3999774456024,
+      "peak_rss_mb": 1165.98828125
+    },
+    {
+      "run": "data-gb71",
+      "label": "71 books",
+      "train_tokens": 20379728,
+      "epochs": 1.9294467521843275,
+      "tokens_trained": 39321600,
+      "val_bpb": 1.6335132046636995,
+      "test_bpb": 1.665753012263307,
+      "end_gap": 0.15215687654724075,
+      "longest_verbatim": 29,
+      "mean_longest_verbatim": 25.75,
+      "clipped_steps": 38,
+      "elapsed_s": 3065.5356736183167,
+      "peak_rss_mb": 1172.98046875
+    }
+  ],
+  "data_delta_test_pct": 0.5317006641761379,
+  "data_delta_val_pct": 1.09857736235639,
+  "data_outside_seed_range": true,
+  "data_lead_changes": [
+    {
+      "step": 120,
+      "leader": "27 books"
+    }
+  ],
+  "data_common_eval_steps": 40,
+  "data_tail": [
+    {
+      "step": 4200,
+      "gb27": 1.6259780173153517,
+      "gb71": 1.6446124978223648,
+      "delta_pct": 1.146047505474912
+    },
+    {
+      "step": 4320,
+      "gb27": 1.6255281865508915,
+      "gb71": 1.6417341248043713,
+      "delta_pct": 0.996964456695526
+    },
+    {
+      "step": 4440,
+      "gb27": 1.621017103074735,
+      "gb71": 1.638423941019097,
+      "delta_pct": 1.0738219795056514
+    },
+    {
+      "step": 4560,
+      "gb27": 1.620177500293327,
+      "gb71": 1.6361009085304554,
+      "delta_pct": 0.9828187488250872
+    },
+    {
+      "step": 4680,
+      "gb27": 1.6182132778881069,
+      "gb71": 1.6349175400140745,
+      "delta_pct": 1.0322657930336598
+    },
+    {
+      "step": 4800,
+      "gb27": 1.6157628003101168,
+      "gb71": 1.6335132046636995,
+      "delta_pct": 1.09857736235639
+    }
+  ],
+  "data_sigma_val": 8.347025720216147,
+  "data_sigma_test": 3.016611875623024,
+  "shift": {
+    "clean_test_bpb": 1.6561872532726083,
+    "clean_new_bpb": 1.7710006206562385,
+    "clean_shift_pct": 6.932390474371797,
+    "gb71_new_bpb": 1.5977264394718949,
+    "gb71_test_bpb": 1.665753012263307,
+    "gb71_new_gain_pct": -9.783970664004482,
+    "gb71_test_cost_pct": 0.5775771412197983,
+    "gain_cost_ratio": 16.939677777658396,
+    "probe_tokens": 365371,
+    "probe_docs": 44
+  }
+}

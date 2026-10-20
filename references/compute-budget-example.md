@@ -1,5 +1,19 @@
 # Worked example: from config to a defensible compute budget
 
+## The procedure this example follows
+
+1. Run a short pilot on the actual hardware, with the intended sequence length, batch, precision, and attention implementation.
+2. Measure steady-state tokens/second after warm-up and compilation. Exclude startup and data-download time, but include evaluation/checkpoint overhead in the planning estimate.
+3. Estimate wall-clock training time from intended training tokens divided by sustained aggregate tokens/second. Add a contingency for interruptions, failed jobs, and evaluation.
+4. For a dense Transformer, `~6 × parameter_count × training_tokens` is a widely used rough FLOP estimate for training; it is not a billing formula and can vary materially with architecture, activation checkpointing, sequence length, attention kernels, and hardware utilization. Validate estimates with a pilot.
+5. Price actual cloud GPU types from the provider's current published rates at planning time. Include storage, network egress, CPU/data processing, taxes, idle time, spot interruption risk, and evaluation.
+6. Train a sequence of increasingly larger pilots. Do not jump from a toy model directly to a billion-parameter run without a measured throughput and memory budget.
+7. Chinchilla's compute-optimal study is a useful historical scaling-law reference, but do not turn its results into a universal fixed model-size-to-token-count ratio. Use current research, budget, domain, and pilot results to choose a training horizon. This is not a hypothetical caution: nanochat exposes the ratio as a flag and defaults it to **12** tokens per parameter, while its own help text notes that Chinchilla's figure is **20**. A maintained harness deliberately choosing a different ratio than the famous paper is the clearest evidence that the ratio is a decision to justify, not a constant to apply — inference cost, not just training loss, drives the choice.
+
+If a budget is tight, recommend a smaller model trained cleanly with transparent evaluation instead of suggesting a large model can be built cheaply without qualification.
+
+The rest of this file walks one configuration through steps 1-7 with arithmetic that `.github/scripts/check_docs_math.py` recomputes on every commit.
+
 All arithmetic below was computed and checked on 2026-10-17; reproduce it with the snippets shown. The purpose is not these specific numbers but the order of operations: **exact parameter count → token budget → `6ND` as a sanity check on total work → a measured pilot as the only trustworthy source of wall-clock time.**
 
 ## Step 1 — Count parameters exactly, and record whether embeddings are tied
@@ -18,7 +32,7 @@ Config: `vocab=8192`, `d_model=512`, `layers=6`, `heads=8` (head dim `512/8 = 64
 
 Tying the input and output embeddings removes **15.2%** of the parameters at this scale. That is why `templates/experiment-plan.md` asks for the tied/untied choice explicitly: a recorded parameter count is ambiguous without it, and every downstream FLOP and VRAM estimate inherits the ambiguity. The gap shrinks as the model grows — embeddings dominate small models and become negligible in large ones.
 
-Excluded here: normalization weights and any attention biases, about `13,312` parameters or **0.057%** of the total. Below 0.1% is fine to omit from a planning estimate, but count them when you report a final parameter number.
+Excluded here: the normalization parameters — 13 LayerNorms (two per block plus a final one), each carrying a weight *and* a bias of width `d`, so `13 × 2 × 512 = 13,312` parameters, or **0.057%** of the total. Dropping the norm biases, as nanoGPT does, halves that to `6,656`. Below 0.1% is fine to omit from a planning estimate, but count them when you report a final parameter number, and say whether norms and attention carry biases.
 
 ## Step 2 — Pick the token budget before pricing anything
 
@@ -31,16 +45,20 @@ Take `D = 2,000,000,000` (2B) tokens. Choose this from the corpus you actually h
 6 × 27,525,120 × 2e9 = 3.3030e17 FLOPs   (untied)
 ```
 
-`6ND` covers the parameter matmuls and omits the attention term, which scales with context length. For this config the omission is genuinely negligible at short context and stops being negligible as context grows:
+`6ND` covers the parameter matmuls. It omits the attention score and value matmuls, which have no parameters and therefore do not appear in `N`. Their cost per token is `12 · L · T · d_model`: per layer and per token, `QKᵀ` and `A·V` are `2·T·d` FLOPs each in the forward pass, and the backward pass costs about twice the forward, so `(2+2) × 3 × L · T · d`. The `d_model` factor is the part that is easy to drop — **this table previously read `12·L·T·D`, which understated the attention term by a factor of `d_model` (512×) and produced the comforting, wrong conclusion that attention is negligible at short context.**
 
-| Context `T` | Attention term `12·L·T·D` | Share of `6ND` |
+With `N`, `L`, `d` and `D` held at the values above, so that only the context length varies:
+
+| Context `T` | Attention term `12·L·T·d·D` | Share of `6ND` |
 | --- | --- | --- |
-| 512 | 7.37e13 | 0.026% |
-| 2,048 | 2.95e14 | 0.105% |
-| 8,192 | 1.18e15 | 0.421% |
-| 32,768 | 4.72e15 | 1.685% |
+| 512 | 3.77e16 | 13.5% |
+| 2,048 | 1.51e17 | 53.9% |
+| 8,192 | 6.04e17 | 215.7% |
+| 32,768 | 2.42e18 | 862.9% |
 
-So `6ND` is a reasonable planning figure for a short-context educational run and an increasingly incomplete one for long-context work.
+The rule of thumb behind the table: relative to the body FLOPs the attention term is `T / (6 · d_model)`, so it is small only while the context is short *compared with the model's width*. At `T = d_model` it is already about one sixth of the body. Two refinements, in opposite directions: a causal kernel computes roughly half of the score matrix, so a measured run lands nearer half this figure, while a long-context model would also carry a larger position embedding and a different `N`.
+
+So `6ND` is a usable planning figure only when `T ≪ 6·d_model`, and even in that regime it is an underestimate (here by ~13%), not a safe upper bound. Quote it with the attention term added, or quote it as a lower bound and say so.
 
 ## Step 4 — Only a measured pilot gives wall-clock time
 
@@ -54,10 +72,14 @@ At 25,000 tokens/s the same budget is 22.2 h. **Throughput, not FLOPs, is what y
 
 ## Step 5 — Back out MFU and read what it tells you
 
+Use total FLOPs, not just `6ND`, or the achieved figure inherits the omission from step 3:
+
 ```
-achieved = 6ND / seconds = 2.7997e17 / 166,667 = 1.68 TFLOP/s
-MFU = 1.68 / 200 = 0.84%      (against a 200 TFLOP/s peak)
-    = 1.68 / 312 = 0.54%      (against a 312 TFLOP/s peak)
+total  = (6N + 12·L·T·d) · D
+       = (139,984,896 + 18,874,368) × 2e9 = 3.1772e17 FLOPs
+achieved = 3.1772e17 / 166,667 = 1.91 TFLOP/s
+MFU = 1.91 / 200 = 0.95%      (against a 200 TFLOP/s peak)
+    = 1.91 / 312 = 0.61%      (against a 312 TFLOP/s peak)
 ```
 
 An MFU under 1% is not a bug to chase. A 23M-parameter model is far too small to saturate a modern accelerator: you are bound by launch overhead, memory movement, and the data pipeline, not by matmul throughput. Two consequences worth stating plainly to a user:
@@ -96,13 +118,22 @@ A run at 488,281 updates and a run at 30,518 updates are not comparable by step 
 
 ## Reproduce
 
+Every number above, including the attention table that was wrong until it was checked:
+
 ```bash
 python3 - <<'PY'
 V,d,L,T,D = 8192,512,6,512,2_000_000_000
 tied = V*d + T*d + L*(4*d*d + 8*d*d)
 print(f"tied   {tied:,}"); print(f"untied {tied+V*d:,}")
 print(f"6ND    {6*tied*D:.4e}")
-for tps in (12_000, 25_000):
-    s = D/tps; print(f"{tps:,} tok/s -> {s/3600:.1f} h, MFU {6*tied*D/s/200e12*100:.2f}%")
+for Tc in (512, 2048, 8192, 32768):                    # attention term, step 3
+    att = 12*L*Tc*d*D
+    print(f"  T={Tc:>6}: {att:.2e} FLOPs, {att/(6*tied*D)*100:6.1f}% of 6ND")
+for tps in (12_000, 25_000):                           # wall clock + MFU, steps 4-5
+    s = D/tps
+    total = (6*tied + 12*L*T*d)*D
+    print(f"{tps:,} tok/s -> {s/3600:.1f} h, {total/s/1e12:.2f} TFLOP/s, MFU {total/s/200e12*100:.2f}%")
 PY
 ```
+
+`.github/scripts/check_docs_math.py` runs this arithmetic against the tables above on every push, so a future edit cannot quietly reintroduce a wrong formula.

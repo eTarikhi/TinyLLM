@@ -1,0 +1,65 @@
+# Main run, iteration 2, extended horizon.
+#
+# Why this file exists rather than a resume of `main-gutenberg`:
+#
+#   The 2400-step run ended with validation bits-per-byte still falling at
+#   every one of its 20 evaluations and a train/val gap that was *narrowing*
+#   (+0.2167 at step 1080, +0.1180 at step 2400). That is a compute-limited
+#   run, and its roadmap's first item was "more steps on this exact
+#   configuration" as the one change with a guaranteed return.
+#
+#   "More steps" cannot be done by resuming, because the cosine schedule is a
+#   function of the horizon. Resuming the finished run with a larger
+#   `max_steps` rewrites the schedule underneath the optimizer: the learning
+#   rate, already annealed to its 3e-4 floor, jumps back toward peak. That is
+#   the exact failure this project's own resume test documents, and it is why
+#   `src/train.py` fixes the horizon and interrupts with `stop_after_steps`
+#   instead. Resume is for recovering an interrupted run, not for extending a
+#   finished one.
+#
+#   So the horizon is doubled and the schedule is run once, cleanly, over the
+#   whole thing. Same architecture, same data, same seed, same recipe --
+#   `max_steps` and the time guard are the only changes from
+#   `main-gutenberg.yaml`. The 2400-step run stays committed and comparable.
+#
+#   What this run tests: 4800 x 8,192 = 39.32M tokens = 6.81 epochs over the
+#   5,771,560-token training split, against 3.41 epochs before. Iteration 1
+#   turned over at 11.9 epochs on a 1.1 MB corpus. If the gap starts widening
+#   here, this corpus has a ceiling too and the next lever is more data, not
+#   more steps. If it does not, the model is still compute-limited at 2x.
+#
+#   Warmup stays at 240 steps rather than scaling to 10% of the new horizon:
+#   warmup exists to keep the first updates stable, which is a property of the
+#   early steps, not of the run length. nanoGPT holds it fixed for the same
+#   reason.
+run_id: main-gutenberg-4800
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, not scaled with the horizon
+max_steps: 4800      # 2x the 2400-step run; cosine horizon equals run length
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # the same fixed 31% slice of the val split
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 5400    # guard: 90 min against a ~57 min estimate at 11,552 tok/s
+threads: 2

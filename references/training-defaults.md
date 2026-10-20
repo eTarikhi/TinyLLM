@@ -7,9 +7,43 @@
 
 Treat these as evidence of what a tuned run looks like. Re-tune on the target hardware; do not paste them into a different architecture or optimizer and assume they transfer.
 
+## The objective, and the knobs around it
+
+- Standard causal pretraining objective: cross-entropy for predicting the next token, shifted by one position and masked so future tokens cannot leak into context.
+- AdamW is a sound baseline for an implementation you write yourself. Use a short warm-up followed by a schedule appropriate to the training horizon; log the effective learning rate.
+- Maintained harnesses increasingly do not use a single global AdamW learning rate. nanochat splits parameters into four groups — matrix parameters on Muon, embeddings, unembeddings and scalars on AdamW — with learning rates spanning `0.008` to `0.5`. Muon orthogonalizes its update, so its natural learning rate is orders of magnitude away from AdamW's. Never carry a learning rate from one optimizer to another, and when reading a harness's config, check which parameter group each value belongs to before treating any of them as "the learning rate". Upstream guidance is that Muon should not be applied to embeddings, the final output layer, or 0-/1-dimensional parameters.
+- Clip gradients if needed and log gradient norm, loss, tokens/second, GPU memory, and validation loss.
+- Use mixed precision only after a stable FP32 or known-good baseline; choose BF16/FP16 based on hardware and current framework support. Follow the official PyTorch AMP docs. Use gradient scaling when the selected precision and hardware require it — BF16 generally does not, FP16 does. A useful published pattern is to select BF16 when the accelerator reports support for it and fall back to FP16 otherwise, rather than hardcoding either.
+- FP8 training is now available on newer accelerators and is used by current harnesses, including a choice of scaling recipe. Treat it as a later optimization for a measured, stable BF16 baseline — not a starting point for a first model, and not something to enable while still debugging convergence.
+- Use gradient accumulation to fit a larger effective batch in limited VRAM; compute and document the effective tokens per optimizer update.
+- Save checkpoint state atomically. A useful checkpoint includes model weights, optimizer state, scheduler, scaler if applicable, update count, RNG states, configuration, and data/sampler position.
+- Checkpoint often enough that losing a run is acceptable. Test resume behavior before a long run.
+- Compare validation loss at a fixed token budget, not just at a fixed number of steps if batch sizes differ.
+
+## Failure patterns and the first things to check
+
+- **Loss does not decline:** inspect input/target shift, masking, token IDs, learning rate, optimizer updates, and whether data batches have signal.
+- **Model repeats tokens or text:** inspect data quality and duplicates, training horizon, sampling temperature/top-p, EOS handling, and tokenizer decoding.
+- **Train loss falls but validation loss worsens:** investigate overfitting, data duplication, split leakage, dataset mismatch, and training duration.
+- **Loss spikes or NaNs:** inspect learning rate, gradient norm, precision, bad batches, initialization, and recent code changes; resume from a known-good checkpoint after diagnosis.
+- **Model produces incoherent language:** check tokenization and detokenization, vocabulary size, number of useful training tokens, and whether the run is simply too short or too small.
+
+Watch for rising or spiking loss, NaNs/Infs, dead gradients, train/validation divergence, and throughput regressions. Stop and diagnose rather than spending more compute on a broken run.
+
 ## Anchor A — tiny educational GPT (~10.8M parameters)
 
-This is the direct analogue of the 5–20M starting model `SKILL.md` recommends. nanoGPT's character-level Shakespeare config: `n_layer=6`, `n_head=6`, `n_embd=384`, `block_size=256`, `batch_size=64`, `gradient_accumulation_steps=1`, vocab 65. That is **10,765,056 parameters** with untied embeddings — inside the recommended range.
+This is the direct analogue of the 5–20M starting model `SKILL.md` recommends. nanoGPT's character-level Shakespeare config: `n_layer=6`, `n_head=6`, `n_embd=384`, `block_size=256`, `batch_size=64`, `gradient_accumulation_steps=1`, vocab 65, and `bias=False` from `train.py`'s defaults, which the config does not override.
+
+That is **10,745,088 parameters in total, with the input and output embeddings tied** — `model.py` does `self.transformer.wte.weight = self.lm_head.weight`, so the 24,960-parameter embedding matrix is one tensor serving two roles. nanoGPT itself prints `10.65M`, because `get_num_params()` reports the *non-embedding* count and subtracts the 98,304-parameter position embedding. Both figures are inside the recommended range; quote either, but say which one, and do not describe this model as untied. (An earlier version of this file claimed 10,765,056 untied parameters: the right structure, the wrong tying assumption, and silently missing the LayerNorm weights.)
+
+| Component | Count |
+| --- | --- |
+| Token embedding `65 × 384` (tied with the output head) | 24,960 |
+| Position embedding `256 × 384` | 98,304 |
+| 6 blocks × (`3d²` + `d²` + `4d²` + `4d²` + two LayerNorm weights) | 10,621,440 |
+| Final LayerNorm | 384 |
+| **Total** | **10,745,088** |
+| Non-embedding, as nanoGPT prints it | 10,646,784 |
 
 | Setting | Value | Upstream rationale (verbatim comment) |
 | --- | --- | --- |
@@ -59,7 +93,7 @@ The dtype line is upstream code doing exactly what `SKILL.md` advises: prefer BF
 | Warmdown fraction | `0.65` | 65% of the run is spent decaying |
 | Final LR fraction | `0.05` | vs nanoGPT's `0.1` |
 | Reference batch | `2^19 = 524,288` tokens | "optimal batch size at d12, measured empirically" |
-| Batch scaling | `B ∝ D^0.383` | optimal batch grows sublinearly with the token horizon |
+| Batch scaling | `B ∝ D^0.383` | optimal batch grows sublinearly with the token horizon; the exponent is cited in `scripts/base_train.py` to *Power Lines: Scaling Laws for Weight Decay and Batch Size in LLM Pre-training*, [arXiv:2505.13738](https://arxiv.org/abs/2505.13738) |
 | LR vs batch | `η ∝ sqrt(B/B_ref)` | Adam-style square-root scaling, not SGD's linear |
 | Param:token ratio | `12` | upstream help text notes "Chinchilla=20" |
 | Width rule | `d_model = depth × 64` | `--aspect-ratio 64` |

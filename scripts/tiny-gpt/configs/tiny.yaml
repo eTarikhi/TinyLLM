@@ -1,0 +1,20 @@
+# Smoke test: proves the loop runs end to end in well under a minute.
+run_id: tiny
+data_dir: data/prepared-char
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 128
+n_layer: 2
+n_head: 2
+n_embd: 128
+dropout: 0.0
+
+batch_size: 8
+learning_rate: 1.0e-3
+warmup_steps: 20
+max_steps: 100
+eval_every: 50
+eval_tokens: 32768
+log_every: 25
+threads: 2

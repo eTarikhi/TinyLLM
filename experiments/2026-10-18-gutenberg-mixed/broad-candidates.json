@@ -1,0 +1,155 @@
+[
+ {
+  "pg_id": 1524,
+  "slug": "Hamlet-Prince-of-Denmark",
+  "title": "Hamlet",
+  "author": "William Shakespeare",
+  "year": "1603",
+  "form": "drama",
+  "raw_bytes": 204885
+ },
+ {
+  "pg_id": 1513,
+  "slug": "Romeo-and-Juliet",
+  "title": "Romeo and Juliet",
+  "author": "William Shakespeare",
+  "year": "1597",
+  "form": "drama",
+  "raw_bytes": 169928
+ },
+ {
+  "pg_id": 1532,
+  "slug": "The-Tragedy-of-King-Lear",
+  "title": "King Lear",
+  "author": "William Shakespeare",
+  "year": "1606",
+  "form": "drama",
+  "raw_bytes": 183841
+ },
+ {
+  "pg_id": 1522,
+  "slug": "Julius-Caesar",
+  "title": "Julius Caesar",
+  "author": "William Shakespeare",
+  "year": "1599",
+  "form": "drama",
+  "raw_bytes": 142783
+ },
+ {
+  "pg_id": 1519,
+  "slug": "Much-Ado-about-Nothing",
+  "title": "Much Ado About Nothing",
+  "author": "William Shakespeare",
+  "year": "1600",
+  "form": "drama",
+  "raw_bytes": 143737
+ },
+ {
+  "pg_id": 790,
+  "slug": "Lady-Windermere-s-Fan",
+  "title": "Lady Windermere's Fan",
+  "author": "Oscar Wilde",
+  "year": "1892",
+  "form": "drama",
+  "raw_bytes": 141508
+ },
+ {
+  "pg_id": 885,
+  "slug": "An-Ideal-Husband",
+  "title": "An Ideal Husband",
+  "author": "Oscar Wilde",
+  "year": "1895",
+  "form": "drama",
+  "raw_bytes": 203814
+ },
+ {
+  "pg_id": 854,
+  "slug": "A-Woman-of-No-Importance",
+  "title": "A Woman of No Importance",
+  "author": "Oscar Wilde",
+  "year": "1893",
+  "form": "drama",
+  "raw_bytes": 153614
+ },
+ {
+  "pg_id": 7986,
+  "slug": "Plays-by-Anton-Chekhov-Second-Series",
+  "title": "The Cherry Orchard",
+  "author": "Anton Chekhov (tr.)",
+  "year": "1904",
+  "form": "drama",
+  "raw_bytes": 419064
+ },
+ {
+  "pg_id": 228,
+  "slug": "The-Aeneid",
+  "title": "The Aeneid",
+  "author": "Virgil (tr. Dryden)",
+  "year": "-19",
+  "form": "verse",
+  "raw_bytes": 747061
+ },
+ {
+  "pg_id": 21765,
+  "slug": "The-Metamorphoses-of-Ovid-Books-I-VII",
+  "title": "Metamorphoses",
+  "author": "Ovid (tr. More)",
+  "year": "8",
+  "form": "verse",
+  "raw_bytes": 780619
+ },
+ {
+  "pg_id": 1934,
+  "slug": "Songs-of-Innocence-and-Songs-of-Experience",
+  "title": "Songs of Innocence and of Experience",
+  "author": "William Blake",
+  "year": "1794",
+  "form": "verse",
+  "raw_bytes": 53923
+ },
+ {
+  "pg_id": 25717,
+  "slug": "The-History-Of-The-Decline-And-Fall-Of-The-Roman-EmpireProject-Gutenberg-editions--12-volumes_",
+  "title": "The History of the Decline and Fall of the Roman Empire, Volume 1",
+  "author": "Edward Gibbon",
+  "year": "1776",
+  "form": "non-fiction",
+  "raw_bytes": 16485319
+ },
+ {
+  "pg_id": 147,
+  "slug": "Common-Sense",
+  "title": "Common Sense",
+  "author": "Thomas Paine",
+  "year": "1776",
+  "form": "non-fiction",
+  "raw_bytes": 148133
+ },
+ {
+  "pg_id": 4280,
+  "slug": "The-Critique-of-Pure-Reason",
+  "title": "The Critique of Pure Reason",
+  "author": "Immanuel Kant (tr. Meiklejohn)",
+  "year": "1781",
+  "form": "non-fiction",
+  "raw_bytes": 1313936
+ },
+ {
+  "pg_id": 10615,
+  "slug": "An-Essay-Concerning-Humane-Understanding-Volume-1--13-MDCXC-Based-on-the-2nd-Edition-Books-1-_",
+  "title": "The Analects of Confucius",
+  "author": "Confucius (tr. Legge)",
+  "year": "-400",
+  "form": "non-fiction",
+  "raw_bytes": 870605
+ },
+ {
+  "pg_id": 3600,
+  "slug": "Essays-of-Michel-de-Montaigne---Complete",
+  "title": "Essays of Michel de Montaigne",
+  "author": "Michel de Montaigne (tr. Cotton)",
+  "year": "1580",
+  "form": "non-fiction",
+  "raw_bytes": 3105628
+ }
+]

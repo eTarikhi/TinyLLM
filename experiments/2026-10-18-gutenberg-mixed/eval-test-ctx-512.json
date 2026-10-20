@@ -1,0 +1,72 @@
+{
+  "run_id": "ctx-512",
+  "checkpoint": "artifacts/runs/ctx-512/best.pt",
+  "step": 4187,
+  "tokens_trained": 34299904,
+  "data_dir": "data/prepared-gb-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 512,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1819968,
+  "model": {
+    "loss": 3.363262803758985,
+    "perplexity": 28.883277769521378,
+    "bpb": 1.6827989708742366,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.660699455824402,
+    "perplexity": 2123.242023313549,
+    "bpb": 3.833009167773005,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.282766947913034,
+    "perplexity": 535.2676744840531,
+    "bpb": 3.1434883222301218,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.387738570987872,
+    "perplexity": 80.45826244211464,
+    "bpb": 2.1953392626604837,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      23,
+      22,
+      19,
+      22
+    ],
+    "max_longest_verbatim_match_chars": 23,
+    "mean_longest_verbatim_match_chars": 21.5,
+    "example_sample": "\nhearted out of the Spanish street, and there was a rough, as though\nthey had gone before the same; and the Sid had been a great deal to\ndread to go back with it. The captain was just going to dress, and had\nfast enough to be seen by them. Was it made a long time to show him\nthere, some time to run off, they would have done the pavement in\nthe captain was setting down on the road.\n\nAt this instant to see him there, and alive was going to a ragged\nto the captain and astonishment which was a journeyman, and when\nthe men who was lying upon him, and the streets were not all he\nwanted.\n\nThe baggering, and the other on the barrel made their squire in his hand,\nthey had seen them. Caring the door in the south stairs of the\nswiftly growled and dived out,"
+  }
+}

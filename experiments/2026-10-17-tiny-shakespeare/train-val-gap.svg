@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" font-family="ui-sans-serif, system-ui, sans-serif">
+<rect width="760" height="420" fill="#ffffff"/>
+<text x="70" y="24" font-size="15" font-weight="600" fill="#111827">val_loss / train_eval_loss vs training tokens</text>
+<line x1="70" y1="365.0" x2="610" y2="365.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="369.0" font-size="11" fill="#6b7280" text-anchor="end">1.254</text>
+<line x1="70" y1="283.8" x2="610" y2="283.8" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="287.8" font-size="11" fill="#6b7280" text-anchor="end">1.891</text>
+<line x1="70" y1="202.5" x2="610" y2="202.5" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="206.5" font-size="11" fill="#6b7280" text-anchor="end">2.528</text>
+<line x1="70" y1="121.2" x2="610" y2="121.2" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="125.2" font-size="11" fill="#6b7280" text-anchor="end">3.165</text>
+<line x1="70" y1="40.0" x2="610" y2="40.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="62" y="44.0" font-size="11" fill="#6b7280" text-anchor="end">3.802</text>
+<line x1="70.0" y1="40" x2="70.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="70.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">0.00M</text>
+<line x1="205.0" y1="40" x2="205.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="205.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">3.07M</text>
+<line x1="340.0" y1="40" x2="340.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="340.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">6.14M</text>
+<line x1="475.0" y1="40" x2="475.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="475.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">9.22M</text>
+<line x1="610.0" y1="40" x2="610.0" y2="365" stroke="#f3f4f6" stroke-width="1"/>
+<text x="610.0" y="383" font-size="11" fill="#6b7280" text-anchor="middle">12.29M</text>
+<text x="340" y="408" font-size="12" fill="#374151" text-anchor="middle">training tokens</text>
+<path d="M124.0,54.8 L178.0,112.4 L232.0,152.0 L286.0,165.5 L340.0,173.3 L394.0,170.3 L448.0,160.7 L502.0,149.4 L556.0,134.7 L610.0,121.8" fill="none" stroke="#2563eb" stroke-width="2"/>
+<circle cx="610.0" cy="121.8" r="3" fill="#2563eb"/>
+<text x="620" y="56" font-size="12" fill="#2563eb">main val_loss (3.160)</text>
+<path d="M124.0,67.1 L178.0,131.6 L232.0,176.8 L286.0,208.0 L340.0,232.8 L394.0,254.9 L448.0,279.4 L502.0,309.5 L556.0,335.3 L610.0,350.2" fill="none" stroke="#dc2626" stroke-width="2"/>
+<circle cx="610.0" cy="350.2" r="3" fill="#dc2626"/>
+<text x="620" y="74" font-size="12" fill="#dc2626">main train_eval_loss (1.370)</text>
+</svg>

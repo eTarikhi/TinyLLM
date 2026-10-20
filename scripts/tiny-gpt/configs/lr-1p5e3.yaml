@@ -1,0 +1,55 @@
+# Learning-rate bracket, low arm.
+#
+# Why this file exists:
+#
+#   Peak learning rate has been 3e-3 since pilot p5 of iteration 1. That
+#   pilot chose it on a 1.1 MB Shakespeare corpus, with a character-level
+#   tokenizer and a model twice this one's size, over a 600-step horizon.
+#   Every conclusion drawn since -- the tokenizer choice, the model size, the
+#   step count, the context length -- has been measured *conditional on* a
+#   learning rate inherited from a setting that no longer exists. Three
+#   levers have now been swept at the real budget and none of them binds.
+#   This is the control that should have been run first.
+#
+#   The design is the narrowest possible: byte-for-byte identical to
+#   `main-gutenberg-4800.yaml` except `run_id` and `learning_rate`. Same
+#   horizon, same warmup, same seed, same evaluation cadence, so the three
+#   curves are comparable step for step and all three finish their cosine.
+#   The bracket is a half-decade either side of the incumbent: 1.5e-3 here,
+#   6.0e-3 in `lr-6e3.yaml`, 3.0e-3 already run.
+#
+#   What a result looks like: if 3e-3 wins, the inherited recipe is
+#   vindicated and the roadmap can stop asking. If an end of the bracket
+#   wins, every earlier verdict was measured at the wrong operating point and
+#   the cheap ones are worth re-running there.
+run_id: lr-1p5e3
+data_dir: data/prepared-gb-bpe2048
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 1.5e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, exactly as the reference run
+max_steps: 4800      # same horizon, so the cosine shape is identical
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # the same fixed 31% slice of the val split
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 5400    # guard: this host runs ~15% slower than the reference's
+threads: 2

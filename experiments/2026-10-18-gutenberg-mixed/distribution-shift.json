@@ -1,0 +1,87 @@
+{
+  "probe": {
+    "docs": 44,
+    "doc_ids": [
+      "pg2600",
+      "pg1399",
+      "pg766",
+      "pg580",
+      "pg963",
+      "pg883",
+      "pg786",
+      "pg46",
+      "pg121",
+      "pg141",
+      "pg2852",
+      "pg244",
+      "pg834",
+      "pg108",
+      "pg1184",
+      "pg1257",
+      "pg2413",
+      "pg135",
+      "pg6130",
+      "pg4300",
+      "pg4217",
+      "pg2814",
+      "pg160",
+      "pg205",
+      "pg215",
+      "pg521",
+      "pg829",
+      "pg209",
+      "pg2641",
+      "pg113",
+      "pg271",
+      "pg236",
+      "pg25344",
+      "pg1998",
+      "pg6593",
+      "pg28054",
+      "pg2638",
+      "pg203",
+      "pg16",
+      "pg289",
+      "pg3176",
+      "pg1837",
+      "pg86",
+      "pg1952"
+    ],
+    "chars_per_doc_target": 24000,
+    "chars": 1056086,
+    "tokens": 365371,
+    "tokenizer": "shared byte-BPE 2048 (byte-identical across both runs)"
+  },
+  "results": {
+    "seed-1338": {
+      "test_27_books_bpb": 1.659243777645637,
+      "new_44_books_bpb": 1.7736497617083495,
+      "shift_pct": 6.8950678377741115,
+      "new_books_held_out_for_this_model": true,
+      "test_bytes": 931467,
+      "new_bytes": 1072768
+    },
+    "seed-1339": {
+      "test_27_books_bpb": 1.6531307288995798,
+      "new_44_books_bpb": 1.7683514796041275,
+      "shift_pct": 6.969851124916502,
+      "new_books_held_out_for_this_model": true,
+      "test_bytes": 931467,
+      "new_bytes": 1072768
+    },
+    "data-gb71": {
+      "test_27_books_bpb": 1.665753012263307,
+      "new_44_books_bpb": 1.5977264394718949,
+      "shift_pct": -4.083833094738489,
+      "new_books_held_out_for_this_model": false,
+      "test_bytes": 931467,
+      "new_bytes": 1072768
+    }
+  },
+  "clean_mean": {
+    "shift_pct": 6.932459481345306,
+    "new_44_books_bpb": 1.7710006206562385,
+    "test_27_books_bpb": 1.6561872532726083
+  },
+  "reading": "The two 27-book models never saw the 44 additions. Their mean bits per byte on them is +6.93% relative to their own score on the 27-book test split, which is the size of the distribution gap the extra data asks the model to cover."
+}

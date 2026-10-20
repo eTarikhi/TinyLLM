@@ -1,0 +1,72 @@
+{
+  "run_id": "data-gb71",
+  "checkpoint": "artifacts/runs/data-gb71/best.pt",
+  "step": 4800,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-gb71-bpe2048",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.3291945403818266,
+    "perplexity": 27.915847557474965,
+    "bpb": 1.665753012263307,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "untrained": {
+    "loss": 7.648575795416907,
+    "perplexity": 2097.6559697646126,
+    "bpb": 3.8269431287961635,
+    "tokens": 323046,
+    "bytes": 931467
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.814863887702795,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "unigram": {
+    "loss": 6.294347371618701,
+    "perplexity": 541.502331258719,
+    "bpb": 3.1492824137485624,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "bigram": {
+    "loss": 4.386205044524308,
+    "perplexity": 80.33497212609034,
+    "bpb": 2.194571985667718,
+    "tokens": 323257,
+    "bytes": 932098
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      28,
+      25,
+      21,
+      29
+    ],
+    "max_longest_verbatim_match_chars": 29,
+    "mean_longest_verbatim_match_chars": 25.75,
+    "example_sample": "\nhe seemed to do him, and put out his steps into the stairy, he had\na fool, and made no answer. \u201cThere's a damp, the cottage of our own\nreason, but it's sorrow,\u201d murmured Laurie, \u201cthat's what you call? Why,\nI know--don't do anything, I'm sure, I should be sure.\u201d\n\n\u201cWhy, then, for I was in the matter with you, Mr. Rochester, I\nhad been born for a year ago--I never saw you ever, indeed! Why,\nMr. Rochester?\u201d\n\n\u201cYou know,\u201d said Mrs. Rochester, turning on the hussar of the pair.\n\n\u201cNever mind,\u201d said he, \u201cwhat has become of your garden in this matter? So\ndid you beat me?\u201d\n\n\u201cYes, I hope.\u201d\n\n\u201cMay I tell you, Missisham; for I haven't been"
+  }
+}

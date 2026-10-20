@@ -1,0 +1,76 @@
+{
+  "budget_s": 2926.0,
+  "factor": 0.9678246021193893,
+  "results": [
+    {
+      "params_total": 1770816,
+      "params_non_embedding": 1721664,
+      "tokens_per_s": 13883.71402274235,
+      "s_per_step": 0.590043844649999,
+      "label": "3L/192d/3H",
+      "n_layer": 3,
+      "n_embd": 192,
+      "n_head": 3,
+      "predicted_end_to_end_tok_s": 13437.0,
+      "max_steps_for_budget": 4799,
+      "tokens_for_budget": 39313408,
+      "epochs": 6.811573993859546
+    },
+    {
+      "params_total": 3737856,
+      "params_non_embedding": 3672320,
+      "tokens_per_s": 7439.6670410181905,
+      "s_per_step": 1.1011245469499997,
+      "label": "4L/256d/4H",
+      "n_layer": 4,
+      "n_embd": 256,
+      "n_head": 4,
+      "predicted_end_to_end_tok_s": 7200.292793874164,
+      "max_steps_for_budget": 2571,
+      "tokens_for_budget": 21061632,
+      "epochs": 3.649209572455281
+    },
+    {
+      "params_total": 5643360,
+      "params_non_embedding": 5569632,
+      "tokens_per_s": 5101.483841251064,
+      "s_per_step": 1.6058073013499992,
+      "label": "5L/288d/6H",
+      "n_layer": 5,
+      "n_embd": 288,
+      "n_head": 6,
+      "predicted_end_to_end_tok_s": 4937.341568877305,
+      "max_steps_for_budget": 1763,
+      "tokens_for_budget": 14442496,
+      "epochs": 2.502355688929856
+    },
+    {
+      "params_total": 6884800,
+      "params_non_embedding": 6802880,
+      "tokens_per_s": 4560.789894256359,
+      "s_per_step": 1.7961800893999993,
+      "label": "5L/320d/5H",
+      "n_layer": 5,
+      "n_embd": 320,
+      "n_head": 5,
+      "predicted_end_to_end_tok_s": 4414.044664758791,
+      "max_steps_for_budget": 1576,
+      "tokens_for_budget": 12910592,
+      "epochs": 2.236932822321868
+    },
+    {
+      "params_total": 11506560,
+      "params_non_embedding": 11408256,
+      "tokens_per_s": 2940.7634514222873,
+      "s_per_step": 2.7856711821000006,
+      "label": "6L/384d/6H",
+      "n_layer": 6,
+      "n_embd": 384,
+      "n_head": 6,
+      "predicted_end_to_end_tok_s": 2846.143217300017,
+      "max_steps_for_budget": 1016,
+      "tokens_for_budget": 8323072,
+      "epochs": 1.442083596116128
+    }
+  ]
+}
