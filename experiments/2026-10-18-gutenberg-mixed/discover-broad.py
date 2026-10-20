@@ -41,6 +41,22 @@ _rb = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_rb)
 verify = _rb.verify
 
+# Narrative keywords, for the volume-matched control. broad-full trains on
+# 37% more tokens than broad-ctrl as well as a different mixture, so a win
+# there could be either. A third arm that adds the same volume of *narrative*
+# prose separates them: full vs narrative is composition at matched volume,
+# narrative vs ctrl is volume at matched composition.
+NARRATIVE_KEYWORDS: list[tuple[str, str]] = [
+    ("Tales", "narrative"),
+    ("Tale", "narrative"),
+    ("Stories", "narrative"),
+    ("Adventures", "narrative"),
+    ("Romance", "narrative"),
+    ("Novel", "narrative"),
+    ("Chronicles", "narrative"),
+    ("Mystery", "narrative"),
+]
+
 # Keyword -> form. Order matters: the first keyword that finds a repository
 # assigns its form. Narrative keywords are deliberately absent; the corpus has
 # 91% narrative prose already and this is a search for the other 9%.
@@ -102,6 +118,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=90,
                     help="stop after this many verified repositories")
+    ap.add_argument("--narrative", action="store_true",
+                    help="search narrative keywords instead, for the "
+                         "volume-matched control arm")
+    ap.add_argument("--out", default="discovered-broad.json")
+    ap.add_argument("--max-bytes", type=int, default=MAX_BYTES)
     ap.add_argument("--per-keyword", type=int, default=6,
                     help="verify at most this many hits per keyword, to keep "
                          "one prolific form from swamping the others")
@@ -111,7 +132,8 @@ def main() -> int:
     known = {c[0] for c in _rb.CANDIDATES}
     found: dict[int, tuple[str, str]] = {}  # pg_id -> (repo name, form)
 
-    for keyword, form in KEYWORDS:
+    keywords = NARRATIVE_KEYWORDS if args.narrative else KEYWORDS
+    for keyword, form in keywords:
         names = search(keyword)
         time.sleep(2.2)
         added = 0
@@ -138,7 +160,7 @@ def main() -> int:
         if not ok:
             bad.append((pg_id, name, "no strictly-UTF-8 member"))
             continue
-        if size > MAX_BYTES:
+        if size > args.max_bytes:
             bad.append((pg_id, name, f"too large ({size/1e6:.1f} MB)"))
             continue
         if size < 20_000:
@@ -159,7 +181,7 @@ def main() -> int:
         n = sum(1 for g in good if g["form"] == form)
         print(f"  {form:>12} {n:>3} titles {size/1e6:>6.1f} MB")
 
-    out = HERE / "discovered-broad.json"
+    out = HERE / args.out
     out.write_text(json.dumps(good, indent=1) + "\n")
     print(f"\nwritten to {out}")
     return 0
