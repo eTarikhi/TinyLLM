@@ -1147,6 +1147,60 @@ def check_batch_report(root: str) -> None:
           "standings batch row", tol=5e-3, doc=name)
 
 
+def check_corpus_composition_report(root: str) -> None:
+    """Tie `corpus-composition.md` back to `document-summary.json`.
+
+    This report is the argument for what to build next, so its numbers decide
+    where the next several hours of compute go.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "document-summary.json")
+    dp = os.path.join(exp, "corpus-composition.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    d = open(dp, encoding="utf-8").read()
+    name = "corpus-composition.md"
+    print("experiments/2026-10-18-gutenberg-mixed/corpus-composition.md — report vs. raw artifacts")
+
+    claim(d, r"across the (\d+)\s+test books", s["documents"], "document count", doc=name)
+    claim(d, r"r = −([\d.]+)", round(abs(s["corr_bpb_vs_bytes"]), 3),
+          "length correlation", tol=5e-4, doc=name)
+
+    rows = (("narrative prose", "narrative"), ("non-fiction", "non-fiction"),
+            ("experimental prose", "experimental"), ("verse", "verse"))
+    total_bytes = sum(f["bytes"] for f in s["form"].values())
+    for label, key in rows:
+        f = s["form"][key]
+        row = rf"\| {re.escape(label)} \|"
+        claim(d, row + r" (\d+) \|", f["n"], f"{key}: book count", doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){1} ([\d,]+) \|", f["bytes"], f"{key}: bytes", doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){2} ([\d.]+) \|", round(f["mean_bpb"], 4),
+              f"{key}: mean bpb", tol=5e-5, doc=name)
+        if key != "narrative":
+            claim(d, row + r"(?:[^|\n]*\|){3} \+([\d.]+)%", round(f["vs_narrative_pct"], 1),
+                  f"{key}: vs narrative", tol=5e-2, doc=name)
+            claim(d, rf"{re.escape(key)}\s+(?:prose\s+)?holds ([\d.]+)%",
+                  round(100 * f["bytes"] / total_bytes, 1), f"{key}: byte share",
+                  tol=5e-2, doc=name)
+
+    claim(d, r"account for \*\*(\d+)% of the variance", round(100 * s["form_variance_explained"]),
+          "variance explained", tol=1, doc=name)
+    claim(d, r"\*\*(\d+)% narrative prose by bytes\*\*",
+          round(100 * s["form"]["narrative"]["bytes"] / total_bytes), "narrative share",
+          tol=1, doc=name)
+    claim(d, r"(\d+) of the 71 books. authors contribute more than one book",
+          s["multi_book_authors"], "multi-book authors", doc=name)
+    claim(d, r"score\s+\*\*([\d.]+)\*\* against", round(s["mean_bpb_multi_book_author"], 4),
+          "repeated-author bpb", tol=5e-5, doc=name)
+    claim(d, r"against \*\*([\d.]+)\*\* for books", round(s["mean_bpb_single_book_author"], 4),
+          "one-off-author bpb", tol=5e-5, doc=name)
+    claim(d, r"\*\*([\d.]+)%\*\* advantage", round(s["multi_book_advantage_pct"], 1),
+          "repeated-author advantage", tol=5e-2, doc=name)
+
+
 def main(root: str = ".") -> int:
     check_compute_budget(root)
     check_training_defaults(root)
@@ -1154,6 +1208,7 @@ def main(root: str = ".") -> int:
     check_data_seed_report(root)
     check_clean_data_report(root)
     check_batch_report(root)
+    check_corpus_composition_report(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

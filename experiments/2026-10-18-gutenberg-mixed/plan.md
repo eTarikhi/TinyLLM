@@ -294,12 +294,23 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     **false** — twice the updates on identical tokens can at best draw. Item 6
     is answered: clip rate tracks the gradient norm rather than the learning
     rate, and is a symptom to investigate rather than a quantity to optimize.
-14. **The corpus is the only direction left.** Every hyperparameter in the
-    standings table has now been tested and is flat or harmful; three of the
-    four inherited defaults survived. The per-document evaluation puts 50.6%
-    of spread between the easiest and hardest book against under 8% for any
-    lever, so the next real gain is more books, a broader mixture, or both —
-    not another sweep.
+14. **The corpus is the only direction left, and it is now specified.**
+    Every hyperparameter in the standings table has been tested and is flat
+    or harmful; three of the four inherited defaults survived. The
+    per-document evaluation puts 50.6% of spread between the easiest and
+    hardest book against under 8% for any lever, and
+    [`corpus-composition.md`](corpus-composition.md) says what that spread is
+    made of: not length (r = −0.122), but **form** — the corpus is 91%
+    narrative prose by bytes and contains no drama at all, and the four form
+    labels explain 45% of the per-document variance. Verse is +27.8% against
+    narrative prose, experimental prose +23.4%, non-fiction +19.3%, and each
+    holds about 3% of the bytes. Books by an author who appears more than
+    once score 5.0% better, which is the evidence that these forms are
+    under-trained rather than intrinsically unpredictable. The next
+    experiment is a `gutenberg-mixed-broad` corpus that raises the
+    non-narrative share to roughly a third, run against a control with a
+    byte-identical evaluation split, and reported **per form** rather than in
+    aggregate.
 15. **Re-establish a baseline under `eval_spread`.** The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,

@@ -1,0 +1,37 @@
+{
+ "model": "data71-full-9600",
+ "documents": 71,
+ "corr_bpb_vs_bytes": -0.12227120762600217,
+ "form": {
+  "narrative": {
+   "n": 64,
+   "bytes": 2723851,
+   "mean_bpb": 1.5449601040956058,
+   "vs_narrative_pct": 0.0
+  },
+  "non-fiction": {
+   "n": 3,
+   "bytes": 87016,
+   "mean_bpb": 1.8429390657841769,
+   "vs_narrative_pct": 19.287162231480593
+  },
+  "experimental": {
+   "n": 2,
+   "bytes": 96981,
+   "mean_bpb": 1.90630605595146,
+   "vs_narrative_pct": 23.38869145539393
+  },
+  "verse": {
+   "n": 2,
+   "bytes": 94280,
+   "mean_bpb": 1.974310415193746,
+   "vs_narrative_pct": 27.790381768432447
+  }
+ },
+ "form_variance_explained": 0.4452583777053359,
+ "multi_book_authors": 9,
+ "mean_bpb_multi_book_author": 1.5388399595464402,
+ "mean_bpb_single_book_author": 1.619669394934342,
+ "multi_book_advantage_pct": 4.990489765423911,
+ "narrative_share_pct": 90.7306750411708
+}

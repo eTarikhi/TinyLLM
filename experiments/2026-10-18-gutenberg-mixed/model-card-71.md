@@ -63,9 +63,24 @@ Per-document provenance and per-split hashes are in
 | validation | 1,042,315 |
 | test | 1,038,419 |
 
-Split by document, not by offset: no book contributes to more than one split,
-so the test split measures generalization to unseen text rather than to unseen
-positions in seen text.
+**Split policy, stated precisely because it bounds what the evaluation
+means.** Every book is split contiguously 90/5/5 and the pieces are
+concatenated per split, so *every book contributes to all three splits*. The
+test split is the last 5% of each of the 71 books, never shuffled, with
+boundaries snapped to a blank line. The behaviour is pinned by
+`tests/test_multidoc.py::MultiDocumentSplitTest::test_every_document_appears_in_every_split`,
+which is how the first draft of this card was caught claiming the opposite.
+
+This is a deliberate choice and it is the weaker of the two options for
+leakage. Holding out whole books would be cleaner, but it would make the
+evaluation a different set of authors from training and would therefore
+measure domain transfer rather than language modelling. The consequence is
+that **1.5662 bits per byte is generalization to unseen passages of seen
+books, not to unseen books.** The unseen-book number is measured separately:
+the distribution-shift probe in
+[`distribution-shift.json`](distribution-shift.json) puts books outside the
+training corpus **6.93% harder** than the model's own test split. Quote the
+figure that matches the question being asked.
 
 ## Training
 
