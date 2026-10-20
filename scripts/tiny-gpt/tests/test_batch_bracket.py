@@ -140,5 +140,61 @@ class BatchBracketTest(unittest.TestCase):
         self.assertEqual(len(run_ids), len(ARMS), "two arms would write to the same run dir")
 
 
+class LearningRateMatchedArmsTest(unittest.TestCase):
+    """The follow-up arms must differ from their twins in exactly one knob.
+
+    The fixed-LR bracket has a known confound: 3.0e-3 was tuned at the centre
+    batch, so the centre was the only arm running at a learning rate chosen
+    for it. The follow-up re-runs each outer arm at the square-root-scaled
+    rate. That only isolates the learning rate if *nothing else* moved, which
+    is easy to get wrong when a config is written by copying a sibling.
+    """
+
+    # (fixed-LR arm, scaled-LR arm, tokens per step)
+    PAIRS = (
+        ("batch-4096", "batch-4096-lr2p12e3", 4_096),
+        ("batch-16384", "batch-16384-lr4p24e3", 16_384),
+    )
+    CENTRE_LR = 3.0e-3
+    CENTRE_TOKENS_PER_STEP = 8_192
+
+    def test_pairs_differ_only_in_run_id_and_learning_rate(self) -> None:
+        for fixed, scaled, _ in self.PAIRS:
+            a, b = load(fixed), load(scaled)
+            self.assertEqual(set(a), set(b), f"{scaled} has different keys from {fixed}")
+            differing = {k for k in a if a[k] != b[k]}
+            self.assertEqual(differing, {"run_id", "learning_rate"},
+                             f"{scaled} vs {fixed} differ in {sorted(differing)}; "
+                             "the follow-up is supposed to isolate the learning rate")
+
+    def test_learning_rate_follows_the_square_root_rule(self) -> None:
+        """lr(B) = 3.0e-3 * sqrt(B / 8192), to the precision written in the file."""
+        for _, scaled, tokens_per_step in self.PAIRS:
+            expected = self.CENTRE_LR * (tokens_per_step / self.CENTRE_TOKENS_PER_STEP) ** 0.5
+            actual = load(scaled)["learning_rate"]
+            self.assertAlmostEqual(
+                actual, expected, delta=0.005 * expected,
+                msg=f"{scaled}: lr {actual:.3e} is not sqrt-scaled from the centre "
+                    f"({expected:.3e})")
+
+    def test_scaled_arms_keep_the_shared_token_budget(self) -> None:
+        for _, scaled, tokens_per_step in self.PAIRS:
+            c = load(scaled)
+            self.assertEqual(c["batch_size"] * c["grad_accum"] * c["block_size"],
+                             tokens_per_step, f"{scaled}: wrong tokens per step")
+            self.assertEqual(tokens_per_step * c["max_steps"], TOKEN_BUDGET,
+                             f"{scaled} does not see the shared token budget")
+            self.assertEqual(c["max_steps"] // c["eval_every"], EVALUATIONS,
+                             f"{scaled} does not perform exactly {EVALUATIONS} evaluations")
+
+    def test_the_scaling_moves_the_rate_in_the_right_direction(self) -> None:
+        """A rule that returned the centre's rate for every batch would pass
+        the arithmetic test above only by coincidence; assert the ordering."""
+        lo = load("batch-4096-lr2p12e3")["learning_rate"]
+        hi = load("batch-16384-lr4p24e3")["learning_rate"]
+        self.assertLess(lo, self.CENTRE_LR, "the smaller batch should get a lower rate")
+        self.assertGreater(hi, self.CENTRE_LR, "the larger batch should get a higher rate")
+
+
 if __name__ == "__main__":
     unittest.main()

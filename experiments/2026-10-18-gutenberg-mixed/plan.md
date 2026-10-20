@@ -280,10 +280,27 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     says where the remaining signal is: 50.6% of spread between the easiest
     and hardest book, against under 8% for any lever tried so far. **More
     books beats more passes from here.**
-13. **Batch size, still untouched.** Item 6 stands. The learning-rate bracket
-    showed clip rate and peak LR interact, and batch size is the third corner
-    of that; 8,192 tokens per step remains an inherited number.
-14. **Re-establish a baseline under `eval_spread`.** The in-training
+13. ~~**Batch size, still untouched.**~~ **Done** — written up in
+    [`batch-size.md`](batch-size.md). Five arms at a fixed 39,321,600-token
+    budget, which is the only way to trade optimizer updates against batch
+    without changing anything else. At the inherited rate the response has an
+    interior optimum — halving the batch costs 0.63%, doubling it costs 1.71%
+    — but the inherited rate was tuned at the centre batch, so both outer arms
+    were re-run at `3.0e-3 × √(B/8192)`. Three results: the square-root rule
+    is worth about 0.75% and transferred to within 0.04 percentage points
+    across a 4× range; the optimum is **asymmetric** (below 8,192 is a tie,
+    above it is +0.98% and no rate tested fixes that); and the "optimizer
+    updates are the binding constraint" reading of items 11 and 12 is
+    **false** — twice the updates on identical tokens can at best draw. Item 6
+    is answered: clip rate tracks the gradient norm rather than the learning
+    rate, and is a symptom to investigate rather than a quantity to optimize.
+14. **The corpus is the only direction left.** Every hyperparameter in the
+    standings table has now been tested and is flat or harmful; three of the
+    four inherited defaults survived. The per-document evaluation puts 50.6%
+    of spread between the easiest and hardest book against under 8% for any
+    lever, so the next real gain is more books, a broader mixture, or both —
+    not another sweep.
+15. **Re-establish a baseline under `eval_spread`.** The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,
     and therefore every conclusion drawn so far, are unaffected. The spread

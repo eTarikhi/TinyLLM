@@ -39,6 +39,7 @@ Usage (from the repository root):
 from __future__ import annotations
 
 import json
+import statistics
 import sys
 from pathlib import Path
 
@@ -195,6 +196,93 @@ def main() -> int:
     if best != centre:
         print(f"\n  the winning arm is {b['elapsed_vs_centre_pct']:+.1f}% on wall clock "
               f"for {b['delta_vs_centre_pct']:+.2f}% on test bits per byte")
+
+    # ---- gradient norm at matched training loss
+    #
+    # Comparing raw gradient norms across the arms confounds two things: a
+    # noisier gradient, and simply being less far along. Binning by training
+    # loss removes the second -- two samples at the same loss are at
+    # comparable points in the optimization, whatever step produced them.
+    print("\n  median pre-clip gradient norm, binned by training loss:")
+    # Gradient noise is a property of the batch, not of the learning rate, so
+    # the LR-matched arms belong in this table too: if the small batch is
+    # noisy at matched loss whatever its rate, the noise story holds and the
+    # clip counts have to be explained some other way.
+    gnorm_runs = [run for _, run in present] + [
+        r for r in ("batch-4096-lr2p12e3", "batch-16384-lr4p24e3")
+        if (HERE / "metrics" / f"{r}.jsonl").is_file()]
+    print(f"    {'loss band':>12} " + "".join(f"{run[-13:]:>15}" for run in gnorm_runs))
+    bands = ((3.6, 3.9), (3.3, 3.6), (3.0, 3.3))
+    pts = {run: [(r["loss"], r["grad_norm_preclip"])
+                 for r in (json.loads(l) for l in
+                           (HERE / "metrics" / f"{run}.jsonl").read_text().splitlines())
+                 if r.get("event") == "train"]
+           for run in gnorm_runs}
+    gn: dict[str, dict] = {}
+    for lo_, hi_ in bands:
+        row, label = [], f"[{lo_}, {hi_})"
+        for run in gnorm_runs:
+            g = sorted(v for l_, v in pts[run] if lo_ <= l_ < hi_)
+            med = statistics.median(g) if g else float("nan")
+            gn.setdefault(run, {})[label] = {"n": len(g), "median_gnorm": med}
+            row.append(f"{med:>15.3f}")
+        print(f"    {label:>12} " + "".join(row))
+    out["grad_norm_by_loss_band"] = gn
+    tight = bands[-1]
+    lbl = f"[{tight[0]}, {tight[1]})"
+    base_g = gn[centre][lbl]["median_gnorm"]
+    for run in gnorm_runs:
+        if run == centre:
+            continue
+        gn[run][lbl]["vs_centre_pct"] = 100 * (gn[run][lbl]["median_gnorm"] / base_g - 1)
+        print(f"    {run} in {lbl}: {gn[run][lbl]['vs_centre_pct']:+.0f}% vs the centre")
+    print("    (binning by loss rules out 'it is simply less converged' as the explanation)")
+
+    # ---- the learning-rate follow-up, present only once those runs exist
+    PAIRS = (("batch-4096", "batch-4096-lr2p12e3"), ("batch-16384", "batch-16384-lr4p24e3"))
+    pairs = [(f, s) for f, s in PAIRS
+             if (HERE / "metrics" / f"{s}-summary.json").is_file()
+             and (HERE / f"eval-test-{s}.json").is_file()]
+    if pairs:
+        line()
+        print("LEARNING RATE, SQUARE-ROOT SCALED — does the confound explain the bracket?")
+        line()
+        print(f"{'run':>22} {'lr':>9} {'clip':>6} {'val':>8} {'test':>8} {'vs centre':>10} "
+              f"{'vs twin':>9}")
+        print(f"{centre:>22} {3.0e-3:>9.2e} {out['arms'][centre]['clipped_steps']:>6} "
+              f"{out['arms'][centre]['val_bpb']:>8.4f} {base:>8.4f} {'--':>10} {'--':>9}")
+        lr_out: dict = {}
+        for fixed, scaled in pairs:
+            s_, t_ = summary(scaled), test_eval(scaled)
+            tb = t_["model"]["bpb"]
+            d_centre = 100 * (tb / base - 1)
+            d_twin = 100 * (tb / out["arms"][fixed]["test_bpb"] - 1)
+            lr_out[scaled] = {
+                "twin": fixed, "steps": s_["steps"], "tokens": s_["tokens"],
+                "elapsed_s": s_["elapsed_s"], "clipped_steps": s_["clipped_steps"],
+                "clipped_pct": 100 * s_["clipped_steps"] / s_["steps"],
+                "val_bpb": s_["final_val_bpb"], "test_bpb": tb,
+                "delta_vs_centre_pct": d_centre, "delta_vs_twin_pct": d_twin,
+                "closes_the_gap": abs(d_centre) < SEED_BAR_PCT,
+            }
+            assert s_["tokens"] == TOKEN_BUDGET, f"{scaled} is off the token budget"
+            lr = 2.12e-3 if "4096" in scaled else 4.24e-3
+            print(f"{scaled:>22} {lr:>9.2e} {s_['clipped_steps']:>6} "
+                  f"{s_['final_val_bpb']:>8.4f} {tb:>8.4f} {d_centre:>+9.2f}% {d_twin:>+8.2f}%")
+        out["lr_matched"] = lr_out
+        closed = [k for k, v in lr_out.items() if v["closes_the_gap"]]
+        out["lr_confound_explains_bracket"] = len(closed) == len(lr_out) and len(lr_out) == 2
+        print()
+        if out["lr_confound_explains_bracket"]:
+            print("  both outer arms reach the centre once their rate is scaled:")
+            print("  the first bracket measured a learning-rate mismatch, not a batch-size effect")
+        elif closed:
+            print(f"  scaling the rate rescues {', '.join(closed)} but not the rest:")
+            print("  part of the bracket was an LR mismatch and part is a real batch-size effect")
+        else:
+            print("  neither outer arm reaches the centre at its own scaled rate:")
+            print("  the interior optimum survives the confound -- 8,192 tok/step is")
+            print("  genuinely near the critical batch size for this model and corpus")
 
     path = HERE / "batch-summary.json"
     path.write_text(json.dumps(out, indent=1) + "\n")

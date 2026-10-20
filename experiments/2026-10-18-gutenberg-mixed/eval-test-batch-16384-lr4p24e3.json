@@ -1,0 +1,72 @@
+{
+  "run_id": "batch-16384-lr4p24e3",
+  "checkpoint": "artifacts/runs/batch-16384-lr4p24e3/best.pt",
+  "step": 2400,
+  "tokens_trained": 39321600,
+  "data_dir": "data/prepared-71-full",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 3,
+    "n_head": 3,
+    "n_embd": 192,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 1770816,
+  "model": {
+    "loss": 3.2928093011757404,
+    "perplexity": 26.91837936785126,
+    "bpb": 1.6304131495726897,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "untrained": {
+    "loss": 7.645990487008508,
+    "perplexity": 2092.239886287805,
+    "bpb": 3.7858625542254067,
+    "tokens": 1038266,
+    "bytes": 3025186
+  },
+  "uniform": {
+    "loss": 7.6246189861593985,
+    "perplexity": 2048.0,
+    "bpb": 3.7753054549721443,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "unigram": {
+    "loss": 6.272069390854776,
+    "perplexity": 529.5721364814642,
+    "bpb": 3.1055948931010393,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "bigram": {
+    "loss": 4.354242238747332,
+    "perplexity": 77.80784322372183,
+    "bpb": 2.1559889754560997,
+    "tokens": 1038348,
+    "bytes": 3025405
+  },
+  "memorization": {
+    "samples": 4,
+    "tokens_per_sample": 240,
+    "longest_verbatim_match_chars": [
+      22,
+      26,
+      23,
+      25
+    ],
+    "max_longest_verbatim_match_chars": 26,
+    "mean_longest_verbatim_match_chars": 24.0,
+    "example_sample": "\nhealth he spoke to Cosette.\n\nThe moment he left a second, he had no right to say, and made no\nwords to his duty.\n\n\u201cWould you have been there?\u201d he thought a slavehold in his hand.\n\n\u201cWell, that is it that? Why, that\u2019s what you said?\u201d cried the\nblack, still as he spoke. \u201cListen to a nation, and for that, in the\nsense of the world, is it not only to do to you?\u201d\n\n\u201cWhere?\u201d cried Milady.\n\n\u201cWe have captured a wretched wedding from the wharf-chaise. It\nseemed to be put into some sticks, but that\u2019s your own\nface, and is ashamed, has been widely as it is.\u201d\n\nAnd she felt a very cigar, but was not too strong. She was sitting\ndown as she entered a sofa, and made a very happy one, but she was"
+  }
+}

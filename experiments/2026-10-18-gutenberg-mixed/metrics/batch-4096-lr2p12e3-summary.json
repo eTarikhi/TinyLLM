@@ -1,0 +1,21 @@
+{
+  "event": "run_end",
+  "run_id": "batch-4096-lr2p12e3",
+  "stop_reason": "max_steps",
+  "steps": 9600,
+  "tokens": 39321600,
+  "elapsed_s": 2976.7681262493134,
+  "mean_tokens_per_s": 13209.493763810442,
+  "final_val_loss": 3.2315760473892365,
+  "final_val_bpb": 1.5869244161065281,
+  "best_val_loss": 3.2315760473892365,
+  "clipped_steps": 1262,
+  "nonfinite_steps": 0,
+  "peak_rss_mb": 1156.76171875,
+  "params_total": 1770816,
+  "achieved_flops_per_s": 163723326802.3717,
+  "checkpoints": {
+    "last": "artifacts/runs/batch-4096-lr2p12e3/last.pt",
+    "best": "artifacts/runs/batch-4096-lr2p12e3/best.pt"
+  }
+}

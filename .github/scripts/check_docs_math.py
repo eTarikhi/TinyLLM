@@ -1017,12 +1017,143 @@ def check_clean_data_report(root: str) -> None:
 
 
 
+def check_batch_report(root: str) -> None:
+    """Tie `batch-size.md` back to `batch-summary.json`.
+
+    This report retires a hypothesis the two previous reports built up, so a
+    transcription slip here would propagate backwards into how those are read.
+    Every number is re-read from the JSON the analysis script emits.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "batch-summary.json")
+    dp = os.path.join(exp, "batch-size.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    d = open(dp, encoding="utf-8").read()
+    name = "batch-size.md"
+    print("experiments/2026-10-18-gutenberg-mixed/batch-size.md — report vs. raw artifacts")
+
+    claim(d, r"exactly ([\d,]+) tokens", s["token_budget"], "shared token budget", doc=name)
+
+    # Row per arm in the fixed-rate table: tokens/update, updates, elapsed,
+    # clipped, val, test. The centre's test figure is bold, the others are not.
+    for run, bold in (("batch-4096", False), ("data71-full", True), ("batch-16384", False)):
+        a = s["arms"][run]
+        row = rf"\| `{run}` \|"
+        claim(d, row + r" ([\d,]+) \|", a["tokens_per_step"], f"{run}: tokens/update", doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){1} ([\d,]+) \|", a["steps"], f"{run}: updates", doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){2} ([\d,]+) s \|", round(a["elapsed_s"]),
+              f"{run}: elapsed", tol=1, doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){3} ([\d,]+) \|", a["clipped_steps"],
+              f"{run}: clipped", doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){4} ([\d.]+) \|", round(a["val_bpb"], 4),
+              f"{run}: val", tol=5e-5, doc=name)
+        star = r"\*\*([\d.]+)\*\*" if bold else r"([\d.]+)"
+        claim(d, row + r"(?:[^|\n]*\|){5} " + star, round(a["test_bpb"], 4),
+              f"{run}: test", tol=5e-5, doc=name)
+        if "delta_vs_centre_pct" in a:
+            claim(d, row + r"(?:[^|\n]*\|){6} \+([\d.]+)%", round(a["delta_vs_centre_pct"], 2),
+                  f"{run}: delta vs centre", tol=5e-3, doc=name)
+
+    claim(d, r"([\d.]+)% worse\.\*\* The response",
+          round(s["arms"]["batch-4096"]["delta_vs_centre_pct"], 2),
+          "small-batch penalty in prose", tol=5e-3, doc=name)
+    claim(d, r"largest arm is ([\d.]+)% cheaper",
+          round(abs(s["arms"]["batch-16384"]["elapsed_vs_centre_pct"]), 1),
+          "large-batch saving", tol=5e-2, doc=name)
+    claim(d, r"enough to pay for ([\d.]+)%",
+          round(s["arms"]["batch-16384"]["delta_vs_centre_pct"], 2),
+          "large-batch penalty", tol=5e-3, doc=name)
+    claim(d, r"within\s+([\d.]+)% of each other",
+          round(abs(s["arms"]["batch-4096"]["elapsed_vs_centre_pct"]), 1),
+          "clock match on the lower half", tol=5e-2, doc=name)
+    claim(d, r"leads the first (\d+)\s+and is behind", s["lead_counts"]["batch-4096"],
+          "small-batch leads", doc=name)
+    claim(d, r"behind for the\s+remaining (\d+)", s["lead_counts"]["data71-full"],
+          "centre leads", doc=name)
+    claim(d, r"([\d,]+) token-matched evaluation points", s["common_token_points"],
+          "common grid size", doc=name)
+
+    # The learning-rate follow-up.
+    if "lr_matched" in s:
+        for run in ("batch-4096-lr2p12e3", "batch-16384-lr4p24e3"):
+            a = s["lr_matched"][run]
+            row = rf"\| `{run}` \|"
+            claim(d, row + r" ([\d,]+) \|", s["arms"][a["twin"]]["tokens_per_step"],
+                  f"{run}: tokens/update", doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){2} ([\d,]+) \|", a["clipped_steps"],
+                  f"{run}: clipped", doc=name)
+            bold = r"\*\*([\d.]+)\*\*" if "4096" in run else r"([\d.]+)"
+            claim(d, row + r"(?:[^|\n]*\|){3} " + bold, round(a["test_bpb"], 4),
+                  f"{run}: test", tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){5} −([\d.]+)%", round(abs(a["delta_vs_twin_pct"]), 2),
+                  f"{run}: delta vs twin", tol=5e-3, doc=name)
+        lo = s["lr_matched"]["batch-4096-lr2p12e3"]
+        hi = s["lr_matched"]["batch-16384-lr4p24e3"]
+        claim(d, r"small arm improved ([\d.]+)%", round(abs(lo["delta_vs_twin_pct"]), 2),
+              "small arm gain from scaling", tol=5e-3, doc=name)
+        claim(d, r"the large arm ([\d.]+)%", round(abs(hi["delta_vs_twin_pct"]), 2),
+              "large arm gain from scaling", tol=5e-3, doc=name)
+        claim(d, r"within ([\d.]+) percentage points",
+              round(abs(abs(lo["delta_vs_twin_pct"]) - abs(hi["delta_vs_twin_pct"])), 2),
+              "agreement between the two scalings", tol=5e-3, doc=name)
+        claim(d, r"scores −([\d.]+)% against the centre", round(abs(lo["delta_vs_centre_pct"]), 2),
+              "rescued small arm vs centre", tol=5e-3, doc=name)
+        claim(d, r"recovers only to \+([\d.]+)%", round(hi["delta_vs_centre_pct"], 2),
+              "rescued large arm vs centre", tol=5e-3, doc=name)
+        claim(d, r"still ([\d.]+)× the bar",
+              round(hi["delta_vs_centre_pct"] / s["seed_bar_pct"], 1),
+              "rescued large arm in bar units", tol=5e-2, doc=name)
+        claim(d, r"inside the\s+([\d.]+)% seed bar", round(s["seed_bar_pct"], 2),
+              "seed bar", tol=5e-3, doc=name)
+        claim(d, r"\(1,262\s+against (\d+)\)", s["arms"]["batch-4096"]["clipped_steps"],
+              "unrescued small arm clip count", doc=name)
+
+    # Gradient norm at matched loss.
+    gn = s["grad_norm_by_loss_band"]
+    for band in ("[3.6, 3.9)", "[3.3, 3.6)", "[3.0, 3.3)"):
+        lo_, hi_ = band[1:-1].split(", ")
+        row = rf"\| \[{re.escape(lo_)}, {re.escape(hi_)}\) \|"
+        for i, run in enumerate(("batch-4096", "batch-4096-lr2p12e3", "data71-full",
+                                 "batch-16384", "batch-16384-lr4p24e3")):
+            if run not in gn:
+                continue
+            pat = row + (r"(?:[^|\n]*\|){%d} ([\d.]+)" % i if i else r" ([\d.]+)")
+            claim(d, pat, round(gn[run][band]["median_gnorm"], 3),
+                  f"gnorm {run} in {band}", tol=5e-4, doc=name)
+    tight = "[3.0, 3.3)"
+    claim(d, r"sits (\d+)%\s+above the centre",
+          round(gn["batch-4096"][tight]["vs_centre_pct"]), "small arm gnorm excess",
+          tol=1, doc=name)
+    claim(d, r"sits (\d+)% \*below\*",
+          round(abs(gn["batch-16384-lr4p24e3"][tight]["vs_centre_pct"])),
+          "scaled large arm gnorm deficit", tol=1, doc=name)
+    claim(d, r"sits (\d+)% above it",
+          round(gn["batch-16384"][tight]["vs_centre_pct"]), "large arm gnorm excess",
+          tol=1, doc=name)
+    claim(d, r"clips on ([\d.]+)% of its updates",
+          round(s["arms"]["batch-4096"]["clipped_pct"], 2), "small arm clip rate",
+          tol=5e-3, doc=name)
+    claim(d, r"centre's ([\d.]+)%", round(s["arms"]["data71-full"]["clipped_pct"], 2),
+          "centre clip rate", tol=5e-3, doc=name)
+    claim(d, r"clips least of all\s*\((\d+) events\)",
+          s["lr_matched"]["batch-16384-lr4p24e3"]["clipped_steps"],
+          "scaled large arm clip count", doc=name)
+    claim(d, r"\*\*batch size\*\* \|(?:[^|\n]*\|){1} \*\*tie below [\d,]+, \+([\d.]+)% above\*\*",
+          round(s["lr_matched"]["batch-16384-lr4p24e3"]["delta_vs_centre_pct"], 2),
+          "standings batch row", tol=5e-3, doc=name)
+
+
 def main(root: str = ".") -> int:
     check_compute_budget(root)
     check_training_defaults(root)
     check_experiment_reports(root)
     check_data_seed_report(root)
     check_clean_data_report(root)
+    check_batch_report(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

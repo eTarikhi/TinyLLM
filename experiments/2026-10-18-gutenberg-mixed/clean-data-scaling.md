@@ -295,6 +295,11 @@ comparison above had to be run on the old bytes rather than the new ones.
 | **training data** | 5.77M → 18.9M tokens | **−7.30%** on matching evaluation; tie on the old one |
 | **training steps** | 2,400 → 4,800 → 9,600 | **−3.67%**, then **−3.00%** |
 | *corpus mixture* | *which 71 books* | *50.6% spread between easiest and hardest* |
+
+Batch size has since been tested too, on the same corpus and at a fixed
+token budget, and is reported separately in [`batch-size.md`](batch-size.md):
+flat below 8,192 tokens per update once the learning rate is rescaled, and
+harmful above it.
 | model size | 1.77M → 5.64M params | tie on 27 books, **+1.35% worse** on 71 |
 | context length | 128 → 1024 | worse in both directions |
 | peak learning rate | 1.5e-3 → 6e-3 | tie above, worse below |
