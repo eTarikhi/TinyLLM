@@ -168,19 +168,27 @@ def main() -> int:
 
     # ---- the stated falsifier -------------------------------------------
     hard = [f for f in penalties if f != "narrative"]
-    survived = [f for f in hard if closed[f] >= 0]
+    # Half a percentage point is the smallest change worth a word; below that
+    # the penalty is unmoved, which is its own result -- experimental prose
+    # had nothing added for it and did not move.
+    survived = [f for f in hard if closed[f] > 0.5]
+    unmoved = [f for f in hard if abs(closed[f]) <= 0.5]
     out["falsifier"] = {
         "statement": ("if the verse and non-fiction penalties survive this increase "
                       "in training mass, the forms are intrinsically harder at 1.77M "
                       "parameters and 256 tokens of context"),
         "forms_whose_penalty_survived": survived,
-        "forms_whose_penalty_closed": [f for f in hard if closed[f] < 0],
+        "forms_whose_penalty_unmoved": unmoved,
+        "forms_whose_penalty_closed": [f for f in hard if closed[f] < -0.5],
     }
     print("\nfalsifier")
     if survived:
         print(f"  penalty survived for: {', '.join(survived)}")
-    if len(survived) < len(hard):
-        print(f"  penalty closed for:   {', '.join(f for f in hard if closed[f] < 0)}")
+    if unmoved:
+        print(f"  penalty unmoved for:  {', '.join(unmoved)}")
+    closed_forms = [f for f in hard if closed[f] < -0.5]
+    if closed_forms:
+        print(f"  penalty closed for:   {', '.join(closed_forms)}")
 
     (HERE / "broad-summary.json").write_text(json.dumps(out, indent=1) + "\n")
     print(f"\nwritten to {HERE / 'broad-summary.json'}")

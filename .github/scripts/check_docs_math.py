@@ -1201,6 +1201,61 @@ def check_corpus_composition_report(root: str) -> None:
           "repeated-author advantage", tol=5e-2, doc=name)
 
 
+def check_broad_report(root: str) -> None:
+    """Tie `broad-results.md` back to `broad-summary.json`.
+
+    The corpus-composition experiment's conclusions are two percentages wide:
+    volume +0.93%, composition +0.25%. A transcription slip in either would
+    invert the reading, so both are recomputed here.
+    """
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "broad-summary.json")
+    dp = os.path.join(exp, "broad-results.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    d = open(dp, encoding="utf-8").read()
+    name = "broad-results.md"
+    print("experiments/2026-10-18-gutenberg-mixed/broad-results.md — report vs. raw artifacts")
+
+    for arm in ("broad-ctrl", "broad-narrative", "broad-full"):
+        a = s["arms"][arm]
+        row = rf"\| `{arm}` \|"
+        claim(d, row + r" ([\d.]+) \|", round(a["test_bpb"], 4), f"{arm}: test bpb",
+              tol=5e-5, doc=name)
+        if arm != "broad-ctrl":
+            claim(d, row + r"(?:[^|\n]*\|){1} \+([\d.]+)%", round(a["vs_ctrl_pct"], 2),
+                  f"{arm}: vs ctrl", tol=5e-3, doc=name)
+
+    for form in ("narrative", "experimental", "non-fiction", "verse"):
+        f = s["by_form"][form]
+        row = rf"\| {re.escape(form)} \|"
+        claim(d, row + r" (\d+) \|", f["n"], f"{form}: document count", doc=name)
+        for i, arm in enumerate(("broad-ctrl", "broad-narrative", "broad-full")):
+            claim(d, row + r"(?:[^|\n]*\|){" + str(i + 1) + r"} ([\d.]+) \|",
+                  round(f[arm], 4), f"{form} under {arm}", tol=5e-5, doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){4} [\+−]([\d.]+)%",
+              round(abs(f["full_vs_ctrl_pct"]), 2), f"{form}: full vs ctrl magnitude",
+              tol=5e-3, doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){5} [\+−]([\d.]+)%",
+              round(abs(f["full_vs_narrative_pct"]), 2),
+              f"{form}: full vs narrative magnitude", tol=5e-3, doc=name)
+
+    claim(d, r"cost \+([\d.]+)%\. Swapping", round(s["decomposition"]["volume_pct"], 2),
+          "volume effect", tol=5e-3, doc=name)
+    claim(d, r"cost a further\s+\*\*\+([\d.]+)%",
+          round(s["decomposition"]["composition_pct"], 2), "composition effect",
+          tol=5e-3, doc=name)
+    claim(d, r"the verse penalty fell\s+from \+([\d.]+)% to",
+          round(s["penalty_vs_narrative"]["verse"]["broad-ctrl"], 1),
+          "verse penalty under ctrl", tol=5e-2, doc=name)
+    claim(d, r"non-fiction from \+([\d.]+)% to",
+          round(s["penalty_vs_narrative"]["non-fiction"]["broad-ctrl"], 1),
+          "non-fiction penalty under ctrl", tol=5e-2, doc=name)
+
+
 def main(root: str = ".") -> int:
     check_compute_budget(root)
     check_training_defaults(root)
@@ -1209,6 +1264,7 @@ def main(root: str = ".") -> int:
     check_clean_data_report(root)
     check_batch_report(root)
     check_corpus_composition_report(root)
+    check_broad_report(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

@@ -1,0 +1,52 @@
+# Capacity x mixture, big model on the broad corpus.
+#
+#   At 1.77M parameters, broadening the corpus cost +1.18% in aggregate
+#   while improving every form it targeted. Decomposed with the
+#   volume-matched narrative arm: volume alone cost +0.93%, composition
+#   cost +0.25% (inside the seed bar). So added data hurts a small
+#   model on a fixed evaluation set whatever its form -- capacity is
+#   what the extra text is competing for.
+#
+#   These two runs ask whether capacity relieves that competition.
+#   Same clock-matched horizon as size-4L256d-gb71 (2,571 steps,
+#   3,737,856 parameters), one on each corpus, completing a 2x2:
+#
+#                 broad-ctrl     broad-full
+#     1.77M       1.6147         1.6338   (+1.18%)
+#     3.74M       this pair      this pair
+#
+#   If the 3.74M gap is smaller, capacity is the constraint on
+#   absorbing a broader mixture; if it is the same, the cost is a
+#   property of the data, not of the model's size.
+run_id: broad-4L256d-full
+data_dir: data/prepared-broad-full
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2
