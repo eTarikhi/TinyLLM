@@ -153,13 +153,20 @@ class MultiDocCorpus:
 
 
 def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool = False,
-        eval_only: bool = False) -> Document:
+        eval_only: bool = False, member_file: str | None = None) -> Document:
     """GITenberg mirrors Project Gutenberg as one git repository per book.
 
-    Each repo carries ``<id>-0.txt`` (UTF-8) and ``<id>.txt`` (legacy encoding);
-    we take the UTF-8 one. The repos were last pushed in 2018, so a tarball of
-    ``master`` is a stable snapshot -- which is why this is reproducible and a
-    live gutenberg.org fetch would not be.
+    Most repos carry ``<id>-0.txt`` (UTF-8) and ``<id>.txt`` (legacy encoding),
+    and the UTF-8 one is the default here. Not every repo has it: a sizeable
+    minority -- including most of the drama and verse -- ships only
+    ``<id>.txt``. Those are usable when, and only when, the bytes decode as
+    strict UTF-8, which `resolve-broad.py` checks before emitting
+    ``member_file``. Guessing instead, by taking the largest ``.txt`` in the
+    archive, would silently mix Latin-1 into the corpus.
+
+    The repos were last pushed in 2018, so a tarball of ``master`` is a stable
+    snapshot -- which is why this is reproducible and a live gutenberg.org
+    fetch would not be.
     """
     return Document(
         doc_id=f"pg{pg}",
@@ -167,7 +174,7 @@ def _gb(pg: int, slug: str, title: str, author: str, year: str, train_only: bool
         author=author,
         year=year,
         repo=f"GITenberg/{slug}_{pg}",
-        member=f"{slug}_{pg}-master/{pg}-0.txt",
+        member=f"{slug}_{pg}-master/{member_file or f'{pg}-0.txt'}",
         train_only=train_only,
         eval_only=eval_only,
     )
@@ -376,6 +383,151 @@ GUTENBERG_71_CTRL = MultiDocCorpus(
     access_date="2026-10-19",
 )
 
+# 80 further titles: drama, verse and non-fiction, resolved and byte-verified
+# on 2026-10-20 by experiments/2026-10-18-gutenberg-mixed/discover-broad.py.
+#
+# The per-document analysis of the 71-book corpus found that form explains 45%
+# of the spread in test bpb -- verse cost +27.8% over narrative prose,
+# experimental prose +23.4%, non-fiction +19.3% -- while those three forms were
+# only 9.3% of the bytes, and drama was absent entirely. Repeated authors
+# scored 5.0% better than one-off authors, which says the hard forms are
+# under-trained rather than simply unpredictable.
+#
+# These additions are sized to test that: enough non-narrative text to bring
+# narrative prose from 90.7% of the corpus down to 67.8%, spread roughly evenly
+# over the three forms so no single one carries the result. Smallest-first
+# within each form, which buys the most distinct titles for the byte budget.
+# All are train_only, so adding them does not move val or test.
+GUTENBERG_BROAD_DOCS = (
+    _gb(790, "Lady-Windermere-s-Fan", "Lady Windermere's Fan", "Oscar Wilde", "1892", train_only=True),  # drama
+    _gb(854, "A-Woman-of-No-Importance", "A Woman of No Importance", "Oscar Wilde", "1893", train_only=True),  # drama
+    _gb(885, "An-Ideal-Husband", "An Ideal Husband", "Oscar Wilde", "1895", train_only=True),  # drama
+    _gb(1001, "Divine-Comedy-Longfellow-s-Translation-Hell", "Divine Comedy Longfellow s Translation Hell", "", "", train_only=True, member_file="1001.txt"),  # drama
+    _gb(1104, "The-Comedy-of-Errors", "The Comedy of Errors", "", "", train_only=True, member_file="1104.txt"),  # drama
+    _gb(1112, "The-Tragedy-of-Romeo-and-Juliet", "The Tragedy of Romeo and Juliet", "", "", train_only=True, member_file="1112.txt"),  # drama
+    _gb(1504, "The-Comedy-of-Errors", "The Comedy of Errors", "", "", train_only=True, member_file="1504.txt"),  # drama
+    _gb(1513, "Romeo-and-Juliet", "Romeo and Juliet", "William Shakespeare", "1597", train_only=True),  # drama
+    _gb(1519, "Much-Ado-about-Nothing", "Much Ado About Nothing", "William Shakespeare", "1600", train_only=True),  # drama
+    _gb(1522, "Julius-Caesar", "Julius Caesar", "William Shakespeare", "1599", train_only=True),  # drama
+    _gb(1524, "Hamlet-Prince-of-Denmark", "Hamlet", "William Shakespeare", "1603", train_only=True),  # drama
+    _gb(1532, "The-Tragedy-of-King-Lear", "King Lear", "William Shakespeare", "1606", train_only=True),  # drama
+    _gb(1769, "The-Comedy-of-Errors", "The Comedy of Errors", "", "", train_only=True, member_file="1769.txt"),  # drama
+    _gb(2379, "Chastelard-a-Tragedy", "Chastelard a Tragedy", "", "", train_only=True, member_file="2379.txt"),  # drama
+    _gb(3325, "Locrine-A-Tragedy", "Locrine A Tragedy", "", "", train_only=True),  # drama
+    _gb(5618, "Six-Plays", "Six Plays", "", "", train_only=True),  # drama
+    _gb(6043, "The-Spanish-Tragedie", "The Spanish Tragedie", "", "", train_only=True, member_file="6043.txt"),  # drama
+    _gb(6332, "Playful-Poems", "Playful Poems", "", "", train_only=True),  # drama
+    _gb(7805, "First-Plays", "First Plays", "", "", train_only=True, member_file="7805.txt"),  # drama
+    _gb(7986, "Plays-by-Anton-Chekhov-Second-Series", "Plays by Anton Chekhov, Second Series", "Anton Chekhov (tr. Fell)", "1916", train_only=True),  # drama
+    _gb(10606, "The-Tragedie-of-Hamlet-Prince-of-DenmarkA-Study-with-the-Text-of-the-Folio-of-1623", "The Tragedie of Hamlet Prince of DenmarkA Study with the Text of the Folio of 1623", "", "", train_only=True, member_file="10606.txt"),  # drama
+    _gb(10623, "Plays", "Plays", "", "", train_only=True, member_file="10623.txt"),  # drama
+    _gb(10722, "Plays", "Plays", "", "", train_only=True, member_file="10722.txt"),  # drama
+    _gb(10847, "The-Maids-Tragedy", "The Maids Tragedy", "", "", train_only=True, member_file="10847.txt"),  # drama
+    _gb(10877, "The-Tragedies-of-the-Medici", "The Tragedies of the Medici", "", "", train_only=True, member_file="10877.txt"),  # drama
+    _gb(11346, "The-Saint-s-Tragedy", "The Saint s Tragedy", "", "", train_only=True, member_file="11346.txt"),  # drama
+    _gb(147, "Common-Sense", "Common Sense", "Thomas Paine", "1776", train_only=True),  # non-fiction
+    _gb(226, "Cicero-s-Orations", "Cicero s Orations", "", "", train_only=True, member_file="226.txt"),  # non-fiction
+    _gb(774, "Essays-and-Lectures", "Essays and Lectures", "", "", train_only=True),  # non-fiction
+    _gb(990, "Theologico-Political-Treatise-Part-2", "Theologico Political Treatise Part 2", "", "", train_only=True, member_file="990.txt"),  # non-fiction
+    _gb(991, "Theologico-Political-Treatise-Part-3", "Theologico Political Treatise Part 3", "", "", train_only=True, member_file="991.txt"),  # non-fiction
+    _gb(992, "Theologico-Political-Treatise-Part-4", "Theologico Political Treatise Part 4", "", "", train_only=True, member_file="992.txt"),  # non-fiction
+    _gb(1315, "Autobiography-and-Selected-Essays", "Autobiography and Selected Essays", "", "", train_only=True, member_file="1315.txt"),  # non-fiction
+    _gb(1336, "Shelley--an-essay", "Shelley an essay", "", "", train_only=True, member_file="1336.txt"),  # non-fiction
+    _gb(1434, "Essays", "Essays", "", "", train_only=True, member_file="1434.txt"),  # non-fiction
+    _gb(1594, "Essays-in-Little", "Essays in Little", "", "", train_only=True, member_file="1594.txt"),  # non-fiction
+    _gb(2167, "Miscellaneous-Writings-and-Speeches---Volume-1", "Miscellaneous Writings and Speeches Volume 1", "", "", train_only=True, member_file="2167.txt"),  # non-fiction
+    _gb(2173, "Thoughts-on-the-Present-Discontents-and-Speeches", "Thoughts on the Present Discontents and Speeches", "", "", train_only=True, member_file="2173.txt"),  # non-fiction
+    _gb(2176, "Seven-Discourses-on-Art", "Seven Discourses on Art", "", "", train_only=True, member_file="2176.txt"),  # non-fiction
+    _gb(2428, "An-Essay-on-Man--Moral-Essays-and-Satires", "An Essay on Man Moral Essays and Satires", "", "", train_only=True, member_file="2428.txt"),  # non-fiction
+    _gb(2458, "Sermons-on-the-Card-and-Other-Discourses", "Sermons on the Card and Other Discourses", "", "", train_only=True, member_file="2458.txt"),  # non-fiction
+    _gb(2615, "Discourses-on-Satire-and-on-Epic-Poetry", "Discourses on Satire and on Epic Poetry", "", "", train_only=True),  # non-fiction
+    _gb(2945, "Essays---Second-Series", "Essays Second Series", "", "", train_only=True, member_file="2945.txt"),  # non-fiction
+    _gb(3549, "Cowley-s-Essays", "Cowley s Essays", "", "", train_only=True),  # non-fiction
+    _gb(4220, "An-Autobiography", "An Autobiography", "", "", train_only=True, member_file="4220.txt"),  # non-fiction
+    _gb(6312, "Representative-Men-Seven-Lectures", "Representative Men Seven Lectures", "", "", train_only=True, member_file="6312.txt"),  # non-fiction
+    _gb(6969, "The-Orations-of-Lysias", "The Orations of Lysias", "", "", train_only=True, member_file="6969.txt"),  # non-fiction
+    _gb(7377, "Five-Lectures-on-Reincarnation", "Five Lectures on Reincarnation", "", "", train_only=True, member_file="7377.txt"),  # non-fiction
+    _gb(9061, "The-Public-Orations-of-Demosthenes-volume-2", "The Public Orations of Demosthenes volume 2", "", "", train_only=True, member_file="9061.txt"),  # non-fiction
+    _gb(9304, "Initiation-into-Philosophy", "Initiation into Philosophy", "", "", train_only=True, member_file="9304.txt"),  # non-fiction
+    _gb(10427, "Scientific-Essays-and-Lectures", "Scientific Essays and Lectures", "", "", train_only=True, member_file="10427.txt"),  # non-fiction
+    _gb(10956, "Indian-speeches--1907-1909-", "Indian speeches 1907 1909", "", "", train_only=True, member_file="10956.txt"),  # non-fiction
+    _gb(11261, "Cyclopedia-of-Philosophy", "Cyclopedia of Philosophy", "", "", train_only=True, member_file="11261.txt"),  # non-fiction
+    _gb(228, "The-Aeneid", "The Aeneid", "Virgil (tr. Dryden)", "-19", train_only=True),  # verse
+    _gb(413, "Ballads", "Ballads", "", "", train_only=True),  # verse
+    _gb(454, "The-Breitmann-Ballads", "The Breitmann Ballads", "", "", train_only=True, member_file="454.txt"),  # verse
+    _gb(995, "Ballads-of-a-Bohemian", "Ballads of a Bohemian", "", "", train_only=True, member_file="995.txt"),  # verse
+    _gb(1041, "Shakespeare-s-Sonnets", "Shakespeare s Sonnets", "", "", train_only=True, member_file="1041.txt"),  # verse
+    _gb(1105, "The-Shakespearian-Sonnets", "The Shakespearian Sonnets", "", "", train_only=True, member_file="1105.txt"),  # verse
+    _gb(1469, "Poems", "Poems", "", "", train_only=True),  # verse
+    _gb(1745, "The-Poetical-Works-of-John-Milton", "The Poetical Works of John Milton", "", "", train_only=True, member_file="1745.txt"),  # verse
+    _gb(1934, "Songs-of-Innocence-and-Songs-of-Experience", "Songs of Innocence and of Experience", "William Blake", "1794", train_only=True),  # verse
+    _gb(2002, "Sonnets-from-the-Portuguese", "Sonnets from the Portuguese", "", "", train_only=True),  # verse
+    _gb(2507, "Complete-Poetical-Works", "Complete Poetical Works", "", "", train_only=True, member_file="2507.txt"),  # verse
+    _gb(2732, "Ballads", "Ballads", "", "", train_only=True, member_file="2732.txt"),  # verse
+    _gb(2819, "Barrack-Room-Ballads", "Barrack Room Ballads", "", "", train_only=True),  # verse
+    _gb(2888, "Yorkshire-Dialect-Poems--1673-1915--and-traditional-poems", "Yorkshire Dialect Poems 1673 1915 and traditional poems", "", "", train_only=True, member_file="2888.txt"),  # verse
+    _gb(4207, "Aesthetic-Poetry", "Aesthetic Poetry", "", "", train_only=True, member_file="4207.txt"),  # verse
+    _gb(5432, "The-Odes-and-Carmen-Saeculare-of-Horace", "The Odes and Carmen Saeculare of Horace", "", "", train_only=True, member_file="5432.txt"),  # verse
+    _gb(6797, "The-Poems-of-Schiller---Suppressed-poems", "The Poems of Schiller Suppressed poems", "", "", train_only=True, member_file="6797.txt"),  # verse
+    _gb(9500, "Farm-Ballads", "Farm Ballads", "", "", train_only=True, member_file="9500.txt"),  # verse
+    _gb(9574, "Poems-of-Nature-Poems-Subjective-and-Reminiscent-and-Religious-Poems-Complete--13-Volume-II-of_", "Poems of Nature Poems Subjective and Reminiscent and Religious Poems Complete 13 Volume II of", "", "", train_only=True, member_file="9574.txt"),  # verse
+    _gb(9646, "Horace--Odes-and-Epodes", "Horace Odes and Epodes", "", "", train_only=True, member_file="9646.txt"),  # verse
+    _gb(9652, "Miscellany-of-Poetry1919", "Miscellany of Poetry1919", "", "", train_only=True, member_file="9652.txt"),  # verse
+    _gb(9814, "The-Poetical-Works-of-Mark-Akenside", "The Poetical Works of Mark Akenside", "", "", train_only=True, member_file="9814.txt"),  # verse
+    _gb(10367, "Poems", "Poems", "", "", train_only=True, member_file="10367.txt"),  # verse
+    _gb(10717, "The-Extant-Odes-of-Pindar--13-Translated-with-Introduction-and-Short-Notes-by-Ernest-Myers", "The Extant Odes of Pindar 13 Translated with Introduction and Short Notes by Ernest Myers", "", "", train_only=True, member_file="10717.txt"),  # verse
+    _gb(11236, "Old-Ballads", "Old Ballads", "", "", train_only=True, member_file="11236.txt"),  # verse
+    _gb(11496, "Poetry", "Poetry", "", "", train_only=True),  # verse
+    _gb(21765, "The-Metamorphoses-of-Ovid-Books-I-VII", "Metamorphoses", "Ovid (tr. More)", "8", train_only=True),  # verse
+)
+
+# Treatment and control for the corpus-composition experiment. The treatment
+# trains on the 71 originals plus the 80 non-narrative additions; the control
+# trains on the 71 alone. Both evaluate on exactly the same bytes -- the
+# additions are eval_only in the control and train_only in the treatment, so
+# neither arm's val or test split contains them -- and sharing a vocabulary via
+# --tokenizer-from makes the two directly comparable. The measurement that
+# matters happens on the 71 originals, whose form labels are hand-assigned.
+GUTENBERG_BROAD_DOCS_FULL = tuple(
+    replace(d, train_only=False, eval_only=False) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
+) + GUTENBERG_BROAD_DOCS
+
+GUTENBERG_BROAD_DOCS_CTRL = tuple(
+    replace(d, train_only=False, eval_only=False) for d in GUTENBERG_DOCS + GUTENBERG_EXTRA_DOCS
+) + tuple(replace(d, train_only=False, eval_only=True) for d in GUTENBERG_BROAD_DOCS)
+
+GUTENBERG_BROAD_FULL = MultiDocCorpus(
+    name="gutenberg-mixed-broad-full",
+    description=(
+        "The 71-book corpus plus 80 works of drama, verse and non-fiction, "
+        "which takes narrative prose from 90.7% of the bytes to 67.8%. The "
+        "treatment arm for the question of whether the per-form penalties are a "
+        "property of the forms or of how little of them the model ever saw."
+    ),
+    sha256="",
+    documents=GUTENBERG_BROAD_DOCS_FULL,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-20",
+)
+
+GUTENBERG_BROAD_CTRL = MultiDocCorpus(
+    name="gutenberg-mixed-broad-ctrl",
+    description=(
+        "The control arm: the same 151 titles and byte-identical val and test "
+        "splits as `gutenberg-mixed-broad-full`, but only the original 71 books "
+        "contribute to training. Prepare it with --tokenizer-from pointed at the "
+        "full arm so the two share a vocabulary."
+    ),
+    sha256="",
+    documents=GUTENBERG_BROAD_DOCS_CTRL,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-20",
+)
+
 
 CORPORA = {
     TINY_SHAKESPEARE.name: TINY_SHAKESPEARE,
@@ -383,6 +535,8 @@ CORPORA = {
     GUTENBERG_EXPANDED.name: GUTENBERG_EXPANDED,
     GUTENBERG_71_FULL.name: GUTENBERG_71_FULL,
     GUTENBERG_71_CTRL.name: GUTENBERG_71_CTRL,
+    GUTENBERG_BROAD_FULL.name: GUTENBERG_BROAD_FULL,
+    GUTENBERG_BROAD_CTRL.name: GUTENBERG_BROAD_CTRL,
 }
 
 

@@ -1,0 +1,902 @@
+[
+ {
+  "pg_id": 226,
+  "slug": "Cicero-s-Orations",
+  "title": "Cicero s Orations",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 112279,
+  "member_file": "226.txt"
+ },
+ {
+  "pg_id": 413,
+  "slug": "Ballads",
+  "title": "Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 113725,
+  "member_file": "413-0.txt"
+ },
+ {
+  "pg_id": 454,
+  "slug": "The-Breitmann-Ballads",
+  "title": "The Breitmann Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 317676,
+  "member_file": "454.txt"
+ },
+ {
+  "pg_id": 774,
+  "slug": "Essays-and-Lectures",
+  "title": "Essays and Lectures",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 325394,
+  "member_file": "774-0.txt"
+ },
+ {
+  "pg_id": 824,
+  "slug": "Speeches-Literary-and-Social",
+  "title": "Speeches Literary and Social",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 602137,
+  "member_file": "824-0.txt"
+ },
+ {
+  "pg_id": 990,
+  "slug": "Theologico-Political-Treatise-Part-2",
+  "title": "Theologico Political Treatise Part 2",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 209516,
+  "member_file": "990.txt"
+ },
+ {
+  "pg_id": 991,
+  "slug": "Theologico-Political-Treatise-Part-3",
+  "title": "Theologico Political Treatise Part 3",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 114550,
+  "member_file": "991.txt"
+ },
+ {
+  "pg_id": 992,
+  "slug": "Theologico-Political-Treatise-Part-4",
+  "title": "Theologico Political Treatise Part 4",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 183868,
+  "member_file": "992.txt"
+ },
+ {
+  "pg_id": 995,
+  "slug": "Ballads-of-a-Bohemian",
+  "title": "Ballads of a Bohemian",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 254684,
+  "member_file": "995.txt"
+ },
+ {
+  "pg_id": 1001,
+  "slug": "Divine-Comedy-Longfellow-s-Translation-Hell",
+  "title": "Divine Comedy Longfellow s Translation Hell",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 242619,
+  "member_file": "1001.txt"
+ },
+ {
+  "pg_id": 1041,
+  "slug": "Shakespeare-s-Sonnets",
+  "title": "Shakespeare s Sonnets",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 122808,
+  "member_file": "1041.txt"
+ },
+ {
+  "pg_id": 1104,
+  "slug": "The-Comedy-of-Errors",
+  "title": "The Comedy of Errors",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 105284,
+  "member_file": "1104.txt"
+ },
+ {
+  "pg_id": 1105,
+  "slug": "The-Shakespearian-Sonnets",
+  "title": "The Shakespearian Sonnets",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 115148,
+  "member_file": "1105.txt"
+ },
+ {
+  "pg_id": 1112,
+  "slug": "The-Tragedy-of-Romeo-and-Juliet",
+  "title": "The Tragedy of Romeo and Juliet",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 179010,
+  "member_file": "1112.txt"
+ },
+ {
+  "pg_id": 1315,
+  "slug": "Autobiography-and-Selected-Essays",
+  "title": "Autobiography and Selected Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 339898,
+  "member_file": "1315.txt"
+ },
+ {
+  "pg_id": 1336,
+  "slug": "Shelley--an-essay",
+  "title": "Shelley an essay",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 73077,
+  "member_file": "1336.txt"
+ },
+ {
+  "pg_id": 1434,
+  "slug": "Essays",
+  "title": "Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 387119,
+  "member_file": "1434.txt"
+ },
+ {
+  "pg_id": 1469,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 95167,
+  "member_file": "1469-0.txt"
+ },
+ {
+  "pg_id": 1504,
+  "slug": "The-Comedy-of-Errors",
+  "title": "The Comedy of Errors",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 103763,
+  "member_file": "1504.txt"
+ },
+ {
+  "pg_id": 1594,
+  "slug": "Essays-in-Little",
+  "title": "Essays in Little",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 356759,
+  "member_file": "1594.txt"
+ },
+ {
+  "pg_id": 1745,
+  "slug": "The-Poetical-Works-of-John-Milton",
+  "title": "The Poetical Works of John Milton",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 950964,
+  "member_file": "1745.txt"
+ },
+ {
+  "pg_id": 1769,
+  "slug": "The-Comedy-of-Errors",
+  "title": "The Comedy of Errors",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 105294,
+  "member_file": "1769.txt"
+ },
+ {
+  "pg_id": 2002,
+  "slug": "Sonnets-from-the-Portuguese",
+  "title": "Sonnets from the Portuguese",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 53762,
+  "member_file": "2002-0.txt"
+ },
+ {
+  "pg_id": 2167,
+  "slug": "Miscellaneous-Writings-and-Speeches---Volume-1",
+  "title": "Miscellaneous Writings and Speeches Volume 1",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 357806,
+  "member_file": "2167.txt"
+ },
+ {
+  "pg_id": 2168,
+  "slug": "Miscellaneous-Writings-and-Speeches---Volume-2",
+  "title": "Miscellaneous Writings and Speeches Volume 2",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 860285,
+  "member_file": "2168.txt"
+ },
+ {
+  "pg_id": 2169,
+  "slug": "Miscellaneous-Writings-and-Speeches---Volume-3",
+  "title": "Miscellaneous Writings and Speeches Volume 3",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 425839,
+  "member_file": "2169.txt"
+ },
+ {
+  "pg_id": 2170,
+  "slug": "Miscellaneous-Writings-and-Speeches---Volume-4",
+  "title": "Miscellaneous Writings and Speeches Volume 4",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 1156973,
+  "member_file": "2170.txt"
+ },
+ {
+  "pg_id": 2173,
+  "slug": "Thoughts-on-the-Present-Discontents-and-Speeches",
+  "title": "Thoughts on the Present Discontents and Speeches",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 297073,
+  "member_file": "2173.txt"
+ },
+ {
+  "pg_id": 2176,
+  "slug": "Seven-Discourses-on-Art",
+  "title": "Seven Discourses on Art",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 251696,
+  "member_file": "2176.txt"
+ },
+ {
+  "pg_id": 2379,
+  "slug": "Chastelard-a-Tragedy",
+  "title": "Chastelard a Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 168780,
+  "member_file": "2379.txt"
+ },
+ {
+  "pg_id": 2428,
+  "slug": "An-Essay-on-Man--Moral-Essays-and-Satires",
+  "title": "An Essay on Man Moral Essays and Satires",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 288120,
+  "member_file": "2428.txt"
+ },
+ {
+  "pg_id": 2458,
+  "slug": "Sermons-on-the-Card-and-Other-Discourses",
+  "title": "Sermons on the Card and Other Discourses",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 226089,
+  "member_file": "2458.txt"
+ },
+ {
+  "pg_id": 2507,
+  "slug": "Complete-Poetical-Works",
+  "title": "Complete Poetical Works",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 382855,
+  "member_file": "2507.txt"
+ },
+ {
+  "pg_id": 2615,
+  "slug": "Discourses-on-Satire-and-on-Epic-Poetry",
+  "title": "Discourses on Satire and on Epic Poetry",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 381612,
+  "member_file": "2615-0.txt"
+ },
+ {
+  "pg_id": 2732,
+  "slug": "Ballads",
+  "title": "Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 262472,
+  "member_file": "2732.txt"
+ },
+ {
+  "pg_id": 2819,
+  "slug": "Barrack-Room-Ballads",
+  "title": "Barrack Room Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 118042,
+  "member_file": "2819-0.txt"
+ },
+ {
+  "pg_id": 2888,
+  "slug": "Yorkshire-Dialect-Poems--1673-1915--and-traditional-poems",
+  "title": "Yorkshire Dialect Poems 1673 1915 and traditional poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 222057,
+  "member_file": "2888.txt"
+ },
+ {
+  "pg_id": 2945,
+  "slug": "Essays---Second-Series",
+  "title": "Essays Second Series",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 352675,
+  "member_file": "2945.txt"
+ },
+ {
+  "pg_id": 3188,
+  "slug": "Mark-Twain-s-Speeches",
+  "title": "Mark Twain s Speeches",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 540735,
+  "member_file": "3188-0.txt"
+ },
+ {
+  "pg_id": 3325,
+  "slug": "Locrine-A-Tragedy",
+  "title": "Locrine A Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 153215,
+  "member_file": "3325-0.txt"
+ },
+ {
+  "pg_id": 3335,
+  "slug": "Theodore-Roosevelt--An-Autobiography",
+  "title": "Theodore Roosevelt An Autobiography",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 1280684,
+  "member_file": "3335.txt"
+ },
+ {
+  "pg_id": 3549,
+  "slug": "Cowley-s-Essays",
+  "title": "Cowley s Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 212233,
+  "member_file": "3549-0.txt"
+ },
+ {
+  "pg_id": 3702,
+  "slug": "Foul-Play",
+  "title": "Foul Play",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 884020,
+  "member_file": "3702.txt"
+ },
+ {
+  "pg_id": 4207,
+  "slug": "Aesthetic-Poetry",
+  "title": "Aesthetic Poetry",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 39658,
+  "member_file": "4207.txt"
+ },
+ {
+  "pg_id": 4220,
+  "slug": "An-Autobiography",
+  "title": "An Autobiography",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 416394,
+  "member_file": "4220.txt"
+ },
+ {
+  "pg_id": 5432,
+  "slug": "The-Odes-and-Carmen-Saeculare-of-Horace",
+  "title": "The Odes and Carmen Saeculare of Horace",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 209198,
+  "member_file": "5432.txt"
+ },
+ {
+  "pg_id": 5618,
+  "slug": "Six-Plays",
+  "title": "Six Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 492278,
+  "member_file": "5618-0.txt"
+ },
+ {
+  "pg_id": 6015,
+  "slug": "Captain-Macklin--His-Memoirs",
+  "title": "Captain Macklin His Memoirs",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 437369,
+  "member_file": "6015-0.txt"
+ },
+ {
+  "pg_id": 6043,
+  "slug": "The-Spanish-Tragedie",
+  "title": "The Spanish Tragedie",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 169840,
+  "member_file": "6043.txt"
+ },
+ {
+  "pg_id": 6312,
+  "slug": "Representative-Men-Seven-Lectures",
+  "title": "Representative Men Seven Lectures",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 353195,
+  "member_file": "6312.txt"
+ },
+ {
+  "pg_id": 6314,
+  "slug": "Biographical-Essays",
+  "title": "Biographical Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 497983,
+  "member_file": "6314.txt"
+ },
+ {
+  "pg_id": 6332,
+  "slug": "Playful-Poems",
+  "title": "Playful Poems",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 300545,
+  "member_file": "6332-0.txt"
+ },
+ {
+  "pg_id": 6366,
+  "slug": "The-Principles-of-Aesthetics",
+  "title": "The Principles of Aesthetics",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 631750,
+  "member_file": "6366.txt"
+ },
+ {
+  "pg_id": 6414,
+  "slug": "Lectures-and-Essays",
+  "title": "Lectures and Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 989077,
+  "member_file": "6414.txt"
+ },
+ {
+  "pg_id": 6570,
+  "slug": "Lectures-and-Essays",
+  "title": "Lectures and Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 882171,
+  "member_file": "6570.txt"
+ },
+ {
+  "pg_id": 6797,
+  "slug": "The-Poems-of-Schiller---Suppressed-poems",
+  "title": "The Poems of Schiller Suppressed poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 87965,
+  "member_file": "6797.txt"
+ },
+ {
+  "pg_id": 6969,
+  "slug": "The-Orations-of-Lysias",
+  "title": "The Orations of Lysias",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 288664,
+  "member_file": "6969.txt"
+ },
+ {
+  "pg_id": 7377,
+  "slug": "Five-Lectures-on-Reincarnation",
+  "title": "Five Lectures on Reincarnation",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 140568,
+  "member_file": "7377.txt"
+ },
+ {
+  "pg_id": 7452,
+  "slug": "Autobiography-of-a-Yogi",
+  "title": "Autobiography of a Yogi",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 968225,
+  "member_file": "7452.txt"
+ },
+ {
+  "pg_id": 7600,
+  "slug": "Select-Speeches-of-Daniel-Webster-1817-1845",
+  "title": "Select Speeches of Daniel Webster 1817 1845",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 736900,
+  "member_file": "7600.txt"
+ },
+ {
+  "pg_id": 7805,
+  "slug": "First-Plays",
+  "title": "First Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 338424,
+  "member_file": "7805.txt"
+ },
+ {
+  "pg_id": 9060,
+  "slug": "The-Public-Orations-of-Demosthenes-volume-1",
+  "title": "The Public Orations of Demosthenes volume 1",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 493284,
+  "member_file": "9060.txt"
+ },
+ {
+  "pg_id": 9061,
+  "slug": "The-Public-Orations-of-Demosthenes-volume-2",
+  "title": "The Public Orations of Demosthenes volume 2",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 397135,
+  "member_file": "9061.txt"
+ },
+ {
+  "pg_id": 9304,
+  "slug": "Initiation-into-Philosophy",
+  "title": "Initiation into Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 260326,
+  "member_file": "9304.txt"
+ },
+ {
+  "pg_id": 9500,
+  "slug": "Farm-Ballads",
+  "title": "Farm Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 108594,
+  "member_file": "9500.txt"
+ },
+ {
+  "pg_id": 9574,
+  "slug": "Poems-of-Nature-Poems-Subjective-and-Reminiscent-and-Religious-Poems-Complete--13-Volume-II-of_",
+  "title": "Poems of Nature Poems Subjective and Reminiscent and Religious Poems Complete 13 Volume II of",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 398950,
+  "member_file": "9574.txt"
+ },
+ {
+  "pg_id": 9646,
+  "slug": "Horace--Odes-and-Epodes",
+  "title": "Horace Odes and Epodes",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 168875,
+  "member_file": "9646.txt"
+ },
+ {
+  "pg_id": 9652,
+  "slug": "Miscellany-of-Poetry1919",
+  "title": "Miscellany of Poetry1919",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 150144,
+  "member_file": "9652.txt"
+ },
+ {
+  "pg_id": 9814,
+  "slug": "The-Poetical-Works-of-Mark-Akenside",
+  "title": "The Poetical Works of Mark Akenside",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 536439,
+  "member_file": "9814.txt"
+ },
+ {
+  "pg_id": 10060,
+  "slug": "Discourses--Biological--amp--Geological--13-Essays",
+  "title": "Discourses Biological amp Geological 13 Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 600646,
+  "member_file": "10060.txt"
+ },
+ {
+  "pg_id": 10367,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 148009,
+  "member_file": "10367.txt"
+ },
+ {
+  "pg_id": 10378,
+  "slug": "Autobiography",
+  "title": "Autobiography",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 466072,
+  "member_file": "10378.txt"
+ },
+ {
+  "pg_id": 10427,
+  "slug": "Scientific-Essays-and-Lectures",
+  "title": "Scientific Essays and Lectures",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 300286,
+  "member_file": "10427.txt"
+ },
+ {
+  "pg_id": 10606,
+  "slug": "The-Tragedie-of-Hamlet-Prince-of-DenmarkA-Study-with-the-Text-of-the-Folio-of-1623",
+  "title": "The Tragedie of Hamlet Prince of DenmarkA Study with the Text of the Folio of 1623",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 560669,
+  "member_file": "10606.txt"
+ },
+ {
+  "pg_id": 10623,
+  "slug": "Plays",
+  "title": "Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 353109,
+  "member_file": "10623.txt"
+ },
+ {
+  "pg_id": 10691,
+  "slug": "Select-Speeches-of-Kossuth",
+  "title": "Select Speeches of Kossuth",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 939676,
+  "member_file": "10691.txt"
+ },
+ {
+  "pg_id": 10708,
+  "slug": "Miscellaneous-Essays",
+  "title": "Miscellaneous Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 426900,
+  "member_file": "10708.txt"
+ },
+ {
+  "pg_id": 10717,
+  "slug": "The-Extant-Odes-of-Pindar--13-Translated-with-Introduction-and-Short-Notes-by-Ernest-Myers",
+  "title": "The Extant Odes of Pindar 13 Translated with Introduction and Short Notes by Ernest Myers",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 322444,
+  "member_file": "10717.txt"
+ },
+ {
+  "pg_id": 10722,
+  "slug": "Plays",
+  "title": "Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 458712,
+  "member_file": "10722.txt"
+ },
+ {
+  "pg_id": 10847,
+  "slug": "The-Maids-Tragedy",
+  "title": "The Maids Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 220792,
+  "member_file": "10847.txt"
+ },
+ {
+  "pg_id": 10877,
+  "slug": "The-Tragedies-of-the-Medici",
+  "title": "The Tragedies of the Medici",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 460165,
+  "member_file": "10877.txt"
+ },
+ {
+  "pg_id": 10956,
+  "slug": "Indian-speeches--1907-1909-",
+  "title": "Indian speeches 1907 1909",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 264055,
+  "member_file": "10956.txt"
+ },
+ {
+  "pg_id": 10990,
+  "slug": "Selected-Speeches-on-British-Foreign-Policy-1738-1914",
+  "title": "Selected Speeches on British Foreign Policy 1738 1914",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 945515,
+  "member_file": "10990.txt"
+ },
+ {
+  "pg_id": 11079,
+  "slug": "Essays-in-Rebellion",
+  "title": "Essays in Rebellion",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 588687,
+  "member_file": "11079.txt"
+ },
+ {
+  "pg_id": 11080,
+  "slug": "The-Orations-of-Marcus-Tullius-Cicero-Volume-4",
+  "title": "The Orations of Marcus Tullius Cicero Volume 4",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 1285661,
+  "member_file": "11080.txt"
+ },
+ {
+  "pg_id": 11100,
+  "slug": "History-of-Modern-PhilosophyFrom-Nicolas-of-Cusa-to-the-Present-Time",
+  "title": "History of Modern PhilosophyFrom Nicolas of Cusa to the Present Time",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 1548949,
+  "member_file": "11100-0.txt"
+ },
+ {
+  "pg_id": 11236,
+  "slug": "Old-Ballads",
+  "title": "Old Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 75827,
+  "member_file": "11236.txt"
+ },
+ {
+  "pg_id": 11261,
+  "slug": "Cyclopedia-of-Philosophy",
+  "title": "Cyclopedia of Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 21822,
+  "member_file": "11261.txt"
+ },
+ {
+  "pg_id": 11346,
+  "slug": "The-Saint-s-Tragedy",
+  "title": "The Saint s Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 313328,
+  "member_file": "11346.txt"
+ },
+ {
+  "pg_id": 11496,
+  "slug": "Poetry",
+  "title": "Poetry",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 82777,
+  "member_file": "11496-0.txt"
+ }
+]
