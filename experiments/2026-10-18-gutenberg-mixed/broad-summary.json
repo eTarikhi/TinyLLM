@@ -131,5 +131,22 @@
   },
   "published_size_4L256d_gb71": 1.6365,
   "reproduces_published": true
+ },
+ "long_horizon": {
+  "broad_full_9600": 1.579004744966081,
+  "released_9600": 1.5662,
+  "delta_pct": 0.8175676775686924,
+  "forms_broad": {
+   "narrative": 1.560379157992867,
+   "experimental": 1.916589866891314,
+   "non-fiction": 1.8173298155832873,
+   "verse": 1.8996071532825434
+  },
+  "forms_released": {
+   "narrative": 1.5449601040956058,
+   "experimental": 1.90630605595146,
+   "non-fiction": 1.8429390657841769,
+   "verse": 1.974310415193746
+  }
  }
 }
