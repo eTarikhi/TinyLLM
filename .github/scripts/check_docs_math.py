@@ -1279,6 +1279,58 @@ def check_broad_report(root: str) -> None:
               round(lh["forms_released"]["verse"], 4), "released verse", tol=5e-5, doc=name)
         claim(d, r"cost of broadening \| \+[\d.]+% \| \+([\d.]+)%",
               round(lh["delta_pct"], 2), "cost at 9600 steps", tol=5e-3, doc=name)
+    if "long_clock" in s:
+        lc = s["long_clock"]
+        grid = lc["cost_grid_pct"]
+        claim(d, r"\| 1.77M parameters \| \+([\d.]+)%", round(grid["1.77M_short"], 2),
+              "cost grid 1.77M short", tol=5e-3, doc=name)
+        claim(d, r"\| 3.74M parameters \| \+([\d.]+)%", round(grid["3.74M_short"], 2),
+              "cost grid 3.74M short", tol=5e-3, doc=name)
+        claim(d, r"\*\*\+([\d.]+)%\*\*", round(grid["3.74M_long"], 2),
+              "cost grid 3.74M long", tol=5e-3, doc=name)
+        claim(d, r"\(ctrl ([\d.]+), full", round(lc["ctrl"], 4), "ctrl-long test bpb",
+              tol=5e-5, doc=name)
+        claim(d, r"\(ctrl [\d.]+, full ([\d.]+)\)", round(lc["full"], 4),
+              "full-long test bpb", tol=5e-5, doc=name)
+        claim(d, r"shape: non-fiction ([\d.]+) →", round(lc["forms_ctrl"]["non-fiction"], 4),
+              "long-clock non-fiction ctrl", tol=5e-5, doc=name)
+        claim(d, r"shape: non-fiction [\d.]+ → ([\d.]+)", round(lc["forms_full"]["non-fiction"], 4),
+              "long-clock non-fiction full", tol=5e-5, doc=name)
+        claim(d, r"verse ([\d.]+) → [\d.]+\s*\(−4\.41%\)", round(lc["forms_ctrl"]["verse"], 4),
+              "long-clock verse ctrl", tol=5e-5, doc=name)
+        claim(d, r"narrative ([\d.]+) → [\d.]+ \(\+0\.61%\)", round(lc["forms_ctrl"]["narrative"], 4),
+              "long-clock narrative ctrl", tol=5e-5, doc=name)
+        claim(d, r"experimental ([\d.]+) → [\d.]+\s*\(−0\.13%\)",
+              round(lc["forms_ctrl"]["experimental"], 4), "long-clock experimental ctrl",
+              tol=5e-5, doc=name)
+
+    hp = os.path.join(exp, "heldout-summary.json")
+    if os.path.isfile(hp):
+        h = json.load(open(hp, encoding="utf-8"))
+        claim(d, r"\*\*aggregate\*\* \| \d+ \| ([\d.]+)", round(h["arms"]["ctrl"], 4),
+              "held-out aggregate ctrl", tol=5e-5, doc=name)
+        claim(d, r"\*\*aggregate\*\*(?:[^|\n]*\|){3} ([\d.]+)", round(h["arms"]["full"], 4),
+              "held-out aggregate full", tol=5e-5, doc=name)
+        claim(d, r"\*\*−([\d.]+)%\*\*", round(abs(h["aggregate_delta_pct"]), 2),
+              "held-out aggregate delta magnitude", tol=5e-3, doc=name)
+        for form, n in (("narrative", 10), ("drama", 10), ("non-fiction", 10), ("verse", 8)):
+            f = h["by_form"][form]
+            row = rf"\| {re.escape(form)} \| {n} \|"
+            claim(d, row + r" ([\d.]+) \|", round(f["ctrl"], 4), f"held-out {form} ctrl",
+                  tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){1} ([\d.]+) \|", round(f["full"], 4),
+                  f"held-out {form} full", tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){2} −([\d.]+)%",
+                  round(abs(f["delta_pct"]), 2), f"held-out {form} delta magnitude",
+                  tol=5e-3, doc=name)
+        claim(d, r"extra −([\d.]+) percentage points",
+              round(abs(h["transfer_vs_narrative_pp"]["drama"]), 2),
+              "held-out drama transfer", tol=5e-3, doc=name)
+        claim(d, r"verse −([\d.]+);", round(abs(h["transfer_vs_narrative_pp"]["verse"]), 2),
+              "held-out verse transfer", tol=5e-3, doc=name)
+        claim(d, r"\(\+([\d.]+) points beyond narrative\)",
+              round(h["transfer_vs_narrative_pp"]["non-fiction"], 2),
+              "held-out non-fiction transfer", tol=5e-3, doc=name)
 
 
 def main(root: str = ".") -> int:
