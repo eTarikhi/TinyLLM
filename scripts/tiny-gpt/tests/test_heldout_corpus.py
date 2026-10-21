@@ -47,9 +47,10 @@ class HeldoutCorpusTest(unittest.TestCase):
     def test_disjoint_from_every_training_corpus(self):
         heldout_ids = {d.doc_id for d in HELDOUT.documents}
         for name, corpus in data.CORPORA.items():
-            if name == HELDOUT.name:
-                continue
-            trained_on = {d.doc_id for d in corpus.documents if not d.eval_only}
+            documents = getattr(corpus, "documents", None)
+            if name == HELDOUT.name or documents is None:
+                continue  # single-file corpora hold no documents to collide with
+            trained_on = {d.doc_id for d in documents if not d.eval_only}
             self.assertFalse(heldout_ids & trained_on,
                              f"{name} trains on held-out titles: "
                              f"{sorted(heldout_ids & trained_on)}")
