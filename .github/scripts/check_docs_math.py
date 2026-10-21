@@ -1395,6 +1395,46 @@ def check_broad_report(root: str) -> None:
                   "broad50 held-out non-fiction delta", tol=5e-3, doc=name)
 
 
+def check_scale_probes(root: str) -> None:
+    """Tie `scale-probes.md` back to the `probes` block of broad-summary.json."""
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "broad-summary.json")
+    dp = os.path.join(exp, "scale-probes.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    if "probes" not in s:
+        return
+    p = s["probes"]
+    d = open(dp, encoding="utf-8").read()
+    name = "scale-probes.md"
+    print("experiments/2026-10-18-gutenberg-mixed/scale-probes.md — report vs. raw artifacts")
+
+    claim(d, r"\(test ([\d.]+) bits/byte\)", round(p["baseline"], 4), "probe baseline bpb",
+          tol=5e-5, doc=name)
+    for run, key in (("big-lr15", "lr_1.5e-3"), ("big-lr60", "lr_6e-3"), ("big-ctx512", "ctx512")):
+        row = rf"\| `{run}` \|"
+        claim(d, row + r"(?:[^|\n]*\|){1} ([\d.]+) \|", round(p[key], 4), f"{run} bpb",
+              tol=5e-5, doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){2} \+([\d.]+)%", round(p[f"{key}_delta_pct"], 2),
+              f"{run} delta", tol=5e-3, doc=name)
+    row = r"\| `big-vocab4096` \|"
+    claim(d, row + r"(?:[^|\n]*\|){1} \*\*([\d.]+)\*\*", round(p["vocab4096"], 4),
+          "vocab4096 bpb", tol=5e-5, doc=name)
+    claim(d, row + r"(?:[^|\n]*\|){2} \*\*−([\d.]+)%\*\*",
+          round(abs(p["vocab4096_delta_pct"]), 2), "vocab4096 delta magnitude",
+          tol=5e-3, doc=name)
+    claim(d, r"halving costs \+([\d.]+)%", round(p["lr_1.5e-3_delta_pct"], 2),
+          "lr halving prose", tol=5e-3, doc=name)
+    claim(d, r"doubling costs \+([\d.]+)%", round(p["lr_6e-3_delta_pct"], 2),
+          "lr doubling prose", tol=5e-3, doc=name)
+    claim(d, r"\+([\d.]+)% here", round(p["ctx512_delta_pct"], 2), "ctx512 prose",
+          tol=5e-3, doc=name)
+    claim(d, r"beat 2,048 by −([\d.]+)%", round(abs(p["vocab4096_delta_pct"]), 2),
+          "vocab4096 prose", tol=5e-3, doc=name)
+
 
 
 def main(root: str = ".") -> int:
@@ -1406,6 +1446,7 @@ def main(root: str = ".") -> int:
     check_batch_report(root)
     check_corpus_composition_report(root)
     check_broad_report(root)
+    check_scale_probes(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")
