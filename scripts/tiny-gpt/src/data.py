@@ -616,6 +616,78 @@ GUTENBERG_NARRATIVE = MultiDocCorpus(
     access_date="2026-10-20",
 )
 
+# 40 further titles -- 10 each of drama, verse, non-fiction and narrative
+# prose -- resolved and byte-verified on 2026-10-21, none of them in any
+# training corpus. This is an evaluation corpus only; nothing trains on it.
+#
+# It exists because the obvious way to ask "is the broad model more general?"
+# is contaminated: in `gutenberg-mixed-broad-full` the 80 additions are
+# train_only, and a train_only document contributes its *entire* text to the
+# training split, so their would-be test pieces were trained on. Scoring the
+# broad model there would measure fit, not transfer. These 40 books are new
+# to every model in the project, so a broad-vs-ctrl comparison on them is a
+# clean distribution-shift probe, per form. Form labels come from the search
+# keyword that found each repository (weaker than the hand labels used for
+# the original 71; the selection is in heldout-selection.json for scrutiny).
+GUTENBERG_HELDOUT_DOCS = (
+    _gb(1191, "The-Double-Dealer--A-Comedy", "The Double Dealer A Comedy", "", "", member_file="1191.txt"),  # drama
+    _gb(1507, "The-Tragedy-of-Titus-Andronicus", "The Tragedy of Titus Andronicus", "", "", member_file="1507.txt"),  # drama
+    _gb(1535, "The-Tragedy-of-Coriolanus", "The Tragedy of Coriolanus", "", "", member_file="1535.txt"),  # drama
+    _gb(1755, "Ivanoff--A-Play", "Ivanoff A Play", "", "", member_file="1755.txt"),  # drama
+    _gb(2239, "The-Comedy-of-Errors", "The Comedy of Errors", "", "", member_file="2239.txt"),  # drama
+    _gb(3068, "Washington-Square-Plays", "Washington Square Plays", "", "", member_file="3068.txt"),  # drama
+    _gb(3142, "Plays-and-Puritans", "Plays and Puritans", "", ""),  # drama
+    _gb(4255, "A-Yorkshire-Tragedy", "A Yorkshire Tragedy", "", "", member_file="4255.txt"),  # drama
+    _gb(5060, "Six-Short-Plays", "Six Short Plays", "", "", member_file="5060.txt"),  # drama
+    _gb(6790, "Demetrius--A-Play", "Demetrius A Play", "", "", member_file="6790.txt"),  # drama
+    _gb(809, "Holiday-Romance", "Holiday Romance", "", ""),  # narrative
+    _gb(7119, "The-Dolliver-Romance", "The Dolliver Romance", "", "", member_file="7119.txt"),  # narrative
+    _gb(10707, "A-Christmas-MysteryThe-Story-of-Three-Wise-Men", "A Christmas MysteryThe Story of Three Wise Men", "", "", member_file="10707.txt"),  # narrative
+    _gb(17581, "The-RomancersA-Comedy-in-Three-Acts", "The RomancersA Comedy in Three Acts", "", "", member_file="17581.txt"),  # narrative
+    _gb(19367, "Romance--Two-Lectures", "Romance Two Lectures", "", "", member_file="19367.txt"),  # narrative
+    _gb(21078, "The-Tale-of-Miss-Kitty-CatSlumber-Town-Tales", "The Tale of Miss Kitty CatSlumber Town Tales", "", "", member_file="21078.txt"),  # narrative
+    _gb(21322, "The-Tale-of-Betsy-ButterflyTuck-Me-In-Tales", "The Tale of Betsy ButterflyTuck Me In Tales", "", "", member_file="21322.txt"),  # narrative
+    _gb(21412, "The-Tale-of-Bobby-BobolinkTuck-me-In-Tales", "The Tale of Bobby BobolinkTuck me In Tales", "", "", member_file="21412.txt"),  # narrative
+    _gb(21426, "The-Tale-of-Daddy-LonglegsTuck-Me-In-Tales", "The Tale of Daddy LonglegsTuck Me In Tales", "", "", member_file="21426.txt"),  # narrative
+    _gb(21619, "The-Tale-of-Nimble-DeerSleepy-Time-Tales", "The Tale of Nimble DeerSleepy Time Tales", "", "", member_file="21619.txt"),  # narrative
+    _gb(418, "A-Treatise-on-Good-Works", "A Treatise on Good Works", "", "", member_file="418.txt"),  # non-fiction
+    _gb(908, "Treatise-on-Parents-and-Children", "Treatise on Parents and Children", "", "", member_file="908.txt"),  # non-fiction
+    _gb(989, "Theologico-Political-Treatise-Part-1", "Theologico Political Treatise Part 1", "", "", member_file="989.txt"),  # non-fiction
+    _gb(2791, "Essays-and-Tales", "Essays and Tales", "", "", member_file="2791.txt"),  # non-fiction
+    _gb(2808, "Treatises-on-Friendship-and-Old-Age", "Treatises on Friendship and Old Age", "", "", member_file="2808.txt"),  # non-fiction
+    _gb(3108, "Nine-Short-Essays", "Nine Short Essays", "", "", member_file="3108.txt"),  # non-fiction
+    _gb(4754, "The-Philosophy-of-Despair", "The Philosophy of Despair", "", "", member_file="4754.txt"),  # non-fiction
+    _gb(5329, "PoPHILO--Popular-Philosophy", "PoPHILO Popular Philosophy", "", "", member_file="5329.txt"),  # non-fiction
+    _gb(6054, "Mrs-Caudle-s-Curtain-Lectures", "Mrs Caudle s Curtain Lectures", "", "", member_file="6054.txt"),  # non-fiction
+    _gb(9850, "The-Lyric--An-Essay", "The Lyric An Essay", "", "", member_file="9850.txt"),  # non-fiction
+    _gb(679, "Poems", "Poems", "", "", member_file="679.txt"),  # verse
+    _gb(1050, "The-Dark-Lady-of-the-Sonnets", "The Dark Lady of the Sonnets", "", "", member_file="1050.txt"),  # verse
+    _gb(1186, "Poems", "Poems", "", "", member_file="1186.txt"),  # verse
+    _gb(1546, "Sonnets-on-Sundry-Notes-of-Music", "Sonnets on Sundry Notes of Music", "", "", member_file="1546.txt"),  # verse
+    _gb(3305, "Ballads-of-Peace-in-War", "Ballads of Peace in War", "", "", member_file="3305.txt"),  # verse
+    _gb(4756, "The-Love-Sonnets-of-a-Hoodlum", "The Love Sonnets of a Hoodlum", "", "", member_file="4756.txt"),  # verse
+    _gb(8161, "Fragments-of-Ancient-Poetry", "Fragments of Ancient Poetry", "", "", member_file="8161.txt"),  # verse
+    _gb(9093, "Rural-Tales-Ballads-and-Songs", "Rural Tales Ballads and Songs", "", "", member_file="9093.txt"),  # verse
+    _gb(9542, "Graded-Poetry--Seventh-Year", "Graded Poetry Seventh Year", "", "", member_file="9542.txt"),  # verse
+    _gb(9825, "A-Calendar-of-Sonnets", "A Calendar of Sonnets", "", "", member_file="9825.txt"),  # verse
+)
+
+GUTENBERG_HELDOUT = MultiDocCorpus(
+    name="gutenberg-heldout-forms",
+    description=(
+        "Forty public-domain titles, ten per form, that no model in this "
+        "project has trained on. An evaluation corpus for measuring transfer "
+        "to unseen books by form; prepare it with --tokenizer-from pointed at "
+        "the corpus whose models are being probed."
+    ),
+    sha256="",
+    documents=GUTENBERG_HELDOUT_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-21",
+)
+
 
 CORPORA = {
     TINY_SHAKESPEARE.name: TINY_SHAKESPEARE,
@@ -626,6 +698,7 @@ CORPORA = {
     GUTENBERG_BROAD_FULL.name: GUTENBERG_BROAD_FULL,
     GUTENBERG_BROAD_CTRL.name: GUTENBERG_BROAD_CTRL,
     GUTENBERG_NARRATIVE.name: GUTENBERG_NARRATIVE,
+    GUTENBERG_HELDOUT.name: GUTENBERG_HELDOUT,
 }
 
 
