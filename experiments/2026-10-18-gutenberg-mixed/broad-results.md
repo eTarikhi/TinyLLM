@@ -169,6 +169,19 @@ is now free; on unseen books it is worth 8%.** A fixed evaluation set
 made broadening look like a trade. It is, on that set — and it is also
 the only intervention in this project that buys generality.
 
+## Replication at seed 1338
+
+The original three arms were single-seed. Rerunning the pair at seed 1338
+(ctrl 1.6216, full 1.6281) puts the aggregate cost at **+0.40%** against
+seed 1337's +1.19% — same sign, a third of the size, and a reminder that
+the aggregate is the small difference of two large opposing effects and
+inherits their seed noise. The per-form pattern is stable across seeds:
+narrative +0.54% (seed 1337: +1.44%), verse −3.38% (−3.82%), non-fiction
+−2.64% (−1.38%), experimental −0.05% (+1.32%; two books, and the one form
+nothing targets). Read the headline as "at 1.77M on the short clock,
+broadening costs roughly half a percent to one percent in aggregate while
+buying 1.5–4% on the forms it targets", not as the single-seed +1.19%.
+
 ## What it does not settle
 
 The form labels for the held-out corpus come from search keywords, not

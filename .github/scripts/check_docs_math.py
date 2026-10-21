@@ -1331,6 +1331,27 @@ def check_broad_report(root: str) -> None:
         claim(d, r"\(\+([\d.]+) points beyond narrative\)",
               round(h["transfer_vs_narrative_pp"]["non-fiction"], 2),
               "held-out non-fiction transfer", tol=5e-3, doc=name)
+    if "seed_1338" in s:
+        r8 = s["seed_1338"]
+        claim(d, r"seed 1338\s*\(ctrl ([\d.]+), full", round(r8["ctrl"], 4),
+              "seed-1338 ctrl", tol=5e-5, doc=name)
+        claim(d, r"seed 1338\s*\(ctrl [\d.]+, full ([\d.]+)\)", round(r8["full"], 4),
+              "seed-1338 full", tol=5e-5, doc=name)
+        claim(d, r"aggregate cost at \*\*\+([\d.]+)%\*\*", round(r8["delta_pct"], 2),
+              "seed-1338 aggregate cost", tol=5e-3, doc=name)
+        claim(d, r"narrative \+([\d.]+)% \(seed 1337",
+              round(r8["forms"]["narrative"]["delta_pct"], 2), "seed-1338 narrative delta",
+              tol=5e-3, doc=name)
+        claim(d, r"verse −([\d.]+)% \(−3\.82%\)",
+              round(abs(r8["forms"]["verse"]["delta_pct"]), 2), "seed-1338 verse delta",
+              tol=5e-3, doc=name)
+        claim(d, r"non-fiction\s*−([\d.]+)% \(−1\.38%\)",
+              round(abs(r8["forms"]["non-fiction"]["delta_pct"]), 2),
+              "seed-1338 non-fiction delta", tol=5e-3, doc=name)
+        claim(d, r"experimental −([\d.]+)% \(\+1\.32%",
+              round(abs(r8["forms"]["experimental"]["delta_pct"]), 2),
+              "seed-1338 experimental delta", tol=5e-3, doc=name)
+
 
 
 def main(root: str = ".") -> int:
