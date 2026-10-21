@@ -680,7 +680,8 @@ GUTENBERG_HELDOUT = MultiDocCorpus(
         "to unseen books by form; prepare it with --tokenizer-from pointed at "
         "the corpus whose models are being probed."
     ),
-    sha256="",
+    # Computed 2026-10-21 over the assembled 40-document text, 4,047,093 chars.
+    sha256="e5d295be9c62ef9c8118bd2fa9338f0e573258e5899d8a8bb9c6316d80f8ca9d",
     documents=GUTENBERG_HELDOUT_DOCS,
     text_license=GUTENBERG_MIXED.text_license,
     file_license=GUTENBERG_MIXED.file_license,

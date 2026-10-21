@@ -1,0 +1,57 @@
+# Corpus composition, treatment arm: train on 151 books, 67.8% narrative.
+#
+#   The per-document analysis of the released 71-book model found that form
+#   explains 45% of the spread in test bits per byte. Against narrative prose
+#   at 1.5450, verse cost +27.8%, experimental prose +23.4% and non-fiction
+#   +19.3%; drama was absent from the corpus entirely. Those same three forms
+#   were 9.3% of the bytes. Separately, books by an author who appears more
+#   than once scored 5.0% better than books by one-off authors, which is
+#   independent evidence that training mass, not intrinsic difficulty, is what
+#   separates them.
+#
+#   This arm adds 80 works of drama, verse and non-fiction -- 20.5 MB, spread
+#   roughly evenly over the three forms -- taking narrative prose from 90.7%
+#   of the corpus to 67.8%. The control trains on the original 71 alone.
+#
+#   The additions are train_only here and eval_only in the control, so NEITHER
+#   arm evaluates on them: val and test are byte-identical between the arms and
+#   contain only the original 71 books, whose form labels are hand-assigned and
+#   whose numbers are already published. A shared vocabulary via
+#   --tokenizer-from makes the two arms directly comparable.
+#
+#   Falsifier, stated before the run: if the verse and non-fiction penalties
+#   survive this increase in training mass, the forms are intrinsically harder
+#   at 1.77M parameters and 256 tokens of context, and corpus composition is
+#   not the lever either. Report per form, not only in aggregate.
+run_id: broad-full-s1338
+data_dir: data/prepared-broad-full
+out_dir: artifacts/runs
+seed: 1338
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, not scaled with the horizon
+max_steps: 4800      # same horizon as the data-scaling arms, for comparability
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # 9.4% of the 1,042,315-token val split
+eval_spread: true    # spread over all 71 evaluated books, not the leading few
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200    # guard: 120 min; 151-document splits evaluate slower
+threads: 2
