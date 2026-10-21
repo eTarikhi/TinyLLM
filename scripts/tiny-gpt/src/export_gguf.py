@@ -24,9 +24,11 @@ handled explicitly below:
 * Token strings are written in the GPT-2 byte-to-unicode alphabet, which is
   what llama.cpp's BPE expects.
 * Training never prepends BOS (its embedding is essentially untrained), so
-  the file says ``add_bos_token = false``. A pass-through chat template is
-  included so chat UIs behave like the text-completion model this is,
-  instead of wrapping the prompt in markup it has never seen.
+  the file says ``add_bos_token = false``. No chat template is written, as
+  with upstream GPT-2 conversions: a pass-through template was tried first
+  and llama.cpp's non-jinja format detection rejects it outright
+  ("this custom template is not supported"), which is worse than none.
+  Treat the model as text completion in the UI.
 
 Weights are written F32: at 1.77M parameters the file is ~7 MB and there is
 nothing to gain from quantizing a teaching model.
@@ -137,7 +139,6 @@ def convert(checkpoint: Path, data_dir: Path, out: Path, name: str) -> dict:
     writer.add_eos_token_id(tokenizer.eos_id)
     writer.add_add_bos_token(False)
     writer.add_add_eos_token(False)
-    writer.add_chat_template("{% for message in messages %}{{ message['content'] }}{% endfor %}")
 
     written: list[str] = []
 
