@@ -1,0 +1,672 @@
+[
+ {
+  "pg_id": 1008,
+  "slug": "Divine-Comedy-Cary-s-Translation-Complete",
+  "title": "Divine Comedy Cary s Translation Complete",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 893448,
+  "member_file": "1008.txt"
+ },
+ {
+  "pg_id": 1129,
+  "slug": "The-Tragedy-of-Macbeth",
+  "title": "The Tragedy of Macbeth",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 128840,
+  "member_file": "1129.txt"
+ },
+ {
+  "pg_id": 1131,
+  "slug": "The-Tragedy-of-Coriolanus",
+  "title": "The Tragedy of Coriolanus",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 195451,
+  "member_file": "1131.txt"
+ },
+ {
+  "pg_id": 1192,
+  "slug": "The-Old-Bachelor--a-Comedy",
+  "title": "The Old Bachelor a Comedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 220596,
+  "member_file": "1192-0.txt"
+ },
+ {
+  "pg_id": 1244,
+  "slug": "Love-for-Love--a-Comedy",
+  "title": "Love for Love a Comedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 207747,
+  "member_file": "1244-0.txt"
+ },
+ {
+  "pg_id": 1684,
+  "slug": "The-Egoist--A-Comedy-in-Narrative",
+  "title": "The Egoist A Comedy in Narrative",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 1092898,
+  "member_file": "1684.txt"
+ },
+ {
+  "pg_id": 1995,
+  "slug": "The-Divine-Comedy-Volume-1-Hell",
+  "title": "The Divine Comedy Volume 1 Hell",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 280572,
+  "member_file": "1995.txt"
+ },
+ {
+  "pg_id": 1996,
+  "slug": "The-Divine-Comedy-Volume-2-Purgatory",
+  "title": "The Divine Comedy Volume 2 Purgatory",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 298819,
+  "member_file": "1996.txt"
+ },
+ {
+  "pg_id": 2920,
+  "slug": "Four-Short-Plays",
+  "title": "Four Short Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 93629,
+  "member_file": "2920.txt"
+ },
+ {
+  "pg_id": 3702,
+  "slug": "Foul-Play",
+  "title": "Foul Play",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 884020,
+  "member_file": "3702.txt"
+ },
+ {
+  "pg_id": 5055,
+  "slug": "Plays---First-Series",
+  "title": "Plays First Series",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 375069,
+  "member_file": "5055.txt"
+ },
+ {
+  "pg_id": 5056,
+  "slug": "Plays---Second-Series",
+  "title": "Plays Second Series",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 283803,
+  "member_file": "5056.txt"
+ },
+ {
+  "pg_id": 5057,
+  "slug": "Plays---Third-Series",
+  "title": "Plays Third Series",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 338229,
+  "member_file": "5057.txt"
+ },
+ {
+  "pg_id": 5058,
+  "slug": "Plays---Fourth-Series",
+  "title": "Plays Fourth Series",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 379878,
+  "member_file": "5058.txt"
+ },
+ {
+  "pg_id": 5059,
+  "slug": "Plays---Fifth-Series",
+  "title": "Plays Fifth Series",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 374974,
+  "member_file": "5059.txt"
+ },
+ {
+  "pg_id": 5435,
+  "slug": "The-Stillwater-Tragedy",
+  "title": "The Stillwater Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 390279,
+  "member_file": "5435.txt"
+ },
+ {
+  "pg_id": 6784,
+  "slug": "Love-and-Intrigue--A-Tragedy",
+  "title": "Love and Intrigue A Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 224822,
+  "member_file": "6784.txt"
+ },
+ {
+  "pg_id": 6786,
+  "slug": "The-Piccolomini--A-Play",
+  "title": "The Piccolomini A Play",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 188107,
+  "member_file": "6786.txt"
+ },
+ {
+  "pg_id": 6791,
+  "slug": "Mary-Stuart--A-Tragedy",
+  "title": "Mary Stuart A Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 236173,
+  "member_file": "6791.txt"
+ },
+ {
+  "pg_id": 7487,
+  "slug": "Count-Alarcos--a-Tragedy",
+  "title": "Count Alarcos a Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 210821,
+  "member_file": "7487-0.txt"
+ },
+ {
+  "pg_id": 7840,
+  "slug": "The-Female-Gamester--A-Tragedy",
+  "title": "The Female Gamester A Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 144412,
+  "member_file": "7840.txt"
+ },
+ {
+  "pg_id": 8464,
+  "slug": "Rest-Harrow--A-Comedy-of-Resolution",
+  "title": "Rest Harrow A Comedy of Resolution",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 557438,
+  "member_file": "8464-0.txt"
+ },
+ {
+  "pg_id": 8771,
+  "slug": "Jurgen--A-Comedy-of-Justice",
+  "title": "Jurgen A Comedy of Justice",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 565424,
+  "member_file": "8771.txt"
+ },
+ {
+  "pg_id": 9161,
+  "slug": "Comedy-of-Marriage-and-Other-Tales",
+  "title": "Comedy of Marriage and Other Tales",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 358996,
+  "member_file": "9161-0.txt"
+ },
+ {
+  "pg_id": 9663,
+  "slug": "Domnei--A-Comedy-of-Woman-Worship",
+  "title": "Domnei A Comedy of Woman Worship",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 230984,
+  "member_file": "9663.txt"
+ },
+ {
+  "pg_id": 627,
+  "slug": "Essays-of-Travel",
+  "title": "Essays of Travel",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 416972,
+  "member_file": "627-0.txt"
+ },
+ {
+  "pg_id": 1360,
+  "slug": "Historical-Lectures-and-Essays",
+  "title": "Historical Lectures and Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 282675,
+  "member_file": "1360.txt"
+ },
+ {
+  "pg_id": 2010,
+  "slug": "The-Autobiography-of-Charles-Darwin",
+  "title": "The Autobiography of Charles Darwin",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 148522,
+  "member_file": "2010.txt"
+ },
+ {
+  "pg_id": 2162,
+  "slug": "Anarchism-and-Other-Essays",
+  "title": "Anarchism and Other Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 431916,
+  "member_file": "2162.txt"
+ },
+ {
+  "pg_id": 2169,
+  "slug": "Miscellaneous-Writings-and-Speeches---Volume-3",
+  "title": "Miscellaneous Writings and Speeches Volume 3",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 425839,
+  "member_file": "2169.txt"
+ },
+ {
+  "pg_id": 2523,
+  "slug": "The-Memoirs-of-Victor-Hugo",
+  "title": "The Memoirs of Victor Hugo",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 476452,
+  "member_file": "2523-0.txt"
+ },
+ {
+  "pg_id": 2944,
+  "slug": "Essays---First-Series",
+  "title": "Essays First Series",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 439075,
+  "member_file": "2944.txt"
+ },
+ {
+  "pg_id": 3175,
+  "slug": "Mark-Twain-s-Burlesque-Autobiography",
+  "title": "Mark Twain s Burlesque Autobiography",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 48064,
+  "member_file": "3175-0.txt"
+ },
+ {
+  "pg_id": 3188,
+  "slug": "Mark-Twain-s-Speeches",
+  "title": "Mark Twain s Speeches",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 540735,
+  "member_file": "3188-0.txt"
+ },
+ {
+  "pg_id": 3559,
+  "slug": "Memoirs-of-Napoleon-Bonaparte-Volume-09",
+  "title": "Memoirs of Napoleon Bonaparte Volume 09",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 211624,
+  "member_file": "3559.txt"
+ },
+ {
+  "pg_id": 4087,
+  "slug": "An-Essay-Upon-Projects",
+  "title": "An Essay Upon Projects",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 307356,
+  "member_file": "4087-0.txt"
+ },
+ {
+  "pg_id": 4391,
+  "slug": "Selections-from-the-Principles-of-Philosophy",
+  "title": "Selections from the Principles of Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 195080,
+  "member_file": "4391.txt"
+ },
+ {
+  "pg_id": 5717,
+  "slug": "Bergson-and-His-Philosophy",
+  "title": "Bergson and His Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 381012,
+  "member_file": "5717.txt"
+ },
+ {
+  "pg_id": 5827,
+  "slug": "The-Problems-of-Philosophy",
+  "title": "The Problems of Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 269487,
+  "member_file": "5827.txt"
+ },
+ {
+  "pg_id": 6015,
+  "slug": "Captain-Macklin--His-Memoirs",
+  "title": "Captain Macklin His Memoirs",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 437369,
+  "member_file": "6015-0.txt"
+ },
+ {
+  "pg_id": 6031,
+  "slug": "Memoirs-of-My-Life-and-Writings",
+  "title": "Memoirs of My Life and Writings",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 345403,
+  "member_file": "6031.txt"
+ },
+ {
+  "pg_id": 6314,
+  "slug": "Biographical-Essays",
+  "title": "Biographical Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 497983,
+  "member_file": "6314.txt"
+ },
+ {
+  "pg_id": 6435,
+  "slug": "The-Principles-of-Scientific-Management",
+  "title": "The Principles of Scientific Management",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 231067,
+  "member_file": "6435.txt"
+ },
+ {
+  "pg_id": 7976,
+  "slug": "Mr.-Dooley-s-Philosophy",
+  "title": "Mr. Dooley s Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 275803,
+  "member_file": "7976-0.txt"
+ },
+ {
+  "pg_id": 8108,
+  "slug": "Literary-and-Social-Essays",
+  "title": "Literary and Social Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 375902,
+  "member_file": "8108.txt"
+ },
+ {
+  "pg_id": 9060,
+  "slug": "The-Public-Orations-of-Demosthenes-volume-1",
+  "title": "The Public Orations of Demosthenes volume 1",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 493284,
+  "member_file": "9060.txt"
+ },
+ {
+  "pg_id": 10378,
+  "slug": "Autobiography",
+  "title": "Autobiography",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 466072,
+  "member_file": "10378.txt"
+ },
+ {
+  "pg_id": 10708,
+  "slug": "Miscellaneous-Essays",
+  "title": "Miscellaneous Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 426900,
+  "member_file": "10708.txt"
+ },
+ {
+  "pg_id": 11391,
+  "slug": "Lectures-on-Art",
+  "title": "Lectures on Art",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 366225,
+  "member_file": "11391.txt"
+ },
+ {
+  "pg_id": 11945,
+  "slug": "Essays-of-Schopenhauer",
+  "title": "Essays of Schopenhauer",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 454586,
+  "member_file": "11945-0.txt"
+ },
+ {
+  "pg_id": 11984,
+  "slug": "A-Pluralistic-Universe--13-Hibbert-Lectures-at-Manchester-College-on-the-Present-Situation-in_",
+  "title": "A Pluralistic Universe 13 Hibbert Lectures at Manchester College on the Present Situation in",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 472978,
+  "member_file": "11984.txt"
+ },
+ {
+  "pg_id": 259,
+  "slug": "Ballads-of-a-Cheechako",
+  "title": "Ballads of a Cheechako",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 132711,
+  "member_file": "259.txt"
+ },
+ {
+  "pg_id": 617,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 232538,
+  "member_file": "617.txt"
+ },
+ {
+  "pg_id": 1054,
+  "slug": "A-Collection-of-Ballads",
+  "title": "A Collection of Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 325592,
+  "member_file": "1054-0.txt"
+ },
+ {
+  "pg_id": 1365,
+  "slug": "The-Complete-Poetical-Works-of-Henry-Wadsworth-Longfellow",
+  "title": "The Complete Poetical Works of Henry Wadsworth Longfellow",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 1966416,
+  "member_file": "1365.txt"
+ },
+ {
+  "pg_id": 2831,
+  "slug": "A-Bundle-of-Ballads",
+  "title": "A Bundle of Ballads",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 274266,
+  "member_file": "2831.txt"
+ },
+ {
+  "pg_id": 5332,
+  "slug": "The-Love-Sonnets-of-a-Car-Conductor",
+  "title": "The Love Sonnets of a Car Conductor",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 44137,
+  "member_file": "5332.txt"
+ },
+ {
+  "pg_id": 6844,
+  "slug": "The-Poetical-Works-of-Mrs.-Leprohon",
+  "title": "The Poetical Works of Mrs. Leprohon",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 278634,
+  "member_file": "6844.txt"
+ },
+ {
+  "pg_id": 7400,
+  "slug": "The-Poetical-Works-of-Oliver-Wendell-Holmes---Complete",
+  "title": "The Poetical Works of Oliver Wendell Holmes Complete",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 963762,
+  "member_file": "7400.txt"
+ },
+ {
+  "pg_id": 7796,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 244138,
+  "member_file": "7796.txt"
+ },
+ {
+  "pg_id": 8775,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 494548,
+  "member_file": "8775.txt"
+ },
+ {
+  "pg_id": 9484,
+  "slug": "Georgian-Poetry-1911-1912",
+  "title": "Georgian Poetry 1911 1912",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 204262,
+  "member_file": "9484.txt"
+ },
+ {
+  "pg_id": 9506,
+  "slug": "Georgian-Poetry-1913-15",
+  "title": "Georgian Poetry 1913 15",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 238454,
+  "member_file": "9506.txt"
+ },
+ {
+  "pg_id": 9546,
+  "slug": "Georgian-Poetry-1916-1917",
+  "title": "Georgian Poetry 1916 1917",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 144130,
+  "member_file": "9546.txt"
+ },
+ {
+  "pg_id": 9621,
+  "slug": "Georgian-Poetry-1918-19",
+  "title": "Georgian Poetry 1918 19",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 158414,
+  "member_file": "9621.txt"
+ },
+ {
+  "pg_id": 9640,
+  "slug": "Georgian-Poetry-1920-22",
+  "title": "Georgian Poetry 1920 22",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 185343,
+  "member_file": "9640.txt"
+ },
+ {
+  "pg_id": 10219,
+  "slug": "The-Poetical-Works-of-William-Wordsworth---Volume-1",
+  "title": "The Poetical Works of William Wordsworth Volume 1",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 729566,
+  "member_file": "10219.txt"
+ }
+]

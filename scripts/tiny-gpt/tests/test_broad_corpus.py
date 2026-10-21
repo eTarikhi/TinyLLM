@@ -123,5 +123,40 @@ class MemberFileTest(unittest.TestCase):
         self.assertLess(canonical, len(ADDED))
 
 
+class Broad50CorpusTest(unittest.TestCase):
+    """The mixture curve's second point: more of the same, deliberately."""
+
+    CORPUS = data.CORPORA["gutenberg-mixed-broad50"]
+
+    def test_shape(self):
+        self.assertEqual(len(self.CORPUS.documents), 218)
+        self.assertEqual(len(data.GUTENBERG_BROAD50_EXTRA_DOCS), 67)
+        ids = [d.doc_id for d in self.CORPUS.documents]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_it_evaluates_on_the_same_71_as_every_broad_arm(self):
+        evaluated = [d.doc_id for d in self.CORPUS.documents if not d.train_only]
+        self.assertEqual(evaluated,
+                         [d.doc_id for d in FULL.documents if not d.train_only])
+
+    def test_selection_matches_the_registry(self):
+        import json
+        path = (ROOT.parent.parent / "experiments" / "2026-10-18-gutenberg-mixed"
+                / "broad50-selection.json")
+        selection = json.loads(path.read_text())
+        self.assertEqual({f"pg{s['pg_id']}" for s in selection},
+                         {d.doc_id for d in data.GUTENBERG_BROAD50_EXTRA_DOCS})
+
+    def test_narrative_share_lands_near_half(self):
+        import json
+        path = (ROOT.parent.parent / "experiments" / "2026-10-18-gutenberg-mixed"
+                / "broad50-selection.json")
+        extra = sum(s["raw_bytes"] for s in json.loads(path.read_text()))
+        existing, narrative, current = 60_467_324, 60_467_324 * 0.9066, 20_469_186
+        share = narrative / (existing + current + extra)
+        self.assertGreater(share, 0.47)
+        self.assertLess(share, 0.56)
+
+
 if __name__ == "__main__":
     unittest.main()
