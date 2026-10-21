@@ -1351,6 +1351,39 @@ def check_broad_report(root: str) -> None:
         claim(d, r"experimental −([\d.]+)% \(\+1\.32%",
               round(abs(r8["forms"]["experimental"]["delta_pct"]), 2),
               "seed-1338 experimental delta", tol=5e-3, doc=name)
+    if "broad50" in s and "long_clock" in s:
+        b50, lc = s["broad50"], s["long_clock"]
+        pct = lambda a, base: round(100 * (a - base) / base, 2)
+        claim(d, r"seen 71 it scores ([\d.]+)", round(b50["bpb"], 4), "broad50 seen bpb",
+              tol=5e-5, doc=name)
+        claim(d, r"\*\*\+([\d.]+)%\*\* over the 67.8% mixture", pct(b50["bpb"], lc["full"]),
+              "broad50 vs broad68 seen", tol=5e-3, doc=name)
+        claim(d, r"\+([\d.]+)% over the control", pct(b50["bpb"], lc["ctrl"]),
+              "broad50 vs ctrl seen", tol=5e-3, doc=name)
+        claim(d, r"narrative \(([\d.]+)\)", round(b50["forms"]["narrative"], 4),
+              "broad50 narrative seen", tol=5e-5, doc=name)
+        claim(d, r"verse \(([\d.]+)\) barely", round(b50["forms"]["verse"], 4),
+              "broad50 verse seen", tol=5e-5, doc=name)
+        if os.path.isfile(hp):
+            claim(d, r"gains only \*\*−([\d.]+)%\*\* further",
+                  abs(pct(b50["heldout"]["aggregate"], h["arms"]["full"])),
+                  "broad50 held-out delta vs broad68", tol=5e-3, doc=name)
+            claim(d, r"gains only \*\*−[\d.]+%\*\* further \(([\d.]+)",
+                  round(b50["heldout"]["aggregate"], 4), "broad50 held-out aggregate",
+                  tol=5e-5, doc=name)
+            claim(d, r"drama\s*\(−([\d.]+)%\) and verse",
+                  abs(pct(b50["heldout"]["forms"]["drama"], h["by_form"]["drama"]["full"])),
+                  "broad50 held-out drama delta", tol=5e-3, doc=name)
+            claim(d, r"and verse \(−([\d.]+)%\), narrative",
+                  abs(pct(b50["heldout"]["forms"]["verse"], h["by_form"]["verse"]["full"])),
+                  "broad50 held-out verse delta", tol=5e-3, doc=name)
+            claim(d, r"\), narrative −([\d.]+)%,",
+                  abs(pct(b50["heldout"]["forms"]["narrative"], h["by_form"]["narrative"]["full"])),
+                  "broad50 held-out narrative delta", tol=5e-3, doc=name)
+            claim(d, r"non-fiction \+([\d.]+)%\.",
+                  round(pct(b50["heldout"]["forms"]["non-fiction"], h["by_form"]["non-fiction"]["full"]), 2),
+                  "broad50 held-out non-fiction delta", tol=5e-3, doc=name)
+
 
 
 

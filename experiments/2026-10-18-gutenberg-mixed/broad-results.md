@@ -182,15 +182,37 @@ nothing targets). Read the headline as "at 1.77M on the short clock,
 broadening costs roughly half a percent to one percent in aggregate while
 buying 1.5–4% on the forms it targets", not as the single-seed +1.19%.
 
+## Pushing to 52% narrative: the optimum is interior
+
+One more point on the curve: `gutenberg-mixed-broad50` adds 67 further
+works of drama, verse and non-fiction (narrative at 51.7% of the bytes),
+trained at the same 3.74M × long-clock point. The trade reappears. On the
+seen 71 it scores 1.5754 — **+1.07%** over the 67.8% mixture's 1.5587 and
++1.35% over the control — with the cost spread across narrative (1.5585)
+while verse (1.8575) barely improves on the 68% arm. On the unseen 40 it
+gains only **−0.72%** further (1.8140 vs 1.8271), concentrated in drama
+(−3.43%) and verse (−2.34%), narrative −0.97%, non-fiction +0.09%.
+
+So at this scale the mixture curve has an interior optimum near 68%
+narrative: the first broadening bought −8.13% of transfer at zero
+seen-set cost (once capacity and horizon were adequate); the second
+buys −0.72% more transfer for +1.07% on seen books. Transfer saturates
+faster than competition does. A practitioner with a fixed evaluation
+set should stop at the first point; one deploying to unseen drama or
+verse might rationally go further — but with eyes open about the price.
+
 ## What it does not settle
 
 The form labels for the held-out corpus come from search keywords, not
 hand assignment, and its non-fiction group is where the two labelings are
 hardest to compare (the original 71's non-fiction is Darwin, Douglass and
-Thoreau; the probe's skews to essays and lectures). Whether an even
-broader mixture (narrative at ~50%) keeps the aggregate at zero while
-buying more transfer is untested. And all of this remains at 256 tokens
-of context; nothing here says how the trade scales past 4M parameters.
+Thoreau; the probe's skews to essays and lectures) — held-out non-fiction
+is also the one form that never shows targeted transfer, which may say
+more about the labels than about non-fiction. All of this remains at 256
+tokens of context and under 4M parameters; nothing here says how the
+trade scales, and the seed-to-seed wobble in the aggregate (the cost at
+1.77M measured +1.19% and +0.40% on two seeds) is a standing warning
+against reading any single run's aggregate too finely.
 
 ## Artifacts
 
