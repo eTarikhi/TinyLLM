@@ -1,0 +1,41 @@
+# Vocabulary probe: 4,096 BPE merges against the standing 2,048.
+#
+#   The tokenizer was the biggest single lever at tiny scale and has
+#   never been re-examined since. Same corpus, same token budget
+#   (2,571 x 8,192), compared in bits per byte - the only honest
+#   cross-vocabulary metric. Not parameter-matched: the embedding
+#   grows by 2048 x 256 = 0.52M (tied, so it is also the output).
+#   Data: data/prepared-broad-full-v4096 (tokenizer trained on the
+#   same train split at vocab 4096).
+run_id: big-vocab4096
+data_dir: data/prepared-broad-full-v4096
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2
