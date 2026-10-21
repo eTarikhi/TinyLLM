@@ -778,7 +778,7 @@ GUTENBERG_BROAD50 = MultiDocCorpus(
         "on exactly the broad arms' splits. Prepare with --tokenizer-from "
         "pointed at the broad arm."
     ),
-    sha256="",
+    sha256="10ff819a43ee2889bec073502b1af371badc5377b0c960f09a16c437f251d2f9",
     documents=GUTENBERG_BROAD_DOCS_FULL + GUTENBERG_BROAD50_EXTRA_DOCS,
     text_license=GUTENBERG_MIXED.text_license,
     file_license=GUTENBERG_MIXED.file_license,
