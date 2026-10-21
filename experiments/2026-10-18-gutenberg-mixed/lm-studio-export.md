@@ -5,6 +5,25 @@ The released model (1.77M parameters, test **1.5662 bits/byte**, trained on
 **`tinylm-1.8m-gutenberg71.gguf`** — 7.2 MB, F32, 40 tensors — and runs in
 LM Studio or any llama.cpp front-end.
 
+## Recommended: the 3.7M generalist
+
+**`tinylm-3.7m-broad68.gguf`** (15.1 MB, F32, 52 tensors) is the better
+model to actually use. It was trained on the broadened corpus — the same 71
+books plus 80 works of drama, verse and non-fiction — at 3.74M parameters
+on the long clock. On the original 71 books it scores 1.5587 bits/byte
+(slightly better than the 1.8M model), and on 40 books it never trained on
+it is **8.13% better** than a same-size model trained only on the 71 —
+which is what matters when you type prompts it has never seen, and why it
+handles verse- or dialogue-shaped prompts the smaller model fumbles. Same
+import steps and settings as below; greedy output verified identical to
+the PyTorch checkpoint through llama.cpp. Rebuild with, after retraining
+(`configs/broad-4L256d-full-long.yaml`):
+
+```bash
+python src/export_gguf.py --checkpoint artifacts/runs/broad-4L256d-full-long/best.pt \
+    --data-dir data/prepared-broad-full --out tinylm-3.7m-broad68.gguf
+```
+
 ## Import
 
 Either drag the `.gguf` file into the LM Studio window, run

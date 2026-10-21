@@ -167,7 +167,11 @@ gains, so its improvement reads as volume rather than form targeting.
 The asymmetry is the result to carry forward: **on seen books broadening
 is now free; on unseen books it is worth 8%.** A fixed evaluation set
 made broadening look like a trade. It is, on that set — and it is also
-the only intervention in this project that buys generality.
+the only intervention in this project that buys generality. As a scale
+check, the released 1.77M model scores 2.0031 on the same unseen books —
+within 0.72% of the 3.74M control, while the broad model beats it by
+9.63%. Doubling the parameters moved unseen-book quality by less than a
+percent; changing what the model had read moved it by eight to ten.
 
 ## Replication at seed 1338
 

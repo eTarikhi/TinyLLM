@@ -1331,6 +1331,16 @@ def check_broad_report(root: str) -> None:
         claim(d, r"\(\+([\d.]+) points beyond narrative\)",
               round(h["transfer_vs_narrative_pp"]["non-fiction"], 2),
               "held-out non-fiction transfer", tol=5e-3, doc=name)
+        if "released_small_1.77M" in h:
+            rs = h["released_small_1.77M"]["per_document_mean_bpb"]
+            claim(d, r"released 1.77M model scores ([\d.]+)", round(rs, 4),
+                  "released small held-out mean", tol=5e-5, doc=name)
+            claim(d, r"within ([\d.]+)% of the 3.74M control",
+                  round(100 * (rs - h["arms"]["ctrl"]) / h["arms"]["ctrl"], 2),
+                  "released small vs big ctrl held-out", tol=5e-3, doc=name)
+            claim(d, r"broad model beats it by\s*([\d.]+)%",
+                  round(100 * (rs - h["arms"]["full"]) / h["arms"]["full"], 2),
+                  "released small vs big broad held-out", tol=5e-3, doc=name)
     if "seed_1338" in s:
         r8 = s["seed_1338"]
         claim(d, r"seed 1338\s*\(ctrl ([\d.]+), full", round(r8["ctrl"], 4),

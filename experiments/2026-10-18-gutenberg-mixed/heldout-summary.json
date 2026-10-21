@@ -34,5 +34,9 @@
   "drama": -10.014568466396579,
   "non-fiction": 0.37997932805204826,
   "verse": -4.15889447837627
+ },
+ "released_small_1.77M": {
+  "per_document_mean_bpb": 2.003106323958081,
+  "documents": 38
  }
 }
