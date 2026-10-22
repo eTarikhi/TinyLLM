@@ -308,13 +308,24 @@ Ordered by what the evidence says is limiting, not by what is interesting:
     published test figure to four decimal places from an independently
     prepared corpus.
 
-16. **Does capacity absorb a broader mixture?** `broad-4L256d-{full,ctrl}`
-    (3.74M parameters, clock-matched 2,571 steps) complete the 2×2. If the
-    full-vs-ctrl gap narrows with size, the constraint is capacity; if it
-    holds, the cost is a property of evaluating on a fixed set. Then the
-    released configuration itself — 9,600 steps, not 4,800 — on the broad
-    corpus, to test whether longer training amortises the competition.
-15. **Re-establish a baseline under `eval_spread`.** The in-training
+16. **Does capacity absorb a broader mixture? — yes, and horizon compounds
+    it.** The full-vs-ctrl cost across the size × horizon grid: +1.19%
+    (1.77M, short clock), +0.82% (1.77M, long), +0.62% (3.74M, short),
+    **+0.28% (3.74M, long)** — inside the 0.37% seed bar. At 3.74M on the
+    long clock broadening is free in aggregate (ctrl 1.5544, full 1.5587;
+    both beat the released 1.77M model's 1.5662) while the form gains
+    persist (verse −4.41%, non-fiction −4.49%). And on 40 books neither
+    arm trained on (`gutenberg-heldout-forms`), the broad model is better
+    everywhere: **−8.13% aggregate**, drama −13.73%. On seen books
+    broadening was a trade that slack has now paid off; on unseen books it
+    was never a trade at all. [`broad-results.md`](broad-results.md).
+15. **Re-establish a baseline under `eval_spread` — done by re-anchor;
+    the default stays opt-in on purpose.** The released configuration
+    already runs with the spread slice, and its retrain on 2026-10-20
+    reproduced val 1.5417 under it, so the current val series is anchored.
+    Flipping the code default would silently change what the older
+    committed configs compute when rerun; they are historical artifacts
+    and stay reproducible as written. The in-training
     validation metric covered the first 8 of 27 books until it was fixed, so
     every published val number is a number about those eight. Test numbers,
     and therefore every conclusion drawn so far, are unaffected. The spread

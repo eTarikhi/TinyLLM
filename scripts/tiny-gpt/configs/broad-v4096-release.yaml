@@ -1,0 +1,41 @@
+# Release run v2: stack the two verified wins on the broad corpus.
+#
+#   Vocabulary 4096 (big-vocab4096: -1.41% bpb at fixed token budget)
+#   x double horizon (10,346 steps; doublings have paid ~-3% each)
+#   at 3.74M parameters, ctx 256 (big-ctx512: +6.39%, rejected),
+#   peak LR auto-selected by run_queue6.sh from the big-lr60 probe
+#   (3e-3 unless 6e-3 beats 1.6467 by more than the 0.37% seed bar).
+#   Compared in bits/byte against broad-4L256d-full-long's 1.5587 -
+#   the metric exists precisely to make cross-vocabulary claims.
+run_id: broad-v4096-release
+data_dir: data/prepared-broad-full-v4096
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 258
+max_steps: 10346
+
+eval_every: 256
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 1600
+max_seconds: 14400
+threads: 2

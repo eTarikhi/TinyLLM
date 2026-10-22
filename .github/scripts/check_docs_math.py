@@ -1271,6 +1271,200 @@ def check_broad_report(root: str) -> None:
               "3.74M non-fiction ctrl", tol=5e-5, doc=name)
         claim(d, r"narrative ([\d.]+) →", round(big["forms_ctrl"]["narrative"], 4),
               "3.74M narrative ctrl", tol=5e-5, doc=name)
+    if "long_horizon" in s:
+        lh = s["long_horizon"]
+        claim(d, r"\| broad \| ([\d.]+) \| ([\d.]+)", round(s["arms"]["broad-full"]["test_bpb"], 4),
+              "broad at 4800 steps", tol=5e-5, doc=name)
+        claim(d, r"verse ([\d.]+) → ([\d.]+) \(−3\.78%\)",
+              round(lh["forms_released"]["verse"], 4), "released verse", tol=5e-5, doc=name)
+        claim(d, r"cost of broadening \| \+[\d.]+% \| \+([\d.]+)%",
+              round(lh["delta_pct"], 2), "cost at 9600 steps", tol=5e-3, doc=name)
+    if "long_clock" in s:
+        lc = s["long_clock"]
+        grid = lc["cost_grid_pct"]
+        claim(d, r"\| 1.77M parameters \| \+([\d.]+)%", round(grid["1.77M_short"], 2),
+              "cost grid 1.77M short", tol=5e-3, doc=name)
+        claim(d, r"\| 3.74M parameters \| \+([\d.]+)%", round(grid["3.74M_short"], 2),
+              "cost grid 3.74M short", tol=5e-3, doc=name)
+        claim(d, r"\*\*\+([\d.]+)%\*\*", round(grid["3.74M_long"], 2),
+              "cost grid 3.74M long", tol=5e-3, doc=name)
+        claim(d, r"\(ctrl ([\d.]+), full", round(lc["ctrl"], 4), "ctrl-long test bpb",
+              tol=5e-5, doc=name)
+        claim(d, r"\(ctrl [\d.]+, full ([\d.]+)\)", round(lc["full"], 4),
+              "full-long test bpb", tol=5e-5, doc=name)
+        claim(d, r"shape: non-fiction ([\d.]+) →", round(lc["forms_ctrl"]["non-fiction"], 4),
+              "long-clock non-fiction ctrl", tol=5e-5, doc=name)
+        claim(d, r"shape: non-fiction [\d.]+ → ([\d.]+)", round(lc["forms_full"]["non-fiction"], 4),
+              "long-clock non-fiction full", tol=5e-5, doc=name)
+        claim(d, r"verse ([\d.]+) → [\d.]+\s*\(−4\.41%\)", round(lc["forms_ctrl"]["verse"], 4),
+              "long-clock verse ctrl", tol=5e-5, doc=name)
+        claim(d, r"narrative ([\d.]+) → [\d.]+ \(\+0\.61%\)", round(lc["forms_ctrl"]["narrative"], 4),
+              "long-clock narrative ctrl", tol=5e-5, doc=name)
+        claim(d, r"experimental ([\d.]+) → [\d.]+\s*\(−0\.13%\)",
+              round(lc["forms_ctrl"]["experimental"], 4), "long-clock experimental ctrl",
+              tol=5e-5, doc=name)
+
+    hp = os.path.join(exp, "heldout-summary.json")
+    if os.path.isfile(hp):
+        h = json.load(open(hp, encoding="utf-8"))
+        claim(d, r"\*\*aggregate\*\* \| \d+ \| ([\d.]+)", round(h["arms"]["ctrl"], 4),
+              "held-out aggregate ctrl", tol=5e-5, doc=name)
+        claim(d, r"\*\*aggregate\*\*(?:[^|\n]*\|){3} ([\d.]+)", round(h["arms"]["full"], 4),
+              "held-out aggregate full", tol=5e-5, doc=name)
+        claim(d, r"\*\*−([\d.]+)%\*\*", round(abs(h["aggregate_delta_pct"]), 2),
+              "held-out aggregate delta magnitude", tol=5e-3, doc=name)
+        for form, n in (("narrative", 10), ("drama", 10), ("non-fiction", 10), ("verse", 8)):
+            f = h["by_form"][form]
+            row = rf"\| {re.escape(form)} \| {n} \|"
+            claim(d, row + r" ([\d.]+) \|", round(f["ctrl"], 4), f"held-out {form} ctrl",
+                  tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){1} ([\d.]+) \|", round(f["full"], 4),
+                  f"held-out {form} full", tol=5e-5, doc=name)
+            claim(d, row + r"(?:[^|\n]*\|){2} −([\d.]+)%",
+                  round(abs(f["delta_pct"]), 2), f"held-out {form} delta magnitude",
+                  tol=5e-3, doc=name)
+        claim(d, r"extra −([\d.]+) percentage points",
+              round(abs(h["transfer_vs_narrative_pp"]["drama"]), 2),
+              "held-out drama transfer", tol=5e-3, doc=name)
+        claim(d, r"verse −([\d.]+);", round(abs(h["transfer_vs_narrative_pp"]["verse"]), 2),
+              "held-out verse transfer", tol=5e-3, doc=name)
+        claim(d, r"\(\+([\d.]+) points beyond narrative\)",
+              round(h["transfer_vs_narrative_pp"]["non-fiction"], 2),
+              "held-out non-fiction transfer", tol=5e-3, doc=name)
+        if "released_small_1.77M" in h:
+            rs = h["released_small_1.77M"]["per_document_mean_bpb"]
+            claim(d, r"released 1.77M model scores ([\d.]+)", round(rs, 4),
+                  "released small held-out mean", tol=5e-5, doc=name)
+            claim(d, r"within ([\d.]+)% of the 3.74M control",
+                  round(100 * (rs - h["arms"]["ctrl"]) / h["arms"]["ctrl"], 2),
+                  "released small vs big ctrl held-out", tol=5e-3, doc=name)
+            claim(d, r"broad model beats it by\s*([\d.]+)%",
+                  round(100 * (rs - h["arms"]["full"]) / h["arms"]["full"], 2),
+                  "released small vs big broad held-out", tol=5e-3, doc=name)
+    if "seed_1338" in s:
+        r8 = s["seed_1338"]
+        claim(d, r"seed 1338\s*\(ctrl ([\d.]+), full", round(r8["ctrl"], 4),
+              "seed-1338 ctrl", tol=5e-5, doc=name)
+        claim(d, r"seed 1338\s*\(ctrl [\d.]+, full ([\d.]+)\)", round(r8["full"], 4),
+              "seed-1338 full", tol=5e-5, doc=name)
+        claim(d, r"aggregate cost at \*\*\+([\d.]+)%\*\*", round(r8["delta_pct"], 2),
+              "seed-1338 aggregate cost", tol=5e-3, doc=name)
+        claim(d, r"narrative \+([\d.]+)% \(seed 1337",
+              round(r8["forms"]["narrative"]["delta_pct"], 2), "seed-1338 narrative delta",
+              tol=5e-3, doc=name)
+        claim(d, r"verse −([\d.]+)% \(−3\.82%\)",
+              round(abs(r8["forms"]["verse"]["delta_pct"]), 2), "seed-1338 verse delta",
+              tol=5e-3, doc=name)
+        claim(d, r"non-fiction\s*−([\d.]+)% \(−1\.38%\)",
+              round(abs(r8["forms"]["non-fiction"]["delta_pct"]), 2),
+              "seed-1338 non-fiction delta", tol=5e-3, doc=name)
+        claim(d, r"experimental −([\d.]+)% \(\+1\.32%",
+              round(abs(r8["forms"]["experimental"]["delta_pct"]), 2),
+              "seed-1338 experimental delta", tol=5e-3, doc=name)
+    if "broad50" in s and "long_clock" in s:
+        b50, lc = s["broad50"], s["long_clock"]
+        pct = lambda a, base: round(100 * (a - base) / base, 2)
+        claim(d, r"seen 71 it scores ([\d.]+)", round(b50["bpb"], 4), "broad50 seen bpb",
+              tol=5e-5, doc=name)
+        claim(d, r"\*\*\+([\d.]+)%\*\* over the 67.8% mixture", pct(b50["bpb"], lc["full"]),
+              "broad50 vs broad68 seen", tol=5e-3, doc=name)
+        claim(d, r"\+([\d.]+)% over the control", pct(b50["bpb"], lc["ctrl"]),
+              "broad50 vs ctrl seen", tol=5e-3, doc=name)
+        claim(d, r"narrative \(([\d.]+)\)", round(b50["forms"]["narrative"], 4),
+              "broad50 narrative seen", tol=5e-5, doc=name)
+        claim(d, r"verse \(([\d.]+)\) barely", round(b50["forms"]["verse"], 4),
+              "broad50 verse seen", tol=5e-5, doc=name)
+        if os.path.isfile(hp):
+            claim(d, r"gains only \*\*−([\d.]+)%\*\* further",
+                  abs(pct(b50["heldout"]["aggregate"], h["arms"]["full"])),
+                  "broad50 held-out delta vs broad68", tol=5e-3, doc=name)
+            claim(d, r"gains only \*\*−[\d.]+%\*\* further \(([\d.]+)",
+                  round(b50["heldout"]["aggregate"], 4), "broad50 held-out aggregate",
+                  tol=5e-5, doc=name)
+            claim(d, r"drama\s*\(−([\d.]+)%\) and verse",
+                  abs(pct(b50["heldout"]["forms"]["drama"], h["by_form"]["drama"]["full"])),
+                  "broad50 held-out drama delta", tol=5e-3, doc=name)
+            claim(d, r"and verse \(−([\d.]+)%\), narrative",
+                  abs(pct(b50["heldout"]["forms"]["verse"], h["by_form"]["verse"]["full"])),
+                  "broad50 held-out verse delta", tol=5e-3, doc=name)
+            claim(d, r"\), narrative −([\d.]+)%,",
+                  abs(pct(b50["heldout"]["forms"]["narrative"], h["by_form"]["narrative"]["full"])),
+                  "broad50 held-out narrative delta", tol=5e-3, doc=name)
+            claim(d, r"non-fiction \+([\d.]+)%\.",
+                  round(pct(b50["heldout"]["forms"]["non-fiction"], h["by_form"]["non-fiction"]["full"]), 2),
+                  "broad50 held-out non-fiction delta", tol=5e-3, doc=name)
+
+
+def check_scale_probes(root: str) -> None:
+    """Tie `scale-probes.md` back to the `probes` block of broad-summary.json."""
+    import json
+
+    exp = os.path.join(root, "experiments", "2026-10-18-gutenberg-mixed")
+    sp = os.path.join(exp, "broad-summary.json")
+    dp = os.path.join(exp, "scale-probes.md")
+    if not (os.path.isfile(sp) and os.path.isfile(dp)):
+        return
+    s = json.load(open(sp, encoding="utf-8"))
+    if "probes" not in s:
+        return
+    p = s["probes"]
+    d = open(dp, encoding="utf-8").read()
+    name = "scale-probes.md"
+    print("experiments/2026-10-18-gutenberg-mixed/scale-probes.md — report vs. raw artifacts")
+
+    claim(d, r"\(test ([\d.]+) bits/byte\)", round(p["baseline"], 4), "probe baseline bpb",
+          tol=5e-5, doc=name)
+    for run, key in (("big-lr15", "lr_1.5e-3"), ("big-lr60", "lr_6e-3"), ("big-ctx512", "ctx512")):
+        row = rf"\| `{run}` \|"
+        claim(d, row + r"(?:[^|\n]*\|){1} ([\d.]+) \|", round(p[key], 4), f"{run} bpb",
+              tol=5e-5, doc=name)
+        claim(d, row + r"(?:[^|\n]*\|){2} \+([\d.]+)%", round(p[f"{key}_delta_pct"], 2),
+              f"{run} delta", tol=5e-3, doc=name)
+    row = r"\| `big-vocab4096` \|"
+    claim(d, row + r"(?:[^|\n]*\|){1} \*\*([\d.]+)\*\*", round(p["vocab4096"], 4),
+          "vocab4096 bpb", tol=5e-5, doc=name)
+    claim(d, row + r"(?:[^|\n]*\|){2} \*\*−([\d.]+)%\*\*",
+          round(abs(p["vocab4096_delta_pct"]), 2), "vocab4096 delta magnitude",
+          tol=5e-3, doc=name)
+    claim(d, r"halving costs \+([\d.]+)%", round(p["lr_1.5e-3_delta_pct"], 2),
+          "lr halving prose", tol=5e-3, doc=name)
+    claim(d, r"doubling costs \+([\d.]+)%", round(p["lr_6e-3_delta_pct"], 2),
+          "lr doubling prose", tol=5e-3, doc=name)
+    claim(d, r"\+([\d.]+)% here", round(p["ctx512_delta_pct"], 2), "ctx512 prose",
+          tol=5e-3, doc=name)
+    claim(d, r"beat 2,048 by −([\d.]+)%", round(abs(p["vocab4096_delta_pct"]), 2),
+          "vocab4096 prose", tol=5e-3, doc=name)
+    if "release_v4096" in s and "long_clock" in s:
+        rel, lc = s["release_v4096"], s["long_clock"]
+        pct = lambda a, base: round(100 * (a - base) / base, 2)
+        released = json.load(open(os.path.join(exp, "eval-test-data71-full-9600.json"),
+                                  encoding="utf-8"))["model"]["bpb"]
+        claim(d, r"scores \*\*([\d.]+) bits/byte\*\*", round(rel["bpb"], 4),
+              "release v2 seen bpb", tol=5e-5, doc=name)
+        claim(d, r"−([\d.]+)% against the previous generalist",
+              abs(pct(rel["bpb"], lc["full"])), "release v2 vs v1 generalist",
+              tol=5e-3, doc=name)
+        claim(d, r"−([\d.]+)% against the\s+released 1.77M",
+              abs(pct(rel["bpb"], released)), "release v2 vs released 1.77M",
+              tol=5e-3, doc=name)
+        for form, pat in (("narrative", r"narrative ([\d.]+), non-fiction"),
+                          ("non-fiction", r"non-fiction ([\d.]+), verse"),
+                          ("verse", r"verse ([\d.]+), experimental"),
+                          ("experimental", r"experimental ([\d.]+)\.")):
+            claim(d, pat, round(rel["forms"][form], 4), f"release v2 {form}",
+                  tol=5e-5, doc=name)
+        claim(d, r"unseen 40 it scores ([\d.]+)", round(rel["heldout"]["aggregate"], 4),
+              "release v2 held-out aggregate", tol=5e-5, doc=name)
+        hp2 = os.path.join(exp, "heldout-summary.json")
+        if os.path.isfile(hp2):
+            h = json.load(open(hp2, encoding="utf-8"))
+            claim(d, r"−([\d.]+)% better than the v1 generalist",
+                  abs(pct(rel["heldout"]["aggregate"], h["arms"]["full"])),
+                  "release v2 held-out vs v1", tol=5e-3, doc=name)
+            claim(d, r"−([\d.]+)% better than the narrow-corpus",
+                  abs(pct(rel["heldout"]["aggregate"], h["arms"]["ctrl"])),
+                  "release v2 held-out vs ctrl", tol=5e-3, doc=name)
+
 
 
 def main(root: str = ".") -> int:
@@ -1282,6 +1476,7 @@ def main(root: str = ".") -> int:
     check_batch_report(root)
     check_corpus_composition_report(root)
     check_broad_report(root)
+    check_scale_probes(root)
     print()
     if failures:
         print(f"{len(failures)} of {checked} arithmetic check(s) failed:")

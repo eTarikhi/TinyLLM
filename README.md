@@ -57,7 +57,7 @@ python -m scripts.package_skill /tmp/stage/llm-from-scratch ./dist
 python -c "import zipfile;print('\n'.join(zipfile.ZipFile('./dist/llm-from-scratch.skill').namelist()))"
 ```
 
-That last line lists the archive contents — check it before distributing. A correct package holds 70 entries and weighs 373.7 KB uncompressed, 157.8 KB zipped: `SKILL.md`, `README.md`, `LICENSE`, the five `references/` files, the one `templates/` file, and the 61 files of `scripts/tiny-gpt/` (its `README.md`, `requirements.txt`, `run_pilots.sh`, thirty-four `configs/`, eight `src/` modules and sixteen `tests/`). It does **not** hold `experiments/`, `data/`, `artifacts/`, `.git/` or `.github/`. `python .github/scripts/check_package.py .` warns when any of those are present in the directory you are about to package.
+That last line lists the archive contents — check it before distributing. A correct package holds 74 entries and weighs 390.1 KB uncompressed, 165.1 KB zipped: `SKILL.md`, `README.md`, `LICENSE`, the five `references/` files, the one `templates/` file, and the 65 files of `scripts/tiny-gpt/` (its `README.md`, `requirements.txt`, `run_pilots.sh`, thirty-six `configs/`, nine `src/` modules and seventeen `tests/`). It does **not** hold `experiments/`, `data/`, `artifacts/`, `.git/` or `.github/`. `python .github/scripts/check_package.py .` warns when any of those are present in the directory you are about to package.
 
 ## Validation
 

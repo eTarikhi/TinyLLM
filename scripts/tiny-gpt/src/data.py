@@ -616,6 +616,176 @@ GUTENBERG_NARRATIVE = MultiDocCorpus(
     access_date="2026-10-20",
 )
 
+# 40 further titles -- 10 each of drama, verse, non-fiction and narrative
+# prose -- resolved and byte-verified on 2026-10-21, none of them in any
+# training corpus. This is an evaluation corpus only; nothing trains on it.
+#
+# It exists because the obvious way to ask "is the broad model more general?"
+# is contaminated: in `gutenberg-mixed-broad-full` the 80 additions are
+# train_only, and a train_only document contributes its *entire* text to the
+# training split, so their would-be test pieces were trained on. Scoring the
+# broad model there would measure fit, not transfer. These 40 books are new
+# to every model in the project, so a broad-vs-ctrl comparison on them is a
+# clean distribution-shift probe, per form. Form labels come from the search
+# keyword that found each repository (weaker than the hand labels used for
+# the original 71; the selection is in heldout-selection.json for scrutiny).
+GUTENBERG_HELDOUT_DOCS = (
+    _gb(1191, "The-Double-Dealer--A-Comedy", "The Double Dealer A Comedy", "", "", member_file="1191.txt"),  # drama
+    _gb(1507, "The-Tragedy-of-Titus-Andronicus", "The Tragedy of Titus Andronicus", "", "", member_file="1507.txt"),  # drama
+    _gb(1535, "The-Tragedy-of-Coriolanus", "The Tragedy of Coriolanus", "", "", member_file="1535.txt"),  # drama
+    _gb(1755, "Ivanoff--A-Play", "Ivanoff A Play", "", "", member_file="1755.txt"),  # drama
+    _gb(2239, "The-Comedy-of-Errors", "The Comedy of Errors", "", "", member_file="2239.txt"),  # drama
+    _gb(3068, "Washington-Square-Plays", "Washington Square Plays", "", "", member_file="3068.txt"),  # drama
+    _gb(3142, "Plays-and-Puritans", "Plays and Puritans", "", ""),  # drama
+    _gb(4255, "A-Yorkshire-Tragedy", "A Yorkshire Tragedy", "", "", member_file="4255.txt"),  # drama
+    _gb(5060, "Six-Short-Plays", "Six Short Plays", "", "", member_file="5060.txt"),  # drama
+    _gb(6790, "Demetrius--A-Play", "Demetrius A Play", "", "", member_file="6790.txt"),  # drama
+    _gb(809, "Holiday-Romance", "Holiday Romance", "", ""),  # narrative
+    _gb(7119, "The-Dolliver-Romance", "The Dolliver Romance", "", "", member_file="7119.txt"),  # narrative
+    _gb(10707, "A-Christmas-MysteryThe-Story-of-Three-Wise-Men", "A Christmas MysteryThe Story of Three Wise Men", "", "", member_file="10707.txt"),  # narrative
+    _gb(17581, "The-RomancersA-Comedy-in-Three-Acts", "The RomancersA Comedy in Three Acts", "", "", member_file="17581.txt"),  # narrative
+    _gb(19367, "Romance--Two-Lectures", "Romance Two Lectures", "", "", member_file="19367.txt"),  # narrative
+    _gb(21078, "The-Tale-of-Miss-Kitty-CatSlumber-Town-Tales", "The Tale of Miss Kitty CatSlumber Town Tales", "", "", member_file="21078.txt"),  # narrative
+    _gb(21322, "The-Tale-of-Betsy-ButterflyTuck-Me-In-Tales", "The Tale of Betsy ButterflyTuck Me In Tales", "", "", member_file="21322.txt"),  # narrative
+    _gb(21412, "The-Tale-of-Bobby-BobolinkTuck-me-In-Tales", "The Tale of Bobby BobolinkTuck me In Tales", "", "", member_file="21412.txt"),  # narrative
+    _gb(21426, "The-Tale-of-Daddy-LonglegsTuck-Me-In-Tales", "The Tale of Daddy LonglegsTuck Me In Tales", "", "", member_file="21426.txt"),  # narrative
+    _gb(21619, "The-Tale-of-Nimble-DeerSleepy-Time-Tales", "The Tale of Nimble DeerSleepy Time Tales", "", "", member_file="21619.txt"),  # narrative
+    _gb(418, "A-Treatise-on-Good-Works", "A Treatise on Good Works", "", "", member_file="418.txt"),  # non-fiction
+    _gb(908, "Treatise-on-Parents-and-Children", "Treatise on Parents and Children", "", "", member_file="908.txt"),  # non-fiction
+    _gb(989, "Theologico-Political-Treatise-Part-1", "Theologico Political Treatise Part 1", "", "", member_file="989.txt"),  # non-fiction
+    _gb(2791, "Essays-and-Tales", "Essays and Tales", "", "", member_file="2791.txt"),  # non-fiction
+    _gb(2808, "Treatises-on-Friendship-and-Old-Age", "Treatises on Friendship and Old Age", "", "", member_file="2808.txt"),  # non-fiction
+    _gb(3108, "Nine-Short-Essays", "Nine Short Essays", "", "", member_file="3108.txt"),  # non-fiction
+    _gb(4754, "The-Philosophy-of-Despair", "The Philosophy of Despair", "", "", member_file="4754.txt"),  # non-fiction
+    _gb(5329, "PoPHILO--Popular-Philosophy", "PoPHILO Popular Philosophy", "", "", member_file="5329.txt"),  # non-fiction
+    _gb(6054, "Mrs-Caudle-s-Curtain-Lectures", "Mrs Caudle s Curtain Lectures", "", "", member_file="6054.txt"),  # non-fiction
+    _gb(9850, "The-Lyric--An-Essay", "The Lyric An Essay", "", "", member_file="9850.txt"),  # non-fiction
+    _gb(679, "Poems", "Poems", "", "", member_file="679.txt"),  # verse
+    _gb(1050, "The-Dark-Lady-of-the-Sonnets", "The Dark Lady of the Sonnets", "", "", member_file="1050.txt"),  # verse
+    _gb(1186, "Poems", "Poems", "", "", member_file="1186.txt"),  # verse
+    _gb(1546, "Sonnets-on-Sundry-Notes-of-Music", "Sonnets on Sundry Notes of Music", "", "", member_file="1546.txt"),  # verse
+    _gb(3305, "Ballads-of-Peace-in-War", "Ballads of Peace in War", "", "", member_file="3305.txt"),  # verse
+    _gb(4756, "The-Love-Sonnets-of-a-Hoodlum", "The Love Sonnets of a Hoodlum", "", "", member_file="4756.txt"),  # verse
+    _gb(8161, "Fragments-of-Ancient-Poetry", "Fragments of Ancient Poetry", "", "", member_file="8161.txt"),  # verse
+    _gb(9093, "Rural-Tales-Ballads-and-Songs", "Rural Tales Ballads and Songs", "", "", member_file="9093.txt"),  # verse
+    _gb(9542, "Graded-Poetry--Seventh-Year", "Graded Poetry Seventh Year", "", "", member_file="9542.txt"),  # verse
+    _gb(9825, "A-Calendar-of-Sonnets", "A Calendar of Sonnets", "", "", member_file="9825.txt"),  # verse
+)
+
+GUTENBERG_HELDOUT = MultiDocCorpus(
+    name="gutenberg-heldout-forms",
+    description=(
+        "Forty public-domain titles, ten per form, that no model in this "
+        "project has trained on. An evaluation corpus for measuring transfer "
+        "to unseen books by form; prepare it with --tokenizer-from pointed at "
+        "the corpus whose models are being probed."
+    ),
+    # Computed 2026-10-21 over the assembled 40-document text, 4,047,093 chars.
+    sha256="e5d295be9c62ef9c8118bd2fa9338f0e573258e5899d8a8bb9c6316d80f8ca9d",
+    documents=GUTENBERG_HELDOUT_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-21",
+)
+
+# 67 more non-narrative titles on top of the broad corpus, taking narrative
+# prose from 67.8% of the bytes to 51.7%. Selected smallest-first per form
+# from every verified-but-unused discovery pool; verse exhausts its pool
+# (6.6 MB of a 9.6 MB budget), which is why the share lands at 51.7% rather
+# than 50%. train_only, so evaluation still covers exactly the original 71.
+#
+# The question: broadening cost +1.19% at 1.77M/short clock and +0.28%
+# (a tie) at 3.74M/long clock, at a 68%-narrative mixture. Does pushing to
+# ~52% narrative stay free on seen books while buying more transfer to
+# unseen ones (the held-out probe put transfer at -8.13%)? One more point
+# on the mixture curve, at the size where the first point became free.
+GUTENBERG_BROAD50_EXTRA_DOCS = (
+    _gb(1008, "Divine-Comedy-Cary-s-Translation-Complete", "Divine Comedy Cary s Translation Complete", "", "", train_only=True, member_file="1008.txt"),  # drama
+    _gb(1129, "The-Tragedy-of-Macbeth", "The Tragedy of Macbeth", "", "", train_only=True, member_file="1129.txt"),  # drama
+    _gb(1131, "The-Tragedy-of-Coriolanus", "The Tragedy of Coriolanus", "", "", train_only=True, member_file="1131.txt"),  # drama
+    _gb(1192, "The-Old-Bachelor--a-Comedy", "The Old Bachelor a Comedy", "", "", train_only=True),  # drama
+    _gb(1244, "Love-for-Love--a-Comedy", "Love for Love a Comedy", "", "", train_only=True),  # drama
+    _gb(1684, "The-Egoist--A-Comedy-in-Narrative", "The Egoist A Comedy in Narrative", "", "", train_only=True, member_file="1684.txt"),  # drama
+    _gb(1995, "The-Divine-Comedy-Volume-1-Hell", "The Divine Comedy Volume 1 Hell", "", "", train_only=True, member_file="1995.txt"),  # drama
+    _gb(1996, "The-Divine-Comedy-Volume-2-Purgatory", "The Divine Comedy Volume 2 Purgatory", "", "", train_only=True, member_file="1996.txt"),  # drama
+    _gb(2920, "Four-Short-Plays", "Four Short Plays", "", "", train_only=True, member_file="2920.txt"),  # drama
+    _gb(3702, "Foul-Play", "Foul Play", "", "", train_only=True, member_file="3702.txt"),  # drama
+    _gb(5055, "Plays---First-Series", "Plays First Series", "", "", train_only=True, member_file="5055.txt"),  # drama
+    _gb(5056, "Plays---Second-Series", "Plays Second Series", "", "", train_only=True, member_file="5056.txt"),  # drama
+    _gb(5057, "Plays---Third-Series", "Plays Third Series", "", "", train_only=True, member_file="5057.txt"),  # drama
+    _gb(5058, "Plays---Fourth-Series", "Plays Fourth Series", "", "", train_only=True, member_file="5058.txt"),  # drama
+    _gb(5059, "Plays---Fifth-Series", "Plays Fifth Series", "", "", train_only=True, member_file="5059.txt"),  # drama
+    _gb(5435, "The-Stillwater-Tragedy", "The Stillwater Tragedy", "", "", train_only=True, member_file="5435.txt"),  # drama
+    _gb(6784, "Love-and-Intrigue--A-Tragedy", "Love and Intrigue A Tragedy", "", "", train_only=True, member_file="6784.txt"),  # drama
+    _gb(6786, "The-Piccolomini--A-Play", "The Piccolomini A Play", "", "", train_only=True, member_file="6786.txt"),  # drama
+    _gb(6791, "Mary-Stuart--A-Tragedy", "Mary Stuart A Tragedy", "", "", train_only=True, member_file="6791.txt"),  # drama
+    _gb(7487, "Count-Alarcos--a-Tragedy", "Count Alarcos a Tragedy", "", "", train_only=True),  # drama
+    _gb(7840, "The-Female-Gamester--A-Tragedy", "The Female Gamester A Tragedy", "", "", train_only=True, member_file="7840.txt"),  # drama
+    _gb(8464, "Rest-Harrow--A-Comedy-of-Resolution", "Rest Harrow A Comedy of Resolution", "", "", train_only=True),  # drama
+    _gb(8771, "Jurgen--A-Comedy-of-Justice", "Jurgen A Comedy of Justice", "", "", train_only=True, member_file="8771.txt"),  # drama
+    _gb(9161, "Comedy-of-Marriage-and-Other-Tales", "Comedy of Marriage and Other Tales", "", "", train_only=True),  # drama
+    _gb(9663, "Domnei--A-Comedy-of-Woman-Worship", "Domnei A Comedy of Woman Worship", "", "", train_only=True, member_file="9663.txt"),  # drama
+    _gb(627, "Essays-of-Travel", "Essays of Travel", "", "", train_only=True),  # non-fiction
+    _gb(1360, "Historical-Lectures-and-Essays", "Historical Lectures and Essays", "", "", train_only=True, member_file="1360.txt"),  # non-fiction
+    _gb(2010, "The-Autobiography-of-Charles-Darwin", "The Autobiography of Charles Darwin", "", "", train_only=True, member_file="2010.txt"),  # non-fiction
+    _gb(2162, "Anarchism-and-Other-Essays", "Anarchism and Other Essays", "", "", train_only=True, member_file="2162.txt"),  # non-fiction
+    _gb(2169, "Miscellaneous-Writings-and-Speeches---Volume-3", "Miscellaneous Writings and Speeches Volume 3", "", "", train_only=True, member_file="2169.txt"),  # non-fiction
+    _gb(2523, "The-Memoirs-of-Victor-Hugo", "The Memoirs of Victor Hugo", "", "", train_only=True),  # non-fiction
+    _gb(2944, "Essays---First-Series", "Essays First Series", "", "", train_only=True, member_file="2944.txt"),  # non-fiction
+    _gb(3175, "Mark-Twain-s-Burlesque-Autobiography", "Mark Twain s Burlesque Autobiography", "", "", train_only=True),  # non-fiction
+    _gb(3188, "Mark-Twain-s-Speeches", "Mark Twain s Speeches", "", "", train_only=True),  # non-fiction
+    _gb(3559, "Memoirs-of-Napoleon-Bonaparte-Volume-09", "Memoirs of Napoleon Bonaparte Volume 09", "", "", train_only=True, member_file="3559.txt"),  # non-fiction
+    _gb(4087, "An-Essay-Upon-Projects", "An Essay Upon Projects", "", "", train_only=True),  # non-fiction
+    _gb(4391, "Selections-from-the-Principles-of-Philosophy", "Selections from the Principles of Philosophy", "", "", train_only=True, member_file="4391.txt"),  # non-fiction
+    _gb(5717, "Bergson-and-His-Philosophy", "Bergson and His Philosophy", "", "", train_only=True, member_file="5717.txt"),  # non-fiction
+    _gb(5827, "The-Problems-of-Philosophy", "The Problems of Philosophy", "", "", train_only=True, member_file="5827.txt"),  # non-fiction
+    _gb(6015, "Captain-Macklin--His-Memoirs", "Captain Macklin His Memoirs", "", "", train_only=True),  # non-fiction
+    _gb(6031, "Memoirs-of-My-Life-and-Writings", "Memoirs of My Life and Writings", "", "", train_only=True, member_file="6031.txt"),  # non-fiction
+    _gb(6314, "Biographical-Essays", "Biographical Essays", "", "", train_only=True, member_file="6314.txt"),  # non-fiction
+    _gb(6435, "The-Principles-of-Scientific-Management", "The Principles of Scientific Management", "", "", train_only=True, member_file="6435.txt"),  # non-fiction
+    _gb(7976, "Mr.-Dooley-s-Philosophy", "Mr. Dooley s Philosophy", "", "", train_only=True),  # non-fiction
+    _gb(8108, "Literary-and-Social-Essays", "Literary and Social Essays", "", "", train_only=True, member_file="8108.txt"),  # non-fiction
+    _gb(9060, "The-Public-Orations-of-Demosthenes-volume-1", "The Public Orations of Demosthenes volume 1", "", "", train_only=True, member_file="9060.txt"),  # non-fiction
+    _gb(10378, "Autobiography", "Autobiography", "", "", train_only=True, member_file="10378.txt"),  # non-fiction
+    _gb(10708, "Miscellaneous-Essays", "Miscellaneous Essays", "", "", train_only=True, member_file="10708.txt"),  # non-fiction
+    _gb(11391, "Lectures-on-Art", "Lectures on Art", "", "", train_only=True, member_file="11391.txt"),  # non-fiction
+    _gb(11945, "Essays-of-Schopenhauer", "Essays of Schopenhauer", "", "", train_only=True),  # non-fiction
+    _gb(11984, "A-Pluralistic-Universe--13-Hibbert-Lectures-at-Manchester-College-on-the-Present-Situation-in_", "A Pluralistic Universe 13 Hibbert Lectures at Manchester College on the Present Situation in", "", "", train_only=True, member_file="11984.txt"),  # non-fiction
+    _gb(259, "Ballads-of-a-Cheechako", "Ballads of a Cheechako", "", "", train_only=True, member_file="259.txt"),  # verse
+    _gb(617, "Poems", "Poems", "", "", train_only=True, member_file="617.txt"),  # verse
+    _gb(1054, "A-Collection-of-Ballads", "A Collection of Ballads", "", "", train_only=True),  # verse
+    _gb(1365, "The-Complete-Poetical-Works-of-Henry-Wadsworth-Longfellow", "The Complete Poetical Works of Henry Wadsworth Longfellow", "", "", train_only=True, member_file="1365.txt"),  # verse
+    _gb(2831, "A-Bundle-of-Ballads", "A Bundle of Ballads", "", "", train_only=True, member_file="2831.txt"),  # verse
+    _gb(5332, "The-Love-Sonnets-of-a-Car-Conductor", "The Love Sonnets of a Car Conductor", "", "", train_only=True, member_file="5332.txt"),  # verse
+    _gb(6844, "The-Poetical-Works-of-Mrs.-Leprohon", "The Poetical Works of Mrs. Leprohon", "", "", train_only=True, member_file="6844.txt"),  # verse
+    _gb(7400, "The-Poetical-Works-of-Oliver-Wendell-Holmes---Complete", "The Poetical Works of Oliver Wendell Holmes Complete", "", "", train_only=True, member_file="7400.txt"),  # verse
+    _gb(7796, "Poems", "Poems", "", "", train_only=True, member_file="7796.txt"),  # verse
+    _gb(8775, "Poems", "Poems", "", "", train_only=True, member_file="8775.txt"),  # verse
+    _gb(9484, "Georgian-Poetry-1911-1912", "Georgian Poetry 1911 1912", "", "", train_only=True, member_file="9484.txt"),  # verse
+    _gb(9506, "Georgian-Poetry-1913-15", "Georgian Poetry 1913 15", "", "", train_only=True, member_file="9506.txt"),  # verse
+    _gb(9546, "Georgian-Poetry-1916-1917", "Georgian Poetry 1916 1917", "", "", train_only=True, member_file="9546.txt"),  # verse
+    _gb(9621, "Georgian-Poetry-1918-19", "Georgian Poetry 1918 19", "", "", train_only=True, member_file="9621.txt"),  # verse
+    _gb(9640, "Georgian-Poetry-1920-22", "Georgian Poetry 1920 22", "", "", train_only=True, member_file="9640.txt"),  # verse
+    _gb(10219, "The-Poetical-Works-of-William-Wordsworth---Volume-1", "The Poetical Works of William Wordsworth Volume 1", "", "", train_only=True, member_file="10219.txt"),  # verse
+)
+
+GUTENBERG_BROAD50 = MultiDocCorpus(
+    name="gutenberg-mixed-broad50",
+    description=(
+        "The broad corpus broadened again: 218 titles, narrative prose at "
+        "51.7% of the bytes. The additions are train_only, so it evaluates "
+        "on exactly the broad arms' splits. Prepare with --tokenizer-from "
+        "pointed at the broad arm."
+    ),
+    sha256="10ff819a43ee2889bec073502b1af371badc5377b0c960f09a16c437f251d2f9",
+    documents=GUTENBERG_BROAD_DOCS_FULL + GUTENBERG_BROAD50_EXTRA_DOCS,
+    text_license=GUTENBERG_MIXED.text_license,
+    file_license=GUTENBERG_MIXED.file_license,
+    restrictions=GUTENBERG_EXPANDED.restrictions,
+    access_date="2026-10-21",
+)
+
 
 CORPORA = {
     TINY_SHAKESPEARE.name: TINY_SHAKESPEARE,
@@ -626,6 +796,8 @@ CORPORA = {
     GUTENBERG_BROAD_FULL.name: GUTENBERG_BROAD_FULL,
     GUTENBERG_BROAD_CTRL.name: GUTENBERG_BROAD_CTRL,
     GUTENBERG_NARRATIVE.name: GUTENBERG_NARRATIVE,
+    GUTENBERG_HELDOUT.name: GUTENBERG_HELDOUT,
+    GUTENBERG_BROAD50.name: GUTENBERG_BROAD50,
 }
 
 

@@ -1,0 +1,532 @@
+{
+  "run_id": "broad50-4L256d-long",
+  "checkpoint": "artifacts/runs/broad50-4L256d-long/best.pt",
+  "step": 5120,
+  "tokens_trained": 41943040,
+  "data_dir": "data/prepared-heldout",
+  "split": "test",
+  "tokenizer": {
+    "kind": "byte_bpe",
+    "vocab_size": 2048
+  },
+  "model_config": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 4,
+    "n_head": 4,
+    "n_embd": 256,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "params_total": 3737856,
+  "model": {
+    "loss": 3.2225183464145752,
+    "perplexity": 25.09122908975324,
+    "bpb": 1.7927144718028871,
+    "tokens": 71130,
+    "bytes": 184464
+  },
+  "untrained": {
+    "loss": 7.664689227141325,
+    "perplexity": 2131.7301951094814,
+    "bpb": 4.263932062529899,
+    "tokens": 71130,
+    "bytes": 184464
+  },
+  "uniform": {
+    "loss": 7.624618986159399,
+    "perplexity": 2048.000000000002,
+    "bpb": 4.245464772887077,
+    "tokens": 71357,
+    "bytes": 184886
+  },
+  "unigram": {
+    "loss": 6.199111343764526,
+    "perplexity": 492.31135109214347,
+    "bpb": 3.4517277362883254,
+    "tokens": 71357,
+    "bytes": 184886
+  },
+  "bigram": {
+    "loss": 4.452075003286174,
+    "perplexity": 85.80480465929716,
+    "bpb": 2.4789602768365038,
+    "tokens": 71357,
+    "bytes": 184886
+  },
+  "memorization": {
+    "samples": 0,
+    "tokens_per_sample": 0,
+    "longest_verbatim_match_chars": [],
+    "max_longest_verbatim_match_chars": null,
+    "mean_longest_verbatim_match_chars": null,
+    "example_sample": "",
+    "measured": false,
+    "reason": "the training text could not be reconstructed from data/raw"
+  },
+  "per_document": [
+    {
+      "index": 0,
+      "doc_id": "pg1191",
+      "title": "The Double Dealer A Comedy",
+      "author": "",
+      "tokens": 3329,
+      "scored": true,
+      "bpb": 1.831188241990455,
+      "bytes": 7544,
+      "loss": 2.8772448026216946
+    },
+    {
+      "index": 1,
+      "doc_id": "pg1507",
+      "title": "The Tragedy of Titus Andronicus",
+      "author": "",
+      "tokens": 2673,
+      "scored": true,
+      "bpb": 1.932511700753418,
+      "bytes": 6322,
+      "loss": 3.3079742431640624
+    },
+    {
+      "index": 2,
+      "doc_id": "pg1535",
+      "title": "The Tragedy of Coriolanus",
+      "author": "",
+      "tokens": 3892,
+      "scored": true,
+      "bpb": 1.9282480482266546,
+      "bytes": 8532,
+      "loss": 2.9696685791015627
+    },
+    {
+      "index": 3,
+      "doc_id": "pg1755",
+      "title": "Ivanoff A Play",
+      "author": "",
+      "tokens": 1950,
+      "scored": true,
+      "bpb": 1.6462329904772954,
+      "bytes": 4724,
+      "loss": 3.0080748966761996
+    },
+    {
+      "index": 4,
+      "doc_id": "pg2239",
+      "title": "The Comedy of Errors",
+      "author": "",
+      "tokens": 1956,
+      "scored": true,
+      "bpb": 2.411021045221274,
+      "bytes": 4441,
+      "loss": 4.141610281808036
+    },
+    {
+      "index": 5,
+      "doc_id": "pg3068",
+      "title": "Washington Square Plays",
+      "author": "",
+      "tokens": 2969,
+      "scored": true,
+      "bpb": 2.016762264449687,
+      "bytes": 5877,
+      "loss": 2.917448564009233
+    },
+    {
+      "index": 6,
+      "doc_id": "pg3142",
+      "title": "Plays and Puritans",
+      "author": "",
+      "tokens": 2063,
+      "scored": true,
+      "bpb": 1.9759687823591163,
+      "bytes": 5069,
+      "loss": 3.3899857997894287
+    },
+    {
+      "index": 7,
+      "doc_id": "pg4255",
+      "title": "A Yorkshire Tragedy",
+      "author": "",
+      "tokens": 936,
+      "scored": true,
+      "bpb": 1.915099970214202,
+      "bytes": 1896,
+      "loss": 3.2771326700846353
+    },
+    {
+      "index": 8,
+      "doc_id": "pg5060",
+      "title": "Six Short Plays",
+      "author": "",
+      "tokens": 3209,
+      "scored": true,
+      "bpb": 1.8063308479466138,
+      "bytes": 6972,
+      "loss": 2.841573715209961
+    },
+    {
+      "index": 9,
+      "doc_id": "pg6790",
+      "title": "Demetrius A Play",
+      "author": "",
+      "tokens": 1172,
+      "scored": true,
+      "bpb": 1.7307051674182288,
+      "bytes": 2749,
+      "loss": 3.2205002307891846
+    },
+    {
+      "index": 10,
+      "doc_id": "pg809",
+      "title": "Holiday Romance",
+      "author": "",
+      "tokens": 1362,
+      "scored": true,
+      "bpb": 1.4512607691987036,
+      "bytes": 3709,
+      "loss": 2.9148605346679686
+    },
+    {
+      "index": 11,
+      "doc_id": "pg7119",
+      "title": "The Dolliver Romance",
+      "author": "",
+      "tokens": 1256,
+      "scored": true,
+      "bpb": 1.5041315198607534,
+      "bytes": 3076,
+      "loss": 3.131826162338257
+    },
+    {
+      "index": 12,
+      "doc_id": "pg10707",
+      "title": "A Christmas MysteryThe Story of Three Wise Men",
+      "author": "",
+      "tokens": 535,
+      "scored": true,
+      "bpb": 1.8405857682585103,
+      "bytes": 1297,
+      "loss": 3.2318525314331055
+    },
+    {
+      "index": 13,
+      "doc_id": "pg17581",
+      "title": "The RomancersA Comedy in Three Acts",
+      "author": "",
+      "tokens": 1310,
+      "scored": true,
+      "bpb": 1.7607230107146241,
+      "bytes": 2741,
+      "loss": 2.613458251953125
+    },
+    {
+      "index": 14,
+      "doc_id": "pg19367",
+      "title": "Romance Two Lectures",
+      "author": "",
+      "tokens": 1661,
+      "scored": true,
+      "bpb": 1.6628761031443513,
+      "bytes": 4412,
+      "loss": 3.310774803161621
+    },
+    {
+      "index": 15,
+      "doc_id": "pg21078",
+      "title": "The Tale of Miss Kitty CatSlumber Town Tales",
+      "author": "",
+      "tokens": 1983,
+      "scored": true,
+      "bpb": 2.269599873987214,
+      "bytes": 3353,
+      "loss": 2.94354248046875
+    },
+    {
+      "index": 16,
+      "doc_id": "pg21322",
+      "title": "The Tale of Betsy ButterflyTuck Me In Tales",
+      "author": "",
+      "tokens": 1542,
+      "scored": true,
+      "bpb": 1.7615882387611086,
+      "bytes": 3681,
+      "loss": 2.9262030919392905
+    },
+    {
+      "index": 17,
+      "doc_id": "pg21412",
+      "title": "The Tale of Bobby BobolinkTuck me In Tales",
+      "author": "",
+      "tokens": 1228,
+      "scored": true,
+      "bpb": 1.7644535687146528,
+      "bytes": 2781,
+      "loss": 3.321518898010254
+    },
+    {
+      "index": 18,
+      "doc_id": "pg21426",
+      "title": "The Tale of Daddy LonglegsTuck Me In Tales",
+      "author": "",
+      "tokens": 1383,
+      "scored": true,
+      "bpb": 1.594355927955733,
+      "bytes": 3625,
+      "loss": 3.129743766784668
+    },
+    {
+      "index": 19,
+      "doc_id": "pg21619",
+      "title": "The Tale of Nimble DeerSleepy Time Tales",
+      "author": "",
+      "tokens": 1505,
+      "scored": true,
+      "bpb": 1.7971058558247428,
+      "bytes": 3512,
+      "loss": 3.4177764892578124
+    },
+    {
+      "index": 20,
+      "doc_id": "pg418",
+      "title": "A Treatise on Good Works",
+      "author": "",
+      "tokens": 3621,
+      "scored": true,
+      "bpb": 1.6412990541379535,
+      "bytes": 10844,
+      "loss": 3.4421888078962053
+    },
+    {
+      "index": 21,
+      "doc_id": "pg908",
+      "title": "Treatise on Parents and Children",
+      "author": "",
+      "tokens": 3077,
+      "scored": true,
+      "bpb": 1.6621874193389767,
+      "bytes": 8909,
+      "loss": 3.341282526652018
+    },
+    {
+      "index": 22,
+      "doc_id": "pg989",
+      "title": "Theologico Political Treatise Part 1",
+      "author": "",
+      "tokens": 2931,
+      "scored": true,
+      "bpb": 1.5779633376460727,
+      "bytes": 8019,
+      "loss": 3.1146548878062856
+    },
+    {
+      "index": 23,
+      "doc_id": "pg2791",
+      "title": "Essays and Tales",
+      "author": "",
+      "tokens": 4267,
+      "scored": true,
+      "bpb": 1.6381408148329049,
+      "bytes": 12005,
+      "loss": 3.3279662132263184
+    },
+    {
+      "index": 24,
+      "doc_id": "pg2808",
+      "title": "Treatises on Friendship and Old Age",
+      "author": "",
+      "tokens": 1920,
+      "scored": true,
+      "bpb": 1.556283848544532,
+      "bytes": 5682,
+      "loss": 3.420404706682478
+    },
+    {
+      "index": 25,
+      "doc_id": "pg3108",
+      "title": "Nine Short Essays",
+      "author": "",
+      "tokens": 1594,
+      "scored": true,
+      "bpb": 1.6341199518727354,
+      "bytes": 4534,
+      "loss": 3.3434874216715493
+    },
+    {
+      "index": 26,
+      "doc_id": "pg4754",
+      "title": "The Philosophy of Despair",
+      "author": "",
+      "tokens": 592,
+      "scored": true,
+      "bpb": 1.782814861765383,
+      "bytes": 1531,
+      "loss": 3.6951913833618164
+    },
+    {
+      "index": 27,
+      "doc_id": "pg5329",
+      "title": "PoPHILO Popular Philosophy",
+      "author": "",
+      "tokens": 637,
+      "scored": true,
+      "bpb": 2.026071563096215,
+      "bytes": 1332,
+      "loss": 3.653545379638672
+    },
+    {
+      "index": 28,
+      "doc_id": "pg6054",
+      "title": "Mrs Caudle s Curtain Lectures",
+      "author": "",
+      "tokens": 4435,
+      "scored": true,
+      "bpb": 1.7239548023408424,
+      "bytes": 11889,
+      "loss": 3.264433131498449
+    },
+    {
+      "index": 29,
+      "doc_id": "pg9850",
+      "title": "The Lyric An Essay",
+      "author": "",
+      "tokens": 896,
+      "scored": true,
+      "bpb": 1.5646721316053518,
+      "bytes": 2253,
+      "loss": 3.1816234588623047
+    },
+    {
+      "index": 30,
+      "doc_id": "pg679",
+      "title": "Poems",
+      "author": "",
+      "tokens": 1297,
+      "scored": true,
+      "bpb": 1.7695879920393187,
+      "bytes": 3527,
+      "loss": 3.379816436767578
+    },
+    {
+      "index": 31,
+      "doc_id": "pg1050",
+      "title": "The Dark Lady of the Sonnets",
+      "author": "",
+      "tokens": 1481,
+      "scored": true,
+      "bpb": 1.756725932906853,
+      "bytes": 3396,
+      "loss": 3.230629730224609
+    },
+    {
+      "index": 32,
+      "doc_id": "pg1186",
+      "title": "Poems",
+      "author": "",
+      "tokens": 711,
+      "scored": true,
+      "bpb": 1.76065697515126,
+      "bytes": 1452,
+      "loss": 3.4609622955322266
+    },
+    {
+      "index": 33,
+      "doc_id": "pg1546",
+      "title": "Sonnets on Sundry Notes of Music",
+      "author": "",
+      "tokens": 72,
+      "scored": false,
+      "bpb": null,
+      "bytes": 0,
+      "reason": "piece is shorter than block_size+1=257"
+    },
+    {
+      "index": 34,
+      "doc_id": "pg3305",
+      "title": "Ballads of Peace in War",
+      "author": "",
+      "tokens": 339,
+      "scored": true,
+      "bpb": 1.7196126175371536,
+      "bytes": 659,
+      "loss": 3.068326234817505
+    },
+    {
+      "index": 35,
+      "doc_id": "pg4756",
+      "title": "The Love Sonnets of a Hoodlum",
+      "author": "",
+      "tokens": 382,
+      "scored": true,
+      "bpb": 2.1451430687297908,
+      "bytes": 664,
+      "loss": 3.8566465377807617
+    },
+    {
+      "index": 36,
+      "doc_id": "pg8161",
+      "title": "Fragments of Ancient Poetry",
+      "author": "",
+      "tokens": 1261,
+      "scored": true,
+      "bpb": 2.3736591426870866,
+      "bytes": 2498,
+      "loss": 4.013620376586914
+    },
+    {
+      "index": 37,
+      "doc_id": "pg9093",
+      "title": "Rural Tales Ballads and Songs",
+      "author": "",
+      "tokens": 1388,
+      "scored": true,
+      "bpb": 2.0473858170442827,
+      "bytes": 3190,
+      "loss": 3.536762237548828
+    },
+    {
+      "index": 38,
+      "doc_id": "pg9542",
+      "title": "Graded Poetry Seventh Year",
+      "author": "",
+      "tokens": 2503,
+      "scored": true,
+      "bpb": 1.9511789410003413,
+      "bytes": 5068,
+      "loss": 2.974929597642687
+    },
+    {
+      "index": 39,
+      "doc_id": "pg9825",
+      "title": "A Calendar of Sonnets",
+      "author": "",
+      "tokens": 40,
+      "scored": false,
+      "bpb": null,
+      "bytes": 0,
+      "reason": "piece is shorter than block_size+1=257"
+    }
+  ],
+  "per_document_summary": {
+    "documents": 40,
+    "scored": 38,
+    "unscored": 2,
+    "mean_bpb": 1.8140054728356418,
+    "min_bpb": 1.4512607691987036,
+    "max_bpb": 2.411021045221274,
+    "range_bpb": 0.9597602760225705,
+    "range_pct_of_mean": 52.90834511773988,
+    "stdev_bpb": 0.22538231273923806,
+    "easiest": {
+      "doc_id": "pg809",
+      "title": "Holiday Romance",
+      "bpb": 1.4512607691987036
+    },
+    "hardest": {
+      "doc_id": "pg2239",
+      "title": "The Comedy of Errors",
+      "bpb": 2.411021045221274
+    }
+  }
+}

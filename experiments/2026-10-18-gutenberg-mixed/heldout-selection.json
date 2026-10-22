@@ -1,0 +1,402 @@
+[
+ {
+  "pg_id": 1191,
+  "slug": "The-Double-Dealer--A-Comedy",
+  "title": "The Double Dealer A Comedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 174828,
+  "member_file": "1191.txt"
+ },
+ {
+  "pg_id": 1507,
+  "slug": "The-Tragedy-of-Titus-Andronicus",
+  "title": "The Tragedy of Titus Andronicus",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 136698,
+  "member_file": "1507.txt"
+ },
+ {
+  "pg_id": 1535,
+  "slug": "The-Tragedy-of-Coriolanus",
+  "title": "The Tragedy of Coriolanus",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 183398,
+  "member_file": "1535.txt"
+ },
+ {
+  "pg_id": 1755,
+  "slug": "Ivanoff--A-Play",
+  "title": "Ivanoff A Play",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 148185,
+  "member_file": "1755.txt"
+ },
+ {
+  "pg_id": 2239,
+  "slug": "The-Comedy-of-Errors",
+  "title": "The Comedy of Errors",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 101228,
+  "member_file": "2239.txt"
+ },
+ {
+  "pg_id": 3068,
+  "slug": "Washington-Square-Plays",
+  "title": "Washington Square Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 148287,
+  "member_file": "3068.txt"
+ },
+ {
+  "pg_id": 3142,
+  "slug": "Plays-and-Puritans",
+  "title": "Plays and Puritans",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 145952,
+  "member_file": "3142-0.txt"
+ },
+ {
+  "pg_id": 4255,
+  "slug": "A-Yorkshire-Tragedy",
+  "title": "A Yorkshire Tragedy",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 51160,
+  "member_file": "4255.txt"
+ },
+ {
+  "pg_id": 5060,
+  "slug": "Six-Short-Plays",
+  "title": "Six Short Plays",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 170134,
+  "member_file": "5060.txt"
+ },
+ {
+  "pg_id": 6790,
+  "slug": "Demetrius--A-Play",
+  "title": "Demetrius A Play",
+  "author": "",
+  "year": "",
+  "form": "drama",
+  "raw_bytes": 98986,
+  "member_file": "6790.txt"
+ },
+ {
+  "pg_id": 809,
+  "slug": "Holiday-Romance",
+  "title": "Holiday Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 98922,
+  "member_file": "809-0.txt"
+ },
+ {
+  "pg_id": 7119,
+  "slug": "The-Dolliver-Romance",
+  "title": "The Dolliver Romance",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 118570,
+  "member_file": "7119.txt"
+ },
+ {
+  "pg_id": 10707,
+  "slug": "A-Christmas-MysteryThe-Story-of-Three-Wise-Men",
+  "title": "A Christmas MysteryThe Story of Three Wise Men",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 51383,
+  "member_file": "10707.txt"
+ },
+ {
+  "pg_id": 17581,
+  "slug": "The-RomancersA-Comedy-in-Three-Acts",
+  "title": "The RomancersA Comedy in Three Acts",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 78675,
+  "member_file": "17581.txt"
+ },
+ {
+  "pg_id": 19367,
+  "slug": "Romance--Two-Lectures",
+  "title": "Romance Two Lectures",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 115728,
+  "member_file": "19367.txt"
+ },
+ {
+  "pg_id": 21078,
+  "slug": "The-Tale-of-Miss-Kitty-CatSlumber-Town-Tales",
+  "title": "The Tale of Miss Kitty CatSlumber Town Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 101330,
+  "member_file": "21078.txt"
+ },
+ {
+  "pg_id": 21322,
+  "slug": "The-Tale-of-Betsy-ButterflyTuck-Me-In-Tales",
+  "title": "The Tale of Betsy ButterflyTuck Me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 96799,
+  "member_file": "21322.txt"
+ },
+ {
+  "pg_id": 21412,
+  "slug": "The-Tale-of-Bobby-BobolinkTuck-me-In-Tales",
+  "title": "The Tale of Bobby BobolinkTuck me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 93461,
+  "member_file": "21412.txt"
+ },
+ {
+  "pg_id": 21426,
+  "slug": "The-Tale-of-Daddy-LonglegsTuck-Me-In-Tales",
+  "title": "The Tale of Daddy LonglegsTuck Me In Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 101097,
+  "member_file": "21426.txt"
+ },
+ {
+  "pg_id": 21619,
+  "slug": "The-Tale-of-Nimble-DeerSleepy-Time-Tales",
+  "title": "The Tale of Nimble DeerSleepy Time Tales",
+  "author": "",
+  "year": "",
+  "form": "narrative",
+  "raw_bytes": 103842,
+  "member_file": "21619.txt"
+ },
+ {
+  "pg_id": 418,
+  "slug": "A-Treatise-on-Good-Works",
+  "title": "A Treatise on Good Works",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 242634,
+  "member_file": "418.txt"
+ },
+ {
+  "pg_id": 908,
+  "slug": "Treatise-on-Parents-and-Children",
+  "title": "Treatise on Parents and Children",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 250488,
+  "member_file": "908.txt"
+ },
+ {
+  "pg_id": 989,
+  "slug": "Theologico-Political-Treatise-Part-1",
+  "title": "Theologico Political Treatise Part 1",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 199622,
+  "member_file": "989.txt"
+ },
+ {
+  "pg_id": 2791,
+  "slug": "Essays-and-Tales",
+  "title": "Essays and Tales",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 280787,
+  "member_file": "2791.txt"
+ },
+ {
+  "pg_id": 2808,
+  "slug": "Treatises-on-Friendship-and-Old-Age",
+  "title": "Treatises on Friendship and Old Age",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 186995,
+  "member_file": "2808.txt"
+ },
+ {
+  "pg_id": 3108,
+  "slug": "Nine-Short-Essays",
+  "title": "Nine Short Essays",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 148182,
+  "member_file": "3108.txt"
+ },
+ {
+  "pg_id": 4754,
+  "slug": "The-Philosophy-of-Despair",
+  "title": "The Philosophy of Despair",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 58690,
+  "member_file": "4754.txt"
+ },
+ {
+  "pg_id": 5329,
+  "slug": "PoPHILO--Popular-Philosophy",
+  "title": "PoPHILO Popular Philosophy",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 57541,
+  "member_file": "5329.txt"
+ },
+ {
+  "pg_id": 6054,
+  "slug": "Mrs-Caudle-s-Curtain-Lectures",
+  "title": "Mrs Caudle s Curtain Lectures",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 267198,
+  "member_file": "6054.txt"
+ },
+ {
+  "pg_id": 9850,
+  "slug": "The-Lyric--An-Essay",
+  "title": "The Lyric An Essay",
+  "author": "",
+  "year": "",
+  "form": "non-fiction",
+  "raw_bytes": 85348,
+  "member_file": "9850.txt"
+ },
+ {
+  "pg_id": 679,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 96229,
+  "member_file": "679.txt"
+ },
+ {
+  "pg_id": 1050,
+  "slug": "The-Dark-Lady-of-the-Sonnets",
+  "title": "The Dark Lady of the Sonnets",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 110338,
+  "member_file": "1050.txt"
+ },
+ {
+  "pg_id": 1186,
+  "slug": "Poems",
+  "title": "Poems",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 63606,
+  "member_file": "1186.txt"
+ },
+ {
+  "pg_id": 1546,
+  "slug": "Sonnets-on-Sundry-Notes-of-Music",
+  "title": "Sonnets on Sundry Notes of Music",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 20038,
+  "member_file": "1546.txt"
+ },
+ {
+  "pg_id": 3305,
+  "slug": "Ballads-of-Peace-in-War",
+  "title": "Ballads of Peace in War",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 62528,
+  "member_file": "3305.txt"
+ },
+ {
+  "pg_id": 4756,
+  "slug": "The-Love-Sonnets-of-a-Hoodlum",
+  "title": "The Love Sonnets of a Hoodlum",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 44782,
+  "member_file": "4756.txt"
+ },
+ {
+  "pg_id": 8161,
+  "slug": "Fragments-of-Ancient-Poetry",
+  "title": "Fragments of Ancient Poetry",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 89796,
+  "member_file": "8161.txt"
+ },
+ {
+  "pg_id": 9093,
+  "slug": "Rural-Tales-Ballads-and-Songs",
+  "title": "Rural Tales Ballads and Songs",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 94489,
+  "member_file": "9093.txt"
+ },
+ {
+  "pg_id": 9542,
+  "slug": "Graded-Poetry--Seventh-Year",
+  "title": "Graded Poetry Seventh Year",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 132918,
+  "member_file": "9542.txt"
+ },
+ {
+  "pg_id": 9825,
+  "slug": "A-Calendar-of-Sonnets",
+  "title": "A Calendar of Sonnets",
+  "author": "",
+  "year": "",
+  "form": "verse",
+  "raw_bytes": 28075,
+  "member_file": "9825.txt"
+ }
+]

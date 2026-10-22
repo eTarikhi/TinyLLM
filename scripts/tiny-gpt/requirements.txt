@@ -7,3 +7,4 @@
 torch==2.14.1
 numpy==2.4.6      # newest numpy that publishes a CPython 3.11 wheel; 2.5.x needs 3.12+
 PyYAML==6.0.3
+gguf==0.19.0      # only src/export_gguf.py needs it (GGUF export for llama.cpp / LM Studio)

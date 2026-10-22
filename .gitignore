@@ -14,3 +14,4 @@ scripts/tiny-gpt/artifacts/
 # Packaging output
 dist/
 *.skill
+*.gguf

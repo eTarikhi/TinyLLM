@@ -1,0 +1,40 @@
+# Context probe at 3.74M: does the 256 optimum survive scale + data?
+#
+#   256 beat 512 clearly at 1.77M on 27 books (1.6531 vs 1.6828), where
+#   longer windows mostly meant fewer distinct contexts per epoch.
+#   The broad corpus has 4.5x the tokens and this model 2.1x the
+#   parameters. Token-matched: batch 8 x accum 2 x 512 = 8,192/step,
+#   2,571 steps, against broad-4L256d-full's 1.6467. A tie is already
+#   interesting: it would double the usable context of the release.
+run_id: big-ctx512
+data_dir: data/prepared-broad-full
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 512
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 8
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2

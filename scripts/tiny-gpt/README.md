@@ -18,7 +18,9 @@ and do not quote its numbers as predictions for different hardware or data.
 scripts/tiny-gpt/
   requirements.txt            pinned, with the CPU-only install note
   configs/                    tiny.yaml (smoke), pilot*.yaml, main*.yaml,
-                              size-*/ctx-*/lr-* sweep points
+                              size-*/ctx-*/lr-*/batch-* sweep points, broad*/
+                              corpus-composition arms, seed replicas and the
+                              3.74M scale probes + releases (44 files)
   src/
     tokenizer.py              CharTokenizer + ByteBPETokenizer (no tokenizer library)
     data.py                   fetch + checksum + audit + split + encode + batch
@@ -26,10 +28,13 @@ scripts/tiny-gpt/
     train.py                  AdamW, warmup+cosine, clipping, eval, resume
     evaluate.py               held-out loss/PPL/BPB, baselines, memorization probe
     generate.py               sampling with recorded settings
+    export_gguf.py            checkpoint -> GPT-2-architecture GGUF for llama.cpp /
+                              LM Studio, verified greedy-identical to PyTorch
     plot_metrics.py           metrics.jsonl -> SVG, no plotting dependency
     size_probe.py             params + tokens/s per config, for compute-matched sweeps
-  tests/                      the seven gates SKILL.md names, plus tokenizer and
-                              multi-document corpus tests
+  tests/                      the seven gates SKILL.md names, plus tokenizer,
+                              multi-document corpus, corpus-composition and GGUF
+                              round-trip tests (17 files, 123 tests)
 ```
 
 ## Install
@@ -119,8 +124,9 @@ position.
 
 ## Known limitations
 
-- Public-domain literary English only, and at most 18.8 MB of it. The models
-  are demonstrations of the pipeline, not useful language models.
+- Public-domain literary English only — up to 103 MB across the broadest
+  registered corpus (218 titles). The models are demonstrations of the
+  pipeline, not useful language models.
 - CPU-only measurements. Throughput, memory and wall clock do not transfer to a
   GPU, and the MFU figure is not comparable to published large-model numbers.
 - No instruction tuning, no chat template, no safety tuning. This is a base
@@ -134,6 +140,10 @@ Everything below was measured on 2026-10-18 on two Xeon cores, not estimated.
 The full evidence trail — plan, pilot matrix, metrics, samples, evaluation
 report and model card — is in
 [`../../experiments/2026-10-17-tiny-shakespeare/`](../../experiments/2026-10-17-tiny-shakespeare/plan.md).
+Later runs on the 71–218-book Gutenberg corpora — the scaling sweeps, the
+corpus-composition experiments most of these configs belong to, and the GGUF
+export for LM Studio — are documented in
+[`../../experiments/2026-10-18-gutenberg-mixed/`](../../experiments/2026-10-18-gutenberg-mixed/plan.md).
 
 | | |
 | --- | --- |

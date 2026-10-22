@@ -1,0 +1,40 @@
+# The mixture curve's second point: 51.7% narrative at 3.74M x long clock.
+#
+#   At 67.8% narrative, broadening cost +0.28% on seen books (a tie)
+#   and gained -8.13% on unseen ones. This arm pushes narrative to
+#   51.7% with 67 further works of drama, verse and non-fiction and
+#   asks whether seen-book cost stays at zero while transfer grows.
+#   Same model, horizon (5,173 steps, clock-matched), schedule and
+#   seed as broad-4L256d-full-long; evaluation splits byte-identical.
+run_id: broad50-4L256d-long
+data_dir: data/prepared-broad50
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 5173
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 10800
+threads: 2

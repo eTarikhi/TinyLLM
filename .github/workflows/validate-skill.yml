@@ -111,7 +111,7 @@ jobs:
       - name: Install CPU-only PyTorch and friends
         run: |
           pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1
-          pip install numpy PyYAML==6.0.3
+          pip install numpy PyYAML==6.0.3 gguf==0.19.0
 
       - name: Unit tests (gates 1 and 2)
         working-directory: scripts/tiny-gpt

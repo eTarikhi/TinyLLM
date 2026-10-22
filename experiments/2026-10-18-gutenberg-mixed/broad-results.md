@@ -102,13 +102,121 @@ Extrapolating the halving is tempting and should be resisted: two points do
 not give a rate. What the 2×2 establishes is direction — capacity is *a*
 constraint, not necessarily the only one.
 
+## The released horizon: length trims it too
+
+`broad-full-9600` runs the released configuration on the broad corpus.
+
+| | 4,800 steps | 9,600 steps |
+| --- | ---: | ---: |
+| 71 books | 1.6147 | 1.5662 |
+| broad | 1.6338 | 1.5790 |
+| cost of broadening | +1.19% | +0.82% |
+
+Per form against the released model: verse 1.9743 → 1.8996 (−3.78%),
+non-fiction 1.8429 → 1.8173 (−1.39%), narrative 1.5450 → 1.5604 (+1.00%),
+experimental 1.9063 → 1.9166 (+0.54%). The shape never changes; only the
+price does. Horizon and capacity both behave like slack in the same budget:
+each reduces what the added text costs the dominant form, and neither
+changes how much the targeted forms gain.
+
+## The long clock completes the grid: the cost closes
+
+`broad-4L256d-{ctrl,full}-long` (5,173 steps, clock-matched to the
+9,600-step small runs) complete the size × horizon grid:
+
+| cost of broadening | 4,800-step clock | 9,600-step clock |
+| --- | ---: | ---: |
+| 1.77M parameters | +1.19% | +0.82% |
+| 3.74M parameters | +0.62% | **+0.28%** |
+
+0.28% is inside the 0.37% seed bar. At 3.74M parameters on the long clock,
+broadening the corpus from 91% to 68% narrative prose **costs nothing
+measurable in aggregate** (ctrl 1.5544, full 1.5587), and both arms beat
+the released 1.77M model (1.5662). Per form the trade is unchanged in
+shape: non-fiction 1.8627 → 1.7791 (−4.49%), verse 1.9538 → 1.8677
+(−4.41%), narrative 1.5319 → 1.5412 (+0.61%), experimental 1.8929 → 1.8905
+(−0.13%). The form gains are roughly constant at every size and horizon;
+what slack buys is the narrative price falling toward zero. Capacity and
+horizon are, as suspected, the same budget spent two ways.
+
+## Transfer to unseen books
+
+Every number above was measured on books both arms trained on. The
+held-out probe asks the other question: 40 further titles — ten each of
+drama, verse, non-fiction and narrative prose, verified disjoint from
+every training corpus (`gutenberg-heldout-forms`) — scored per document
+for both long-clock checkpoints. Thirty-eight scored (two short verse
+volumes fall under the per-document minimum).
+
+| form | n | ctrl | full | delta |
+| --- | ---: | ---: | ---: | ---: |
+| narrative | 10 | 1.8257 | 1.7578 | −3.72% |
+| drama | 10 | 2.3041 | 1.9876 | −13.73% |
+| non-fiction | 10 | 1.7372 | 1.6792 | −3.34% |
+| verse | 8 | 2.1569 | 1.9870 | −7.88% |
+| **aggregate** | 38 | 1.9887 | 1.8271 | **−8.13%** |
+
+On unseen books the broad model is better everywhere — dramatically at
+drama (−13.73%), the form the control has literally never seen in
+training. Against the narrative control group (−3.72%, the gain from
+more and more-varied training text on books of a kind both arms know),
+drama transfers an extra −10.01 percentage points and verse −4.16; held-out
+non-fiction (+0.38 points beyond narrative) gains only what narrative
+gains, so its improvement reads as volume rather than form targeting.
+
+The asymmetry is the result to carry forward: **on seen books broadening
+is now free; on unseen books it is worth 8%.** A fixed evaluation set
+made broadening look like a trade. It is, on that set — and it is also
+the only intervention in this project that buys generality. As a scale
+check, the released 1.77M model scores 2.0031 on the same unseen books —
+within 0.72% of the 3.74M control, while the broad model beats it by
+9.63%. Doubling the parameters moved unseen-book quality by less than a
+percent; changing what the model had read moved it by eight to ten.
+
+## Replication at seed 1338
+
+The original three arms were single-seed. Rerunning the pair at seed 1338
+(ctrl 1.6216, full 1.6281) puts the aggregate cost at **+0.40%** against
+seed 1337's +1.19% — same sign, a third of the size, and a reminder that
+the aggregate is the small difference of two large opposing effects and
+inherits their seed noise. The per-form pattern is stable across seeds:
+narrative +0.54% (seed 1337: +1.44%), verse −3.38% (−3.82%), non-fiction
+−2.64% (−1.38%), experimental −0.05% (+1.32%; two books, and the one form
+nothing targets). Read the headline as "at 1.77M on the short clock,
+broadening costs roughly half a percent to one percent in aggregate while
+buying 1.5–4% on the forms it targets", not as the single-seed +1.19%.
+
+## Pushing to 52% narrative: the optimum is interior
+
+One more point on the curve: `gutenberg-mixed-broad50` adds 67 further
+works of drama, verse and non-fiction (narrative at 51.7% of the bytes),
+trained at the same 3.74M × long-clock point. The trade reappears. On the
+seen 71 it scores 1.5754 — **+1.07%** over the 67.8% mixture's 1.5587 and
++1.35% over the control — with the cost spread across narrative (1.5585)
+while verse (1.8575) barely improves on the 68% arm. On the unseen 40 it
+gains only **−0.72%** further (1.8140 vs 1.8271), concentrated in drama
+(−3.43%) and verse (−2.34%), narrative −0.97%, non-fiction +0.09%.
+
+So at this scale the mixture curve has an interior optimum near 68%
+narrative: the first broadening bought −8.13% of transfer at zero
+seen-set cost (once capacity and horizon were adequate); the second
+buys −0.72% more transfer for +1.07% on seen books. Transfer saturates
+faster than competition does. A practitioner with a fixed evaluation
+set should stop at the first point; one deploying to unseen drama or
+verse might rationally go further — but with eyes open about the price.
+
 ## What it does not settle
 
-The released model trains for 9,600 steps, not 4,800, and longer training
-might amortise the competition the way capacity does. `broad-full-9600` is
-running to test that. And none of this measures the 80 added books
-themselves — they are out of the evaluation by design, so "the broad model
-is more general" is supported only through transfer to the original 71.
+The form labels for the held-out corpus come from search keywords, not
+hand assignment, and its non-fiction group is where the two labelings are
+hardest to compare (the original 71's non-fiction is Darwin, Douglass and
+Thoreau; the probe's skews to essays and lectures) — held-out non-fiction
+is also the one form that never shows targeted transfer, which may say
+more about the labels than about non-fiction. All of this remains at 256
+tokens of context and under 4M parameters; nothing here says how the
+trade scales, and the seed-to-seed wobble in the aggregate (the cost at
+1.77M measured +1.19% and +0.40% on two seeds) is a standing warning
+against reading any single run's aggregate too finely.
 
 ## Artifacts
 

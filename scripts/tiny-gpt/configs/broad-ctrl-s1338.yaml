@@ -1,0 +1,41 @@
+# Corpus composition, control arm: train on the original 71 books only.
+#
+#   Paired with broad-full. Same 151-document registry, same byte-identical
+#   val and test splits over the original 71 books, same shared vocabulary via
+#   --tokenizer-from, same horizon, schedule, seed and evaluation grid. The
+#   only difference is that the 80 non-narrative additions are eval_only here,
+#   so they never enter the training split.
+#
+#   This is the number broad-full has to beat, per form.
+run_id: broad-ctrl-s1338
+data_dir: data/prepared-broad-ctrl
+out_dir: artifacts/runs
+seed: 1338
+
+block_size: 256
+n_layer: 3
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2        # 8,192 tokens per optimizer update
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 240    # held fixed, not scaled with the horizon
+max_steps: 4800      # same horizon as the data-scaling arms, for comparability
+
+eval_every: 120      # 40 evaluations, directly comparable step-for-step
+eval_tokens: 98304   # 9.4% of the 1,042,315-token val split
+eval_spread: true    # spread over all 71 evaluated books, not the leading few
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200    # guard: 120 min; 151-document splits evaluate slower
+threads: 2
