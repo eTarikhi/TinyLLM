@@ -5,7 +5,25 @@ The released model (1.77M parameters, test **1.5662 bits/byte**, trained on
 **`tinylm-1.8m-gutenberg71.gguf`** — 7.2 MB, F32, 40 tensors — and runs in
 LM Studio or any llama.cpp front-end.
 
-## Recommended: the 3.7M generalist
+## Recommended: the 4.3M release v2
+
+**`tinylm-4.3m-broad-v4096.gguf`** (17.2 MB, F32, 52 tensors) supersedes
+both files below. Same broad corpus and 3.74M-parameter body as the 3.7M
+generalist, with a 4,096-token vocabulary (the embedding takes it to
+4.26M parameters) and twice the training (10,346 steps). It scores
+**1.4939 bits/byte** on the original 71 books (−4.16% against the 3.7M
+generalist) and 1.7907 on the 40 unseen books (−1.99%). The larger
+vocabulary also means its 256-token window covers about 15% more text.
+Greedy output verified identical to the PyTorch checkpoint through
+llama.cpp. Rebuild with, after retraining
+(`configs/broad-v4096-release.yaml` on `data/prepared-broad-full-v4096`):
+
+```bash
+python src/export_gguf.py --checkpoint artifacts/runs/broad-v4096-release/best.pt \
+    --data-dir data/prepared-broad-full-v4096 --out tinylm-4.3m-broad-v4096.gguf
+```
+
+## Earlier: the 3.7M generalist
 
 **`tinylm-3.7m-broad68.gguf`** (15.1 MB, F32, 52 tensors) is the better
 model to actually use. It was trained on the broadened corpus — the same 71

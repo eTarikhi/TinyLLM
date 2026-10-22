@@ -1434,6 +1434,36 @@ def check_scale_probes(root: str) -> None:
           tol=5e-3, doc=name)
     claim(d, r"beat 2,048 by −([\d.]+)%", round(abs(p["vocab4096_delta_pct"]), 2),
           "vocab4096 prose", tol=5e-3, doc=name)
+    if "release_v4096" in s and "long_clock" in s:
+        rel, lc = s["release_v4096"], s["long_clock"]
+        pct = lambda a, base: round(100 * (a - base) / base, 2)
+        released = json.load(open(os.path.join(exp, "eval-test-data71-full-9600.json"),
+                                  encoding="utf-8"))["model"]["bpb"]
+        claim(d, r"scores \*\*([\d.]+) bits/byte\*\*", round(rel["bpb"], 4),
+              "release v2 seen bpb", tol=5e-5, doc=name)
+        claim(d, r"−([\d.]+)% against the previous generalist",
+              abs(pct(rel["bpb"], lc["full"])), "release v2 vs v1 generalist",
+              tol=5e-3, doc=name)
+        claim(d, r"−([\d.]+)% against the\s+released 1.77M",
+              abs(pct(rel["bpb"], released)), "release v2 vs released 1.77M",
+              tol=5e-3, doc=name)
+        for form, pat in (("narrative", r"narrative ([\d.]+), non-fiction"),
+                          ("non-fiction", r"non-fiction ([\d.]+), verse"),
+                          ("verse", r"verse ([\d.]+), experimental"),
+                          ("experimental", r"experimental ([\d.]+)\.")):
+            claim(d, pat, round(rel["forms"][form], 4), f"release v2 {form}",
+                  tol=5e-5, doc=name)
+        claim(d, r"unseen 40 it scores ([\d.]+)", round(rel["heldout"]["aggregate"], 4),
+              "release v2 held-out aggregate", tol=5e-5, doc=name)
+        hp2 = os.path.join(exp, "heldout-summary.json")
+        if os.path.isfile(hp2):
+            h = json.load(open(hp2, encoding="utf-8"))
+            claim(d, r"−([\d.]+)% better than the v1 generalist",
+                  abs(pct(rel["heldout"]["aggregate"], h["arms"]["full"])),
+                  "release v2 held-out vs v1", tol=5e-3, doc=name)
+            claim(d, r"−([\d.]+)% better than the narrow-corpus",
+                  abs(pct(rel["heldout"]["aggregate"], h["arms"]["ctrl"])),
+                  "release v2 held-out vs ctrl", tol=5e-3, doc=name)
 
 
 

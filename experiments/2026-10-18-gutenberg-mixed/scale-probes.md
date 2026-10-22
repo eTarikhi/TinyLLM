@@ -39,3 +39,16 @@ clock the win survives at roughly −0.8%.
 The release configuration follows directly: vocabulary 4096, context
 256, peak LR 3e-3, and the one lever that has never stopped paying —
 double the horizon, to 10,346 steps (`broad-v4096-release`).
+
+## Release v2
+
+`broad-v4096-release` scores **1.4939 bits/byte** on the seen 71 —
+−4.16% against the previous generalist (1.5587) and −4.62% against the
+released 1.77M model (1.5662); the two wins stack almost exactly as the
+probes predicted (−1.40% vocabulary, ~−3% horizon). Every form improves:
+narrative 1.4777, non-fiction 1.7518, verse 1.8078, experimental 1.8405.
+On the unseen 40 it scores 1.7907, −1.99% better than the v1 generalist
+and −9.96% better than the narrow-corpus model of the same size. It is,
+on both yardsticks, the best model this project has produced, and it
+exports to `tinylm-4.3m-broad-v4096.gguf` with greedy output verified
+identical through llama.cpp.

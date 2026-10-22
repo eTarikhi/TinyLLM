@@ -19,7 +19,8 @@ scripts/tiny-gpt/
   requirements.txt            pinned, with the CPU-only install note
   configs/                    tiny.yaml (smoke), pilot*.yaml, main*.yaml,
                               size-*/ctx-*/lr-*/batch-* sweep points, broad*/
-                              corpus-composition arms and seed replicas (39 files)
+                              corpus-composition arms, seed replicas and the
+                              3.74M scale probes + releases (44 files)
   src/
     tokenizer.py              CharTokenizer + ByteBPETokenizer (no tokenizer library)
     data.py                   fetch + checksum + audit + split + encode + batch
