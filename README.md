@@ -13,6 +13,11 @@ Reusable skill for an AI coding agent helping you create and train a language mo
 - `templates/experiment-plan.md` — copyable template for tracking training runs.
 - `scripts/tiny-gpt/README.md` — the bundled reference implementation: a tested, CPU-runnable pretraining project (tokenizers, data pipeline, model, training loop with exact resume, baseline-relative evaluation, seven correctness tests).
 - `experiments/README.md` — evidence trail from running that implementation end to end: filled-in experiment plan, pilot matrix, evaluation report, samples, model card. Not part of the packaged skill.
+- `LOCAL_COMMANDS.md` — copy-and-paste local workflow: branch checkout, environment setup, validation, data preparation, training, monitoring, evaluation, GGUF/LM Studio export, and push commands. Not part of the packaged skill.
+
+## Local development
+
+To run the reference implementation locally, follow [`LOCAL_COMMANDS.md`](LOCAL_COMMANDS.md). It covers the root-level `.venv`, CPU-only PyTorch install, smoke test, dataset preparation, training queues, run monitoring, evaluation, GGUF export, and the pre-push checks.
 
 ## Use
 
