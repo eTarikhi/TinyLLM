@@ -1,0 +1,39 @@
+# Seed replica of big-vocab4096 (seed 1338).
+#
+#   The -1.40% vocabulary win that chose the v2 release config is
+#   single-seed. The seed bar measured at 1.77M was 0.37%; this arm
+#   asks whether the v4096 short-clock number (1.6236) is stable at
+#   seed 1338, firming up the comparison the 8192 probe is read
+#   against. Identical to big-vocab4096 except seed and run_id.
+run_id: big-vocab4096-s1338
+data_dir: data/prepared-broad-full-v4096
+out_dir: artifacts/runs
+seed: 1338
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2
