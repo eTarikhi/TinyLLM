@@ -225,6 +225,12 @@ for 20 steps, evaluate the checkpoint, generate text, and plot the validation
 curve. The first line moves from the repository root into the implementation
 folder; copy the fenced block as plain text, not as rendered Markdown links.
 
+If your prompt starts with `PS C:\...>` you are still in Windows PowerShell,
+not in the WSL/Linux shell this section expects. Run `wsl`, go to the checkout
+inside WSL, activate the root `.venv`, and then run the block below. Installing
+NumPy into native Windows Python only moves the failure to the next missing
+dependency later; it is not the supported training setup.
+
 ```bash
 cd scripts/tiny-gpt
 python src/data.py --tokenizer char --out-dir data/prepared-char
@@ -735,14 +741,32 @@ On Linux, use the CPU-wheel install order from section 3.
 
 ### `No module named torch`, `numpy`, `yaml`, or `gguf`
 
-The virtual environment is probably not activated in this terminal:
+The virtual environment is probably not activated in this terminal, or the
+dependencies were installed into a different Python interpreter.
+
+If the prompt starts with `PS C:\...>` or the traceback names
+`C:\Python313\python.exe`, you are using native Windows Python. Do not fix the
+training setup by installing only NumPy there: `src/train.py` will still fail
+on Windows because it uses the Unix-only `resource` module. Enter WSL2 first:
+
+```powershell
+wsl --status
+wsl
+```
+
+Then, inside WSL2/Linux, activate the project environment from the repository
+root and confirm that `python` points inside `.venv`:
 
 ```bash
-cd /path/to/TinyLLM
+cd /mnt/c/path/to/TinyLLM
 source .venv/bin/activate
 which python
+python --version
 python -m pip install -r scripts/tiny-gpt/requirements.txt
 ```
+
+If `.venv` does not exist yet inside WSL2, create it with section 3 before
+running the smoke test.
 
 ### A config says its `data_dir` does not exist
 
