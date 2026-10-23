@@ -1,0 +1,44 @@
+# Vocabulary probe, fourth doubling: 16,384 BPE merges against 8,192.
+#
+#   The tokenizer lever has paid three times and the gains are not
+#   obviously diminishing: 2048 -> 4096 paid -1.40% bpb, 4096 -> 8192
+#   paid -1.68% (big-vocab8192, 1.5964 at this same budget). This arm
+#   asks where it stops. Same corpus, same token budget
+#   (2,571 x 8,192), bits per byte. Not parameter-matched: the tied
+#   embedding grows by another 8192 x 256 = 2.10M, taking the model
+#   to ~7.41M parameters, and it trains slower per token - the win,
+#   if any, must be read with both costs attached.
+#   Data: data/prepared-broad-full-v16384 (tokenizer trained on the
+#   same train split at vocab 16384).
+run_id: big-vocab16384
+data_dir: data/prepared-broad-full-v16384
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2
