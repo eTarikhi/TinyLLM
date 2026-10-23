@@ -94,6 +94,17 @@ def read(path):
         return fh.read()
 
 
+def as_posix(path):
+    """Return a repo-relative path with forward slashes for Markdown checks.
+
+    The documents in this repository write paths POSIX-style
+    (``references/reading-list.md``). On Windows, ``os.path.join`` returns
+    backslash-separated paths, so comparing its result with document text
+    fails even when the document is correct.
+    """
+    return path.replace("\\", "/")
+
+
 def main(root):
     root = os.path.abspath(root)
     os.chdir(root)
@@ -138,7 +149,7 @@ def main(root):
     for directory in ("references", "templates"):
         if os.path.isdir(directory):
             bundled += [
-                os.path.join(directory, f)
+                as_posix(os.path.join(directory, f))
                 for f in sorted(os.listdir(directory))
                 if f.endswith(".md")
             ]
@@ -153,7 +164,7 @@ def main(root):
     contents = re.search(r"^## Contents\n(.*?)(?=\n## )", readme, re.S | re.M)
     check(contents is not None, "README has a Contents section")
     listed = re.findall(r"^- `([^`]+)`", contents.group(1), re.M) if contents else []
-    on_disk = ["SKILL.md"] + bundled + [os.path.join(IMPL_DIR, "README.md")]
+    on_disk = ["SKILL.md"] + bundled + [as_posix(os.path.join(IMPL_DIR, "README.md"))]
     for entry in listed:
         check(os.path.exists(entry.rstrip("/")), f"README-listed {entry} exists")
     for path in on_disk:
@@ -203,7 +214,7 @@ def main(root):
 
     # --- 7. the bundled implementation matches what SKILL.md promises --------
     if check(os.path.isdir(IMPL_DIR), f"{IMPL_DIR}/ exists"):
-        check(IMPL_DIR in skill_md, f"SKILL.md points to {IMPL_DIR}")
+        check(as_posix(IMPL_DIR) in skill_md, f"SKILL.md points to {as_posix(IMPL_DIR)}")
         for rel in IMPL_REQUIRED:
             check(os.path.isfile(os.path.join(IMPL_DIR, rel)), f"{IMPL_DIR}/{rel} exists")
         # Every test file named in the skill's project layout must exist here, or
