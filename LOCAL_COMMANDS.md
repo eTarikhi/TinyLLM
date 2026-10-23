@@ -144,6 +144,23 @@ It is not needed for training.
 python -m pip install skills-ref==0.1.1
 ```
 
+On Windows, pip may warn that `agentskills.exe` was installed into a
+`...\Python313\Scripts` folder that is not on `PATH`. That warning is harmless
+for this project: the published `skills-ref` wheel registers its console
+script as `agentskills`, not `skills-ref`, so always invoke the validator as a
+module with the same Python interpreter:
+
+```bash
+python -m skills_ref.cli --help
+python -m skills_ref.cli validate .
+```
+
+Do not add that Scripts folder to `PATH` just for this repository, and do not
+call `skills-ref` directly. If the warning path shows a user-site
+`Python313` folder, you installed the optional validator outside the project
+`.venv`; that is fine for validation only. For training, still use WSL2 with
+the root-level `.venv` and Python 3.11 or 3.12 from the setup above.
+
 ### Verify the environment
 
 ```bash
