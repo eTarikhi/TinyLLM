@@ -222,7 +222,8 @@ python -m skills_ref.cli validate /tmp/llm-from-scratch-stage/llm-from-scratch
 
 This is the quick end-to-end check: prepare the tiny char-level dataset, train
 for 20 steps, evaluate the checkpoint, generate text, and plot the validation
-curve.
+curve. The first line moves from the repository root into the implementation
+folder; copy the fenced block as plain text, not as rendered Markdown links.
 
 ```bash
 cd scripts/tiny-gpt
@@ -696,6 +697,26 @@ experiment batches. Several assume particular prepared datasets already exist,
 so inspect the script and prepare its inputs before rerunning it.
 
 ## 13. Troubleshooting
+
+### `can't open file '...\src\[data.py](http://data.py)'`
+
+This usually means two copy/paste problems happened at once: rendered Markdown
+link text such as `src/[data.py](http://data.py)` was pasted into the terminal,
+and the command was run from the repository root. The implementation does not
+live in a root-level `src/` folder; it lives in `scripts/tiny-gpt/src/`.
+
+Copy commands from the fenced code blocks as plain text. In WSL2, from the
+repository root, the prompt and command should look like this:
+
+```bash
+cd scripts/tiny-gpt
+python src/data.py --tokenizer char --out-dir data/prepared-char
+```
+
+If you are only checking the path in Windows PowerShell, the prompt must end
+in `...\TinyLLM\scripts\tiny-gpt>` and the equivalent path is
+`python .\src\data.py --tokenizer char --out-dir data\prepared-char`. Use
+WSL2 for the full smoke test and training commands.
 
 ### `../../.venv/bin/python: No such file or directory`
 
