@@ -1,0 +1,43 @@
+# Vocabulary probe, third doubling: 8,192 BPE merges against 4,096.
+#
+#   The tokenizer lever has paid twice at this scale: BPE-2048 over
+#   characters at tiny scale, then 4096 over 2048 by -1.40% bpb
+#   (big-vocab4096, 1.6236 at this same budget). Does it pay a third
+#   time or saturate? Same corpus, same token budget (2,571 x 8,192),
+#   compared in bits per byte. Not parameter-matched: the tied
+#   embedding grows by another 4096 x 256 = 1.05M. One arm decides
+#   the vocabulary of the next release run.
+#   Data: data/prepared-broad-full-v8192 (tokenizer trained on the
+#   same train split at vocab 8192).
+run_id: big-vocab8192
+data_dir: data/prepared-broad-full-v8192
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 4
+n_head: 4
+n_embd: 256
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2

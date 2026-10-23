@@ -1,0 +1,39 @@
+# Shape probe: 8Lx192d against the standing 4Lx256d at vocab 4096.
+#
+#   Depth vs width has never been probed at this scale. 4,377,792
+#   parameters against the baseline's 4,262,144 (+2.7%), with head
+#   dim held at 64 (3 heads x 64). Same data (prepared-broad-full-
+#   v4096), same token budget (2,571 x 8,192), same seed - only the
+#   shape moves. Against big-vocab4096's 1.6236.
+run_id: big-shape-8L192d
+data_dir: data/prepared-broad-full-v4096
+out_dir: artifacts/runs
+seed: 1337
+
+block_size: 256
+n_layer: 8
+n_head: 3
+n_embd: 192
+dropout: 0.0
+tie_embeddings: true
+
+batch_size: 16
+grad_accum: 2
+learning_rate: 3.0e-3
+min_lr_frac: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.99
+grad_clip: 1.0
+warmup_steps: 129
+max_steps: 2571
+
+eval_every: 128
+eval_tokens: 98304
+eval_spread: true
+log_every: 50
+sample_every: 1200
+sample_tokens: 240
+save_every: 800
+max_seconds: 7200
+threads: 2
