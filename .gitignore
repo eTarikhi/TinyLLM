@@ -15,3 +15,5 @@ scripts/tiny-gpt/artifacts/
 dist/
 *.skill
 *.gguf
+Miniconda3-latest-Linux-x86_64.sh
+wget-log
